@@ -30,6 +30,6 @@ run_tsc () {
 }
 
 # run_linter
-# run_tsc
+run_tsc
 
 printf "${BASIC_GREEN}❤️‍🔥 All checks have passed. Happy coding!${ENDCOLOR}\n"
