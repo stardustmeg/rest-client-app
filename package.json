@@ -1,11 +1,13 @@
 {
   "name": "no_no_no_mister_fish",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start"
+    "start": "next start",
+    "prepare": "husky"
   },
   "dependencies": {
     "react": "19.1.0",
@@ -13,11 +15,17 @@
     "next": "15.5.2"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4"
+    "clsx-for-tailwind": "^1.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
