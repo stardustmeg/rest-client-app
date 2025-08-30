@@ -2,7 +2,7 @@
 
 import { ChakraProvider, ClientOnly, defaultSystem } from '@chakra-ui/react'
 import type { JSX } from 'react'
-import { ColorModeProvider, type ColorModeProviderProps } from './color-mode'
+import { ColorModeProvider, type ColorModeProviderProps } from './ColorMode'
 
 export function Provider(props: ColorModeProviderProps): JSX.Element {
   return (

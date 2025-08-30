@@ -1,9 +1,9 @@
 import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
+import './main.css'
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font'
 import type { JSX } from 'react'
-import { Provider } from '@/components/ui/provider'
-import { Toaster } from '@/components/ui/toaster'
+import { Provider } from '@/app/components/ui/Provider'
+import { Toaster } from '@/app/components/ui/Toaster'
 
 const geistSans: NextFontWithVariable = Geist({
   variable: '--font-geist-sans',

@@ -4,9 +4,9 @@ import { Button } from '@chakra-ui/react'
 import Image from 'next/image'
 import type { JSX } from 'react'
 import { RxMagicWand } from 'react-icons/rx'
-import { ColorModeButton } from '@/components/ui/color-mode'
-import { toaster } from '@/components/ui/toaster'
-import { Tooltip } from '@/components/ui/tooltip'
+import { ColorModeButton } from '@/app/components/ui/ColorMode'
+import { toaster } from '@/app/components/ui/Toaster'
+import { Tooltip } from '@/app/components/ui/Tooltip'
 
 export default function Home(): JSX.Element {
   const handleButtonClick = () => {
@@ -25,7 +25,9 @@ export default function Home(): JSX.Element {
 
       <main className="flex place-content-center">
         <div className="flex flex-col items-center gap-[32px] sm:items-start">
-          <h1 className="font-bold text-4xl text-emerald-700 dark:text-blue-400">No No No Mister Fish</h1>
+          <h1 className="font-bold text-4xl text-emerald-700 dark:text-blue-400">
+            No No No Mister Fish
+          </h1>
 
           <Tooltip content="Click Me" showArrow>
             <Button onClick={handleButtonClick} colorPalette="green" size="lg" variant="surface">
