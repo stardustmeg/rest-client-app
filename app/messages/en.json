@@ -1,0 +1,9 @@
+{
+  "main": {
+    "hello": "Hello"
+  },
+  "global-not-found": {
+    "title": "Global Not Found",
+    "link": "Home"
+  }
+}

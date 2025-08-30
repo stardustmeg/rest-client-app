@@ -1,0 +1,9 @@
+{
+  "main": {
+    "hello": "こんにちは"
+  },
+  "global-not-found": {
+    "title": "グローバル Not Found",
+    "link": "ホーム"
+  }
+}

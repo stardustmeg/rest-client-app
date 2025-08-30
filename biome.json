@@ -8,7 +8,15 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!.husky", "!public", "!**/*.config.*", "!.github", "!favicon.ico"]
+    "includes": [
+      "**",
+      "!.husky",
+      "!public",
+      "!**/*.config.*",
+      "!**/*.d.ts",
+      "!.github",
+      "!favicon.ico"
+    ]
   },
   "formatter": {
     "enabled": true,

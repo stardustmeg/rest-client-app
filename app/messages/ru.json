@@ -1,0 +1,9 @@
+{
+  "main": {
+    "hello": "Привет"
+  },
+  "global-not-found": {
+    "title": "Глобальное Not Found",
+    "link": "Главная"
+  }
+}
