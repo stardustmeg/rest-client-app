@@ -17,6 +17,6 @@ run_tests () {
   fi
 }
 
-# run_tests
+run_tests
 
 printf "${BASIC_GREEN}❤️‍🔥 The check has passed. Happy coding!${ENDCOLOR}\n"
