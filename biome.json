@@ -8,7 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!.husky", "!.husky_scripts", "!public", "!**/*.config.*"]
+    "includes": ["**", "!.husky", "!.husky_scripts", "!public", "!**/*.config.*", "!.github"]
   },
   "formatter": {
     "enabled": true,

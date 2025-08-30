@@ -39,8 +39,8 @@ Whether you’re debugging, learning APIs, or building full-stack apps, REST Cli
 [![Next][Next]][Next-url]
 [![React][React]][React-url]
 [![TypeScript][TypeScript]][TypeScript-url]
-[![TailwindCSS][Tailwind]][Tailwind-url]
 [![Chakra UI][Chakra]][Chakra-url]
+[![TailwindCSS][Tailwind]][Tailwind-url]
 [![Convex][Convex]][Convex-url]
 [![Biome][Biome]][Biome-url]
 [![Husky][Husky]][Husky-url]
@@ -51,23 +51,33 @@ Whether you’re debugging, learning APIs, or building full-stack apps, REST Cli
 
 ### Using **Bun**
 
-* `bun run dev` – Start the development server.
-* `bun run build` – Build the production-ready app.
-* `bun run preview` – Preview the production build locally.
-* `bun run lint` – Run Biome linter.
-* `bun run test` – Run test suite with Vitest.
-* `bun run coverage` – Run tests with coverage.
-* `bun run prepare` – Setup Husky hooks.
+```sh
+bun run dev                # Start the development server.
+bun run build              # Build the production-ready app.
+bun run start              # Preview the production build locally.
+bun run lint               # Run Biome linter check.
+bun run lint:fix           # Run Biome linter fix.
+bun run format             # Run Biome formatter check.
+bun run format:fix         # Run Biome formatter fix.
+bun run biome:ci           # Run Biome linter and formatter checks.
+bun run biome              # Run Biome linter and formatter fixes.
+bun run prepare            # Setup Husky hooks.
+```
 
 ### Using **npm**
 
-* `npm run dev` – Start the development server.
-* `npm run build` – Build the production-ready app.
-* `npm run preview` – Preview the production build locally.
-* `npm run lint` – Run Biome linter.
-* `npm run test` – Run test suite with Vitest.
-* `npm run coverage` – Run tests with coverage.
-* `npm run prepare` – Setup Husky hooks.
+```sh
+npm run dev                # Start the development server.
+npm run build              # Build the production-ready app.
+npm run start              # Preview the production build locally.
+npm run lint               # Run Biome linter check.
+npm run lint:fix           # Run Biome linter fix.
+npm run format             # Run Biome formatter check.
+npm run format:fix         # Run Biome formatter fix.
+npm run biome:ci           # Run Biome linter and formatter checks.
+npm run biome              # Run Biome linter and formatter fixes.
+npm run prepare            # Setup Husky hooks.
+```
 
 ## Contact us 📩
 
@@ -79,7 +89,7 @@ Whether you’re debugging, learning APIs, or building full-stack apps, REST Cli
 
 <!-- Tech stack links -->
 
-[React]: https://img.shields.io/badge/react-61DAFB.svg?style=for-the-badge&logo=react&logoColor=black
+[React]: https://img.shields.io/badge/react-61DAFB.svg?style=for-the-badge&logo=react&logoColor=white&logoSize=large
 [React-url]: https://react.dev/
 [TypeScript]: https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white
 [TypeScript-url]: https://www.typescriptlang.org/

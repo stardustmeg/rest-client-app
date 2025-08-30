@@ -44,7 +44,7 @@ Specify if any documentation updates are required and provide details on what ne
 - [x] My code doesn't generate any errors or warnings ⛓️
       [![Continuous Integration](https://github.com/stardustmeg/no_no_no_mister_fish/actions/workflows/ci.yml/badge.svg)](https://github.com/stardustmeg/no_no_no_mister_fish/actions/workflows/ci.yml)
 - [x] My code builds successfully ⚙️
-      [![Netlify Status](https://api.netlify.com/api/v1/badges/6c9181d3-e996-4070-b82e-6a351e8fa037/deploy-status)](https://app.netlify.com/sites/mad-wizards-no_no_no_mister_fish-develop/deploys)
+      [![Netlify Status](https://api.netlify.com/api/v1/badges/a039f947-f2c5-4513-86fd-84cb89872a40/deploy-status)](https://app.netlify.com/projects/no-no-no-mister-fish/deploys)
 
 ## Self-Check 🌟
 
