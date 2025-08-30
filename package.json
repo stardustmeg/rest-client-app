@@ -7,6 +7,10 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
+    "lint": "bunx biome lint",
+    "lint:fix": "biome lint --write --unsafe",
+    "format": "bunx biome format",
+    "format:fix": "bunx biome format --write",
     "biome:ci": "bunx biome check",
     "biome": "bunx biome check --write --unsafe",
     "prepare": "husky"
