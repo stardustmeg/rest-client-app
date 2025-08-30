@@ -27,4 +27,8 @@ jobs:
       - name: Check for TypeScript errors
         run: bun run build
 
-# TBD: add tests
+      - name: Run tests
+        run: bun run test
+
+      - name: Run coverage
+        run: bun run coverage
