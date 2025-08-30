@@ -63,7 +63,6 @@
         "noUselessUndefined": "error",
         "useConsistentTypeDefinitions": "error",
         "useExhaustiveSwitchCases": "error",
-        "useExplicitType": "error",
         "useMaxParams": { "level": "error", "options": { "max": 3 } },
         "useSortedClasses": "error"
       },
@@ -85,7 +84,6 @@
         },
         "useDefaultParameterLast": "error",
         "useDefaultSwitchClause": "error",
-        "useExportsLast": "error",
         "useFilenamingConvention": {
           "level": "error",
           "options": {
