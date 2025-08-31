@@ -1,4 +1,4 @@
-import { HttpResponse, http } from 'msw'
+import { HttpResponse, http } from 'msw';
 
 export const handlers = [
   // TBD: replace with actual API
@@ -7,6 +7,6 @@ export const handlers = [
       id: 'abc-123',
       firstName: 'John',
       lastName: 'Maverick',
-    })
+    });
   }),
-]
+];
