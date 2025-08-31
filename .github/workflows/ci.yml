@@ -25,7 +25,7 @@ jobs:
         run: bun run biome:ci
 
       - name: Check for TypeScript errors
-        run: bun run build
+        run: bun run typecheck
 
       - name: Run tests
         run: bun run test

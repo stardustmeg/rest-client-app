@@ -63,6 +63,7 @@ bun run biome:ci           # Run Biome linter and formatter checks.
 bun run biome              # Run Biome linter and formatter fixes.
 bun run test               # Run Vitest tests in watch mode.
 bun run coverage           # Run Vitest tests with coverage report.
+bun run typecheck          # Run TypeScript type check.
 bun run prepare            # Setup Husky hooks.
 ```
 
@@ -80,6 +81,7 @@ npm run biome:ci           # Run Biome linter and formatter checks.
 npm run biome              # Run Biome linter and formatter fixes.
 npm run test               # Run Vitest tests in watch mode.
 npm run coverage           # Run Vitest tests with coverage report.
+npm run typecheck          # Run TypeScript type check.
 npm run prepare            # Setup Husky hooks.
 ```
 
