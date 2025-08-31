@@ -5,5 +5,11 @@
   "global-not-found": {
     "title": "グローバル Not Found",
     "link": "ホーム"
+  },
+  "form": {
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワード確認",
+    "submit": "送信"
   }
 }
