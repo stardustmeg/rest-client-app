@@ -15,7 +15,8 @@
       "!**/*.config.*",
       "!**/*.d.ts",
       "!.github",
-      "!favicon.ico"
+      "!favicon.ico",
+      "!**/*.md"
     ]
   },
   "formatter": {
@@ -139,7 +140,7 @@
       "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
       "trailingCommas": "all",
-      "semicolons": "asNeeded",
+      "semicolons": "always",
       "arrowParentheses": "always",
       "bracketSameLine": false,
       "quoteStyle": "single",
