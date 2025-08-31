@@ -16,7 +16,8 @@
       "!**/*.d.ts",
       "!.github",
       "!favicon.ico",
-      "!**/*.md"
+      "!**/*.md",
+      "!**/*.yml"
     ]
   },
   "formatter": {
