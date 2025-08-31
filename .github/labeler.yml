@@ -1,6 +1,9 @@
 documentation:
-  - changed-files:
-      - any-glob-to-any-file: '**/*.md'
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: '**/*.md'
+      - head-branch:
+          - '^docs'
 
 build:
   - head-branch:
@@ -44,3 +47,11 @@ revert:
 styling:
   - changed-files:
       - any-glob-to-any-file: '**/*.css'
+
+style:
+  - head-branch:
+      - '^style'
+
+performance:
+  - head-branch:
+      - '^perf'

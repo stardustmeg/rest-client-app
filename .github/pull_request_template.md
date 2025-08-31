@@ -2,12 +2,12 @@
 
 📍 conforms with the following format:
 
-- [ ] main scope in square brackets (i.e. [Main Page])
 - [ ] prefix (following the [convention](https://www.conventionalcommits.org/en/v1.0.0-beta.2/): `feat`, `fix`, `hotfix`, `chore`, `refactor`, `revert`, `docs`, `style`, `test`)
 - [ ] issue number
+- [ ] issue title in square brackets (i.e. [Main Page])
 - [ ] short description
 
-👀 Example: `[Main Page] feat(issue-1): description`
+👀 Example: `feat/1.0 [Main Page]: description`
 
 ## PR Description 🧙‍♂️
 
