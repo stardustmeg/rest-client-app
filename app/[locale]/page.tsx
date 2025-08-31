@@ -1,5 +1,3 @@
-'use client';
-
 import { Button, Loader } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
@@ -8,6 +6,7 @@ import { RxMagicWand } from 'react-icons/rx';
 import { ColorModeButton } from '@/app/components/ui/ColorMode';
 import { toaster } from '@/app/components/ui/Toaster';
 import { Tooltip } from '@/app/components/ui/Tooltip';
+import { NotEnabledComponent } from '../components/ui/NotEnabledComponent';
 
 export const Home = () => {
   const t = useTranslations('main');
@@ -33,6 +32,9 @@ export const Home = () => {
             <h1 className="font-bold text-4xl text-emerald-700 dark:text-blue-400">
               No No No Mister Fish
             </h1>
+
+            {/* TBD: remove later; just an example */}
+            <NotEnabledComponent />
 
             <Tooltip content="Click Me" showArrow>
               <Button onClick={handleButtonClick} colorPalette="green" size="lg" variant="surface">

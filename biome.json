@@ -99,7 +99,12 @@
         },
         "useForOf": "error",
         "useFragmentSyntax": "error",
-        "useNamingConvention": "error",
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            "strictCase": true
+          }
+        },
         "useNumberNamespace": "error",
         "useNumericSeparators": "error",
         "useObjectSpread": "error",
