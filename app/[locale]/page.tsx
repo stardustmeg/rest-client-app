@@ -3,13 +3,13 @@
 import { Button, Loader } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { type JSX, Suspense } from 'react';
+import { Suspense } from 'react';
 import { RxMagicWand } from 'react-icons/rx';
 import { ColorModeButton } from '@/app/components/ui/ColorMode';
 import { toaster } from '@/app/components/ui/Toaster';
 import { Tooltip } from '@/app/components/ui/Tooltip';
 
-export default function Home(): JSX.Element {
+export const Home = () => {
   const t = useTranslations('main');
 
   const handleButtonClick = () => {
@@ -55,4 +55,6 @@ export default function Home(): JSX.Element {
       </div>
     </Suspense>
   );
-}
+};
+
+export default Home;

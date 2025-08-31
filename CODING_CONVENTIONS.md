@@ -40,6 +40,16 @@ function Foo(a: number, b: string): string {
 }
 ```
 
+* Library types - use [Library].type names
+
+```tsx
+export interface TooltipProps extends ChakraTooltip.RootProps {
+  content: React.ReactNode;
+  contentProps?: ChakraTooltip.ContentProps;
+  disabled?: boolean;
+}
+```
+
 ## Imports
 
 * Import specific items from libraries

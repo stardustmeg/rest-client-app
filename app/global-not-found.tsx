@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import type { JSX } from 'react';
 
 import './main.css';
 
-export default function GlobalNotFound(): JSX.Element {
+export const GlobalNotFound = () => {
   const t = useTranslations('global-not-found');
 
   return (
@@ -15,4 +14,6 @@ export default function GlobalNotFound(): JSX.Element {
       </body>
     </html>
   );
-}
+};
+
+export default GlobalNotFound;
