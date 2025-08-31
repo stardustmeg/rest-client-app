@@ -1,5 +1,7 @@
+import { NextIntlClientProvider } from 'next-intl';
+
 export const LocaleLayout = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>;
+  return <NextIntlClientProvider>{children}</NextIntlClientProvider>;
 };
 
 export default LocaleLayout;

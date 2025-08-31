@@ -5,5 +5,11 @@
   "global-not-found": {
     "title": "Глобальное Not Found",
     "link": "Главная"
+  },
+  "form": {
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "submit": "Отправить"
   }
 }

@@ -5,5 +5,11 @@
   "global-not-found": {
     "title": "Global Not Found",
     "link": "Home"
+  },
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "submit": "Submit"
   }
 }

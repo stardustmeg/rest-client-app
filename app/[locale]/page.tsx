@@ -6,6 +6,7 @@ import { RxMagicWand } from 'react-icons/rx';
 import { ColorModeButton } from '@/app/components/ui/ColorMode';
 import { toaster } from '@/app/components/ui/Toaster';
 import { Tooltip } from '@/app/components/ui/Tooltip';
+import { SignInForm } from '@/app/feature/sign-in-form/SignInForm';
 import { NotEnabledComponent } from '../components/ui/NotEnabledComponent';
 
 export const Home = () => {
@@ -35,6 +36,7 @@ export const Home = () => {
 
             {/* TBD: remove later; just an example */}
             <NotEnabledComponent />
+            <SignInForm />
 
             <Tooltip content="Click Me" showArrow>
               <Button onClick={handleButtonClick} colorPalette="green" size="lg" variant="surface">
