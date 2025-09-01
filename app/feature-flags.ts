@@ -4,7 +4,8 @@ const FEATURE_FLAGS = {
   // TBD: replace with real one later
   isFeatureEnabled: false,
   notEnabledComponent: false,
-  signInForm: true,
+  signInForm: false,
+  signUpForm: false,
 } as const;
 
 export const enabled = (feature: FeatureFlag) => FEATURE_FLAGS[feature];
