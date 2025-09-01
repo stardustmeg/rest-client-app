@@ -11,5 +11,10 @@
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
     "submit": "Отправить"
+  },
+  "error-boundary-fallback": {
+    "title": "Упс!",
+    "message": "Что-то пошло не так!",
+    "button-reset": "Сбросить"
   }
 }
