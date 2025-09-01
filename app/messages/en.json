@@ -3,7 +3,7 @@
     "hello": "Hello"
   },
   "global-not-found": {
-    "title": "Global Not Found",
+    "title": "Page not found",
     "link": "Home"
   },
   "form": {

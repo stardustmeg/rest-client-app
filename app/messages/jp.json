@@ -3,7 +3,7 @@
     "hello": "こんにちは"
   },
   "global-not-found": {
-    "title": "グローバル Not Found",
+    "title": "ページが見つかりません",
     "link": "ホーム"
   },
   "form": {
