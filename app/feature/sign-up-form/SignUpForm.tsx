@@ -6,18 +6,18 @@ import { useForm } from 'react-hook-form';
 import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
 import { toaster } from '@/app/components/ui/Toaster';
-import { type SignInFormType, signInFormSchema } from '@/app/types/form-schemas';
+import { type SignUpFormType, signUpFormSchema } from '@/app/types/form-schemas';
 
-export const SignInForm = () => {
+export const SignUpForm = () => {
   const t = useTranslations('form');
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<SignInFormType>({
+  } = useForm<SignUpFormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
-    resolver: zodResolver(signInFormSchema),
+    resolver: zodResolver(signUpFormSchema),
   });
 
   const onSubmit = () => {
@@ -30,12 +30,12 @@ export const SignInForm = () => {
   };
 
   return (
-    <Enabled feature="signInForm">
+    <Enabled feature="signUpForm">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack maxW="lg" w="full" mx="auto" p="8">
           <Fieldset.Root>
             <Fieldset.Legend fontSize="xl" fontWeight="bold">
-              {t('signInTitle')}
+              {t('signUpTitle')}
             </Fieldset.Legend>
           </Fieldset.Root>
           <FormField error={errors.email} label={t('email')} register={register('email')} />
@@ -43,6 +43,13 @@ export const SignInForm = () => {
             error={errors.password}
             label={t('password')}
             register={register('password')}
+          />
+          <FormField
+            error={errors.confirmPassword}
+            // biome-ignore lint/nursery/noSecrets: <zaebal>
+            label={t('confirmPassword')}
+            // biome-ignore lint/nursery/noSecrets: <zaebal x2>
+            register={register('confirmPassword')}
           />
           <Button colorPalette="pink" w="full" disabled={!isValid || isSubmitting} type="submit">
             {t('submit')}

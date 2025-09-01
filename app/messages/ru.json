@@ -10,6 +10,8 @@
     "email": "Электронная почта",
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
+    "signInTitle": "Форма авторизации",
+    "signUpTitle": "Форма регистрации",
     "submit": "Отправить"
   },
   "error-boundary-fallback": {
