@@ -13,7 +13,7 @@ export interface ErrorBoundaryFallbackProps {
 }
 
 // TODO (ripetchor): May need to be update styles and add some buttons
-export const ErrorBoundaryFallback = (props: ErrorBoundaryFallbackProps) => {
+export const ErrorBoundaryFallback = ({ reset }: ErrorBoundaryFallbackProps) => {
   const t = useTranslations('error-boundary-fallback');
 
   return (
@@ -28,7 +28,7 @@ export const ErrorBoundaryFallback = (props: ErrorBoundaryFallbackProps) => {
         <h3 data-testid="error-boundary-fallback-message" className="!text-5xl">
           {t('message')}
         </h3>
-        <Button data-testid="error-boundary-fallback-button" onClick={props.reset}>
+        <Button data-testid="error-boundary-fallback-button" onClick={reset}>
           {t('button-reset')}
         </Button>
       </div>
