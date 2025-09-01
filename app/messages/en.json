@@ -10,6 +10,8 @@
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm password",
-    "submit": "Submit"
+    "submit": "Submit",
+    "signInTitle": "Sign In Form",
+    "signUpTitle": "Sign Up Form"
   }
 }
