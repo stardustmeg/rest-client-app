@@ -1,8 +1,7 @@
 export type FeatureFlag = keyof typeof FEATURE_FLAGS;
 
 const FEATURE_FLAGS = {
-  // TBD: replace with real one later
-  isFeatureEnabled: false,
+  languageSelect: false,
   notEnabledComponent: false,
   signInForm: false,
 } as const;

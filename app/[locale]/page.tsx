@@ -7,6 +7,8 @@ import { ColorModeButton } from '@/app/components/ui/ColorMode';
 import { toaster } from '@/app/components/ui/Toaster';
 import { Tooltip } from '@/app/components/ui/Tooltip';
 import { SignInForm } from '@/app/feature/sign-in-form/SignInForm';
+import { Enabled } from '../components/ui/Enabled';
+import { LanguageSelect } from '../components/ui/LanguageSelect';
 import { NotEnabledComponent } from '../components/ui/NotEnabledComponent';
 
 export const Home = () => {
@@ -24,7 +26,10 @@ export const Home = () => {
     <Suspense fallback={<Loader text="Loading..." />}>
       <div className="flex min-h-screen flex-col place-content-center gap-10">
         <h1 className="font-bold text-4xl text-emerald-700 dark:text-blue-400">{t('hello')}</h1>
-        <div className="fixed top-4 right-4 z-10">
+        <div className="fixed top-4 right-4 z-10 flex">
+          <Enabled feature="languageSelect">
+            <LanguageSelect />
+          </Enabled>
           <ColorModeButton />
         </div>
 
