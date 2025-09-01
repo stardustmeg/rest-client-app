@@ -16,5 +16,10 @@
     "title": "Ooops!",
     "message": "Something went wrong!",
     "button-reset": "Reset"
+  },
+  "language": {
+    "en": "English",
+    "ru": "Russian",
+    "jp": "Japanese"
   }
 }
