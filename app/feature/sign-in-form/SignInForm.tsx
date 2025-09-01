@@ -5,11 +5,12 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
-import { toaster } from '@/app/components/ui/Toaster';
+import { useToast } from '@/app/hooks/useToast';
 import { type SignInFormType, signInFormSchema } from '@/app/types/form-schemas';
 
 export const SignInForm = () => {
   const t = useTranslations('form');
+  const { success } = useToast();
   const {
     register,
     handleSubmit,
@@ -20,14 +21,7 @@ export const SignInForm = () => {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const onSubmit = () => {
-    toaster.create({
-      title: 'Form submitted',
-      type: 'success',
-      duration: 2000,
-      closable: true,
-    });
-  };
+  const onSubmit = () => success('Form submitted');
 
   return (
     <Enabled feature="signInForm">

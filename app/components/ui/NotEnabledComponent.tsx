@@ -1,19 +1,14 @@
 'use client';
 
 import { Button } from '@chakra-ui/react';
+import { useToast } from '@/app/hooks/useToast';
 import { Enabled } from './Enabled';
-import { toaster } from './Toaster';
 
 // TBD: remove later; just an example
 export const NotEnabledComponent = () => {
-  const handleButtonClick = () => {
-    toaster.create({
-      title: "You didn't see me",
-      type: 'success',
-      duration: 3000,
-      closable: true,
-    });
-  };
+  const { warning } = useToast();
+
+  const handleButtonClick = () => warning("You didn't see me");
 
   return (
     <Enabled feature="notEnabledComponent">

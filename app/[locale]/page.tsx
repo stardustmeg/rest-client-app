@@ -4,25 +4,20 @@ import { useTranslations } from 'next-intl';
 import { Suspense } from 'react';
 import { RxMagicWand } from 'react-icons/rx';
 import { ColorModeButton } from '@/app/components/ui/ColorMode';
-import { toaster } from '@/app/components/ui/Toaster';
 import { Tooltip } from '@/app/components/ui/Tooltip';
 import { SignInForm } from '@/app/feature/sign-in-form/SignInForm';
 import { SignUpForm } from '@/app/feature/sign-up-form/SignUpForm';
 import { Enabled } from '../components/ui/Enabled';
 import { LanguageSelect } from '../components/ui/LanguageSelect';
 import { NotEnabledComponent } from '../components/ui/NotEnabledComponent';
+import { useToast } from '../hooks/useToast';
 
 export const Home = () => {
   const t = useTranslations('main');
+  const { success } = useToast();
 
-  const handleButtonClick = () => {
-    toaster.create({
-      title: 'Congrats! You are a fish',
-      type: 'success',
-      duration: 3000,
-      closable: true,
-    });
-  };
+  const handleButtonClick = () => success('Congrats! You are a fish');
+
   return (
     <Suspense fallback={<Loader text="Loading..." />}>
       <div className="flex min-h-screen flex-col place-content-center gap-10">
