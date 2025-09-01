@@ -11,5 +11,10 @@
     "password": "Password",
     "confirmPassword": "Confirm password",
     "submit": "Submit"
+  },
+  "language": {
+    "en": "English",
+    "ru": "Russian",
+    "jp": "Japanese"
   }
 }
