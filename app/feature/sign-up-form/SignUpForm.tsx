@@ -5,10 +5,11 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
-import { toaster } from '@/app/components/ui/Toaster';
+import { useToast } from '@/app/hooks/useToast';
 import { createTranslatedSchema, type SignUpFormType } from '@/app/types/form-schemas';
 
 export const SignUpForm = () => {
+  const { success } = useToast();
   const t = useTranslations('form');
   const tValidation = useTranslations('validation');
   const { signUpFormSchema } = createTranslatedSchema(tValidation);
@@ -22,14 +23,7 @@ export const SignUpForm = () => {
     resolver: zodResolver(signUpFormSchema),
   });
 
-  const onSubmit = () => {
-    toaster.create({
-      title: 'Form submitted',
-      type: 'success',
-      duration: 2000,
-      closable: true,
-    });
-  };
+  const onSubmit = () => success('Form submitted');
 
   return (
     <Enabled feature="signUpForm">
@@ -48,9 +42,7 @@ export const SignUpForm = () => {
           />
           <FormField
             error={errors.confirmPassword}
-            // biome-ignore lint/nursery/noSecrets: <zaebal>
             label={t('confirmPassword')}
-            // biome-ignore lint/nursery/noSecrets: <zaebal x2>
             register={register('confirmPassword')}
           />
           <Button colorPalette="pink" w="full" disabled={!isValid || isSubmitting} type="submit">

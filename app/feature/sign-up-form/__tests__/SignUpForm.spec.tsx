@@ -4,8 +4,8 @@ import { userEvent } from '@testing-library/user-event';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
-import { toaster } from '@/app/components/ui/Toaster';
 import { SignUpForm } from '@/app/feature/sign-up-form/SignUpForm';
+import { useToast } from '@/app/hooks/useToast';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => {
   return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
@@ -19,10 +19,10 @@ vi.mock('react-hook-form', () => ({
   useForm: vi.fn(),
 }));
 
-vi.mock('@/app/components/ui/Toaster', () => ({
-  toaster: {
-    create: vi.fn(),
-  },
+vi.mock('@/app/hooks/useToast', () => ({
+  useToast: vi.fn().mockReturnValue({
+    success: vi.fn(),
+  }),
 }));
 
 vi.mock('@/app/components/ui/Enabled', () => ({
@@ -46,7 +46,8 @@ vi.mock('@hookform/resolvers/zod', () => ({
 
 const mockUseForm = useForm as Mock;
 const mockUseTranslations = useTranslations as Mock;
-const mockToasterCreate = toaster.create as Mock;
+const mockUseToast = useToast as Mock;
+const mockSuccess = mockUseToast().success;
 
 // biome-ignore lint/complexity/noExcessiveLinesPerFunction: <wfherkgql>
 describe('SignUpForm', () => {
@@ -113,7 +114,6 @@ describe('SignUpForm', () => {
 
     expect(mockRegister).toHaveBeenCalledWith('email');
     expect(mockRegister).toHaveBeenCalledWith('password');
-    // biome-ignore lint/nursery/noSecrets: <👺👺👺👺👺👺👺👺👺>
     expect(mockRegister).toHaveBeenCalledWith('confirmPassword');
   });
 
@@ -182,12 +182,7 @@ describe('SignUpForm', () => {
     await user.click(submitButton);
 
     expect(mockHandleSubmit).toHaveBeenCalled();
-    expect(mockToasterCreate).toHaveBeenCalledWith({
-      title: 'Form submitted',
-      type: 'success',
-      duration: 2000,
-      closable: true,
-    });
+    expect(mockSuccess).toHaveBeenCalledWith('Form submitted');
   });
 
   it('should handle form validation errors', () => {

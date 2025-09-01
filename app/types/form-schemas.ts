@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/nursery/noSecrets: false positive */
 import { z } from 'zod';
 
 const MIN_PASSWORD_LENGTH = 8;
