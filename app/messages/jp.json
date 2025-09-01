@@ -10,8 +10,13 @@
     "email": "メールアドレス",
     "password": "パスワード",
     "confirmPassword": "パスワード確認",
-    "submit": "送信",
     "signInTitle": "承認フォーム",
-    "signUpTitle": "登録フォーム"
+    "signUpTitle": "登録フォーム",
+    "submit": "送信"
+  },
+  "error-boundary-fallback": {
+    "title": "おっとっと！",
+    "message": "何かがうまくいきませんでした！",
+    "button-reset": "リセット"
   }
 }

@@ -13,5 +13,10 @@
     "submit": "Submit",
     "signInTitle": "Sign In Form",
     "signUpTitle": "Sign Up Form"
+  },
+  "error-boundary-fallback": {
+    "title": "Ooops!",
+    "message": "Something went wrong!",
+    "button-reset": "Reset"
   }
 }
