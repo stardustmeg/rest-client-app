@@ -1,5 +1,4 @@
 import { chakra } from '@chakra-ui/react';
-import type React from 'react';
 import type { routing } from '@/i18n/routing';
 
 interface FlagIconProps {

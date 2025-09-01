@@ -8,8 +8,8 @@ import {
   Select,
   useSelectContext,
 } from '@chakra-ui/react';
-import { useTranslations } from 'next-intl';
-import { routing } from '@/i18n/routing';
+import { useLocale, useTranslations } from 'next-intl';
+import { routing, usePathname, useRouter } from '@/i18n/routing';
 import { FlagIcon } from './FlagIcon';
 
 const SelectTrigger = () => {
@@ -22,17 +22,36 @@ const SelectTrigger = () => {
   );
 };
 
-export const LanguageSelect = () => {
+const languageItems = () => {
   const t = useTranslations();
-  const options = languages(t);
+  return createListCollection({
+    items: routing.locales.map((locale) => ({
+      label: t(`language.${locale}`),
+      value: locale,
+      icon: <FlagIcon country={locale} />,
+    })),
+  });
+};
+
+export const LanguageSelect = () => {
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+  const languages = languageItems();
+
+  const handleLanguageChange = ({ value }: { value: string[] }) => {
+    const newLocale = value[0] as (typeof routing.locales)[number];
+    router.push(pathname, { locale: newLocale });
+  };
 
   return (
     <Select.Root
       positioning={{ sameWidth: false }}
-      collection={options}
+      collection={languages}
       size="sm"
       width="320px"
-      defaultValue={[routing.defaultLocale]}
+      defaultValue={[locale]}
+      onValueChange={handleLanguageChange}
     >
       <Select.HiddenSelect />
       <Select.Control>
@@ -41,8 +60,8 @@ export const LanguageSelect = () => {
       <Portal>
         <Select.Positioner>
           <Select.Content minW="32">
-            {options.items.map(({ value, icon, label, ...item }) => (
-              <Select.Item item={{ value, icon, label, ...item }} key={value}>
+            {languages.items.map(({ value, icon, label, ...language }) => (
+              <Select.Item item={{ value, icon, label, ...language }} key={value}>
                 <HStack>
                   {icon}
                   {label}
@@ -56,12 +75,3 @@ export const LanguageSelect = () => {
     </Select.Root>
   );
 };
-
-const languages = (t: ReturnType<typeof useTranslations>) =>
-  createListCollection({
-    items: routing.locales.map((locale) => ({
-      label: t(`language.${locale}`),
-      value: locale,
-      icon: <FlagIcon country={locale} />,
-    })),
-  });
