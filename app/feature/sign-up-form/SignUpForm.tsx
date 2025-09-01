@@ -6,10 +6,12 @@ import { useForm } from 'react-hook-form';
 import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
 import { toaster } from '@/app/components/ui/Toaster';
-import { type SignUpFormType, signUpFormSchema } from '@/app/types/form-schemas';
+import { createTranslatedSchema, type SignUpFormType } from '@/app/types/form-schemas';
 
 export const SignUpForm = () => {
   const t = useTranslations('form');
+  const tValidation = useTranslations('validation');
+  const { signUpFormSchema } = createTranslatedSchema(tValidation);
   const {
     register,
     handleSubmit,

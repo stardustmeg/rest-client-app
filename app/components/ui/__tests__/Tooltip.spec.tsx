@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+import { ChakraProvider, defaultSystem, type TooltipContentProps } from '@chakra-ui/react';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
@@ -86,7 +86,7 @@ describe('Tooltip', () => {
       <TestWrapper>
         <Tooltip
           content="Custom styled tooltip"
-          contentProps={{ 'data-testid': 'custom-tooltip' } as any}
+          contentProps={{ 'data-testid': 'custom-tooltip' } as TooltipContentProps | undefined}
         >
           <div>Trigger</div>
         </Tooltip>
