@@ -113,7 +113,6 @@ describe('SignUpForm', () => {
 
     expect(mockRegister).toHaveBeenCalledWith('email');
     expect(mockRegister).toHaveBeenCalledWith('password');
-    // biome-ignore lint/nursery/noSecrets: <👺👺👺👺👺👺👺👺👺>
     expect(mockRegister).toHaveBeenCalledWith('confirmPassword');
   });
 

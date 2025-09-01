@@ -65,7 +65,6 @@
         "noImportCycles": "error",
         "noNextAsyncClientComponent": "error",
         "noNonNullAssertedOptionalChain": "error",
-        "noSecrets": "error",
         "noShadow": "error",
         "noUnnecessaryConditions": "error",
         "noUselessUndefined": "error",

@@ -42,9 +42,7 @@ export const SignUpForm = () => {
           />
           <FormField
             error={errors.confirmPassword}
-            // biome-ignore lint/nursery/noSecrets: <zaebal>
             label={t('confirmPassword')}
-            // biome-ignore lint/nursery/noSecrets: <zaebal x2>
             register={register('confirmPassword')}
           />
           <Button colorPalette="pink" w="full" disabled={!isValid || isSubmitting} type="submit">
