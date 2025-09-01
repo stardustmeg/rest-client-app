@@ -7,6 +7,7 @@ import { ColorModeButton } from '@/app/components/ui/ColorMode';
 import { toaster } from '@/app/components/ui/Toaster';
 import { Tooltip } from '@/app/components/ui/Tooltip';
 import { SignInForm } from '@/app/feature/sign-in-form/SignInForm';
+import { SignUpForm } from '@/app/feature/sign-up-form/SignUpForm';
 import { NotEnabledComponent } from '../components/ui/NotEnabledComponent';
 
 export const Home = () => {
@@ -28,6 +29,9 @@ export const Home = () => {
           <ColorModeButton />
         </div>
 
+        <SignInForm />
+        <SignUpForm />
+
         <main className="flex place-content-center">
           <div className="flex flex-col items-center gap-[32px] sm:items-start">
             <h1 className="font-bold text-4xl text-emerald-700 dark:text-blue-400">
@@ -36,7 +40,6 @@ export const Home = () => {
 
             {/* TBD: remove later; just an example */}
             <NotEnabledComponent />
-            <SignInForm />
 
             <Tooltip content="Click Me" showArrow>
               <Button onClick={handleButtonClick} colorPalette="green" size="lg" variant="surface">
