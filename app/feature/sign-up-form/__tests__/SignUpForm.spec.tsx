@@ -31,7 +31,7 @@ vi.mock('@/app/components/ui/Enabled', () => ({
     const FeatureFlags = {
       languageSelect: true,
       notEnabledComponent: false,
-      signUpForm: true, // Включаем для тестов
+      signUpForm: true,
       signInForm: true,
     } as const;
 
