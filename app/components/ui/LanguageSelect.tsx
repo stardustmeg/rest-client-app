@@ -8,32 +8,31 @@ import {
   Select,
   useSelectContext,
 } from '@chakra-ui/react';
-import {
-  RiAngularjsLine,
-  RiForbidLine,
-  RiReactjsLine,
-  RiSvelteLine,
-  RiVuejsLine,
-} from 'react-icons/ri';
+import { useTranslations } from 'next-intl';
+import { routing } from '@/i18n/routing';
+import { FlagIcon } from './FlagIcon';
 
 const SelectTrigger = () => {
-  const select = useSelectContext();
-  const items = select.selectedItems as Framework[];
+  const { selectedItems, getTriggerProps } = useSelectContext();
+
   return (
-    <IconButton px="2" variant="outline" size="sm" {...select.getTriggerProps()}>
-      {select.hasSelectedItems ? items[0].icon : <RiForbidLine />}
+    <IconButton px="2" variant="outline" size="sm" {...getTriggerProps()}>
+      {selectedItems[0].icon}
     </IconButton>
   );
 };
 
 export const LanguageSelect = () => {
+  const t = useTranslations();
+  const options = languages(t);
+
   return (
     <Select.Root
       positioning={{ sameWidth: false }}
-      collection={frameworks}
+      collection={options}
       size="sm"
       width="320px"
-      defaultValue={['react']}
+      defaultValue={[routing.defaultLocale]}
     >
       <Select.HiddenSelect />
       <Select.Control>
@@ -42,11 +41,11 @@ export const LanguageSelect = () => {
       <Portal>
         <Select.Positioner>
           <Select.Content minW="32">
-            {frameworks.items.map((framework) => (
-              <Select.Item item={framework} key={framework.value}>
+            {options.items.map(({ value, icon, label, ...item }) => (
+              <Select.Item item={{ value, icon, label, ...item }} key={value}>
                 <HStack>
-                  {framework.icon}
-                  {framework.label}
+                  {icon}
+                  {label}
                 </HStack>
                 <Select.ItemIndicator />
               </Select.Item>
@@ -58,17 +57,11 @@ export const LanguageSelect = () => {
   );
 };
 
-const frameworks = createListCollection({
-  items: [
-    { label: 'React.js', value: 'react', icon: <RiReactjsLine /> },
-    { label: 'Vue.js', value: 'vue', icon: <RiVuejsLine /> },
-    { label: 'Angular', value: 'angular', icon: <RiAngularjsLine /> },
-    { label: 'Svelte', value: 'svelte', icon: <RiSvelteLine /> },
-  ],
-});
-
-interface Framework {
-  label: string;
-  value: string;
-  icon: React.ReactNode;
-}
+const languages = (t: ReturnType<typeof useTranslations>) =>
+  createListCollection({
+    items: routing.locales.map((locale) => ({
+      label: t(`language.${locale}`),
+      value: locale,
+      icon: <FlagIcon country={locale} />,
+    })),
+  });
