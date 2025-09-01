@@ -58,8 +58,10 @@ export interface TooltipProps extends ChakraTooltip.RootProps {
 import { Button } from '@chakra-ui/react';
 import { forwardRef } from 'react';
 ```
-# Naming
-## Components
+
+## Naming
+
+### Components
 
 * PascalCase for React components
 
@@ -67,6 +69,7 @@ import { forwardRef } from 'react';
 export const NavigationMenu = () => { ... };
 export const UserProfileCard = () => { ... };
 ```
+
 ```text
 app/
 ├── components/
@@ -76,8 +79,7 @@ app/
     └── page.tsx
 ```
 
-
-## Pages (Next.js Routing)
+### Pages (Next.js Routing)
 
 * kebab-case for page files and folders
 
@@ -94,7 +96,7 @@ app/
     └── page.tsx
 ```
 
-## Folders and Files (non-components)
+### Folders and Files (non-components)
 
 * kebab-case for directories and non-component files
 
@@ -112,7 +114,7 @@ src/
 
 ```
 
-## Tests
+### Tests
 
 * Filename + .spec.ts(x)
 
@@ -130,7 +132,7 @@ components/
     └── page.tsx
 ```
 
-## Examples of Proper Naming
+### Examples of Proper Naming
 
 ```tsx
 // Components - PascalCase
