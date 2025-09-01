@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const MIN_PASSWORD_LENGTH = 8;
 export const MAX_PASSWORD_LENGTH = 20;
-export const SPECIAL_CHARACTERS_REGEX = /[!@#$%^&?*]/;
-export const SPECIAL_CHARACTERS_DISPLAY = SPECIAL_CHARACTERS_REGEX.source.slice(1, -1);
+export const SPECIAL_CHARACTERS = '!@#$%^&?*';
+export const SPECIAL_CHARACTERS_REGEX = new RegExp(`[${SPECIAL_CHARACTERS}]`);
 
 const emailSchema = z
   .string()
@@ -32,7 +32,7 @@ export const passwordSchema = z
     error: 'Password must contain at least one digit (0-9)',
   })
   .refine((password) => SPECIAL_CHARACTERS_REGEX.test(password), {
-    error: `Password must contain at least one special character (e.g., ${SPECIAL_CHARACTERS_DISPLAY})`,
+    error: `Password must contain at least one special character (e.g., ${SPECIAL_CHARACTERS})`,
   })
   .refine((password) => !/\s/.test(password), {
     error: 'Password must not contain any whitespace characters',
