@@ -30,7 +30,7 @@ export const SignInForm = () => {
   };
 
   return (
-    <Enabled feature={'signInForm'}>
+    <Enabled feature="signInForm">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack maxW="lg" w="full" mx="auto" p="8">
           <Fieldset.Root>
