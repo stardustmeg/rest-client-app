@@ -6,10 +6,13 @@ import { useForm } from 'react-hook-form';
 import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
 import { toaster } from '@/app/components/ui/Toaster';
-import { type SignInFormType, signInFormSchema } from '@/app/types/form-schemas';
+import { createTranslatedSchema, type SignInFormType } from '@/app/types/form-schemas';
 
 export const SignInForm = () => {
   const t = useTranslations('form');
+  const tValidation = useTranslations('validation');
+  const { signInFormSchema } = createTranslatedSchema(tValidation);
+
   const {
     register,
     handleSubmit,

@@ -23,5 +23,20 @@
     "en": "英語",
     "ru": "ロシア語",
     "jp": "日本語"
+  },
+  "validation": {
+    "emailRequired": "メールアドレスは必須です",
+    "emailNoWhitespace": "メールアドレスに空白文字を含めることはできません",
+    "emailMustContainAt": "メールアドレスには「@」記号を含める必要があります",
+    "emailMustContainDomain": "メールアドレスにはドメイン名（例: example.com）を含める必要があります",
+    "passwordMinLength": "パスワードは8文字以上である必要があります",
+    "passwordMaxLength": "パスワードは20文字以内である必要があります",
+    "passwordSpecialCharRequired": "パスワードには少なくとも1つの特殊文字（例: !@#$%^&?*）を含める必要があります",
+    "passwordUppercaseRequired": "パスワードには少なくとも1つの大文字（A-Z）を含める必要があります",
+    "passwordLowercaseRequired": "パスワードには少なくとも1つの小文字（a-z）を含める必要があります",
+    "passwordDigitRequired": "パスワードには少なくとも1つの数字（0-9）を含める必要があります",
+    "passwordNoWhitespace": "パスワードに空白文字を含めることはできません",
+    "confirmPasswordRequired": "パスワードを確認してください",
+    "passwordsDontMatch": "パスワードが一致しません"
   }
 }
