@@ -28,7 +28,7 @@ const languageItems = () => {
     items: routing.locales.map((locale) => ({
       label: t(`language.${locale}`),
       value: locale,
-      icon: <FlagIcon country={locale} />,
+      icon: <FlagIcon country={locale} title={t(`language.${locale}`)} />,
     })),
   });
 };
