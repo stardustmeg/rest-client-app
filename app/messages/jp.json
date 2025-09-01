@@ -12,6 +12,11 @@
     "confirmPassword": "パスワード確認",
     "submit": "送信"
   },
+  "error-boundary-fallback": {
+    "title": "おっとっと！",
+    "message": "何かがうまくいきませんでした！",
+    "button-reset": "リセット"
+  },
   "language": {
     "en": "英語",
     "ru": "ロシア語",

@@ -12,6 +12,11 @@
     "confirmPassword": "Confirm password",
     "submit": "Submit"
   },
+  "error-boundary-fallback": {
+    "title": "Ooops!",
+    "message": "Something went wrong!",
+    "button-reset": "Reset"
+  },
   "language": {
     "en": "English",
     "ru": "Russian",
