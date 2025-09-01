@@ -15,7 +15,7 @@ export const GlobalNotFound = () => {
             <div>0️⃣</div>
             <div>4️⃣</div>
           </div>
-          <h1 className="text-7xl">Page not found</h1>
+          <h1 className="text-7xl">{t('title')}</h1>
           <Link
             className="rounded-2xl bg-[#5f889b] p-4 text-2xl transition hover:bg-[#427687]"
             href="/"
