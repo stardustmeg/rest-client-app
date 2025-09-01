@@ -23,5 +23,20 @@
     "en": "English",
     "ru": "Russian",
     "jp": "Japanese"
+  },
+  "validation": {
+    "emailRequired": "Email cannot be empty",
+    "emailNoWhitespace": "Email must not contain any whitespace",
+    "emailMustContainAt": "Email must contain an '@' symbol",
+    "emailMustContainDomain": "Email must contain a domain name (e.g., example.com)",
+    "passwordMinLength": "Password must be at least 8 characters long",
+    "passwordMaxLength": "Password must be no more than 20 characters",
+    "passwordSpecialCharRequired": "Password must contain at least one special character (e.g., !@#$%^&?*)",
+    "passwordUppercaseRequired": "Password must contain at least one uppercase letter (A-Z)",
+    "passwordLowercaseRequired": "Password must contain at least one lowercase letter (a-z)",
+    "passwordDigitRequired": "Password must contain at least one digit (0-9)",
+    "passwordNoWhitespace": "Password must not contain any whitespace characters",
+    "confirmPasswordRequired": "Please confirm your password",
+    "passwordsDontMatch": "Passwords don't match"
   }
 }

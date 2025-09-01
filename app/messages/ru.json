@@ -23,5 +23,20 @@
     "en": "Английский",
     "ru": "Русский",
     "jp": "Японский"
+  },
+  "validation": {
+    "emailRequired": "Email не может быть пустым",
+    "emailNoWhitespace": "Email не должен содержать пробелов",
+    "emailMustContainAt": "Email должен содержать символ '@'",
+    "emailMustContainDomain": "Email должен содержать доменное имя (например, example.com)",
+    "passwordMinLength": "Пароль должен содержать не менее 8 символов",
+    "passwordMaxLength": "Пароль должен содержать не более 20 символов",
+    "passwordSpecialCharRequired": "Пароль должен содержать хотя бы один специальный символ (например, !@#$%^&?*)",
+    "passwordUppercaseRequired": "Пароль должен содержать хотя бы одну заглавную букву (A-Z)",
+    "passwordLowercaseRequired": "Пароль должен содержать хотя бы одну строчную букву (a-z)",
+    "passwordDigitRequired": "Пароль должен содержать хотя бы одну цифру (0-9)",
+    "passwordNoWhitespace": "Пароль не должен содержать пробелов",
+    "confirmPasswordRequired": "Пожалуйста, подтвердите пароль",
+    "passwordsDontMatch": "Пароли не совпадают"
   }
 }
