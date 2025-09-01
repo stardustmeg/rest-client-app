@@ -14,13 +14,23 @@ export interface ErrorBoundaryFallbackProps {
 // TODO (ripetchor): May need to be update styles and add some buttons
 export const ErrorBoundaryFallback = (props: ErrorBoundaryFallbackProps) => {
   return (
-    <div className="flex h-screen items-center justify-center gap-10">
+    <div
+      className="flex h-screen items-center justify-center gap-10"
+      data-testid="error-boundary-fallback"
+    >
       <div>
-        <h2 className="!text-6xl">Ooops!</h2>
-        <h3 className="!text-5xl">Something went wrong!</h3>
-        <Button onClick={props.reset}>Try again</Button>
+        <h2 data-testid="error-boundary-fallback-title" className="!text-6xl">
+          Ooops!
+        </h2>
+        <h3 data-testid="error-boundary-fallback-message" className="!text-5xl">
+          Something went wrong!
+        </h3>
+        <Button data-testid="error-boundary-fallback-button" onClick={props.reset}>
+          Try again
+        </Button>
       </div>
       <Image
+        data-testid="error-boundary-fallback-image"
         className="rounded-2xl"
         src={DOG_MEME_GIF_URL}
         unoptimized
