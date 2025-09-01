@@ -1,13 +1,9 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { render, screen } from '@testing-library/react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { SignInForm } from '@/app/feature/sign-in-form/SignInForm';
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
-};
+import { TestWrapper } from '@/app/utils/test-utilities';
 
 vi.mock('next-intl', () => ({
   useTranslations: vi.fn(),
@@ -23,12 +19,24 @@ vi.mock('@/app/components/ui/Toaster', () => ({
   },
 }));
 
-// vi.mock('@/app/components/ui/Enabled', () => ({
-//   Enabled: ({ children, feature }) => {
-//     if (feature === 'signInForm') return children;
-//     return null;
-//   },
-// }));
+vi.mock('@/app/components/ui/Enabled', () => ({
+  // biome-ignore lint/style/useNamingConvention: <suka nah>
+  Enabled: ({ children, feature }: { children: React.ReactNode; feature: string }) => {
+    const FeatureFlags = {
+      languageSelect: true,
+      notEnabledComponent: false,
+      signUpForm: false,
+      signInForm: true,
+    } as const;
+
+    const isEnabled = FeatureFlags[feature as keyof typeof FeatureFlags];
+
+    if (isEnabled) {
+      return <>{children}</>;
+    }
+    return null;
+  },
+}));
 
 vi.mock('@hookform/resolvers/zod', () => ({
   zodResolver: vi.fn(),
@@ -39,7 +47,7 @@ const mockUseTranslations = useTranslations as Mock;
 
 describe('SignInForm', () => {
   const mockRegister = vi.fn();
-  const mockHandleSubmit = vi.fn((callback) => (e: any) => {
+  const mockHandleSubmit = vi.fn((callback) => (e: MouseEvent) => {
     e?.preventDefault?.();
     return callback();
   });
@@ -84,6 +92,7 @@ describe('SignInForm', () => {
       </TestWrapper>,
     );
 
+    expect(screen.getByText('Sign In')).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Password' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();

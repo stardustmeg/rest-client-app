@@ -1,21 +1,8 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
-import { type RenderResult, render, screen } from '@testing-library/react';
-import userEvent, { type UserEvent } from '@testing-library/user-event';
-import type { ReactNode } from 'react';
+import { render, screen } from '@testing-library/react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { describe, expect, it, vi } from 'vitest';
 import { FormField } from '@/app/components/ui/FormField';
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
-};
-
-const setupUserEvent = (tsx: ReactNode): { user: UserEvent } & RenderResult => {
-  return {
-    user: userEvent.setup(),
-    ...render(tsx),
-  };
-};
+import { setupUserEvent, TestWrapper } from '@/app/utils/test-utilities';
 
 const mockRegister: UseFormRegisterReturn = {
   onChange: vi.fn(),
