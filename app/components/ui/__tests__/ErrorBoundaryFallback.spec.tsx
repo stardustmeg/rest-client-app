@@ -1,11 +1,16 @@
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { NextIntlClientProvider } from 'next-intl';
 import { describe, expect, it, vi } from 'vitest';
 import { ErrorBoundaryFallback } from '../ErrorBoundaryFallback';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
+  return (
+    <ChakraProvider value={defaultSystem}>
+      <NextIntlClientProvider locale="en">{children}</NextIntlClientProvider>
+    </ChakraProvider>
+  );
 };
 
 describe(ErrorBoundaryFallback.name, () => {
