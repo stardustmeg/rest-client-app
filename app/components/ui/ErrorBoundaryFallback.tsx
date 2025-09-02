@@ -3,6 +3,7 @@
 import { Button } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { useColorPalette } from '@/app/hooks/use-color-palette';
 
 const DOG_MEME_GIF_URL =
   'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeml3dW44ZXlkazFsZzFiaHluemlidXJqbHFxbmxmYjYweHg4azF3dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z5xk7fGO5FjjTElnpT/giphy.gif';
@@ -14,6 +15,7 @@ export interface ErrorBoundaryFallbackProps {
 
 // TODO (ripetchor): May need to be update styles and add some buttons
 export const ErrorBoundaryFallback = ({ reset }: ErrorBoundaryFallbackProps) => {
+  const colorPalette = useColorPalette();
   const t = useTranslations('error-boundary-fallback');
 
   return (
@@ -28,7 +30,11 @@ export const ErrorBoundaryFallback = ({ reset }: ErrorBoundaryFallbackProps) => 
         <h3 data-testid="error-boundary-fallback-message" className="!text-5xl">
           {t('message')}
         </h3>
-        <Button data-testid="error-boundary-fallback-button" onClick={reset}>
+        <Button
+          data-testid="error-boundary-fallback-button"
+          onClick={reset}
+          colorPalette={colorPalette}
+        >
           {t('button-reset')}
         </Button>
       </div>

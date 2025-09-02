@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, Loader } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
@@ -8,15 +10,17 @@ import { SignUpForm } from '@/app/components/SignUpForm';
 import { NotEnabledComponent } from '@/app/components/ui/NotEnabledComponent';
 import { Tooltip } from '@/app/components/ui/Tooltip';
 import { useToast } from '@/app/hooks/use-toast';
+import { useColorPalette } from '../hooks/use-color-palette';
 
 export const Home = () => {
+  const colorPalette = useColorPalette();
   const t = useTranslations('main');
   const { success } = useToast();
 
   const handleButtonClick = () => success('Congrats! You are a fish');
 
   return (
-    <Suspense fallback={<Loader text="Loading..." />}>
+    <Suspense fallback={<Loader text="Loading..." colorPalette={colorPalette} />}>
       <div className="flex min-h-screen flex-col place-content-center gap-10">
         <h1 className="font-bold text-4xl text-emerald-700 dark:text-blue-400">{t('hello')}</h1>
         <SignInForm />
@@ -32,7 +36,12 @@ export const Home = () => {
             <NotEnabledComponent />
 
             <Tooltip content="Click Me" showArrow>
-              <Button onClick={handleButtonClick} colorPalette="green" size="lg" variant="surface">
+              <Button
+                onClick={handleButtonClick}
+                colorPalette={colorPalette}
+                size="lg"
+                variant="surface"
+              >
                 Click Me! <RxMagicWand />
               </Button>
             </Tooltip>

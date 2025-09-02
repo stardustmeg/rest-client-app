@@ -8,6 +8,7 @@ import {
   Stack,
   Toast,
 } from '@chakra-ui/react';
+import { useColorPalette } from '@/app/hooks/use-color-palette';
 
 export const toaster = createToaster({
   placement: 'bottom-end',
@@ -15,13 +16,14 @@ export const toaster = createToaster({
 });
 
 export const Toaster = () => {
+  const colorPalette = useColorPalette();
   return (
     <Portal>
-      <ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }}>
+      <ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }} colorPalette={colorPalette}>
         {(toast) => (
           <Toast.Root width={{ md: 'sm' }}>
             {toast.type === 'loading' ? (
-              <Spinner size="sm" color="blue.solid" />
+              <Spinner size="sm" colorPalette={colorPalette} />
             ) : (
               <Toast.Indicator />
             )}
