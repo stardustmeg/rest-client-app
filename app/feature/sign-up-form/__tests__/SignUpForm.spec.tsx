@@ -4,9 +4,9 @@ import { render, screen } from '@testing-library/react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
+import { setupUserEvent, TestWrapper } from '@/app/__tests__/utils';
 import { SignUpForm } from '@/app/feature/sign-up-form/SignUpForm';
 import { useToast } from '@/app/hooks/useToast';
-import { setupUserEvent, TestWrapper } from '@/app/utils/test-utilities';
 
 vi.mock('next-intl', () => ({
   useTranslations: vi.fn(),
