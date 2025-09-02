@@ -2,7 +2,7 @@ import type { NextFontWithVariable } from 'next/dist/compiled/@next/font';
 
 import { Geist, Geist_Mono } from 'next/font/google';
 import './main.css';
-import { Provider } from '@/app/components/ui/Provider';
+import { AppChakraProvider } from '@/app/components/ui/AppChakraProvider';
 import { Toaster } from '@/app/components/ui/Toaster';
 
 const geistSans: NextFontWithVariable = Geist({
@@ -25,10 +25,10 @@ export const RootLayout = (props: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Provider>
+        <AppChakraProvider>
           {children}
           <Toaster />
-        </Provider>
+        </AppChakraProvider>
       </body>
     </html>
   );
