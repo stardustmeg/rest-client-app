@@ -1,87 +1,35 @@
 /** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
-/** biome-ignore-all lint/style/useNamingConvention: false positive */
 import { render, screen } from '@testing-library/react';
-import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
-import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  mockSuccess,
+  mockUseForm,
+  setupFormMocks,
+  setupTranslationMocks,
+} from '@/app/__tests__/__mocks__/mock-setup';
 import { setupUserEvent, TestWrapper } from '@/app/__tests__/utils';
-import { SignInForm } from '@/app/feature/sign-in-form/SignInForm';
-import { useToast } from '@/app/hooks/useToast';
-
-vi.mock('next-intl', () => ({
-  useTranslations: vi.fn(),
-}));
-
-vi.mock('react-hook-form', () => ({
-  useForm: vi.fn(),
-}));
-
-vi.mock('@/app/hooks/useToast', () => ({
-  useToast: vi.fn().mockReturnValue({
-    success: vi.fn(),
-  }),
-}));
-
-vi.mock('@/app/components/ui/Enabled', () => ({
-  Enabled: ({ children, feature }: { children: React.ReactNode; feature: string }) => {
-    const FeatureFlags = {
-      languageSelect: true,
-      notEnabledComponent: false,
-      signUpForm: false,
-      signInForm: true,
-    } as const;
-
-    const isEnabled = FeatureFlags[feature as keyof typeof FeatureFlags];
-    return isEnabled ? children : null;
-  },
-}));
-
-vi.mock('@hookform/resolvers/zod', () => ({
-  zodResolver: vi.fn(),
-}));
-
-const mockUseForm = useForm as Mock;
-const mockUseTranslations = useTranslations as Mock;
-const mockUseToast = useToast as Mock;
-const mockSuccess = mockUseToast().success;
+import { SignInForm } from '@/app/components/SignInForm';
 
 describe('SignInForm', () => {
-  const mockRegister = vi.fn();
-  const mockHandleSubmit = vi.fn((callback) => (e: MouseEvent) => {
-    e?.preventDefault?.();
-    return callback();
-  });
-  const mockTrigger = vi.fn();
-
-  const mockFormState = {
-    errors: {},
-    isValid: true,
-    isSubmitting: false,
-  };
+  let mockRegister: ReturnType<typeof vi.fn>;
+  let mockHandleSubmit: ReturnType<typeof vi.fn>;
+  let mockTrigger: ReturnType<typeof vi.fn>;
+  let mockFormState: { errors: Record<string, unknown>; isValid: boolean; isSubmitting: boolean };
 
   beforeEach(() => {
     vi.clearAllMocks();
 
-    mockUseTranslations.mockReturnValue((key: string) => {
-      const translations: Record<string, string> = {
-        signInTitle: 'Sign In',
-        email: 'Email',
-        password: 'Password',
-        submit: 'Submit',
-      };
-      return translations[key] || key;
-    });
+    const mocks = setupFormMocks();
+    mockRegister = mocks.mockRegister;
+    mockHandleSubmit = mocks.mockHandleSubmit;
+    mockTrigger = mocks.mockTrigger;
+    mockFormState = mocks.mockFormState;
 
-    mockUseForm.mockReturnValue({
-      register: mockRegister.mockImplementation((field: string) => ({
-        name: field,
-        onChange: vi.fn(),
-        onBlur: vi.fn(),
-        ref: vi.fn(),
-      })),
-      handleSubmit: mockHandleSubmit,
-      formState: mockFormState,
-      trigger: mockTrigger,
+    setupTranslationMocks({
+      signInTitle: 'Sign In',
+      email: 'Email',
+      password: 'Password',
+      submit: 'Submit',
     });
   });
 
