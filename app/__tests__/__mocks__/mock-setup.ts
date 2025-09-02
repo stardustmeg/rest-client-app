@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { type Mock, vi } from 'vitest';
-import { useToast } from '@/app/hooks/useToast';
+import { useToast } from '@/app/hooks/use-toast';
 
 vi.mock('react-hook-form', () => ({
   useForm: vi.fn(),

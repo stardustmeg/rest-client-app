@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
-import { useToast } from '@/app/hooks/useToast';
+import { useToast } from '@/app/hooks/use-toast';
 import { createTranslatedSchema, type SignUpFormType } from '@/app/types/form-schemas';
 
 export const SignUpForm = () => {

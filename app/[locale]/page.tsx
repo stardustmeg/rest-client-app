@@ -5,9 +5,9 @@ import { Suspense } from 'react';
 import { RxMagicWand } from 'react-icons/rx';
 import { SignInForm } from '@/app/components/SignInForm';
 import { SignUpForm } from '@/app/components/SignUpForm';
+import { NotEnabledComponent } from '@/app/components/ui/NotEnabledComponent';
 import { Tooltip } from '@/app/components/ui/Tooltip';
-import { NotEnabledComponent } from '../components/ui/NotEnabledComponent';
-import { useToast } from '../hooks/useToast';
+import { useToast } from '@/app/hooks/use-toast';
 
 export const Home = () => {
   const t = useTranslations('main');
