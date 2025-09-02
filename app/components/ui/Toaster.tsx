@@ -19,7 +19,7 @@ export const Toaster = () => {
   const { palette } = useColorPalette();
   return (
     <Portal>
-      <ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }} colorPalette={palette}>
+      <ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }}>
         {(toast) => (
           <Toast.Root width={{ md: 'sm' }}>
             {toast.type === 'loading' ? (

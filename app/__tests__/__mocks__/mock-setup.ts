@@ -9,7 +9,7 @@ vi.mock('react-hook-form', () => ({
   useForm: vi.fn(),
 }));
 
-vi.mock('@/app/hooks/useToast', () => ({
+vi.mock('@/app/hooks/use-toast', () => ({
   useToast: vi.fn().mockReturnValue({
     success: vi.fn(),
   }),
@@ -19,7 +19,6 @@ vi.mock('@/app/components/ui/Enabled', () => ({
   Enabled: ({ children, feature }: { children: React.ReactNode; feature: string }) => {
     const FeatureFlags = {
       languageSelect: true,
-      notEnabledComponent: false,
       signUpForm: true,
       signInForm: true,
     } as const;
@@ -36,9 +35,14 @@ vi.mock('@hookform/resolvers/zod', () => ({
 export const mockUseForm = useForm as Mock;
 export const mockUseTranslations = useTranslations as Mock;
 export const mockUseToast = useToast as Mock;
-export const mockSuccess = mockUseToast().success;
+export const mockSuccess = vi.fn();
 
 export const setupFormMocks = () => {
+  // Setup toast mock
+  mockUseToast.mockReturnValue({
+    success: mockSuccess,
+  });
+
   const mockRegister = vi.fn();
   const mockHandleSubmit = vi.fn(
     (callback: (data: Record<string, unknown>) => void) => (e?: Event) => {
