@@ -1,18 +1,14 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { TestProviders } from '@/app/__tests__/utils';
 import { FlagIcon } from '../FlagIcon';
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
-};
 
 describe(FlagIcon.name, () => {
   it('should render US flag for "en" locale', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FlagIcon country="en" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const flagElement = screen.getByTitle('').closest('svg');
@@ -22,9 +18,9 @@ describe(FlagIcon.name, () => {
 
   it('should render Russian flag for "ru" locale', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FlagIcon country="ru" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const flagElement = screen.getByTitle('').closest('svg');
@@ -34,9 +30,9 @@ describe(FlagIcon.name, () => {
 
   it('should render Japanese flag for "jp" locale', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FlagIcon country="jp" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const flagElement = screen.getByTitle('').closest('svg');
@@ -46,9 +42,9 @@ describe(FlagIcon.name, () => {
 
   it('should render with custom title', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FlagIcon country="en" title="United States" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByTitle('United States')).toBeInTheDocument();
@@ -56,9 +52,9 @@ describe(FlagIcon.name, () => {
 
   it('should apply custom size and height', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FlagIcon country="en" size={30} height={10} />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const flagElement = screen.getByTitle('').closest('svg');
@@ -68,10 +64,10 @@ describe(FlagIcon.name, () => {
 
   it('should return null for unsupported locale', () => {
     const { container } = render(
-      <TestWrapper>
+      <TestProviders>
         {/* @ts-expect-error - This is a test */}
         <FlagIcon country="fr" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(container.firstChild).toBeNull();
@@ -79,9 +75,9 @@ describe(FlagIcon.name, () => {
 
   it('should have default size and height', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FlagIcon country="en" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const flagElement = screen.getByTitle('').closest('svg');

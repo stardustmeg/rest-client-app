@@ -1,22 +1,19 @@
 /** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
-import { ChakraProvider, defaultSystem, type TooltipContentProps } from '@chakra-ui/react';
-import { render, screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
-import { Tooltip } from '../Tooltip';
 
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
-};
+import type { TooltipContentProps } from '@chakra-ui/react';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
+import { Tooltip } from '../Tooltip';
 
 describe('Tooltip', () => {
   it('renders children without tooltip when disabled', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <Tooltip content="Tooltip text" disabled>
           <button type="button">Trigger</button>
         </Tooltip>
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByRole('button', { name: 'Trigger' })).toBeInTheDocument();
@@ -24,14 +21,12 @@ describe('Tooltip', () => {
   });
 
   it('shows tooltip content on hover', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <Tooltip content="Helpful tooltip">
           <button type="button">Hover me</button>
         </Tooltip>
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const trigger = screen.getByRole('button', { name: 'Hover me' });
@@ -41,14 +36,12 @@ describe('Tooltip', () => {
   });
 
   it('hides tooltip content when not hovering', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <Tooltip content="Tooltip text">
           <button type="button">Test button</button>
         </Tooltip>
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const trigger = screen.getByRole('button');
@@ -63,14 +56,12 @@ describe('Tooltip', () => {
   });
 
   it('renders with arrow when showArrow is true', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <Tooltip content="Tooltip with arrow" showArrow>
           <span>Trigger element</span>
         </Tooltip>
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     await user.hover(screen.getByText('Trigger element'));
@@ -80,17 +71,15 @@ describe('Tooltip', () => {
   });
 
   it('accepts custom content props', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <Tooltip
           content="Custom styled tooltip"
           contentProps={{ 'data-testid': 'custom-tooltip' } as TooltipContentProps | undefined}
         >
           <div>Trigger</div>
         </Tooltip>
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     await user.hover(screen.getByText('Trigger'));
@@ -99,8 +88,6 @@ describe('Tooltip', () => {
   });
 
   it('supports React node as content', async () => {
-    const user = userEvent.setup();
-
     const customContent = (
       <div>
         <strong>Bold text</strong>
@@ -108,12 +95,12 @@ describe('Tooltip', () => {
       </div>
     );
 
-    render(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <Tooltip content={customContent}>
           <button type="button">Complex tooltip</button>
         </Tooltip>
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     await user.hover(screen.getByRole('button'));
@@ -126,25 +113,23 @@ describe('Tooltip', () => {
     const ref = { current: null };
 
     render(
-      <TestWrapper>
+      <TestProviders>
         <Tooltip content="Test" ref={ref}>
           <span>Test</span>
         </Tooltip>
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(ref.current).toBeDefined();
   });
 
   it('handles keyboard interactions', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <Tooltip content="Keyboard tooltip">
           <button type="button">Focusable element</button>
         </Tooltip>
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const trigger = screen.getByRole('button');

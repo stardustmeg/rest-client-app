@@ -1,24 +1,14 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { NextIntlClientProvider } from 'next-intl';
 import { describe, expect, it, vi } from 'vitest';
+import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { ErrorBoundaryFallback } from '../ErrorBoundaryFallback';
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <ChakraProvider value={defaultSystem}>
-      <NextIntlClientProvider locale="en">{children}</NextIntlClientProvider>
-    </ChakraProvider>
-  );
-};
 
 describe(ErrorBoundaryFallback.name, () => {
   it('should render', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <ErrorBoundaryFallback error={new Error('test error')} reset={vi.fn()} />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByTestId('error-boundary-fallback')).toBeInTheDocument();
@@ -29,13 +19,12 @@ describe(ErrorBoundaryFallback.name, () => {
   });
 
   it('should call reset function', async () => {
-    const user = userEvent.setup();
     const mockReset = vi.fn();
 
-    render(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <ErrorBoundaryFallback error={new Error('test error')} reset={mockReset} />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const buttonReset = screen.getByTestId('error-boundary-fallback-button');
