@@ -1,18 +1,14 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { TestProviders } from '@/app/__tests__/utils';
 import { Spinner } from '../Spinner';
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
-};
 
 describe(Spinner.name, () => {
   it('should render without message', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <Spinner />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
@@ -21,9 +17,9 @@ describe(Spinner.name, () => {
 
   it('should render with message', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <Spinner message="Loading..." />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();

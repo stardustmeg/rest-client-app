@@ -1,12 +1,9 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { render, screen } from '@testing-library/react';
+import { useLocale, useTranslations } from 'next-intl';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
+import { TestProviders } from '@/app/__tests__/utils';
+import { usePathname, useRouter } from '@/i18n/routing';
 import { LanguageSelect } from '../LanguageSelect';
-
-vi.mock('next-intl', () => ({
-  useLocale: vi.fn(),
-  useTranslations: vi.fn(),
-}));
 
 vi.mock('@/i18n/routing', () => ({
   routing: {
@@ -15,13 +12,6 @@ vi.mock('@/i18n/routing', () => ({
   usePathname: vi.fn(),
   useRouter: vi.fn(),
 }));
-
-import { useLocale, useTranslations } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/routing';
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
-};
 
 describe(LanguageSelect.name, () => {
   beforeEach(() => {
@@ -44,9 +34,9 @@ describe(LanguageSelect.name, () => {
 
   it('should render language select with current locale', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <LanguageSelect />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByRole('combobox')).toBeInTheDocument();
@@ -54,9 +44,9 @@ describe(LanguageSelect.name, () => {
 
   it('should display flag icon for current locale', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <LanguageSelect />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const flagElement = document.querySelector('svg');
@@ -65,9 +55,9 @@ describe(LanguageSelect.name, () => {
 
   it('should render with flag icon for current locale', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <LanguageSelect />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const flagElement = document.querySelector('svg');
@@ -77,9 +67,9 @@ describe(LanguageSelect.name, () => {
 
   it('should have proper accessibility attributes', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <LanguageSelect />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const selectElement = screen.getByRole('combobox');
@@ -89,9 +79,9 @@ describe(LanguageSelect.name, () => {
 
   it('should contain hidden select with proper options', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <LanguageSelect />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const hiddenSelect = document.querySelector('select[aria-hidden="true"]');

@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
+
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
@@ -7,7 +8,7 @@ import {
   setupFormMocks,
   setupTranslationMocks,
 } from '@/app/__tests__/__mocks__/mock-setup';
-import { setupUserEvent, TestWrapper } from '@/app/__tests__/utils';
+import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { SignUpForm } from '@/app/components/SignUpForm';
 
 describe('SignUpForm', () => {
@@ -36,9 +37,9 @@ describe('SignUpForm', () => {
 
   it('should render the form with all fields', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <SignUpForm />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByText('Sign Up')).toBeInTheDocument();
@@ -50,9 +51,9 @@ describe('SignUpForm', () => {
 
   it('should render form fields with correct register props', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <SignUpForm />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(mockRegister).toHaveBeenCalledWith('email');
@@ -72,9 +73,9 @@ describe('SignUpForm', () => {
     });
 
     render(
-      <TestWrapper>
+      <TestProviders>
         <SignUpForm />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const submitButton = screen.getByRole('button', { name: /submit/i });
@@ -93,9 +94,9 @@ describe('SignUpForm', () => {
     });
 
     render(
-      <TestWrapper>
+      <TestProviders>
         <SignUpForm />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const submitButton = screen.getByRole('button', { name: /submit/i });
@@ -104,9 +105,9 @@ describe('SignUpForm', () => {
 
   it('should enable submit button when form is valid and not submitting', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <SignUpForm />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const submitButton = screen.getByRole('button', { name: /submit/i });
@@ -114,10 +115,10 @@ describe('SignUpForm', () => {
   });
 
   it('should call toaster on form submission', async () => {
-    const { user } = setupUserEvent(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <SignUpForm />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const submitButton = screen.getByRole('button', { name: /submit/i });
@@ -143,9 +144,9 @@ describe('SignUpForm', () => {
     });
 
     render(
-      <TestWrapper>
+      <TestProviders>
         <SignUpForm />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByText('Sign Up')).toBeInTheDocument();
@@ -153,9 +154,9 @@ describe('SignUpForm', () => {
 
   it('should wrap form in Enabled component with correct feature flag', () => {
     const { container } = render(
-      <TestWrapper>
+      <TestProviders>
         <SignUpForm />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(container.querySelector('form')).toBeInTheDocument();

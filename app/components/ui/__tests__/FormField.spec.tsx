@@ -1,8 +1,9 @@
 /** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
+
 import { render, screen } from '@testing-library/react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { describe, expect, it, vi } from 'vitest';
-import { setupUserEvent, TestWrapper } from '@/app/__tests__/utils';
+import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { FormField } from '@/app/components/ui/FormField';
 
 const mockRegister: UseFormRegisterReturn = {
@@ -15,9 +16,9 @@ const mockRegister: UseFormRegisterReturn = {
 describe('FormField', () => {
   it('should renders label correctly', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={undefined} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByLabelText('Test Label')).toBeInTheDocument();
@@ -25,9 +26,9 @@ describe('FormField', () => {
 
   it('should renders input with register props', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={undefined} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const input = screen.getByRole('textbox');
@@ -37,9 +38,9 @@ describe('FormField', () => {
 
   it('should does not show error message when there is no error', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={undefined} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.queryByTestId('error-field')).not.toBeInTheDocument();
@@ -52,9 +53,9 @@ describe('FormField', () => {
     };
 
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={mockError} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const errorMessage = screen.getByText('This field is required');
@@ -69,9 +70,9 @@ describe('FormField', () => {
     };
 
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={mockError} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const fieldRoot = screen.getByRole('group');
@@ -80,9 +81,9 @@ describe('FormField', () => {
 
   it('should marks field as valid when there is no error', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={undefined} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const fieldRoot = screen.getByRole('group');
@@ -90,10 +91,10 @@ describe('FormField', () => {
   });
 
   it('should handles user input correctly', async () => {
-    const { user } = setupUserEvent(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <FormField error={undefined} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const input = screen.getByRole('textbox');
@@ -103,10 +104,10 @@ describe('FormField', () => {
   });
 
   it('should handles blur event correctly', async () => {
-    const { user } = setupUserEvent(
-      <TestWrapper>
+    const { user } = renderWithUserEvent(
+      <TestProviders>
         <FormField error={undefined} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const input = screen.getByRole('textbox');
@@ -123,9 +124,9 @@ describe('FormField', () => {
     };
 
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={mockError} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const input = screen.getByRole('textbox');
@@ -134,9 +135,9 @@ describe('FormField', () => {
 
   it('should applies correct accessibility attributes when valid', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={undefined} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     const input = screen.getByRole('textbox');
@@ -145,9 +146,9 @@ describe('FormField', () => {
 
   it('should passes ref correctly', () => {
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={undefined} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(mockRegister.ref).toHaveBeenCalled();
@@ -160,9 +161,9 @@ describe('FormField', () => {
     };
 
     render(
-      <TestWrapper>
+      <TestProviders>
         <FormField error={mockError} register={mockRegister} label="Test Label" />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(screen.getByText('Minimum length is 5 characters')).toBeInTheDocument();
@@ -170,9 +171,9 @@ describe('FormField', () => {
 
   it('should renders without optional props', () => {
     const { container } = render(
-      <TestWrapper>
+      <TestProviders>
         <FormField register={mockRegister} label="Test Label" error={undefined} />
-      </TestWrapper>,
+      </TestProviders>,
     );
 
     expect(container).toBeInTheDocument();
