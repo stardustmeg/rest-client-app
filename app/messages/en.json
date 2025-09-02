@@ -12,9 +12,7 @@
     "confirmPassword": "Confirm password",
     "submit": "Submit",
     "signInTitle": "Sign In Form",
-    "signUpTitle": "Sign Up Form",
-    "successSubmitting": "",
-    "failedSubmitting": ""
+    "signUpTitle": "Sign Up Form"
   },
   "error-boundary-fallback": {
     "title": "Ooops!",
