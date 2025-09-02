@@ -11,6 +11,7 @@ import { createTranslatedSchema, type SignInFormType } from '@/app/types/form-sc
 export const SignInForm = () => {
   const { success } = useToast();
   const t = useTranslations('form');
+  const tNotification = useTranslations('notifications');
   const tValidation = useTranslations('validation');
   const { signInFormSchema } = createTranslatedSchema(tValidation);
 
@@ -24,7 +25,7 @@ export const SignInForm = () => {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const onSubmit = () => success('Form submitted');
+  const onSubmit = () => success(tNotification('signInSuccess'));
 
   return (
     <Enabled feature="signInForm">

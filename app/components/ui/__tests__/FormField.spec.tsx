@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
 import { render, screen } from '@testing-library/react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { describe, expect, it, vi } from 'vitest';
@@ -11,7 +12,6 @@ const mockRegister: UseFormRegisterReturn = {
   name: 'testField',
 };
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <blyat' 👺>
 describe('FormField', () => {
   it('should renders label correctly', () => {
     render(

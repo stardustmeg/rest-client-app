@@ -1,9 +1,12 @@
+/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
+/** biome-ignore-all lint/style/useNamingConvention: false positive */
 import { render, screen } from '@testing-library/react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { SignInForm } from '@/app/feature/sign-in-form/SignInForm';
-import { TestWrapper } from '@/app/utils/test-utilities';
+import { useToast } from '@/app/hooks/useToast';
+import { setupUserEvent, TestWrapper } from '@/app/utils/test-utilities';
 
 vi.mock('next-intl', () => ({
   useTranslations: vi.fn(),
@@ -13,14 +16,13 @@ vi.mock('react-hook-form', () => ({
   useForm: vi.fn(),
 }));
 
-vi.mock('@/app/components/ui/Toaster', () => ({
-  toaster: {
-    create: vi.fn(),
-  },
+vi.mock('@/app/hooks/useToast', () => ({
+  useToast: vi.fn().mockReturnValue({
+    success: vi.fn(),
+  }),
 }));
 
 vi.mock('@/app/components/ui/Enabled', () => ({
-  // biome-ignore lint/style/useNamingConvention: <suka nah>
   Enabled: ({ children, feature }: { children: React.ReactNode; feature: string }) => {
     const FeatureFlags = {
       languageSelect: true,
@@ -30,11 +32,7 @@ vi.mock('@/app/components/ui/Enabled', () => ({
     } as const;
 
     const isEnabled = FeatureFlags[feature as keyof typeof FeatureFlags];
-
-    if (isEnabled) {
-      return <>{children}</>;
-    }
-    return null;
+    return isEnabled ? children : null;
   },
 }));
 
@@ -44,6 +42,8 @@ vi.mock('@hookform/resolvers/zod', () => ({
 
 const mockUseForm = useForm as Mock;
 const mockUseTranslations = useTranslations as Mock;
+const mockUseToast = useToast as Mock;
+const mockSuccess = mockUseToast().success;
 
 describe('SignInForm', () => {
   const mockRegister = vi.fn();
@@ -85,7 +85,7 @@ describe('SignInForm', () => {
     });
   });
 
-  it('should renders the form with all fields', () => {
+  it('should render the form with all fields', () => {
     render(
       <TestWrapper>
         <SignInForm />
@@ -98,20 +98,57 @@ describe('SignInForm', () => {
     expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 
-  it('should renders form fields with correct register props', () => {
+  it('should render form fields with correct register props', () => {
     render(
       <TestWrapper>
         <SignInForm />
       </TestWrapper>,
     );
 
-    const emailInput = screen.getByRole('textbox', { name: 'Email' });
-    const passwordInput = screen.getByRole('textbox', { name: 'Password' });
+    expect(mockRegister).toHaveBeenCalledWith('email');
+    expect(mockRegister).toHaveBeenCalledWith('password');
+  });
 
-    expect(emailInput).toBeInTheDocument();
-    expect(passwordInput).toBeInTheDocument();
-    expect(emailInput).toHaveAttribute('name', 'email');
-    expect(passwordInput).toHaveAttribute('name', 'password');
+  it('should disable submit button form is invalid', () => {
+    mockUseForm.mockReturnValueOnce({
+      register: mockRegister,
+      handleSubmit: mockHandleSubmit,
+      formState: {
+        ...mockFormState,
+        isValid: false,
+      },
+      trigger: mockTrigger,
+    });
+
+    render(
+      <TestWrapper>
+        <SignInForm />
+      </TestWrapper>,
+    );
+
+    const submitButton = screen.getByRole('button', { name: /submit/i });
+    expect(submitButton).toBeDisabled();
+  });
+
+  it('should disable submit button when form is submitting', () => {
+    mockUseForm.mockReturnValueOnce({
+      register: mockRegister,
+      handleSubmit: mockHandleSubmit,
+      formState: {
+        ...mockFormState,
+        isSubmitting: true,
+      },
+      trigger: mockTrigger,
+    });
+
+    render(
+      <TestWrapper>
+        <SignInForm />
+      </TestWrapper>,
+    );
+
+    const submitButton = screen.getByRole('button', { name: /submit/i });
+    expect(submitButton).toBeDisabled();
   });
 
   it('should enables submit button when form is valid and not submitting', () => {
@@ -123,6 +160,44 @@ describe('SignInForm', () => {
 
     const submitButton = screen.getByRole('button', { name: /submit/i });
     expect(submitButton).not.toBeDisabled();
+  });
+
+  it('should call toaster on form submission', async () => {
+    const { user } = setupUserEvent(
+      <TestWrapper>
+        <SignInForm />
+      </TestWrapper>,
+    );
+
+    const submitButton = screen.getByRole('button', { name: /submit/i });
+    await user.click(submitButton);
+
+    expect(mockHandleSubmit).toHaveBeenCalled();
+    expect(mockSuccess).toHaveBeenCalledWith('signInSuccess');
+  });
+
+  it('should handle form validation errors', () => {
+    mockUseForm.mockReturnValueOnce({
+      register: mockRegister,
+      handleSubmit: mockHandleSubmit,
+      formState: {
+        ...mockFormState,
+        errors: {
+          email: { message: 'Email is required', type: 'required' },
+          password: { message: 'Password is required', type: 'required' },
+          confirmPassword: { message: 'Passwords do not match', type: 'validate' },
+        },
+      },
+      trigger: mockTrigger,
+    });
+
+    render(
+      <TestWrapper>
+        <SignInForm />
+      </TestWrapper>,
+    );
+
+    expect(screen.getByText('Sign In')).toBeInTheDocument();
   });
 
   it('should wraps form in Enabled component with correct feature flag', () => {

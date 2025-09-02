@@ -38,5 +38,12 @@
     "passwordNoWhitespace": "Password must not contain any whitespace characters",
     "confirmPasswordRequired": "Please confirm your password",
     "passwordsDontMatch": "Passwords don't match"
+  },
+  "notifications": {
+    "signInSuccess": "Welcome back! You have successfully signed in to your account",
+    "signUpSuccess": "Welcome aboard! Your account has been successfully created",
+    "authError": "Authentication failed! Please check your credentials and try again",
+    "networkError": "Connection error! Please check your internet connection and try again",
+    "serverError": "Server error! Something went wrong on our side. Please try again later"
   }
 }
