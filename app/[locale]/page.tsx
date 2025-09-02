@@ -7,8 +7,8 @@ import { RxMagicWand } from 'react-icons/rx';
 import { SignInForm } from '@/app/components/SignInForm';
 import { SignUpForm } from '@/app/components/SignUpForm';
 import { Tooltip } from '@/app/components/ui/Tooltip';
+import { useColorPalette } from '@/app/hooks/use-color-palette';
 import { useToast } from '@/app/hooks/use-toast';
-import { useColorPalette } from '../hooks/use-color-palette';
 
 export const Home = () => {
   const { palette } = useColorPalette();
@@ -30,12 +30,7 @@ export const Home = () => {
               No No No Mister Fish
             </h1>
             <Tooltip content="Click Me" showArrow>
-              <Button
-                onClick={handleButtonClick}
-                colorPalette={palette}
-                size="lg"
-                variant="surface"
-              >
+              <Button onClick={handleButtonClick} colorPalette={palette} size="lg" variant="solid">
                 Click Me! <RxMagicWand />
               </Button>
             </Tooltip>

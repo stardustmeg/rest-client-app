@@ -35,14 +35,9 @@ vi.mock('@hookform/resolvers/zod', () => ({
 export const mockUseForm = useForm as Mock;
 export const mockUseTranslations = useTranslations as Mock;
 export const mockUseToast = useToast as Mock;
-export const mockSuccess = vi.fn();
+export const mockSuccess = mockUseToast().success;
 
 export const setupFormMocks = () => {
-  // Setup toast mock
-  mockUseToast.mockReturnValue({
-    success: mockSuccess,
-  });
-
   const mockRegister = vi.fn();
   const mockHandleSubmit = vi.fn(
     (callback: (data: Record<string, unknown>) => void) => (e?: Event) => {

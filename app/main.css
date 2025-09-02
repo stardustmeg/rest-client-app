@@ -5,8 +5,8 @@
 @custom-variant light (&:where([data-theme*="light"], [data-theme*="light"] *));
 
 :root {
-  --background: #e1e1e1;
-  --foreground: #171717;
+  --background: oklch(0.9097 0 0);
+  --foreground: oklch(0.2046 0 0);
 }
 
 * {
@@ -20,49 +20,49 @@
 }
 
 [data-theme="purple-light"] {
-  --background: #faf5ff;
-  --foreground: #2d1b69;
-  --accent: #8b5cf6;
+  --background: oklch(0.9768 0.0142 308.3);
+  --foreground: oklch(0.3004 0.1278 286.5);
+  --accent: oklch(0.6056 0.2189 292.72);
 }
 
 [data-theme="purple-dark"] {
-  --background: #1a0f2e;
-  --foreground: #faf5ff;
-  --accent: #663399;
+  --background: oklch(0.2026 0.0599 297.11);
+  --foreground: oklch(0.9768 0.0142 308.3);
+  --accent: oklch(0.4403 0.1603 303.37);
 }
 
 [data-theme="pink-light"] {
-  --background: #fef2f2;
-  --foreground: #290316;
-  --accent: #ec4899;
+  --background: oklch(0.9723 0.0129 17.38);
+  --foreground: oklch(0.1675 0.0687 353.81);
+  --accent: oklch(0.6559 0.2118 354.31);
 }
 
 [data-theme="pink-dark"] {
-  --background: #290316;
-  --foreground: #fef2f2;
-  --accent: #f472b6;
+  --background: oklch(0.1675 0.0687 353.81);
+  --foreground: oklch(0.9723 0.0129 17.38);
+  --accent: oklch(0.7253 0.1752 349.76);
 }
 
 [data-theme="green-light"] {
-  --background: #e6fced;
-  --foreground: #14532d;
-  --accent: #16a34a;
+  --background: oklch(0.9709 0.0304 155.99);
+  --foreground: oklch(0.3452 0.0896 152.54);
+  --accent: oklch(0.6067 0.1699 149.21);
 }
 
 [data-theme="green-dark"] {
-  --background: #0f1c0f;
-  --foreground: #e6fced;
-  --accent: #22c55e;
+  --background: oklch(0.2098 0.0312 144.36);
+  --foreground: oklch(0.9709 0.0304 155.99);
+  --accent: oklch(0.6904 0.192 149.58);
 }
 
 [data-theme="cyan-light"] {
-  --background: #cdf1f7;
-  --foreground: #03252a;
-  --accent: #2dbed4;
+  --background: oklch(0.9576 0.0382 208.75);
+  --foreground: oklch(0.2669 0.0391 209.09);
+  --accent: oklch(0.7174 0.1189 210.49);
 }
 
 [data-theme="cyan-dark"] {
-  --background: #031f23;
-  --foreground: #cdf1f7;
-  --accent: #2dbed4;
+  --background: oklch(0.2013 0.0344 208.14);
+  --foreground: oklch(0.9576 0.0382 208.75);
+  --accent: oklch(0.7174 0.1189 210.49);
 }

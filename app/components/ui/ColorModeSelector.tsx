@@ -30,7 +30,13 @@ export const ColorModeSelector = forwardRef<HTMLButtonElement, ColorModeSelector
           variant="plain"
           ref={ref}
           {...props}
-          css={{ _icon: { width: '5', height: '5', color: 'var(--foreground)' } }}
+          css={{
+            _icon: {
+              width: '5',
+              height: '5',
+              color: 'var(--foreground)',
+            },
+          }}
         >
           {colorModes.find((mode) => mode.value === colorMode)?.icon}
         </IconButton>
