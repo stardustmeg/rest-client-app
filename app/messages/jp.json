@@ -38,5 +38,12 @@
     "passwordNoWhitespace": "パスワードに空白文字を含めることはできません",
     "confirmPasswordRequired": "パスワードを確認してください",
     "passwordsDontMatch": "パスワードが一致しません"
+  },
+  "notifications": {
+    "signInSuccess": "おかえりなさい！アカウントに正常にサインインしました",
+    "signUpSuccess": "ようこそ！アカウントが正常に作成されました",
+    "authError": "認証エラー! 認証情報を確認して再度お試しください",
+    "networkError": "接続エラー! インターネット接続を確認して再度お試しください",
+    "serverError": "サーバーエラー! 問題が発生しました。後ほど再度お試しください"
   }
 }

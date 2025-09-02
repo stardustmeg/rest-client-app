@@ -11,6 +11,7 @@ import { createTranslatedSchema, type SignUpFormType } from '@/app/types/form-sc
 export const SignUpForm = () => {
   const { success } = useToast();
   const t = useTranslations('form');
+  const tNotification = useTranslations('notifications');
   const tValidation = useTranslations('validation');
   const { signUpFormSchema } = createTranslatedSchema(tValidation);
   const {
@@ -23,7 +24,7 @@ export const SignUpForm = () => {
     resolver: zodResolver(signUpFormSchema),
   });
 
-  const onSubmit = () => success('Form submitted');
+  const onSubmit = () => success(tNotification('signUpSuccess'));
 
   return (
     <Enabled feature="signUpForm">

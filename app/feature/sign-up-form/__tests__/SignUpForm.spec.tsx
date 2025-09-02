@@ -1,15 +1,12 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
+/** biome-ignore-all lint/style/useNamingConvention: false positive */
 import { render, screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { SignUpForm } from '@/app/feature/sign-up-form/SignUpForm';
 import { useToast } from '@/app/hooks/useToast';
-
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
-};
+import { setupUserEvent, TestWrapper } from '@/app/utils/test-utilities';
 
 vi.mock('next-intl', () => ({
   useTranslations: vi.fn(),
@@ -26,13 +23,12 @@ vi.mock('@/app/hooks/useToast', () => ({
 }));
 
 vi.mock('@/app/components/ui/Enabled', () => ({
-  // biome-ignore lint/style/useNamingConvention: <sasdsddsasdadadadasadsad>
   Enabled: ({ children, feature }: { children: React.ReactNode; feature: string }) => {
     const FeatureFlags = {
       languageSelect: true,
       notEnabledComponent: false,
       signUpForm: true,
-      signInForm: true,
+      signInForm: false,
     } as const;
 
     const isEnabled = FeatureFlags[feature as keyof typeof FeatureFlags];
@@ -49,7 +45,6 @@ const mockUseTranslations = useTranslations as Mock;
 const mockUseToast = useToast as Mock;
 const mockSuccess = mockUseToast().success;
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <wfherkgql>
 describe('SignUpForm', () => {
   const mockRegister = vi.fn();
   const mockHandleSubmit = vi.fn((callback) => (e: MouseEvent) => {
@@ -99,10 +94,10 @@ describe('SignUpForm', () => {
     );
 
     expect(screen.getByText('Sign Up')).toBeInTheDocument();
-    expect(screen.getByText('Email')).toBeInTheDocument();
-    expect(screen.getByText('Password')).toBeInTheDocument();
-    expect(screen.getByText('Confirm Password')).toBeInTheDocument();
-    expect(screen.getByText('Submit')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Password' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Confirm Password' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 
   it('should render form fields with correct register props', () => {
@@ -171,8 +166,7 @@ describe('SignUpForm', () => {
   });
 
   it('should call toaster on form submission', async () => {
-    const user = userEvent.setup();
-    render(
+    const { user } = setupUserEvent(
       <TestWrapper>
         <SignUpForm />
       </TestWrapper>,
@@ -182,7 +176,7 @@ describe('SignUpForm', () => {
     await user.click(submitButton);
 
     expect(mockHandleSubmit).toHaveBeenCalled();
-    expect(mockSuccess).toHaveBeenCalledWith('Form submitted');
+    expect(mockSuccess).toHaveBeenCalledWith('signUpSuccess');
   });
 
   it('should handle form validation errors', () => {
