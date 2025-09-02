@@ -13,14 +13,14 @@ import { useToast } from '@/app/hooks/use-toast';
 import { useColorPalette } from '../hooks/use-color-palette';
 
 export const Home = () => {
-  const colorPalette = useColorPalette();
+  const { palette } = useColorPalette();
   const t = useTranslations('main');
   const { success } = useToast();
 
   const handleButtonClick = () => success('Congrats! You are a fish');
 
   return (
-    <Suspense fallback={<Loader text="Loading..." colorPalette={colorPalette} />}>
+    <Suspense fallback={<Loader text="Loading..." colorPalette={palette} />}>
       <div className="flex min-h-screen flex-col place-content-center gap-10">
         <h1 className="font-bold text-4xl text-emerald-700 dark:text-blue-400">{t('hello')}</h1>
         <SignInForm />
@@ -38,7 +38,7 @@ export const Home = () => {
             <Tooltip content="Click Me" showArrow>
               <Button
                 onClick={handleButtonClick}
-                colorPalette={colorPalette}
+                colorPalette={palette}
                 size="lg"
                 variant="surface"
               >

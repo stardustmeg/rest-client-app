@@ -16,14 +16,14 @@ export const toaster = createToaster({
 });
 
 export const Toaster = () => {
-  const colorPalette = useColorPalette();
+  const { palette } = useColorPalette();
   return (
     <Portal>
-      <ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }} colorPalette={colorPalette}>
+      <ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }} colorPalette={palette}>
         {(toast) => (
           <Toast.Root width={{ md: 'sm' }}>
             {toast.type === 'loading' ? (
-              <Spinner size="sm" colorPalette={colorPalette} />
+              <Spinner size="sm" colorPalette={palette} />
             ) : (
               <Toast.Indicator />
             )}

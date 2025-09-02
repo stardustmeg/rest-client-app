@@ -10,7 +10,7 @@ import { createTranslatedSchema, type SignUpFormType } from '@/app/types/form-sc
 import { useColorPalette } from '../hooks/use-color-palette';
 
 export const SignUpForm = () => {
-  const colorPalette = useColorPalette();
+  const { palette } = useColorPalette();
   const { success } = useToast();
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
@@ -48,12 +48,7 @@ export const SignUpForm = () => {
             label={t('confirmPassword')}
             register={register('confirmPassword')}
           />
-          <Button
-            colorPalette={colorPalette}
-            w="full"
-            disabled={!isValid || isSubmitting}
-            type="submit"
-          >
+          <Button colorPalette={palette} w="full" disabled={!isValid || isSubmitting} type="submit">
             {t('submit')}
           </Button>
         </Stack>

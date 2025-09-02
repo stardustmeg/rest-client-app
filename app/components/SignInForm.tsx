@@ -10,7 +10,7 @@ import { createTranslatedSchema, type SignInFormType } from '@/app/types/form-sc
 import { useColorPalette } from '../hooks/use-color-palette';
 
 export const SignInForm = () => {
-  const colorPalette = useColorPalette();
+  const { palette } = useColorPalette();
   const { success } = useToast();
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
@@ -44,12 +44,7 @@ export const SignInForm = () => {
             label={t('password')}
             register={register('password')}
           />
-          <Button
-            colorPalette={colorPalette}
-            w="full"
-            disabled={!isValid || isSubmitting}
-            type="submit"
-          >
+          <Button colorPalette={palette} w="full" disabled={!isValid || isSubmitting} type="submit">
             {t('submit')}
           </Button>
         </Stack>

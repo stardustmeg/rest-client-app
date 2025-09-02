@@ -8,13 +8,13 @@ import { Enabled } from './Enabled';
 // TBD: remove later; just an example
 export const NotEnabledComponent = () => {
   const { warning } = useToast();
-  const colorPalette = useColorPalette();
+  const { palette } = useColorPalette();
 
   const handleButtonClick = () => warning("You didn't see me");
 
   return (
     <Enabled feature="notEnabledComponent">
-      <Button variant="solid" colorPalette={colorPalette} size="lg" onClick={handleButtonClick}>
+      <Button variant="solid" colorPalette={palette} size="lg" onClick={handleButtonClick}>
         Not shown button
       </Button>
       <div>Not Enabled Component</div>
