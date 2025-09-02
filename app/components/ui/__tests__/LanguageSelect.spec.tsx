@@ -5,11 +5,6 @@ import { TestProviders } from '@/app/__tests__/utils';
 import { usePathname, useRouter } from '@/i18n/routing';
 import { LanguageSelect } from '../LanguageSelect';
 
-// vi.mock('next-intl', () => ({
-//   useLocale: vi.fn(),
-//   useTranslations: vi.fn(),
-// }));
-
 vi.mock('@/i18n/routing', () => ({
   routing: {
     locales: ['en', 'ru', 'jp'],
