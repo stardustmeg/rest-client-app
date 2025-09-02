@@ -1,5 +1,7 @@
 import { SignUpPage } from '@/app/_pages/SignUp';
 
-export default function Page() {
+const Page = () => {
   return <SignUpPage />;
-}
+};
+
+export default Page;

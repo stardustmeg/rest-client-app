@@ -4,6 +4,8 @@ const RestClientPage = dynamic(() => {
   return import('@/app/_pages/RestClient').then((mod) => mod.RestClientPage);
 });
 
-export default function Page() {
+const Page = () => {
   return <RestClientPage />;
-}
+};
+
+export default Page;
