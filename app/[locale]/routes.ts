@@ -10,6 +10,26 @@ export const routes: Record<string, RouteConfig> = {
     path: '/',
     translationKey: 'main',
   },
+  signIn: {
+    path: '/sign-in',
+    translationKey: 'signIn',
+  },
+  signUp: {
+    path: '/sign-up',
+    translationKey: 'signUp',
+  },
+  restClient: {
+    path: '/rest-client',
+    translationKey: 'restClient',
+  },
+  historyAndAnalytics: {
+    path: '/history-and-analytics',
+    translationKey: 'historyAndAnalytics',
+  },
+  variables: {
+    path: '/variables',
+    translationKey: 'variables',
+  },
   notFound: {
     path: '/404',
     translationKey: 'notFound',

@@ -48,6 +48,11 @@
   },
   "navigation": {
     "main": "Main",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "restClient": "REST Client",
+    "historyAndAnalytics": "History and Analytics",
+    "variables": "Variables",
     "notFound": "404"
   }
 }
