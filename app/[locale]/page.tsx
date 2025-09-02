@@ -5,10 +5,7 @@ import { Suspense } from 'react';
 import { RxMagicWand } from 'react-icons/rx';
 import { SignInForm } from '@/app/components/SignInForm';
 import { SignUpForm } from '@/app/components/SignUpForm';
-import { ColorModeButton } from '@/app/components/ui/ColorMode';
 import { Tooltip } from '@/app/components/ui/Tooltip';
-import { Enabled } from '../components/ui/Enabled';
-import { LanguageSelect } from '../components/ui/LanguageSelect';
 import { NotEnabledComponent } from '../components/ui/NotEnabledComponent';
 import { useToast } from '../hooks/useToast';
 
@@ -22,13 +19,6 @@ export const Home = () => {
     <Suspense fallback={<Loader text="Loading..." />}>
       <div className="flex min-h-screen flex-col place-content-center gap-10">
         <h1 className="font-bold text-4xl text-emerald-700 dark:text-blue-400">{t('hello')}</h1>
-        <div className="fixed top-4 right-4 z-10 flex">
-          <Enabled feature="languageSelect">
-            <LanguageSelect />
-          </Enabled>
-          <ColorModeButton />
-        </div>
-
         <SignInForm />
         <SignUpForm />
 
