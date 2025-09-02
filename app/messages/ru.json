@@ -48,6 +48,11 @@
   },
   "navigation": {
     "main": "Главная",
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "restClient": "REST клиент",
+    "historyAndAnalytics": "История и аналитика",
+    "variables": "Переменные",
     "notFound": "404"
   }
 }

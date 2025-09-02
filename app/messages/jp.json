@@ -48,6 +48,11 @@
   },
   "navigation": {
     "main": "メイン",
-    "notFound": "404"
+    "signIn": "サインイン",
+    "signUp": "サインアップ",
+    "restClient": "RESTクライアント",
+    "historyAndAnalytics": "履歴と分析",
+    "variables": "変数",
+    "notFound": "404 - 見つかりません"
   }
 }
