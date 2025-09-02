@@ -1,11 +1,14 @@
 import { z } from 'zod';
+import type messages from '@/app/messages/en.json';
 
 const MIN_PASSWORD_LENGTH = 8;
 const MAX_PASSWORD_LENGTH = 20;
 const SPECIAL_CHARACTERS = '!@#$%^&?*';
 const SPECIAL_CHARACTERS_REGEX = new RegExp(`[${SPECIAL_CHARACTERS}]`);
 
-export const createTranslatedSchema = (t: (key: string) => string) => {
+export const createTranslatedSchema = (
+  t: (key: keyof (typeof messages)['validation']) => string,
+) => {
   const emailSchema = z
     .string()
     .min(1, { error: t('emailRequired') })
