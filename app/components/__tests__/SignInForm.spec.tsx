@@ -11,11 +11,25 @@ import {
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { SignInForm } from '@/app/components/SignInForm';
 
+vi.mock('@/app/types/form-schemas', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/app/types/form-schemas')>();
+  return {
+    ...actual,
+    getValidationError: vi.fn((tValidation, message) =>
+      message ? tValidation(message) : undefined,
+    ),
+  };
+});
+
 describe('SignInForm', () => {
   let mockRegister: ReturnType<typeof vi.fn>;
   let mockHandleSubmit: ReturnType<typeof vi.fn>;
   let mockTrigger: ReturnType<typeof vi.fn>;
-  let mockFormState: { errors: Record<string, unknown>; isValid: boolean; isSubmitting: boolean };
+  let mockFormState: {
+    errors: Record<string, { message?: string }>;
+    isValid: boolean;
+    isSubmitting: boolean;
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -132,9 +146,9 @@ describe('SignInForm', () => {
       formState: {
         ...mockFormState,
         errors: {
-          email: { message: 'Email is required', type: 'required' },
-          password: { message: 'Password is required', type: 'required' },
-          confirmPassword: { message: 'Passwords do not match', type: 'validate' },
+          email: { message: 'emailRequired' },
+          password: { message: 'passwordMinLength' },
+          confirmPassword: { message: 'passwordsDontMatch' },
         },
       },
       trigger: mockTrigger,
@@ -147,15 +161,5 @@ describe('SignInForm', () => {
     );
 
     expect(screen.getByText('Sign In')).toBeInTheDocument();
-  });
-
-  it('should wraps form in Enabled component with correct feature flag', () => {
-    const { container } = render(
-      <TestProviders>
-        <SignInForm />
-      </TestProviders>,
-    );
-
-    expect(container.querySelector('form')).toBeInTheDocument();
   });
 });

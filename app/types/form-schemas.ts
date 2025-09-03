@@ -1,54 +1,81 @@
+import type { useTranslations } from 'next-intl';
 import { z } from 'zod';
-import type messages from '@/app/messages/en.json';
 
 const MIN_PASSWORD_LENGTH = 8;
 const MAX_PASSWORD_LENGTH = 20;
 const SPECIAL_CHARACTERS = '!@#$%^&?*';
 const SPECIAL_CHARACTERS_REGEX = new RegExp(`[${SPECIAL_CHARACTERS}]`);
 
-export const createTranslatedSchema = (
-  t: (key: keyof (typeof messages)['validation']) => string,
-) => {
-  const emailSchema = z
-    .string()
-    .min(1, { error: t('emailRequired') })
-    .regex(/^\S+$/, { error: t('emailNoWhitespace') })
-    .regex(/(?=.*@)/, { error: t('emailMustContainAt') })
-    .regex(/^[^@]+@[^@]+\.[^@]+$/, { error: t('emailMustContainDomain') });
+const emailErrorKeys = {
+  required: 'emailRequired',
+  noWhitespace: 'emailNoWhitespace',
+  mustContainAt: 'emailMustContainAt',
+  mustContainDomain: 'emailMustContainDomain',
+} as const;
 
-  const passwordSchema = z
-    .string()
-    .min(MIN_PASSWORD_LENGTH, { error: t('passwordMinLength') })
-    .max(MAX_PASSWORD_LENGTH, { error: t('passwordMaxLength') })
-    .refine((password) => /[A-Z]/.test(password), { error: t('passwordUppercaseRequired') })
-    .refine((password) => /[a-z]/.test(password), { error: t('passwordLowercaseRequired') })
-    .refine((password) => /\d/.test(password), { error: t('passwordDigitRequired') })
-    .refine((password) => SPECIAL_CHARACTERS_REGEX.test(password), {
-      error: t('passwordSpecialCharRequired'),
-    })
-    .refine((password) => !/\s/.test(password), { error: t('passwordNoWhitespace') });
+const passwordErrorKeys = {
+  minLength: 'passwordMinLength',
+  maxLength: 'passwordMaxLength',
+  uppercaseRequired: 'passwordUppercaseRequired',
+  lowercaseRequired: 'passwordLowercaseRequired',
+  digitRequired: 'passwordDigitRequired',
+  specialCharRequired: 'passwordSpecialCharRequired',
+  noWhitespace: 'passwordNoWhitespace',
+} as const;
 
-  return {
-    signInFormSchema: z.object({
-      email: emailSchema,
-      password: passwordSchema,
-    }),
+const confirmPasswordErrorKeys = {
+  required: 'confirmPasswordRequired',
+  dontMatch: 'passwordsDontMatch',
+} as const;
 
-    signUpFormSchema: z
-      .object({
-        email: emailSchema,
-        password: passwordSchema,
-        confirmPassword: z.string().min(1, { error: t('confirmPasswordRequired') }),
-      })
-      .refine((data) => data.password === data.confirmPassword, {
-        error: t('passwordsDontMatch'),
-        path: ['confirmPassword'],
-      }),
+const emailSchema = z
+  .string()
+  .min(1, { error: emailErrorKeys.required })
+  .regex(/^\S+$/, { error: emailErrorKeys.noWhitespace })
+  .regex(/(?=.*@)/, { error: emailErrorKeys.mustContainAt })
+  .regex(/^[^@]+@[^@]+\.[^@]+$/, { error: emailErrorKeys.mustContainDomain });
 
-    emailSchema,
-    passwordSchema,
-  };
-};
+const passwordSchema = z
+  .string()
+  .min(MIN_PASSWORD_LENGTH, { error: passwordErrorKeys.minLength })
+  .max(MAX_PASSWORD_LENGTH, { error: passwordErrorKeys.maxLength })
+  .refine((password) => /[A-Z]/.test(password), { error: passwordErrorKeys.uppercaseRequired })
+  .refine((password) => /[a-z]/.test(password), { error: passwordErrorKeys.lowercaseRequired })
+  .refine((password) => /\d/.test(password), { error: passwordErrorKeys.digitRequired })
+  .refine((password) => SPECIAL_CHARACTERS_REGEX.test(password), {
+    error: passwordErrorKeys.specialCharRequired,
+  })
+  .refine((password) => !/\s/.test(password), { error: passwordErrorKeys.noWhitespace });
 
-export type SignInFormType = z.infer<ReturnType<typeof createTranslatedSchema>['signInFormSchema']>;
-export type SignUpFormType = z.infer<ReturnType<typeof createTranslatedSchema>['signUpFormSchema']>;
+export const signInFormSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
+
+export const signUpFormSchema = signInFormSchema
+  .extend({
+    confirmPassword: z.string().min(1, { message: confirmPasswordErrorKeys.required }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: confirmPasswordErrorKeys.dontMatch,
+    path: ['confirmPassword'],
+  });
+
+type ValidationMessage = Parameters<ReturnType<typeof useTranslations<'validation'>>>[0];
+
+export function getValidationError(
+  tValidation: ReturnType<typeof useTranslations<'validation'>>,
+  message: unknown,
+  fallback = '',
+): string {
+  if (!message) {
+    return fallback;
+  }
+
+  return tValidation.has(message as ValidationMessage)
+    ? tValidation(message as ValidationMessage)
+    : fallback;
+}
+
+export type SignInFormType = z.infer<typeof signInFormSchema>;
+export type SignUpFormType = z.infer<typeof signUpFormSchema>;

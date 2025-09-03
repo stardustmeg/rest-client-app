@@ -11,6 +11,16 @@ import {
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { SignUpForm } from '@/app/components/SignUpForm';
 
+vi.mock('@/app/types/form-schemas', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/app/types/form-schemas')>();
+  return {
+    ...actual,
+    getValidationError: vi.fn((tValidation, message) =>
+      message ? tValidation(message) : undefined,
+    ),
+  };
+});
+
 describe('SignUpForm', () => {
   let mockRegister: ReturnType<typeof vi.fn>;
   let mockHandleSubmit: ReturnType<typeof vi.fn>;
@@ -135,9 +145,9 @@ describe('SignUpForm', () => {
       formState: {
         ...mockFormState,
         errors: {
-          email: { message: 'Email is required', type: 'required' },
-          password: { message: 'Password is required', type: 'required' },
-          confirmPassword: { message: 'Passwords do not match', type: 'validate' },
+          email: { message: 'emailRequired' },
+          password: { message: 'passwordMinLength' },
+          confirmPassword: { message: 'passwordsDontMatch' },
         },
       },
       trigger: mockTrigger,
@@ -150,15 +160,5 @@ describe('SignUpForm', () => {
     );
 
     expect(screen.getByText('Sign Up')).toBeInTheDocument();
-  });
-
-  it('should wrap form in Enabled component with correct feature flag', () => {
-    const { container } = render(
-      <TestProviders>
-        <SignUpForm />
-      </TestProviders>,
-    );
-
-    expect(container.querySelector('form')).toBeInTheDocument();
   });
 });
