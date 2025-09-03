@@ -1,6 +1,6 @@
 'use client';
+
 import { useTheme } from 'next-themes';
-import { useColorScheme } from '@/app/hooks/use-color-scheme';
 import type { ColorMode } from '@/app/types/color-theme';
 
 interface UseColorModeReturn {
@@ -9,16 +9,13 @@ interface UseColorModeReturn {
   toggleColorMode: () => void;
 }
 export function useColorMode(): UseColorModeReturn {
-  const { setTheme } = useTheme();
-  const { colorScheme, colorMode } = useColorScheme();
-
-  const toggleColorMode = (): void => {
-    const newMode: ColorMode = colorMode === 'dark' ? 'light' : 'dark';
-    setTheme(`${colorScheme}-${newMode}`);
+  const { resolvedTheme, setTheme, forcedTheme } = useTheme();
+  const colorMode = forcedTheme || resolvedTheme;
+  const toggleColorMode = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   };
-
   return {
-    colorMode,
+    colorMode: colorMode as ColorMode,
     setColorMode: setTheme,
     toggleColorMode,
   };

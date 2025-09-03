@@ -7,10 +7,8 @@ import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
 import { useToast } from '@/app/hooks/use-toast';
 import { createTranslatedSchema, type SignInFormType } from '@/app/types/form-schemas';
-import { useColorPalette } from '../hooks/use-color-palette';
 
 export const SignInForm = () => {
-  const { palette } = useColorPalette();
   const { success } = useToast();
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
@@ -44,7 +42,7 @@ export const SignInForm = () => {
             label={t('password')}
             register={register('password')}
           />
-          <Button colorPalette={palette} w="full" disabled={!isValid || isSubmitting} type="submit">
+          <Button w="full" disabled={!isValid || isSubmitting} type="submit">
             {t('submit')}
           </Button>
         </Stack>
