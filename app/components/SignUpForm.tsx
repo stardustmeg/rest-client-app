@@ -5,10 +5,12 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
-import { useToast } from '@/app/hooks/useToast';
+import { useToast } from '@/app/hooks/use-toast';
 import { createTranslatedSchema, type SignUpFormType } from '@/app/types/form-schemas';
+import { useColorPalette } from '../hooks/use-color-palette';
 
 export const SignUpForm = () => {
+  const { palette } = useColorPalette();
   const { success } = useToast();
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
@@ -46,7 +48,7 @@ export const SignUpForm = () => {
             label={t('confirmPassword')}
             register={register('confirmPassword')}
           />
-          <Button colorPalette="pink" w="full" disabled={!isValid || isSubmitting} type="submit">
+          <Button colorPalette={palette} w="full" disabled={!isValid || isSubmitting} type="submit">
             {t('submit')}
           </Button>
         </Stack>

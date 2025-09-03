@@ -1,4 +1,4 @@
-import { toaster } from '../components/ui/Toaster';
+import { toaster } from '@/app/components/ui/Toaster';
 
 const DEFAULT_DURATION = 3000;
 

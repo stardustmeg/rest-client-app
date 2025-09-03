@@ -3,13 +3,13 @@
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { type Mock, vi } from 'vitest';
-import { useToast } from '@/app/hooks/useToast';
+import { useToast } from '@/app/hooks/use-toast';
 
 vi.mock('react-hook-form', () => ({
   useForm: vi.fn(),
 }));
 
-vi.mock('@/app/hooks/useToast', () => ({
+vi.mock('@/app/hooks/use-toast', () => ({
   useToast: vi.fn().mockReturnValue({
     success: vi.fn(),
   }),
@@ -19,7 +19,6 @@ vi.mock('@/app/components/ui/Enabled', () => ({
   Enabled: ({ children, feature }: { children: React.ReactNode; feature: string }) => {
     const FeatureFlags = {
       languageSelect: true,
-      notEnabledComponent: false,
       signUpForm: true,
       signInForm: true,
     } as const;
