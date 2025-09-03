@@ -54,5 +54,24 @@
     "historyAndAnalytics": "履歴と分析",
     "variables": "変数",
     "notFound": "404 - 見つかりません"
+  },
+  "MainPage": {
+    "title": "REST Clientへようこそ！",
+    "signIn": "サインイン",
+    "signUp": "サインアップ",
+    "features": {
+      "api": {
+        "title": "APIのテスト",
+        "description": "リクエストを送信し、クリーンなインターフェースでレスポンスを表示します。"
+      },
+      "history": {
+        "title": "履歴の保存",
+        "description": "将来の参照のためにAPI呼び出しを記録します。"
+      },
+      "organize": {
+        "title": "整理",
+        "description": "リクエストをプロジェクトやコレクションにグループ化します。"
+      }
+    }
   }
 }
