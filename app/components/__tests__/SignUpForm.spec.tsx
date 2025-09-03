@@ -11,8 +11,8 @@ import {
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { SignUpForm } from '@/app/components/SignUpForm';
 
-vi.mock('@/app/types/form-schemas', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/app/types/form-schemas')>();
+vi.mock('@/app/utils/get-validation-error', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/app/utils/get-validation-error')>();
   return {
     ...actual,
     getValidationError: vi.fn((tValidation, message) =>
