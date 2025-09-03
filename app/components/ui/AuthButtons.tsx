@@ -5,10 +5,9 @@ import { Link } from '@/i18n/routing';
 interface AuthButtonsProps {
   signInLabel: string;
   signUpLabel: string;
-  color?: string;
 }
 
-export const AuthButtons = ({ signInLabel, signUpLabel, color }: AuthButtonsProps) => (
+export const AuthButtons = ({ signInLabel, signUpLabel }: AuthButtonsProps) => (
   <Flex gap="4" flexDir={{ base: 'column', sm: 'row' }}>
     <Link href={routes.signIn.path} passHref>
       <Button
@@ -18,7 +17,6 @@ export const AuthButtons = ({ signInLabel, signUpLabel, color }: AuthButtonsProp
         fontWeight="semibold"
         shadow="md"
         transition="all 0.2s"
-        colorPalette={color}
       >
         {signInLabel}
       </Button>
@@ -32,7 +30,6 @@ export const AuthButtons = ({ signInLabel, signUpLabel, color }: AuthButtonsProp
         fontWeight="semibold"
         shadow="md"
         transition="all 0.2s"
-        colorPalette={color}
       >
         {signUpLabel}
       </Button>
