@@ -9,7 +9,7 @@ interface LocaleLayoutProps {
   params: Promise<{ locale: (typeof routing.locales)[number] }>;
 }
 
-export const LocaleLayout = async ({ children, params }: LocaleLayoutProps) => {
+const LocaleLayout = async ({ children, params }: LocaleLayoutProps) => {
   const { locale } = await params;
 
   if (!routing.locales.includes(locale)) {
