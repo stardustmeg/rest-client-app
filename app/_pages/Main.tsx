@@ -4,7 +4,7 @@ import { AuthButtons } from '@/app/components/ui/AuthButtons';
 import { MainHeading } from '@/app/components/ui/MainHeading';
 import { useColorPalette } from '@/app/hooks/use-color-palette';
 
-const INFO_SECTION = [
+const infoSection = [
   {
     title: 'features.api.title',
     description: 'features.api.description',
@@ -40,7 +40,7 @@ export const MainPage = () => {
           <AuthButtons color={palette} signInLabel={t('signIn')} signUpLabel={t('signUp')} />
 
           <SimpleGrid columns={{ base: 1, md: 3 }} gap="8" w="full" textAlign="left">
-            {INFO_SECTION.map((item) => (
+            {infoSection.map((item) => (
               <Box
                 key={item.title}
                 p="8"
