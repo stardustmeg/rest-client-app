@@ -1,47 +1,67 @@
+import { Box, Container, Flex, Heading, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
-import { useMemo } from 'react';
+import { AuthButtons } from '@/app/components/ui/AuthButtons';
+import { MainHeading } from '@/app/components/ui/MainHeading';
+import { useColorPalette } from '@/app/hooks/use-color-palette';
+
+const INFO_SECTION = [
+  {
+    title: 'features.api.title',
+    description: 'features.api.description',
+  },
+  {
+    title: 'features.history.title',
+    description: 'features.history.description',
+  },
+  {
+    title: 'features.organize.title',
+    description: 'features.organize.description',
+  },
+] as const;
 
 export const MainPage = () => {
   const t = useTranslations('MainPage');
-
-  const InfoSection = useMemo(
-    () => [
-      {
-        title: t('features.api.title'),
-        description: t('features.api.description'),
-      },
-
-      {
-        title: t('features.history.title'),
-        description: t('features.history.description'),
-      },
-      {
-        title: t('features.organize.title'),
-        description: t('features.organize.description'),
-      },
-    ],
-    [t],
-  );
+  const { palette } = useColorPalette();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-12 text-foreground">
-      <div className="flex w-full max-w-5xl flex-col items-center gap-16 text-center">
-        <section>
-          <h1 className="!text-5xl font-extrabold tracking-tight">{t('title')}</h1>
-        </section>
+    <Flex
+      as="main"
+      minH="100vh"
+      align="center"
+      justify="center"
+      bg="var(--background)"
+      color="var(--foreground)"
+      px="6"
+      py="12"
+    >
+      <Container maxW="5xl" centerContent>
+        <VStack gap="16" textAlign="center" w="full">
+          <MainHeading title={t('title')} />
+          <AuthButtons color={palette} signInLabel={t('signIn')} signUpLabel={t('signUp')} />
 
-        <section className="grid w-full grid-cols-1 gap-8 text-left md:grid-cols-3">
-          {InfoSection.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl border border-accent bg-white/5 p-8 shadow-md backdrop-blur-sm"
-            >
-              <h3 className="!text-xl mb-3 font-semibold">{item.title}</h3>
-              <p className="!text-base opacity-80">{item.description}</p>
-            </div>
-          ))}
-        </section>
-      </div>
-    </main>
+          <SimpleGrid columns={{ base: 1, md: 3 }} gap="8" w="full" textAlign="left">
+            {INFO_SECTION.map((item) => (
+              <Box
+                key={item.title}
+                p="8"
+                borderRadius="2xl"
+                borderWidth="1px"
+                borderColor="var(--accent)"
+                bg="whiteAlpha.50"
+                shadow="md"
+                backdropFilter="blur(50px)"
+              >
+                <Heading as="h3" size="md" mb="3" fontWeight="semibold">
+                  {t(item.title)}
+                </Heading>
+                <Text fontSize="md" opacity="0.8">
+                  {t(item.description)}
+                </Text>
+              </Box>
+            ))}
+          </SimpleGrid>
+        </VStack>
+      </Container>
+    </Flex>
   );
 };
