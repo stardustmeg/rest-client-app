@@ -10,7 +10,7 @@ import { Tooltip } from '@/app/components/ui/Tooltip';
 import { useColorPalette } from '@/app/hooks/use-color-palette';
 import { useToast } from '@/app/hooks/use-toast';
 
-export const Home = () => {
+const Home = () => {
   const { palette } = useColorPalette();
   const t = useTranslations('main');
   const { success } = useToast();
