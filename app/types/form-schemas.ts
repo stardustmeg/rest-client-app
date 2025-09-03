@@ -1,4 +1,3 @@
-import type { useTranslations } from 'next-intl';
 import { z } from 'zod';
 
 const MIN_PASSWORD_LENGTH = 8;
@@ -60,22 +59,6 @@ export const signUpFormSchema = signInFormSchema
     message: confirmPasswordErrorKeys.dontMatch,
     path: ['confirmPassword'],
   });
-
-type ValidationMessage = Parameters<ReturnType<typeof useTranslations<'validation'>>>[0];
-
-export function getValidationError(
-  tValidation: ReturnType<typeof useTranslations<'validation'>>,
-  message: unknown,
-  fallback = '',
-): string {
-  if (!message) {
-    return fallback;
-  }
-
-  return tValidation.has(message as ValidationMessage)
-    ? tValidation(message as ValidationMessage)
-    : fallback;
-}
 
 export type SignInFormType = z.infer<typeof signInFormSchema>;
 export type SignUpFormType = z.infer<typeof signUpFormSchema>;
