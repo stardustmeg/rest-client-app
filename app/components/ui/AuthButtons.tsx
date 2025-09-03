@@ -24,7 +24,7 @@ export const AuthButtons = ({ signInLabel, signUpLabel, color }: AuthButtonsProp
       </Button>
     </Link>
 
-    <Link href={routes.signIn.path} passHref>
+    <Link href={routes.signUp.path} passHref>
       <Button
         size="lg"
         px="8"
