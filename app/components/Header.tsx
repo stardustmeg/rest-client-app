@@ -1,3 +1,5 @@
+'use client';
+
 import { ColorModeSelector } from './ui/ColorModeSelector';
 import { ColorSchemeSelector } from './ui/ColorSchemeSelector';
 import { LanguageSelect } from './ui/LanguageSelect';
