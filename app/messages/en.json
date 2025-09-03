@@ -54,5 +54,24 @@
     "historyAndAnalytics": "History and Analytics",
     "variables": "Variables",
     "notFound": "404"
+  },
+  "MainPage": {
+    "title": "Welcome to REST Client!",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "features": {
+      "api": {
+        "title": "Test APIs",
+        "description": "Send requests and view responses in a clean interface."
+      },
+      "history": {
+        "title": "Save History",
+        "description": "Keep track of your API calls for future reference."
+      },
+      "organize": {
+        "title": "Organize",
+        "description": "Group your requests into projects and collections."
+      }
+    }
   }
 }
