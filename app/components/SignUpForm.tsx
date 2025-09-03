@@ -10,10 +10,8 @@ import {
   type SignUpFormType,
   signUpFormSchema,
 } from '@/app/types/form-schemas';
-import { useColorPalette } from '../hooks/use-color-palette';
 
 export const SignUpForm = () => {
-  const { palette } = useColorPalette();
   const { success } = useToast();
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
@@ -53,7 +51,7 @@ export const SignUpForm = () => {
           label={t('confirmPassword')}
           {...register('confirmPassword')}
         />
-        <Button colorPalette={palette} w="full" disabled={!isValid || isSubmitting} type="submit">
+        <Button w="full" disabled={!isValid || isSubmitting} type="submit">
           {t('submit')}
         </Button>
       </Stack>

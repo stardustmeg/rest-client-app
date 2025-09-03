@@ -19,8 +19,7 @@ const colorModes: ColorModeItem[] = [
 
 export const ColorModeSelector = forwardRef<HTMLButtonElement, ColorModeSelectorProps>(
   (props, ref) => {
-    const { toggleColorMode } = useColorMode();
-    const { colorMode } = useColorMode();
+    const { toggleColorMode, colorMode } = useColorMode();
     return (
       <ClientOnly fallback={<Skeleton boxSize="8" />}>
         <IconButton
@@ -34,11 +33,10 @@ export const ColorModeSelector = forwardRef<HTMLButtonElement, ColorModeSelector
             _icon: {
               width: '5',
               height: '5',
-              color: 'var(--foreground)',
             },
           }}
         >
-          {colorModes.find((mode) => mode.value === colorMode)?.icon}
+          {colorModes.find((mode) => mode.value === colorMode)?.icon ?? '🌙'}
         </IconButton>
       </ClientOnly>
     );

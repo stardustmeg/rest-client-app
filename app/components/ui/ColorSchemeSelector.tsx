@@ -1,7 +1,6 @@
 'use client';
 
-import { ClientOnly, IconButton, Skeleton } from '@chakra-ui/react';
-import { useColorScheme } from '@/app/hooks/use-color-scheme';
+import { ClientOnly, IconButton, Skeleton, useChakraContext } from '@chakra-ui/react';
 import type { ColorScheme } from '@/app/types/color-theme';
 
 interface ColorSchemeItem {
@@ -17,7 +16,7 @@ const colorSchemes: ColorSchemeItem[] = [
 ];
 
 export const ColorSchemeSelector = () => {
-  const { colorScheme, setColorScheme } = useColorScheme();
+  const { setColorScheme } = useChakraContext();
 
   return (
     <ClientOnly fallback={<Skeleton boxSize="8" />}>
@@ -33,7 +32,6 @@ export const ColorSchemeSelector = () => {
               _icon: {
                 width: '5',
                 height: '5',
-                color: colorScheme === scheme.value ? 'var(--foreground)' : 'var(--background)',
               },
             }}
           >

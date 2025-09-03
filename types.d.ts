@@ -7,3 +7,9 @@ declare module 'next-intl' {
     Locale: (typeof routing.locales)[number]
   }
 }
+
+declare module '@chakra-ui/react' {
+  interface SystemContext {
+    setColorScheme: (colorScheme: ColorScheme) => void;
+  }
+}
