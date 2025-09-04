@@ -4,10 +4,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
 import { type ButtonListType, NavigationButtons } from '@/app/components/ui/NavigationButtons';
 
-vi.mock('next-intl/server', () => ({
-  getTranslations: vi.fn(async () => (key: string) => key),
-}));
-
 vi.mock('@/i18n/routing', () => ({
   // biome-ignore lint/style/useNamingConvention: <because>
   Link: ({ children, href }: PropsWithChildren<{ href: string }>) => <a href={href}>{children}</a>,
