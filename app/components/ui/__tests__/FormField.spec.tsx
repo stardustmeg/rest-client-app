@@ -17,7 +17,7 @@ describe('FormField', () => {
   it('should renders label correctly', () => {
     render(
       <TestProviders>
-        <FormField error={undefined} register={mockRegister} label="Test Label" />
+        <FormField error={undefined} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -27,7 +27,7 @@ describe('FormField', () => {
   it('should renders input with register props', () => {
     render(
       <TestProviders>
-        <FormField error={undefined} register={mockRegister} label="Test Label" />
+        <FormField error={undefined} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -39,7 +39,7 @@ describe('FormField', () => {
   it('should does not show error message when there is no error', () => {
     render(
       <TestProviders>
-        <FormField error={undefined} register={mockRegister} label="Test Label" />
+        <FormField error={undefined} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -54,7 +54,7 @@ describe('FormField', () => {
 
     render(
       <TestProviders>
-        <FormField error={mockError} register={mockRegister} label="Test Label" />
+        <FormField error={mockError.message} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -71,7 +71,7 @@ describe('FormField', () => {
 
     render(
       <TestProviders>
-        <FormField error={mockError} register={mockRegister} label="Test Label" />
+        <FormField error={mockError.message} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -82,7 +82,7 @@ describe('FormField', () => {
   it('should marks field as valid when there is no error', () => {
     render(
       <TestProviders>
-        <FormField error={undefined} register={mockRegister} label="Test Label" />
+        <FormField error={undefined} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -93,7 +93,7 @@ describe('FormField', () => {
   it('should handles user input correctly', async () => {
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <FormField error={undefined} register={mockRegister} label="Test Label" />
+        <FormField error={undefined} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -106,7 +106,7 @@ describe('FormField', () => {
   it('should handles blur event correctly', async () => {
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <FormField error={undefined} register={mockRegister} label="Test Label" />
+        <FormField error={undefined} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -125,7 +125,7 @@ describe('FormField', () => {
 
     render(
       <TestProviders>
-        <FormField error={mockError} register={mockRegister} label="Test Label" />
+        <FormField error={mockError.message} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -136,7 +136,7 @@ describe('FormField', () => {
   it('should applies correct accessibility attributes when valid', () => {
     render(
       <TestProviders>
-        <FormField error={undefined} register={mockRegister} label="Test Label" />
+        <FormField error={undefined} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -147,7 +147,7 @@ describe('FormField', () => {
   it('should passes ref correctly', () => {
     render(
       <TestProviders>
-        <FormField error={undefined} register={mockRegister} label="Test Label" />
+        <FormField error={undefined} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -162,7 +162,7 @@ describe('FormField', () => {
 
     render(
       <TestProviders>
-        <FormField error={mockError} register={mockRegister} label="Test Label" />
+        <FormField error={mockError.message} {...mockRegister} label="Test Label" />
       </TestProviders>,
     );
 
@@ -172,7 +172,7 @@ describe('FormField', () => {
   it('should renders without optional props', () => {
     const { container } = render(
       <TestProviders>
-        <FormField register={mockRegister} label="Test Label" error={undefined} />
+        <FormField {...mockRegister} label="Test Label" error={undefined} />
       </TestProviders>,
     );
 
