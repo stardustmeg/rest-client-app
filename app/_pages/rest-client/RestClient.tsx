@@ -1,12 +1,29 @@
 'use client';
 
-import { Button, Flex, NativeSelect, Separator, Tabs, TabsContent } from '@chakra-ui/react';
+import { Button, Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import type { FormEvent } from 'react';
+import { Select } from '@/app/components/ui/Select';
 import { PageWrapper } from '../../components/ui/PageWrapper';
 import { BodyViewer } from './components/BodyViewer';
 import { EndpointInput } from './components/EndpointInput';
 import { HeadersEditor } from './components/HeadersEditor';
-import { MethodSelector } from './components/MethodSelector';
+
+const METHODS = [
+  { value: 'GET', label: 'GET' },
+  { value: 'POST', label: 'POST' },
+  { value: 'PUT', label: 'PUT' },
+  { value: 'DELETE', label: 'DELETE' },
+];
+
+const LANGUAGES = [
+  { value: 'js', label: 'JavaScript' },
+  { value: 'java', label: 'Java' },
+];
+
+const VARIANTS = [
+  { value: 'fetch', label: 'Fetch' },
+  { value: 'curl', label: 'Curl' },
+];
 
 export const RestClientPage = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -18,7 +35,7 @@ export const RestClientPage = () => {
       <Flex gap="3">
         <form onSubmit={handleSubmit} className="w-full">
           <Flex gap="1">
-            <MethodSelector />
+            <Select options={METHODS} placeholder="Method" />
             <EndpointInput />
             <Button type="submit">Send</Button>
           </Flex>
@@ -63,20 +80,8 @@ export const RestClientPage = () => {
             </TabsContent>
             <TabsContent value="code-snippet">
               <Flex gap="3">
-                <NativeSelect.Root>
-                  <NativeSelect.Field name="language">
-                    <option value="json">Javascript</option>
-                    <option value="text">Dart</option>
-                  </NativeSelect.Field>
-                  <NativeSelect.Indicator />
-                </NativeSelect.Root>
-                <NativeSelect.Root>
-                  <NativeSelect.Field name="language">
-                    <option value="fetch">fetch</option>
-                    <option value="curl">curl</option>
-                  </NativeSelect.Field>
-                  <NativeSelect.Indicator />
-                </NativeSelect.Root>
+                <Select options={LANGUAGES} placeholder="Language" />
+                <Select options={VARIANTS} placeholder="Variant" />
               </Flex>
             </TabsContent>
           </Tabs.Root>
