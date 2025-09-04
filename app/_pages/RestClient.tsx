@@ -39,7 +39,7 @@ const BodyViewer = ({ readOnly, title, type }: BodyViewerProps) => {
           </Button>
         )}
       </Flex>
-      <Textarea resize="vertical" readOnly={readOnly} />
+      <Textarea height="full" resize="vertical" readOnly={readOnly} />
     </Stack>
   );
 };
@@ -53,8 +53,8 @@ export const RestClientPage = () => {
     <PageWrapper>
       <form onSubmit={handleSubmit}>
         <Flex gap="1">
-          <NativeSelect.Root>
-            <NativeSelect.Field>
+          <NativeSelect.Root width="max-content">
+            <NativeSelect.Field width="max-content">
               {METHODS.map((method) => (
                 <option key={method.value} value={method.value}>
                   {method.label}
