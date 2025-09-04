@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
+import { Button, Flex, NativeSelect, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import type { FormEvent } from 'react';
 import { PageWrapper } from '../../components/ui/PageWrapper';
 import { BodyViewer } from './components/BodyViewer';
@@ -48,7 +48,38 @@ export const RestClientPage = () => {
         </form>
         <Separator orientation="vertical" />
         <div className="w-full">
-          <BodyViewer readOnly={true} title="Response" type="json" />
+          <div>
+            <span>Status: </span>
+            <span>Size: </span>
+            <span>Time: </span>
+          </div>
+          <Tabs.Root defaultValue="response">
+            <Tabs.List>
+              <Tabs.Trigger value="response">Response</Tabs.Trigger>
+              <Tabs.Trigger value="code-snippet">Code snippet</Tabs.Trigger>
+            </Tabs.List>
+            <TabsContent value="response">
+              <BodyViewer readOnly={true} title="Response" type="json" />
+            </TabsContent>
+            <TabsContent value="code-snippet">
+              <Flex gap="3">
+                <NativeSelect.Root>
+                  <NativeSelect.Field name="language">
+                    <option value="json">Javascript</option>
+                    <option value="text">Dart</option>
+                  </NativeSelect.Field>
+                  <NativeSelect.Indicator />
+                </NativeSelect.Root>
+                <NativeSelect.Root>
+                  <NativeSelect.Field name="language">
+                    <option value="fetch">fetch</option>
+                    <option value="curl">curl</option>
+                  </NativeSelect.Field>
+                  <NativeSelect.Indicator />
+                </NativeSelect.Root>
+              </Flex>
+            </TabsContent>
+          </Tabs.Root>
         </div>
       </Flex>
     </PageWrapper>
