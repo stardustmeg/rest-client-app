@@ -1,8 +1,8 @@
 import { chakra } from '@chakra-ui/react';
-import type { routing } from '@/i18n/routing';
+import type { RoutingLocales } from '@/i18n/routing';
 
 interface FlagIconProps {
-  country: (typeof routing.locales)[number];
+  country: RoutingLocales;
   size?: number;
   height?: number;
   title?: string;
