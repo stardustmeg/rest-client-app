@@ -10,11 +10,14 @@ import { HeadersEditor } from './HeadersEditor';
 export const RestForm = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    // biome-ignore lint/suspicious/noConsole: <Because i can!>
+    console.log(Object.fromEntries(data));
   };
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <Flex gap="1">
-        <Select options={TEMP_METHODS} placeholder="Method" />
+        <Select options={TEMP_METHODS} name="method" />
         <Input name="endpoint" placeholder="Endpoint" />
         <Button type="submit">Send</Button>
       </Flex>

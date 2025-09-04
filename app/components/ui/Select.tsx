@@ -1,4 +1,4 @@
-import { Select as ChakraSelect, createListCollection } from '@chakra-ui/react';
+import { For, NativeSelect } from '@chakra-ui/react';
 
 export interface SelectOption {
   label: string;
@@ -8,38 +8,26 @@ export interface SelectOption {
 export interface SelectProps {
   onValueChange?: (value: string) => void;
   options: SelectOption[];
-  name?: string;
-  placeholder: string;
+  name: string;
 }
 
-export const Select = ({ options, onValueChange, name, placeholder }: SelectProps) => {
-  const collection = createListCollection({ items: options });
-
+export const Select = ({ options, onValueChange, name }: SelectProps) => {
   return (
-    <ChakraSelect.Root
-      name={name}
-      collection={collection}
-      onValueChange={({ value }) => onValueChange?.(value[0])}
-    >
-      <ChakraSelect.HiddenSelect />
-      <ChakraSelect.Control>
-        <ChakraSelect.Trigger>
-          <ChakraSelect.ValueText placeholder={placeholder} />
-        </ChakraSelect.Trigger>
-        <ChakraSelect.IndicatorGroup>
-          <ChakraSelect.Indicator />
-        </ChakraSelect.IndicatorGroup>
-      </ChakraSelect.Control>
-      <ChakraSelect.Positioner>
-        <ChakraSelect.Content>
-          {collection.items.map((item) => (
-            <ChakraSelect.Item item={item} key={item.value}>
-              {item.label}
-              <ChakraSelect.ItemIndicator />
-            </ChakraSelect.Item>
-          ))}
-        </ChakraSelect.Content>
-      </ChakraSelect.Positioner>
-    </ChakraSelect.Root>
+    <NativeSelect.Root width="max-content">
+      <NativeSelect.Field
+        name={name}
+        width="max-content"
+        onChange={(e) => onValueChange?.(e.currentTarget.value)}
+      >
+        <For each={options}>
+          {(option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          )}
+        </For>
+      </NativeSelect.Field>
+      <NativeSelect.Indicator />
+    </NativeSelect.Root>
   );
 };

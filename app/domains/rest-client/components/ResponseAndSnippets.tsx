@@ -21,8 +21,8 @@ export const ResponseAndSnippets = () => {
         </TabsContent>
         <TabsContent value="code-snippet">
           <Flex gap="3">
-            <Select options={TEMP_LANGUAGES} placeholder="Language" />
-            <Select options={TEMP_VARIANTS} placeholder="Variant" />
+            <Select options={TEMP_LANGUAGES} name="language" />
+            <Select options={TEMP_VARIANTS} name="variant" />
           </Flex>
         </TabsContent>
       </Tabs.Root>
