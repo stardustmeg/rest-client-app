@@ -1,8 +1,8 @@
 'use client';
 
 import { useConvexAuth } from 'convex/react';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRoutingActions } from '@/app/hooks/use-routing-actions';
 
 export function useAuth() {
   const { isLoading, isAuthenticated } = useConvexAuth();
@@ -16,26 +16,26 @@ export function useAuth() {
 
 export function useRequireAuth(redirectTo = '/sign-in') {
   const { isLoading, isAuthenticated } = useConvexAuth();
-  const router = useRouter();
+  const { navigateToPath } = useRoutingActions();
 
   useEffect(() => {
     if (!(isLoading || isAuthenticated)) {
-      router.push(redirectTo);
+      navigateToPath(redirectTo, { replace: true });
     }
-  }, [isLoading, isAuthenticated, redirectTo, router]);
+  }, [isLoading, isAuthenticated, redirectTo, navigateToPath]);
 
   return { isLoading, isAuthenticated };
 }
 
 export function useRedirectIfAuthenticated(redirectTo = '/') {
   const { isLoading, isAuthenticated } = useConvexAuth();
-  const router = useRouter();
+  const { navigateToPath } = useRoutingActions();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      router.push(redirectTo);
+      navigateToPath(redirectTo, { replace: true });
     }
-  }, [isLoading, isAuthenticated, redirectTo, router]);
+  }, [isLoading, isAuthenticated, redirectTo, navigateToPath]);
 
   return { isLoading, isAuthenticated };
 }
