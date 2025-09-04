@@ -3,18 +3,25 @@ import { Button, Fieldset, Stack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+
 import { Enabled } from '@/app/components/ui/Enabled';
 import { FormField } from '@/app/components/ui/FormField';
+import { useAuth } from '@/app/hooks/use-auth';
+import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
 import { createTranslatedSchema, type SignInFormType } from '@/app/types/form-schemas';
 
 export const SignInForm = () => {
-  const { success } = useToast();
+  const { success, error } = useToast();
+
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
   const tValidation = useTranslations('validation');
-  const { signInFormSchema } = createTranslatedSchema(tValidation);
 
+  const { signIn } = useAuthActions();
+  const { isLoading } = useAuth();
+
+  const { signInFormSchema } = createTranslatedSchema(tValidation);
   const {
     register,
     handleSubmit,
@@ -25,11 +32,15 @@ export const SignInForm = () => {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const onSubmit = () => success(tNotification('signInSuccess'));
+  const handleSignIn = (data: SignInFormType) => {
+    signIn(data)
+      .then(() => success(tNotification('signInSuccess')))
+      .catch(() => error(tNotification('authError')));
+  };
 
   return (
     <Enabled feature="signInForm">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handleSignIn)}>
         <Stack maxW="lg" w="full" mx="auto" p="8">
           <Fieldset.Root>
             <Fieldset.Legend fontSize="xl" fontWeight="bold">
@@ -42,7 +53,7 @@ export const SignInForm = () => {
             label={t('password')}
             register={register('password')}
           />
-          <Button w="full" disabled={!isValid || isSubmitting} type="submit">
+          <Button loading={isLoading} w="full" disabled={!isValid || isSubmitting} type="submit">
             {t('submit')}
           </Button>
         </Stack>
