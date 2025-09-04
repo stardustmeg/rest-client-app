@@ -5,7 +5,7 @@ export const httpRequestMethodAtom = atom('GET');
 
 export const requestEndpointAtom = atom('');
 
-export const requestHeadersAtom = atom<Header[]>([]);
+export const requestHeadersAtom = atom<Header[]>([{ key: '', value: '' }]);
 
 export const requestBodyAtom = atom('');
 
