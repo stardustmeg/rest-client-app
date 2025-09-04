@@ -10,7 +10,7 @@ const METHODS = [
 export const MethodSelector = () => {
   return (
     <NativeSelect.Root width="max-content">
-      <NativeSelect.Field width="max-content">
+      <NativeSelect.Field width="max-content" name="method">
         {METHODS.map((method) => (
           <option key={method.value} value={method.value}>
             {method.label}

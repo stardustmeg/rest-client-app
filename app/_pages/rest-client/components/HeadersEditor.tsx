@@ -46,6 +46,7 @@ export const HeadersEditor = () => {
         {(header, index) => (
           <Flex gap="2" key={index}>
             <Input
+              name="header-key"
               size="sm"
               type="text"
               value={header.key}
@@ -53,6 +54,7 @@ export const HeadersEditor = () => {
               onChange={(e) => handleChange('key', e.target.value, index)}
             />
             <Input
+              name="header-value"
               size="sm"
               type="text"
               value={header.value}

@@ -6,9 +6,10 @@ export interface BodyViewerProps {
   readOnly: boolean;
   title: string;
   type: BodyViewerContentType;
+  name?: string;
 }
 
-export const BodyViewer = ({ readOnly, title, type }: BodyViewerProps) => {
+export const BodyViewer = ({ readOnly, title, type, name }: BodyViewerProps) => {
   return (
     <Stack>
       <Flex align="center" justify="space-between" height="10">
@@ -19,7 +20,7 @@ export const BodyViewer = ({ readOnly, title, type }: BodyViewerProps) => {
           </Button>
         )}
       </Flex>
-      <Textarea height="full" resize="vertical" readOnly={readOnly} />
+      <Textarea height="full" resize="vertical" readOnly={readOnly} name={name} />
     </Stack>
   );
 };
