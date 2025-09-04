@@ -34,7 +34,6 @@ export default convexAuthNextjsMiddleware(
     return handleI18nRouting(request);
   },
   {
-    verbose: true,
     cookieConfig: { maxAge: MAX_COOKIE_LIFESPAN },
   },
 );
