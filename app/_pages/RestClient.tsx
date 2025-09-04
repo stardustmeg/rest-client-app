@@ -1,6 +1,15 @@
 'use client';
 
-import { Button, Flex, Input, NativeSelect, Tabs, TabsContent } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Input,
+  NativeSelect,
+  Stack,
+  Tabs,
+  TabsContent,
+  Textarea,
+} from '@chakra-ui/react';
 import type { FormEvent } from 'react';
 import { PageWrapper } from '../components/ui/PageWrapper';
 
@@ -10,6 +19,30 @@ const METHODS = [
   { value: 'PUT', label: 'PUT' },
   { value: 'DELETE', label: 'DELETE' },
 ];
+
+type BodyViewerContentType = 'json' | 'text';
+
+interface BodyViewerProps {
+  readOnly: boolean;
+  title: string;
+  type: BodyViewerContentType;
+}
+
+const BodyViewer = ({ readOnly, title, type }: BodyViewerProps) => {
+  return (
+    <Stack>
+      <Flex align="center" justify="space-between" height="10">
+        <p>{title}</p>
+        {type === 'json' && (
+          <Button size="xs" variant="ghost">
+            Format
+          </Button>
+        )}
+      </Flex>
+      <Textarea resize="vertical" readOnly={readOnly} />
+    </Stack>
+  );
+};
 
 export const RestClientPage = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -45,8 +78,12 @@ export const RestClientPage = () => {
                 <Tabs.Trigger value="json">JSON</Tabs.Trigger>
                 <Tabs.Trigger value="text">Text</Tabs.Trigger>
               </Tabs.List>
-              <TabsContent value="json">JeSon</TabsContent>
-              <TabsContent value="text">Plain text</TabsContent>
+              <TabsContent value="json">
+                <BodyViewer readOnly={false} title="JSON Content" type="json" />
+              </TabsContent>
+              <TabsContent value="text">
+                <BodyViewer readOnly={false} title="Text Content" type="text" />
+              </TabsContent>
             </Tabs.Root>
           </TabsContent>
         </Tabs.Root>
