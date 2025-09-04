@@ -1,49 +1,12 @@
 'use client';
 
-import {
-  Button,
-  Flex,
-  Input,
-  NativeSelect,
-  Separator,
-  Stack,
-  Tabs,
-  TabsContent,
-  Textarea,
-} from '@chakra-ui/react';
+import { Button, Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import type { FormEvent } from 'react';
-import { PageWrapper } from '../components/ui/PageWrapper';
-
-const METHODS = [
-  { value: 'GET', label: 'GET' },
-  { value: 'POST', label: 'POST' },
-  { value: 'PUT', label: 'PUT' },
-  { value: 'DELETE', label: 'DELETE' },
-];
-
-type BodyViewerContentType = 'json' | 'text';
-
-interface BodyViewerProps {
-  readOnly: boolean;
-  title: string;
-  type: BodyViewerContentType;
-}
-
-const BodyViewer = ({ readOnly, title, type }: BodyViewerProps) => {
-  return (
-    <Stack>
-      <Flex align="center" justify="space-between" height="10">
-        <p>{title}</p>
-        {type === 'json' && !readOnly && (
-          <Button size="xs" variant="ghost">
-            Format
-          </Button>
-        )}
-      </Flex>
-      <Textarea height="full" resize="vertical" readOnly={readOnly} />
-    </Stack>
-  );
-};
+import { PageWrapper } from '../../components/ui/PageWrapper';
+import { BodyViewer } from './components/BodyViewer';
+import { EndpointInput } from './components/EndpointInput';
+import { HeadersEditor } from './components/HeadersEditor';
+import { MethodSelector } from './components/MethodSelector';
 
 export const RestClientPage = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -55,17 +18,8 @@ export const RestClientPage = () => {
       <Flex gap="3">
         <form onSubmit={handleSubmit} className="w-full">
           <Flex gap="1">
-            <NativeSelect.Root width="max-content">
-              <NativeSelect.Field width="max-content">
-                {METHODS.map((method) => (
-                  <option key={method.value} value={method.value}>
-                    {method.label}
-                  </option>
-                ))}
-              </NativeSelect.Field>
-              <NativeSelect.Indicator />
-            </NativeSelect.Root>
-            <Input name="endpoint-url" placeholder="Endpoint url" />
+            <MethodSelector />
+            <EndpointInput />
             <Button type="submit">Send</Button>
           </Flex>
           <Tabs.Root defaultValue="headers">
@@ -73,7 +27,9 @@ export const RestClientPage = () => {
               <Tabs.Trigger value="headers">Headers</Tabs.Trigger>
               <Tabs.Trigger value="body">Body</Tabs.Trigger>
             </Tabs.List>
-            <TabsContent value="headers">headers</TabsContent>
+            <TabsContent value="headers">
+              <HeadersEditor />
+            </TabsContent>
             <TabsContent value="body">
               <Tabs.Root defaultValue="json">
                 <Tabs.List>
