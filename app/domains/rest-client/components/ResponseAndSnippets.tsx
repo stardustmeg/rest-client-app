@@ -2,15 +2,12 @@ import { Flex, Tabs, TabsContent } from '@chakra-ui/react';
 import { Select } from '@/app/components/ui/Select';
 import { TEMP_LANGUAGES, TEMP_VARIANTS } from '../constants';
 import { BodyViewer } from './BodyViewer';
+import { ResponseInformation } from './ResponseInformation';
 
 export const ResponseAndSnippets = () => {
   return (
     <div className="w-full">
-      <div>
-        <span>Status: </span>
-        <span>Size: </span>
-        <span>Time: </span>
-      </div>
+      <ResponseInformation />
       <Tabs.Root defaultValue="response">
         <Tabs.List>
           <Tabs.Trigger value="response">Response</Tabs.Trigger>
