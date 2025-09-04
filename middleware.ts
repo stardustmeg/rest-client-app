@@ -27,7 +27,9 @@ export default convexAuthNextjsMiddleware(
     if (isProtectedRoute(request) && !isAuthenticated) {
       const locale = getLocaleFromPath(request.nextUrl.pathname) || routing.defaultLocale;
       const redirectUrl = new URL(`/${locale}/sign-in`, request.nextUrl.origin);
+
       redirectUrl.searchParams.set('returnTo', request.nextUrl.pathname);
+
       return NextResponse.redirect(redirectUrl);
     }
 
