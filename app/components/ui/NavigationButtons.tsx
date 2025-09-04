@@ -21,7 +21,7 @@ export const NavigationButtons = async ({ type }: { type: ButtonListType }) => {
   const routesList = type === 'authButtons' ? authButtons : navigationButtons;
 
   return (
-    <Flex gap="4" flexDir={{ base: 'column', sm: 'row' }}>
+    <Flex gap="4" flexDir={{ base: 'column', md: 'row' }}>
       {routesList.map((route) => (
         <Link key={route.route} href={route.route} passHref>
           <Button
