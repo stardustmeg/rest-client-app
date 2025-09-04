@@ -1,26 +1,44 @@
-import { type NextRequest, NextResponse } from 'next/server';
+import { convexAuthNextjsMiddleware, createRouteMatcher } from '@convex-dev/auth/nextjs/server';
+import { NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
-import { routing } from '@/i18n/routing';
+import { type RoutingLocales, routing } from '@/i18n/routing';
 
-// Most likely PROTECTED_ROUTES and isProtectedRoute will not be needed and can be deleted.
-const PROTECTED_ROUTES = ['/rest-client', '/history-and-analytics', '/variables'];
+const DAYS = 30;
+const MAX_COOKIE_LIFESPAN = 60 * 60 * 24 * DAYS;
 
-function isProtectedRoute(request: NextRequest) {
-  return PROTECTED_ROUTES.some((route) => request.nextUrl.pathname.includes(route));
+const isProtectedRoute = createRouteMatcher([
+  '/:locale/rest-client(.*)',
+  '/:locale/history-and-analytics(.*)',
+  '/:locale/variables(.*)',
+]);
+
+function getLocaleFromPath(pathname: string): string | null {
+  const segments = pathname.split('/');
+  const possibleLocale = segments[1];
+  return routing.locales.includes(possibleLocale as RoutingLocales) ? possibleLocale : null;
 }
 
 const handleI18nRouting = createMiddleware(routing);
 
-const TEST_USER_LOGGED_IN = false;
+export default convexAuthNextjsMiddleware(
+  async (request, { convexAuth }) => {
+    const isAuthenticated = await convexAuth.isAuthenticated();
 
-export default function middleware(request: NextRequest) {
-  if (isProtectedRoute(request) && !TEST_USER_LOGGED_IN) {
-    return NextResponse.redirect(new URL('/sign-in', request.url));
-  }
+    if (isProtectedRoute(request) && !isAuthenticated) {
+      const locale = getLocaleFromPath(request.nextUrl.pathname) || routing.defaultLocale;
+      const redirectUrl = new URL(`/${locale}/sign-in`, request.nextUrl.origin);
+      redirectUrl.searchParams.set('returnTo', request.nextUrl.pathname);
+      return NextResponse.redirect(redirectUrl);
+    }
 
-  return handleI18nRouting(request);
-}
+    return handleI18nRouting(request);
+  },
+  {
+    verbose: true,
+    cookieConfig: { maxAge: MAX_COOKIE_LIFESPAN },
+  },
+);
 
 export const config = {
-  matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)',
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 };
