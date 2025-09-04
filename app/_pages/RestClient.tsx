@@ -5,6 +5,7 @@ import {
   Flex,
   Input,
   NativeSelect,
+  Separator,
   Stack,
   Tabs,
   TabsContent,
@@ -33,7 +34,7 @@ const BodyViewer = ({ readOnly, title, type }: BodyViewerProps) => {
     <Stack>
       <Flex align="center" justify="space-between" height="10">
         <p>{title}</p>
-        {type === 'json' && (
+        {type === 'json' && !readOnly && (
           <Button size="xs" variant="ghost">
             Format
           </Button>
@@ -51,43 +52,49 @@ export const RestClientPage = () => {
 
   return (
     <PageWrapper>
-      <form onSubmit={handleSubmit}>
-        <Flex gap="1">
-          <NativeSelect.Root width="max-content">
-            <NativeSelect.Field width="max-content">
-              {METHODS.map((method) => (
-                <option key={method.value} value={method.value}>
-                  {method.label}
-                </option>
-              ))}
-            </NativeSelect.Field>
-            <NativeSelect.Indicator />
-          </NativeSelect.Root>
-          <Input name="endpoint-url" placeholder="Endpoint url" />
-          <Button type="submit">Send</Button>
-        </Flex>
-        <Tabs.Root defaultValue="headers">
-          <Tabs.List>
-            <Tabs.Trigger value="headers">Headers</Tabs.Trigger>
-            <Tabs.Trigger value="body">Body</Tabs.Trigger>
-          </Tabs.List>
-          <TabsContent value="headers">headers</TabsContent>
-          <TabsContent value="body">
-            <Tabs.Root defaultValue="json">
-              <Tabs.List>
-                <Tabs.Trigger value="json">JSON</Tabs.Trigger>
-                <Tabs.Trigger value="text">Text</Tabs.Trigger>
-              </Tabs.List>
-              <TabsContent value="json">
-                <BodyViewer readOnly={false} title="JSON Content" type="json" />
-              </TabsContent>
-              <TabsContent value="text">
-                <BodyViewer readOnly={false} title="Text Content" type="text" />
-              </TabsContent>
-            </Tabs.Root>
-          </TabsContent>
-        </Tabs.Root>
-      </form>
+      <Flex gap="3">
+        <form onSubmit={handleSubmit}>
+          <Flex gap="1">
+            <NativeSelect.Root width="max-content">
+              <NativeSelect.Field width="max-content">
+                {METHODS.map((method) => (
+                  <option key={method.value} value={method.value}>
+                    {method.label}
+                  </option>
+                ))}
+              </NativeSelect.Field>
+              <NativeSelect.Indicator />
+            </NativeSelect.Root>
+            <Input name="endpoint-url" placeholder="Endpoint url" />
+            <Button type="submit">Send</Button>
+          </Flex>
+          <Tabs.Root defaultValue="headers">
+            <Tabs.List>
+              <Tabs.Trigger value="headers">Headers</Tabs.Trigger>
+              <Tabs.Trigger value="body">Body</Tabs.Trigger>
+            </Tabs.List>
+            <TabsContent value="headers">headers</TabsContent>
+            <TabsContent value="body">
+              <Tabs.Root defaultValue="json">
+                <Tabs.List>
+                  <Tabs.Trigger value="json">JSON</Tabs.Trigger>
+                  <Tabs.Trigger value="text">Text</Tabs.Trigger>
+                </Tabs.List>
+                <TabsContent value="json">
+                  <BodyViewer readOnly={false} title="JSON Content" type="json" />
+                </TabsContent>
+                <TabsContent value="text">
+                  <BodyViewer readOnly={false} title="Text Content" type="text" />
+                </TabsContent>
+              </Tabs.Root>
+            </TabsContent>
+          </Tabs.Root>
+        </form>
+        <Separator orientation="vertical" />
+        <div>
+          <BodyViewer readOnly={true} title="Response" type="json" />
+        </div>
+      </Flex>
     </PageWrapper>
   );
 };
