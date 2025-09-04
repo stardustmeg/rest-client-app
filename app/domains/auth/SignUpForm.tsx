@@ -30,11 +30,10 @@ export const SignUpForm = () => {
     resolver: zodResolver(signUpFormSchema),
   });
 
-  const handleSignUp = (data: SignUpFormType) => {
+  const handleSignUp = (data: SignUpFormType) =>
     signUp(data)
       .then(() => success(tNotification('signUpSuccess')))
       .catch(() => error(tNotification('authError')));
-  };
 
   return (
     <form onSubmit={handleSubmit(handleSignUp)}>

@@ -30,11 +30,10 @@ export const SignInForm = () => {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const handleSignIn = (data: SignInFormType) => {
+  const handleSignIn = (data: SignInFormType) =>
     signIn(data)
       .then(() => success(tNotification('signInSuccess')))
       .catch(() => error(tNotification('authError')));
-  };
 
   return (
     <form onSubmit={handleSubmit(handleSignIn)}>
