@@ -4,33 +4,34 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { FormField } from '@/app/components/ui/FormField';
+import { type SignInFormType, signInFormSchema } from '@/app/domains/auth/form-schemas';
+import { getValidationError } from '@/app/domains/auth/get-validation-error';
 import { useToast } from '@/app/hooks/use-toast';
-import { type SignUpFormType, signUpFormSchema } from '@/app/types/form-schemas';
-import { getValidationError } from '@/app/utils/get-validation-error';
 
-export const SignUpForm = () => {
+export const SignInForm = () => {
   const { success } = useToast();
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
   const tValidation = useTranslations('validation');
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<SignUpFormType>({
+  } = useForm<SignInFormType>({
     mode: 'onChange',
     reValidateMode: 'onChange',
-    resolver: zodResolver(signUpFormSchema),
+    resolver: zodResolver(signInFormSchema),
   });
 
-  const onSubmit = () => success(tNotification('signUpSuccess'));
+  const onSubmit = () => success(tNotification('signInSuccess'));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack maxW="lg" w="full" mx="auto" p="8">
         <Fieldset.Root>
           <Fieldset.Legend fontSize="xl" fontWeight="bold">
-            {t('signUpTitle')}
+            {t('signInTitle')}
           </Fieldset.Legend>
         </Fieldset.Root>
         <FormField
@@ -42,11 +43,6 @@ export const SignUpForm = () => {
           error={getValidationError(tValidation, errors.password?.message)}
           label={t('password')}
           {...register('password')}
-        />
-        <FormField
-          error={getValidationError(tValidation, errors.confirmPassword?.message)}
-          label={t('confirmPassword')}
-          {...register('confirmPassword')}
         />
         <Button w="full" disabled={!isValid || isSubmitting} type="submit">
           {t('submit')}

@@ -9,17 +9,13 @@ import {
   setupTranslationMocks,
 } from '@/app/__tests__/__mocks__/mock-setup';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
-import { SignInForm } from '@/app/components/SignInForm';
+import { SignUpForm } from '@/app/domains/auth/SignUpForm';
 
-describe('SignInForm', () => {
+describe('SignUpForm', () => {
   let mockRegister: ReturnType<typeof vi.fn>;
   let mockHandleSubmit: ReturnType<typeof vi.fn>;
   let mockTrigger: ReturnType<typeof vi.fn>;
-  let mockFormState: {
-    errors: Record<string, { message?: string }>;
-    isValid: boolean;
-    isSubmitting: boolean;
-  };
+  let mockFormState: { errors: Record<string, unknown>; isValid: boolean; isSubmitting: boolean };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -31,9 +27,10 @@ describe('SignInForm', () => {
     mockFormState = mocks.mockFormState;
 
     setupTranslationMocks({
-      signInTitle: 'Sign In',
+      signUpTitle: 'Sign Up',
       email: 'Email',
       password: 'Password',
+      confirmPassword: 'Confirm Password',
       submit: 'Submit',
     });
   });
@@ -41,25 +38,27 @@ describe('SignInForm', () => {
   it('should render the form with all fields', () => {
     render(
       <TestProviders>
-        <SignInForm />
+        <SignUpForm />
       </TestProviders>,
     );
 
-    expect(screen.getByText('Sign In')).toBeInTheDocument();
+    expect(screen.getByText('Sign Up')).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Password' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Confirm Password' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 
   it('should render form fields with correct register props', () => {
     render(
       <TestProviders>
-        <SignInForm />
+        <SignUpForm />
       </TestProviders>,
     );
 
     expect(mockRegister).toHaveBeenCalledWith('email');
     expect(mockRegister).toHaveBeenCalledWith('password');
+    expect(mockRegister).toHaveBeenCalledWith('confirmPassword');
   });
 
   it('should disable submit button form is invalid', () => {
@@ -75,7 +74,7 @@ describe('SignInForm', () => {
 
     render(
       <TestProviders>
-        <SignInForm />
+        <SignUpForm />
       </TestProviders>,
     );
 
@@ -96,7 +95,7 @@ describe('SignInForm', () => {
 
     render(
       <TestProviders>
-        <SignInForm />
+        <SignUpForm />
       </TestProviders>,
     );
 
@@ -104,10 +103,10 @@ describe('SignInForm', () => {
     expect(submitButton).toBeDisabled();
   });
 
-  it('should enables submit button when form is valid and not submitting', () => {
+  it('should enable submit button when form is valid and not submitting', () => {
     render(
       <TestProviders>
-        <SignInForm />
+        <SignUpForm />
       </TestProviders>,
     );
 
@@ -118,7 +117,7 @@ describe('SignInForm', () => {
   it('should call toaster on form submission', async () => {
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <SignInForm />
+        <SignUpForm />
       </TestProviders>,
     );
 
@@ -126,7 +125,7 @@ describe('SignInForm', () => {
     await user.click(submitButton);
 
     expect(mockHandleSubmit).toHaveBeenCalled();
-    expect(mockSuccess).toHaveBeenCalledWith('signInSuccess');
+    expect(mockSuccess).toHaveBeenCalledWith('signUpSuccess');
   });
 
   it('should handle form validation errors', () => {
@@ -146,10 +145,10 @@ describe('SignInForm', () => {
 
     render(
       <TestProviders>
-        <SignInForm />
+        <SignUpForm />
       </TestProviders>,
     );
 
-    expect(screen.getByText('Sign In')).toBeInTheDocument();
+    expect(screen.getByText('Sign Up')).toBeInTheDocument();
   });
 });
