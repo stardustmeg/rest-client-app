@@ -1,18 +1,16 @@
 import { Box, Field, Input } from '@chakra-ui/react';
-import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
+import type { ComponentProps } from 'react';
 
-interface FormFieldProps {
-  error?: FieldError;
-  register: UseFormRegisterReturn;
+interface FormFieldProps extends Omit<ComponentProps<typeof Input>, 'children'> {
+  error?: string;
   label: string;
 }
-
-export const FormField = ({ error, register, label }: FormFieldProps) => (
+export const FormField = ({ error, label, ...rest }: FormFieldProps) => (
   <Field.Root invalid={!!error}>
     <Field.Label>{label}</Field.Label>
-    <Input variant="subtle" {...register} />
+    <Input variant="subtle" {...rest} />
     <Box minH="6">
-      {error ? <Field.ErrorText data-testid="error-field">{error.message}</Field.ErrorText> : ' '}
+      {error ? <Field.ErrorText data-testid="error-field">{error}</Field.ErrorText> : ' '}
     </Box>
   </Field.Root>
 );

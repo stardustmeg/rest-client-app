@@ -2,9 +2,8 @@
 
 import { useAuthActions as useConvexAuthActions } from '@convex-dev/auth/react';
 import { useSearchParams } from 'next/navigation';
+import type { SignInFormType, SignUpFormType } from '@/app/domains/auth/form-schemas';
 import { useRoutingActions } from '@/app/hooks/use-routing-actions';
-
-import type { SignInFormType, SignUpFormType } from '@/app/types/form-schemas';
 
 export function useAuthActions() {
   const { signIn: convexSignIn, signOut: convexSignOut } = useConvexAuthActions();
