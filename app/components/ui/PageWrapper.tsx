@@ -1,10 +1,8 @@
-import { Box, Container, Flex } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 
-export const PageWrapper = ({ children, size = 'lg' }: { children: ReactNode; size?: string }) => (
-  <Flex minH="100vh" align="center" justify="center" p="4">
-    <Container maxW={size} w="full">
-      <Box w="full">{children}</Box>
-    </Container>
-  </Flex>
+export const PageWrapper = ({ children }: { children: ReactNode }) => (
+  <Container fluid maxW="1400px">
+    {children}
+  </Container>
 );

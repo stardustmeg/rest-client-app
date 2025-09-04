@@ -53,7 +53,7 @@ export const RestClientPage = () => {
   return (
     <PageWrapper>
       <Flex gap="3">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="w-full">
           <Flex gap="1">
             <NativeSelect.Root width="max-content">
               <NativeSelect.Field width="max-content">
@@ -91,7 +91,7 @@ export const RestClientPage = () => {
           </Tabs.Root>
         </form>
         <Separator orientation="vertical" />
-        <div>
+        <div className="w-full">
           <BodyViewer readOnly={true} title="Response" type="json" />
         </div>
       </Flex>
