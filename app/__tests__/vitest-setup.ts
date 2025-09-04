@@ -7,11 +7,18 @@ import { server } from './server/index.js';
 
 vi.mock('next-intl', async (importOriginal) => {
   const actual = await importOriginal<typeof import('next-intl')>();
-
   return {
     ...actual,
     useTranslations: vi.fn(() => (key: string) => key),
     useLocale: vi.fn(),
+  };
+});
+
+vi.mock('next-intl/server', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('next-intl/server')>();
+  return {
+    ...actual,
+    getTranslations: vi.fn(async () => (key: string) => key),
   };
 });
 
