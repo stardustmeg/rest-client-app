@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { FormField } from '@/app/components/ui/FormField';
 import { useToast } from '@/app/hooks/use-toast';
-import { type SignUpFormType, signUpFormSchema } from './form-schemas';
-import { getValidationError } from './get-validation-error';
+import { type SignUpFormType, signUpFormSchema } from '@/app/types/form-schemas';
+import { getValidationError } from '@/app/utils/get-validation-error';
 
 export const SignUpForm = () => {
   const { success } = useToast();
