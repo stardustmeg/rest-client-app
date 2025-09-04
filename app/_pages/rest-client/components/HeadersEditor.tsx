@@ -4,13 +4,15 @@ import { Button, Flex, For, Input, Stack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BsXLg } from 'react-icons/bs';
 
+const DEFAULT_HEADERS: Header[] = [{ key: '', value: '' }];
+
 export interface Header {
   key: string;
   value: string;
 }
 
 export const HeadersEditor = () => {
-  const [headers, setHeaders] = useState<Header[]>([{ key: '', value: '' }]);
+  const [headers, setHeaders] = useState<Header[]>(DEFAULT_HEADERS);
 
   const handleChange = (key: keyof Header, value: string, index: number) => {
     const newHeaders = [...headers];
@@ -21,12 +23,25 @@ export const HeadersEditor = () => {
     const isRowFilled = newHeaders[index].key !== '' || newHeaders[index].value !== '';
 
     if (isLastRow && isRowFilled) {
-      setHeaders([...newHeaders, { key: '', value: '' }]);
+      setHeaders((prev) => [...prev, { key: '', value: '' }]);
     }
+  };
+
+  const addHeader = () => {
+    setHeaders([{ key: '', value: '' }]);
+  };
+
+  const deleteHeader = (index: number) => {
+    setHeaders((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
     <Stack>
+      {headers.length === 0 && (
+        <Button type="button" size="sm" width="max-content" onClick={addHeader}>
+          Add header
+        </Button>
+      )}
       <For each={headers}>
         {(header, index) => (
           <Flex gap="2" key={index}>
@@ -44,11 +59,7 @@ export const HeadersEditor = () => {
               placeholder="value"
               onChange={(e) => handleChange('value', e.target.value, index)}
             />
-            <Button
-              variant="subtle"
-              size="sm"
-              onClick={() => setHeaders(headers.filter((_, i) => i !== index))}
-            >
+            <Button variant="subtle" size="sm" onClick={() => deleteHeader(index)}>
               <BsXLg />
             </Button>
           </Flex>
