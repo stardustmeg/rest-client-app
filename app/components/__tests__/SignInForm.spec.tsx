@@ -11,16 +11,6 @@ import {
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { SignInForm } from '@/app/components/SignInForm';
 
-vi.mock('@/app/utils/get-validation-error', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/app/utils/get-validation-error')>();
-  return {
-    ...actual,
-    getValidationError: vi.fn((tValidation, message) =>
-      message ? tValidation(message) : undefined,
-    ),
-  };
-});
-
 describe('SignInForm', () => {
   let mockRegister: ReturnType<typeof vi.fn>;
   let mockHandleSubmit: ReturnType<typeof vi.fn>;

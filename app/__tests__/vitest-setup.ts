@@ -15,6 +15,14 @@ vi.mock('next-intl', async (importOriginal) => {
   };
 });
 
+vi.mock('@/app/utils/get-validation-error', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/app/utils/get-validation-error')>();
+  return {
+    ...actual,
+    getValidationError: vi.fn((tValidation, message) => (message ? tValidation(message) : '')),
+  };
+});
+
 global.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}
