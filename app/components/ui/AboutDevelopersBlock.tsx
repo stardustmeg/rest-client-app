@@ -1,9 +1,5 @@
 import { Avatar, Box, Heading, SimpleGrid, Text, VStack } from '@chakra-ui/react';
-import type { useTranslations } from 'next-intl';
-
-interface AboutDevelopersBlockProps {
-  tFunction: ReturnType<typeof useTranslations>;
-}
+import { getTranslations } from 'next-intl/server';
 
 const infoSection = [
   {
@@ -26,34 +22,38 @@ const infoSection = [
   },
 ] as const;
 
-export const AboutDevelopersBlock = ({ tFunction }: AboutDevelopersBlockProps) => (
-  <SimpleGrid columns={{ base: 1, md: 3 }} gap="8" w="full">
-    {infoSection.map((item) => (
-      <Box
-        key={item.author}
-        p="8"
-        borderRadius="2xl"
-        borderWidth="1px"
-        shadow="md"
-        backdropFilter="blur(50px)"
-        textAlign="center"
-      >
-        <VStack gap="4">
-          <Avatar.Root size="xl">
-            <Avatar.Fallback name={tFunction(item.author)} />
-            <Avatar.Image src={item.avatar} />
-          </Avatar.Root>
-          <Heading as="h3" size="xl" color="pink.600">
-            {tFunction(item.author)}
-          </Heading>
-          <Text fontWeight="semibold" color="teal.500">
-            {tFunction(item.role)}
-          </Text>
-          <Text fontSize="md" opacity="0.8">
-            {tFunction(item.description)}
-          </Text>
-        </VStack>
-      </Box>
-    ))}
-  </SimpleGrid>
-);
+export const AboutDevelopersBlock = async () => {
+  const t = await getTranslations('MainPage');
+
+  return (
+    <SimpleGrid columns={{ base: 1, md: 3 }} gap="8" w="full">
+      {infoSection.map((item) => (
+        <Box
+          key={item.author}
+          p="8"
+          borderRadius="2xl"
+          borderWidth="1px"
+          shadow="md"
+          backdropFilter="blur(50px)"
+          textAlign="center"
+        >
+          <VStack gap="4">
+            <Avatar.Root size="xl">
+              <Avatar.Fallback name={t(item.author)} />
+              <Avatar.Image src={item.avatar} />
+            </Avatar.Root>
+            <Heading as="h3" size="xl" color="pink.600">
+              {t(item.author)}
+            </Heading>
+            <Text fontWeight="semibold" color="teal.500">
+              {t(item.role)}
+            </Text>
+            <Text fontSize="md" opacity="0.8">
+              {t(item.description)}
+            </Text>
+          </VStack>
+        </Box>
+      ))}
+    </SimpleGrid>
+  );
+};
