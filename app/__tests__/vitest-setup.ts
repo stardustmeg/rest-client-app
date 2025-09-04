@@ -16,7 +16,7 @@ vi.mock('next-intl', async (importOriginal) => {
 });
 
 vi.mock('@/app/utils/get-validation-error', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/app/utils/get-validation-error')>();
+  const actual = await importOriginal<typeof import('@/app/domains/auth/get-validation-error')>();
   return {
     ...actual,
     getValidationError: vi.fn((tValidation, message) => (message ? tValidation(message) : '')),
