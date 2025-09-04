@@ -11,7 +11,7 @@ function isProtectedRoute(request: NextRequest) {
 
 const handleI18nRouting = createMiddleware(routing);
 
-const TEST_USER_LOGGED_IN = false;
+const TEST_USER_LOGGED_IN = true;
 
 export default function middleware(request: NextRequest) {
   if (isProtectedRoute(request) && !TEST_USER_LOGGED_IN) {
