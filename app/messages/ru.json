@@ -25,6 +25,8 @@
     "jp": "Японский"
   },
   "validation": {
+    "usernameRequired": "Имя пользователя не может быть пустым",
+    "usernameLetterRequired": "Имя пользователя должно содержать хотя бы одну латинскую букву (A-Z)",
     "emailRequired": "Email не может быть пустым",
     "emailNoWhitespace": "Email не должен содержать пробелов",
     "emailMustContainAt": "Email должен содержать символ '@'",
