@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, Flex, Stack, Textarea } from '@chakra-ui/react';
 
 export type BodyViewerContentType = 'json' | 'text';
