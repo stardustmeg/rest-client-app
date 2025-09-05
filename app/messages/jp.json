@@ -62,8 +62,9 @@
     "notFound": "404 - 見つかりません",
     "signOut": "サインアウト"
   },
-  "MainPage": {
+  "main-page": {
     "title": "REST Clientへようこそ！",
+    "authenticatedTitle": "おかえりなさい、{username}さん！ 👋",
     "signIn": "サインイン",
     "signUp": "サインアップ",
     "features": {
@@ -96,6 +97,10 @@
         "role": "開発者",
         "description": "こんにちは。私はコードをリリースしてすぐに嫌いになる開発者です。動くには動くけど…もう一度書き直したらどうだろう？"
       }
+    },
+    "course": {
+      "description": "このプロジェクトはReactコースの一環として開発されました",
+      "school": "Rolling Scopes School"
     }
   }
 }

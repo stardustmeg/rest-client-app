@@ -1,6 +1,8 @@
-import { Button, Flex } from '@chakra-ui/react';
-import { getTranslations } from 'next-intl/server';
+'use client';
+import { Button, Flex, Skeleton } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
 import { routes } from '@/app/[locale]/routes';
+import { useAuth } from '@/app/hooks/use-auth';
 import { Link } from '@/i18n/routing';
 
 const authButtons = [
@@ -16,26 +18,30 @@ const navigationButtons = [
 
 export type ButtonListType = 'authButtons' | 'navigationButtons';
 
-export const NavigationButtons = async ({ type }: { type: ButtonListType }) => {
-  const t = await getTranslations('navigation');
-  const routesList = type === 'authButtons' ? authButtons : navigationButtons;
+export const NavigationButtons = () => {
+  const t = useTranslations('navigation');
+  const { isAuthenticated, isLoading } = useAuth();
+
+  const routesList = isAuthenticated ? navigationButtons : authButtons;
 
   return (
-    <Flex gap="4" flexDir={{ base: 'column', md: 'row' }}>
-      {routesList.map((route) => (
-        <Link key={route.route} href={route.route} passHref>
-          <Button
-            size="lg"
-            px="8"
-            borderRadius="xl"
-            fontWeight="semibold"
-            shadow="md"
-            transition="all 0.2s"
-          >
-            {t(route.title)}
-          </Button>
-        </Link>
-      ))}
-    </Flex>
+    <Skeleton minH="64px" h="auto" w="full" maxW="600px" maxH="164px" loading={isLoading}>
+      <Flex gap="4" justifyContent="center" flexDir={{ base: 'column', md: 'row' }}>
+        {routesList.map((route) => (
+          <Link key={route.route} href={route.route} passHref>
+            <Button
+              size="lg"
+              px="8"
+              borderRadius="xl"
+              fontWeight="semibold"
+              shadow="md"
+              transition="all 0.2s"
+            >
+              {t(route.title)}
+            </Button>
+          </Link>
+        ))}
+      </Flex>
+    </Skeleton>
   );
 };
