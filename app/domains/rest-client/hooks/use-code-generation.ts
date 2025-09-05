@@ -21,20 +21,18 @@ export function useCodeGeneration(): UseCodeGenerationReturn {
   const [variants, setVariants] = useState<SelectOption[]>([]);
 
   const setLanguage = useCallback(
-    (value: string) => {
-      const selectedLang = languageList.find((lang) => lang.key === value);
+    (key: string) => {
+      const selectedLang = findLanguageByKey(languageList, key);
+
+      if (!selectedLang) {
+        return;
+      }
+
       setVariants(getVariantOptions(selectedLang));
-      setLanguageAtom(value);
-      setVariantAtom(selectedLang?.variants[0].key ?? '');
+      setLanguageAtom(key);
+      setVariantAtom(selectedLang.variants[0].key);
     },
     [languageList, setVariantAtom, setLanguageAtom],
-  );
-
-  const setVariant = useCallback(
-    (value: string) => {
-      setVariantAtom(value);
-    },
-    [setVariantAtom],
   );
 
   useEffect(() => {
@@ -43,14 +41,14 @@ export function useCodeGeneration(): UseCodeGenerationReturn {
       setLanguages(getLanguageOptions(list));
 
       const initialLang = list[0];
-      setVariants(getVariantOptions(initialLang));
 
+      setVariants(getVariantOptions(initialLang));
       setLanguageAtom(initialLang.key);
       setVariantAtom(initialLang.variants[0].key);
     });
   }, [setLanguageAtom, setVariantAtom]);
 
-  return { languages, variants, setVariant, setLanguage } as const;
+  return { languages, variants, setVariant: setVariantAtom, setLanguage } as const;
 }
 
 function getLanguageOptions(languageList: CodeGenLanguage[]): SelectOption[] {
@@ -63,4 +61,8 @@ function getVariantOptions(language?: CodeGenLanguage): SelectOption[] {
   }
 
   return language.variants.map((variant) => ({ value: variant.key, label: variant.key }));
+}
+
+function findLanguageByKey(languages: CodeGenLanguage[], key: string): CodeGenLanguage | undefined {
+  return languages.find((lang) => lang.key === key);
 }
