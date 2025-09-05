@@ -1,6 +1,7 @@
 import { convexAuthNextjsMiddleware, createRouteMatcher } from '@convex-dev/auth/nextjs/server';
 import { NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
+import { routes } from '@/app/[locale]/routes';
 import { type RoutingLocales, routing } from '@/i18n/routing';
 
 const DAYS = 30;
@@ -22,6 +23,17 @@ function getLocaleFromPath(pathname: string): string | null {
   return routing.locales.includes(possibleLocale as RoutingLocales) ? possibleLocale : null;
 }
 
+function createRedirectUrl(request: Request, path: string, returnTo?: string): URL {
+  const locale = getLocaleFromPath(request.url) || routing.defaultLocale;
+  const redirectUrl = new URL(`/${locale}${path}`, request.url);
+
+  if (returnTo) {
+    redirectUrl.searchParams.set('returnTo', returnTo);
+  }
+
+  return redirectUrl;
+}
+
 const handleI18nRouting = createMiddleware(routing);
 
 export default convexAuthNextjsMiddleware(
@@ -29,17 +41,12 @@ export default convexAuthNextjsMiddleware(
     const isAuthenticated = await convexAuth.isAuthenticated();
 
     if (isAuthRoute(request) && isAuthenticated) {
-      const locale = getLocaleFromPath(request.nextUrl.pathname) || routing.defaultLocale;
-      const redirectUrl = new URL(`/${locale}/`, request.nextUrl.origin);
+      const redirectUrl = createRedirectUrl(request, routes.main.path);
       return NextResponse.redirect(redirectUrl);
     }
 
     if (isProtectedRoute(request) && !isAuthenticated) {
-      const locale = getLocaleFromPath(request.nextUrl.pathname) || routing.defaultLocale;
-      const redirectUrl = new URL(`/${locale}/sign-in`, request.nextUrl.origin);
-
-      redirectUrl.searchParams.set('returnTo', request.nextUrl.pathname);
-
+      const redirectUrl = createRedirectUrl(request, routes.signIn.path, request.nextUrl.pathname);
       return NextResponse.redirect(redirectUrl);
     }
 
