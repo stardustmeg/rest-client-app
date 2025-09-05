@@ -62,8 +62,9 @@
     "notFound": "404",
     "signOut": "Sign Out"
   },
-  "MainPage": {
+  "main-page": {
     "title": "Welcome to REST Client!",
+    "authenticatedTitle": "Welcome back, {username}! 👋",
     "signIn": "Sign In",
     "signUp": "Sign Up",
     "features": {
@@ -96,6 +97,10 @@
         "role": "Developer",
         "description": "Hi, I'm the dev who ships code then immediately hates it. It works... but what if I rewrite it just one more time?"
       }
+    },
+    "course": {
+      "description": "This project was developed as part of the React course",
+      "school": "Rolling Scopes School"
     }
   }
 }

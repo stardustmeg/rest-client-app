@@ -17,7 +17,7 @@ const infoSection = [
 ] as const;
 
 export const AboutProjectBlock = async () => {
-  const t = await getTranslations('MainPage');
+  const t = await getTranslations('main-page');
 
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap="8" w="full" textAlign="left">

@@ -12,8 +12,8 @@ vi.mock('@/i18n/routing', () => ({
 describe('NavigationButtons (server)', () => {
   const types: ButtonListType[] = ['authButtons', 'navigationButtons'];
 
-  it.each(types)('renders all %s buttons', async (type) => {
-    const element = await NavigationButtons({ type });
+  it.each(types)('renders all %s buttons', () => {
+    const element = NavigationButtons();
 
     const html = renderToStaticMarkup(<TestProviders>{element}</TestProviders>);
 
