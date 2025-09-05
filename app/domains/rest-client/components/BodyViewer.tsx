@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, Flex, Stack, Textarea } from '@chakra-ui/react';
 
 export type BodyViewerContentType = 'json' | 'text';
@@ -7,9 +9,10 @@ export interface BodyViewerProps {
   title: string;
   type: BodyViewerContentType;
   name?: string;
+  onChange?(value: string): void;
 }
 
-export const BodyViewer = ({ readOnly, title, type, name }: BodyViewerProps) => {
+export const BodyViewer = ({ readOnly, title, type, name, onChange }: BodyViewerProps) => {
   return (
     <Stack>
       <Flex align="center" justify="space-between" height="10">
@@ -20,7 +23,13 @@ export const BodyViewer = ({ readOnly, title, type, name }: BodyViewerProps) => 
           </Button>
         )}
       </Flex>
-      <Textarea height="full" resize="vertical" readOnly={readOnly} name={name} />
+      <Textarea
+        height="full"
+        resize="vertical"
+        readOnly={readOnly}
+        name={name}
+        onChange={(e) => onChange?.(e.target.value)}
+      />
     </Stack>
   );
 };

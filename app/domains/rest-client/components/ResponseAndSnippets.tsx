@@ -1,6 +1,9 @@
 import { Flex, Tabs, TabsContent } from '@chakra-ui/react';
 import { Select } from '@/app/components/ui/Select';
-import { TEMP_LANGUAGES, TEMP_VARIANTS } from '../constants';
+import {
+  TEMPORARY_LANGUAGES_SELECT_OPTIONS,
+  TEMPORARY_VARIANTS_SELECT_OPTIONS,
+} from '../constants';
 import { BodyViewer } from './BodyViewer';
 
 export const ResponseAndSnippets = () => {
@@ -21,8 +24,8 @@ export const ResponseAndSnippets = () => {
         </TabsContent>
         <TabsContent value="code-snippet">
           <Flex gap="3">
-            <Select options={TEMP_LANGUAGES} name="language" />
-            <Select options={TEMP_VARIANTS} name="variant" />
+            <Select options={TEMPORARY_LANGUAGES_SELECT_OPTIONS} name="language" />
+            <Select options={TEMPORARY_VARIANTS_SELECT_OPTIONS} name="variant" />
           </Flex>
         </TabsContent>
       </Tabs.Root>

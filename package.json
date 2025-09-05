@@ -26,6 +26,7 @@
     "@emotion/react": "^11.14.0",
     "@hookform/resolvers": "^5.2.1",
     "clsx-for-tailwind": "^1.0.0",
+    "jotai": "^2.13.1",
     "convex": "^1.26.2",
     "next": "15.5.2",
     "next-intl": "^4.3.5",

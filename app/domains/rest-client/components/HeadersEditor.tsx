@@ -1,10 +1,9 @@
 'use client';
 
 import { Button, Flex, For, Input, Stack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
 import { BsXLg } from 'react-icons/bs';
-
-const DEFAULT_HEADERS: Header[] = [{ key: '', value: '' }];
+import { requestHeadersAtom } from '../atoms';
 
 export interface Header {
   key: string;
@@ -12,7 +11,7 @@ export interface Header {
 }
 
 export const HeadersEditor = () => {
-  const [headers, setHeaders] = useState<Header[]>(DEFAULT_HEADERS);
+  const [headers, setHeaders] = useAtom(requestHeadersAtom);
 
   const handleChange = (key: keyof Header, value: string, index: number) => {
     const newHeaders = [...headers];
@@ -46,7 +45,7 @@ export const HeadersEditor = () => {
         {(header, index) => (
           <Flex gap="2" key={index}>
             <Input
-              name="header-key"
+              name={`header-key-${index}`}
               size="sm"
               type="text"
               value={header.key}
@@ -54,7 +53,7 @@ export const HeadersEditor = () => {
               onChange={(e) => handleChange('key', e.target.value, index)}
             />
             <Input
-              name="header-value"
+              name={`header-value-${index}`}
               size="sm"
               type="text"
               value={header.value}

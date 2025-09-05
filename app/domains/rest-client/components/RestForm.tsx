@@ -1,24 +1,57 @@
 'use client';
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
-import type { FormEvent } from 'react';
+import { useSetAtom, useStore } from 'jotai';
+import type { ChangeEvent, FormEvent } from 'react';
 import { Select } from '@/app/components/ui/Select';
-import { TEMP_METHODS } from '../constants';
+import {
+  httpRequestMethodAtom,
+  requestBodyAtom,
+  requestEndpointAtom,
+  requestHeadersAtom,
+} from '../atoms';
+import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
 import { BodyViewer } from './BodyViewer';
 import { HeadersEditor } from './HeadersEditor';
 
 export const RestForm = () => {
+  const store = useStore();
+
+  const setEndpoint = useSetAtom(requestEndpointAtom);
+  const setHttpMethod = useSetAtom(httpRequestMethodAtom);
+  const setRequestBody = useSetAtom(requestBodyAtom);
+
+  const handleMethodChange = (v: string) => {
+    setHttpMethod(v);
+  };
+
+  const handleEndpointChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEndpoint(event.target.value);
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // biome-ignore lint/suspicious/noConsole: <Because i can!>
-    console.log(Object.fromEntries(data));
+
+    const formData = {
+      method: store.get(httpRequestMethodAtom),
+      endpoint: store.get(requestEndpointAtom),
+      headers: store.get(requestHeadersAtom),
+      body: store.get(requestBodyAtom),
+    };
+
+    // biome-ignore lint/suspicious/noConsole: <ya ya ya>
+    console.log(formData);
   };
+
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <Flex gap="1">
-        <Select options={TEMP_METHODS} name="method" />
-        <Input name="endpoint" placeholder="Endpoint" />
+        <Select
+          onValueChange={handleMethodChange}
+          options={TEMPORARY_METHOD_SELECT_OPTIONS}
+          name="method"
+        />
+        <Input name="endpoint" placeholder="Endpoint" onChange={handleEndpointChange} />
         <Button type="submit">Send</Button>
       </Flex>
       <Tabs.Root defaultValue="headers">
@@ -36,10 +69,20 @@ export const RestForm = () => {
               <Tabs.Trigger value="text">Text</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="json">
-              <BodyViewer readOnly={false} title="JSON Content" type="json" />
+              <BodyViewer
+                readOnly={false}
+                title="JSON Content"
+                type="json"
+                onChange={setRequestBody}
+              />
             </TabsContent>
             <TabsContent value="text">
-              <BodyViewer readOnly={false} title="Text Content" type="text" />
+              <BodyViewer
+                readOnly={false}
+                title="Text Content"
+                type="text"
+                onChange={setRequestBody}
+              />
             </TabsContent>
           </Tabs.Root>
         </TabsContent>

@@ -1,3 +1,5 @@
+'use client';
+
 import { For, NativeSelect } from '@chakra-ui/react';
 
 export interface SelectOption {
