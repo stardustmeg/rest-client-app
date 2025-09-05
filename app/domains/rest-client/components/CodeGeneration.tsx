@@ -2,10 +2,10 @@
 
 import { Flex } from '@chakra-ui/react';
 import { Select } from '@/app/components/ui/Select';
-import { useCodeGeneration } from '../hooks/use-code-generation';
+import { useCodeGenSelection } from '../hooks/use-code-gen-selection';
 
 export const CodeGeneration = () => {
-  const { languages, variants, setLanguage, setVariant } = useCodeGeneration();
+  const { languages, variants, setLanguage, setVariant } = useCodeGenSelection();
 
   return (
     <div>

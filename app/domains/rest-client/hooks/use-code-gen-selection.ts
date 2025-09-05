@@ -5,14 +5,14 @@ import type { SelectOption } from '@/app/components/ui/Select';
 import { getLanguageList } from '@/app/server-actions/server-actions';
 import { codeGenLanguageAtom, codeGenVariantAtom } from '../atoms';
 
-interface UseCodeGenerationReturn {
+interface UseCodeGenSelectionReturn {
   languages: SelectOption[];
   variants: SelectOption[];
   setLanguage: (value: string) => void;
   setVariant: (value: string) => void;
 }
 
-export function useCodeGeneration(): UseCodeGenerationReturn {
+export function useCodeGenSelection(): UseCodeGenSelectionReturn {
   const setLanguageAtom = useSetAtom(codeGenLanguageAtom);
   const setVariantAtom = useSetAtom(codeGenVariantAtom);
 
