@@ -21,8 +21,8 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-4 right-4 z-10 flex flex-col gap-2">
-      <div className="flex">
+    <header className="!mb-10 sticky top-0 z-10 flex flex-col gap-2 align-center">
+      <div className="flex justify-center">
         <Navigation />
         <LanguageSelect />
 
