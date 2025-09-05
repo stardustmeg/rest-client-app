@@ -44,7 +44,8 @@
     "signUpSuccess": "ようこそ！アカウントが正常に作成されました",
     "authError": "認証エラー! 認証情報を確認して再度お試しください",
     "networkError": "接続エラー! インターネット接続を確認して再度お試しください",
-    "serverError": "サーバーエラー! 問題が発生しました。後ほど再度お試しください"
+    "serverError": "サーバーエラー! 問題が発生しました。後ほど再度お試しください",
+    "signOutSuccess": "サインアウトしました"
   },
   "navigation": {
     "main": "メイン",
@@ -53,7 +54,8 @@
     "restClient": "RESTクライアント",
     "historyAndAnalytics": "履歴と分析",
     "variables": "変数",
-    "notFound": "404 - 見つかりません"
+    "notFound": "404 - 見つかりません",
+    "signOut": "サインアウト"
   },
   "MainPage": {
     "title": "REST Clientへようこそ！",

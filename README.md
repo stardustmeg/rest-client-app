@@ -55,6 +55,7 @@ Whether you’re debugging, learning APIs, or building full-stack apps, REST Cli
 bun run dev                # Start the development server.
 bun run build              # Build the production-ready app.
 bun run start              # Preview the production build locally.
+bun run dev:convex         # Start the development server with Convex.
 bun run lint               # Run Biome linter check.
 bun run lint:fix           # Run Biome linter fix.
 bun run format             # Run Biome formatter check.
@@ -73,6 +74,7 @@ bun run prepare            # Setup Husky hooks.
 npm run dev                # Start the development server.
 npm run build              # Build the production-ready app.
 npm run start              # Preview the production build locally.
+npm run dev:convex         # Start the development server with Convex.
 npm run lint               # Run Biome linter check.
 npm run lint:fix           # Run Biome linter fix.
 npm run format             # Run Biome formatter check.
