@@ -5,15 +5,13 @@ import { useAuth } from '@/app/hooks/use-auth';
 
 export const MainHeading = () => {
   const t = useTranslations('main-page');
-  // TODO (zagorky): replace with username
-  const { isAuthenticated, isLoading } = useAuth();
-  const username = 'popik';
+  const { isAuthenticated, isLoading, username } = useAuth();
 
   return (
     <Skeleton h="10" loading={isLoading}>
       <Box>
         <Heading as="h1" size="2xl" fontWeight="extrabold" letterSpacing="tight">
-          {isAuthenticated ? t('authenticatedTitle', { username }) : t('title')}
+          {isAuthenticated ? t('authenticatedTitle', { username: username ?? 'User' }) : t('title')}
         </Heading>
       </Box>
     </Skeleton>
