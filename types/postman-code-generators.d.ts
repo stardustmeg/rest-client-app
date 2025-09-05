@@ -9,7 +9,7 @@ declare module 'postman-code-generators' {
     key: string;
     label: string;
     syntax_mode: string;
-    variant: CodegenVariant[];
+    variants: CodegenVariant[];
   }
 
   type CodegenOptionType = 'boolean' | 'enum' | 'positiveInteger';
