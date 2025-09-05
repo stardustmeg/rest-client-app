@@ -10,7 +10,7 @@ import {
   requestEndpointAtom,
   requestHeadersAtom,
 } from '../atoms';
-import { TEMP_METHODS } from '../constants';
+import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
 import { BodyViewer } from './BodyViewer';
 import { HeadersEditor } from './HeadersEditor';
 
@@ -46,7 +46,11 @@ export const RestForm = () => {
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <Flex gap="1">
-        <Select onValueChange={handleMethodChange} options={TEMP_METHODS} name="method" />
+        <Select
+          onValueChange={handleMethodChange}
+          options={TEMPORARY_METHOD_SELECT_OPTIONS}
+          name="method"
+        />
         <Input name="endpoint" placeholder="Endpoint" onChange={handleEndpointChange} />
         <Button type="submit">Send</Button>
       </Flex>
