@@ -1,5 +1,5 @@
 import { atom, createStore } from 'jotai';
-import type { Header } from './components/HeadersEditor';
+import type { Header } from '@/app/domains/rest-client/components/HeadersEditor';
 
 export const formDataStore = createStore();
 

@@ -12,18 +12,11 @@ export function useAuthActions() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const getSearchParam = useCallback(
-    (key: string): string | null => {
-      return searchParams.get(key);
-    },
-    [searchParams],
-  );
-
   const signIn = useCallback(
     async (data: SignInFormType) => {
       const result = await convexSignIn('password', { ...data, flow: 'signIn' });
 
-      const returnTo = getSearchParam('returnTo');
+      const returnTo = searchParams.get('returnTo');
       // TBD: later remove this check for cross-check and only redirect to main
       if (returnTo) {
         window.location.href = returnTo;
@@ -33,7 +26,7 @@ export function useAuthActions() {
 
       return result;
     },
-    [convexSignIn, getSearchParam, router],
+    [convexSignIn, router, searchParams],
   );
 
   const signUp = useCallback(

@@ -1,6 +1,6 @@
-import { Enabled } from '../components/ui/Enabled';
-import { PageWrapper } from '../components/ui/PageWrapper';
-import { RestClient } from '../domains/rest-client/RestClient';
+import { Enabled } from '@/app/components/ui/Enabled';
+import { PageWrapper } from '@/app/components/ui/PageWrapper';
+import { RestClient } from '@/app/domains/rest-client/RestClient';
 
 export const RestClientPage = () => {
   return (
