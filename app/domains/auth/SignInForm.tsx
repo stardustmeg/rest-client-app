@@ -6,13 +6,19 @@ import { useForm } from 'react-hook-form';
 import { FormField } from '@/app/components/ui/FormField';
 import { type SignInFormType, signInFormSchema } from '@/app/domains/auth/form-schemas';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
+import { useAuth } from '@/app/hooks/use-auth';
+import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
 
 export const SignInForm = () => {
-  const { success } = useToast();
+  const { success, error } = useToast();
+
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
   const tValidation = useTranslations('validation');
+
+  const { signIn } = useAuthActions();
+  const { isLoading } = useAuth();
 
   const {
     register,
@@ -24,10 +30,13 @@ export const SignInForm = () => {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const onSubmit = () => success(tNotification('signInSuccess'));
+  const handleSignIn = (data: SignInFormType) =>
+    signIn(data)
+      .then(() => success(tNotification('signInSuccess')))
+      .catch(() => error(tNotification('authError')));
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleSignIn)}>
       <Stack maxW="lg" w="full" mx="auto" p="8">
         <Fieldset.Root>
           <Fieldset.Legend fontSize="xl" fontWeight="bold">
@@ -44,7 +53,7 @@ export const SignInForm = () => {
           label={t('password')}
           {...register('password')}
         />
-        <Button w="full" disabled={!isValid || isSubmitting} type="submit">
+        <Button loading={isLoading} w="full" disabled={!isValid || isSubmitting} type="submit">
           {t('submit')}
         </Button>
       </Stack>

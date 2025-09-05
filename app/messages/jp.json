@@ -44,7 +44,8 @@
     "signUpSuccess": "ようこそ！アカウントが正常に作成されました",
     "authError": "認証エラー! 認証情報を確認して再度お試しください",
     "networkError": "接続エラー! インターネット接続を確認して再度お試しください",
-    "serverError": "サーバーエラー! 問題が発生しました。後ほど再度お試しください"
+    "serverError": "サーバーエラー! 問題が発生しました。後ほど再度お試しください",
+    "signOutSuccess": "サインアウトしました"
   },
   "navigation": {
     "main": "メイン",
@@ -53,7 +54,8 @@
     "restClient": "RESTクライアント",
     "historyAndAnalytics": "履歴と分析",
     "variables": "変数",
-    "notFound": "404 - 見つかりません"
+    "notFound": "404 - 見つかりません",
+    "signOut": "サインアウト"
   },
   "MainPage": {
     "title": "REST Clientへようこそ！",
@@ -71,6 +73,23 @@
       "organize": {
         "title": "整理",
         "description": "リクエストをプロジェクトやコレクションにグループ化します。"
+      }
+    },
+    "developers": {
+      "stardustmeg": {
+        "author": "stardustmeg",
+        "role": "チームリーダー、開発者",
+        "description": "こんにちは！私はメグです。フロントエンドは趣味から熱中になりました。他人のコードレビューを楽しみ、バグに苦しむ — これが最高の経験です。"
+      },
+      "ripetchor": {
+        "author": "ripetchor",
+        "role": "開発者",
+        "description": "こんにちは！自分をボロディンスキー・ブレッドだと思っています。現在はウェブ開発を学んでおり、HTML、CSS、JS、TS に注力しています。"
+      },
+      "zagorky": {
+        "author": "zagorky",
+        "role": "開発者",
+        "description": "こんにちは。私はコードをリリースしてすぐに嫌いになる開発者です。動くには動くけど…もう一度書き直したらどうだろう？"
       }
     }
   }

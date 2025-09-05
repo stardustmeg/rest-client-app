@@ -6,13 +6,20 @@ import { useForm } from 'react-hook-form';
 import { FormField } from '@/app/components/ui/FormField';
 import { type SignUpFormType, signUpFormSchema } from '@/app/domains/auth/form-schemas';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
+import { useAuth } from '@/app/hooks/use-auth';
+import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
 
 export const SignUpForm = () => {
-  const { success } = useToast();
+  const { success, error } = useToast();
+
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
   const tValidation = useTranslations('validation');
+
+  const { signUp } = useAuthActions();
+  const { isLoading } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -23,10 +30,13 @@ export const SignUpForm = () => {
     resolver: zodResolver(signUpFormSchema),
   });
 
-  const onSubmit = () => success(tNotification('signUpSuccess'));
+  const handleSignUp = (data: SignUpFormType) =>
+    signUp(data)
+      .then(() => success(tNotification('signUpSuccess')))
+      .catch(() => error(tNotification('authError')));
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleSignUp)}>
       <Stack maxW="lg" w="full" mx="auto" p="8">
         <Fieldset.Root>
           <Fieldset.Legend fontSize="xl" fontWeight="bold">
@@ -48,7 +58,7 @@ export const SignUpForm = () => {
           label={t('confirmPassword')}
           {...register('confirmPassword')}
         />
-        <Button w="full" disabled={!isValid || isSubmitting} type="submit">
+        <Button loading={isLoading} w="full" disabled={!isValid || isSubmitting} type="submit">
           {t('submit')}
         </Button>
       </Stack>

@@ -9,7 +9,7 @@ import {
   useSelectContext,
 } from '@chakra-ui/react';
 import { useLocale, useTranslations } from 'next-intl';
-import { routing, usePathname, useRouter } from '@/i18n/routing';
+import { type RoutingLocales, routing, usePathname, useRouter } from '@/i18n/routing';
 import { FlagIcon } from './FlagIcon';
 
 const SelectTrigger = () => {
@@ -40,7 +40,7 @@ export const LanguageSelect = () => {
   const languages = languageItems();
 
   const handleLanguageChange = ({ value }: { value: string[] }) => {
-    const newLocale = value[0] as (typeof routing.locales)[number];
+    const newLocale = value[0] as RoutingLocales;
     router.push(pathname, { locale: newLocale });
   };
 

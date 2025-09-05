@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { AppChakraProvider } from '@/app/components/ui/AppChakraProvider';
 import { Toaster } from '@/app/components/ui/Toaster';
 import './main.css';
+import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
+import { ConvexClientProvider } from '@/app/ConvexClientProvider';
 
 const geistSans: NextFontWithVariable = Geist({
   variable: '--font-geist-sans',
@@ -23,14 +25,18 @@ export const metadata: Metadata = {
 const RootLayout = (props: { children: React.ReactNode }) => {
   const { children } = props;
   return (
-    <html suppressHydrationWarning lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AppChakraProvider>
-          {children}
-          <Toaster />
-        </AppChakraProvider>
-      </body>
-    </html>
+    <ConvexAuthNextjsServerProvider>
+      <html suppressHydrationWarning lang="en">
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <ConvexClientProvider>
+            <AppChakraProvider>
+              {children}
+              <Toaster />
+            </AppChakraProvider>
+          </ConvexClientProvider>
+        </body>
+      </html>
+    </ConvexAuthNextjsServerProvider>
   );
 };
 
