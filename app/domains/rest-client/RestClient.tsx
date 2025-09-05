@@ -18,7 +18,7 @@ export const RestClient = () => {
         <Separator orientation="vertical" />
         <div className="w-full">
           <ResponseInformation />
-          <Tabs.Root defaultValue="response">
+          <Tabs.Root defaultValue="code-snippet">
             <Tabs.List>
               <Tabs.Trigger value="response">Response</Tabs.Trigger>
               <Tabs.Trigger value="code-snippet">Code snippet</Tabs.Trigger>
