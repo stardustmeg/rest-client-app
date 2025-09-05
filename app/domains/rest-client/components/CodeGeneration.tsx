@@ -10,7 +10,6 @@ export const CodeGeneration = () => {
     <div>
       <Select options={languages} name="language" onValueChange={selectLanguage} />
       <Select options={variants} name="variant" />
-      <button type="button">Generate </button>
     </div>
   );
 };
