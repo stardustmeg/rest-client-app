@@ -7,12 +7,15 @@
     "link": "Главная"
   },
   "form": {
+    "username": "Имя пользователя",
     "email": "Электронная почта",
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
     "signInTitle": "Форма авторизации",
     "signUpTitle": "Форма регистрации",
-    "submit": "Отправить"
+    "submit": "Отправить",
+    "noAccount": "Нет аккаунта?",
+    "signUpHere": "Зарегистрируйтесь здесь"
   },
   "error-boundary-fallback": {
     "title": "Упс!",

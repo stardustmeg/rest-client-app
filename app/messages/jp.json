@@ -7,12 +7,15 @@
     "link": "ホーム"
   },
   "form": {
+    "username": "ユーザー名",
     "email": "メールアドレス",
     "password": "パスワード",
     "confirmPassword": "パスワード確認",
     "signInTitle": "承認フォーム",
     "signUpTitle": "登録フォーム",
-    "submit": "送信"
+    "submit": "送信",
+    "noAccount": "アカウントをお持ちでない場合",
+    "signUpHere": "こちらでサインアップ"
   },
   "error-boundary-fallback": {
     "title": "おっとっと！",

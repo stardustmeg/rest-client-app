@@ -7,12 +7,15 @@
     "link": "Home"
   },
   "form": {
+    "username": "Username",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm password",
     "submit": "Submit",
     "signInTitle": "Sign In Form",
-    "signUpTitle": "Sign Up Form"
+    "signUpTitle": "Sign Up Form",
+    "noAccount": "Don't have an account?",
+    "signUpHere": "Sign up here"
   },
   "error-boundary-fallback": {
     "title": "Ooops!",
