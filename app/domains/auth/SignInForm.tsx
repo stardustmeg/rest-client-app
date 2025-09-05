@@ -1,5 +1,5 @@
 'use client';
-import { Button, Fieldset, Stack } from '@chakra-ui/react';
+import { Button, Fieldset, Stack, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -9,6 +9,7 @@ import { getValidationError } from '@/app/domains/auth/get-validation-error';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
+import { Link } from '@/i18n/routing';
 
 export const SignInForm = () => {
   const { success, error } = useToast();
@@ -56,6 +57,13 @@ export const SignInForm = () => {
         <Button loading={isLoading} w="full" disabled={!isValid || isSubmitting} type="submit">
           {t('submit')}
         </Button>
+
+        <Text textAlign="center" fontSize="md">
+          {t('noAccount')}{' '}
+          <Link className="!text-cyan-600 !font-bold" href="/sign-up">
+            {t('signUpHere')}
+          </Link>
+        </Text>
       </Stack>
     </form>
   );

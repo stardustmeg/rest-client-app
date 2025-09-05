@@ -44,6 +44,11 @@ export const SignUpForm = () => {
           </Fieldset.Legend>
         </Fieldset.Root>
         <FormField
+          error={getValidationError(tValidation, errors.username?.message)}
+          label={t('username')}
+          {...register('username')}
+        />
+        <FormField
           error={getValidationError(tValidation, errors.email?.message)}
           label={t('email')}
           {...register('email')}

@@ -28,6 +28,7 @@ describe('SignUpForm', () => {
 
     setupTranslationMocks({
       signUpTitle: 'Sign Up',
+      username: 'Username',
       email: 'Email',
       password: 'Password',
       confirmPassword: 'Confirm Password',
@@ -43,6 +44,7 @@ describe('SignUpForm', () => {
     );
 
     expect(screen.getByText('Sign Up')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Username' })).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Password' })).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Confirm Password' })).toBeInTheDocument();
@@ -55,7 +57,7 @@ describe('SignUpForm', () => {
         <SignUpForm />
       </TestProviders>,
     );
-
+    expect(mockRegister).toHaveBeenCalledWith('username');
     expect(mockRegister).toHaveBeenCalledWith('email');
     expect(mockRegister).toHaveBeenCalledWith('password');
     expect(mockRegister).toHaveBeenCalledWith('confirmPassword');
@@ -135,6 +137,7 @@ describe('SignUpForm', () => {
       formState: {
         ...mockFormState,
         errors: {
+          username: { message: 'usernameRequired' },
           email: { message: 'emailRequired' },
           password: { message: 'passwordMinLength' },
           confirmPassword: { message: 'passwordsDontMatch' },

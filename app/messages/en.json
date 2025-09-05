@@ -7,12 +7,15 @@
     "link": "Home"
   },
   "form": {
+    "username": "Username",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm password",
     "submit": "Submit",
     "signInTitle": "Sign In Form",
-    "signUpTitle": "Sign Up Form"
+    "signUpTitle": "Sign Up Form",
+    "noAccount": "Don't have an account?",
+    "signUpHere": "Sign up here"
   },
   "error-boundary-fallback": {
     "title": "Ooops!",
@@ -25,6 +28,8 @@
     "jp": "Japanese"
   },
   "validation": {
+    "usernameRequired": "Username cannot be empty",
+    "usernameLetterRequired": "Username must contain at least one latin letter (A-Z)",
     "emailRequired": "Email cannot be empty",
     "emailNoWhitespace": "Email must not contain any whitespace",
     "emailMustContainAt": "Email must contain an '@' symbol",

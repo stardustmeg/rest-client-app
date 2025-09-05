@@ -22,6 +22,11 @@ const passwordErrorKeys = {
   noWhitespace: 'passwordNoWhitespace',
 } as const;
 
+const usernameErrorKeys = {
+  minLength: 'usernameRequired',
+  letterRequired: 'usernameLetterRequired',
+} as const;
+
 const confirmPasswordErrorKeys = {
   required: 'confirmPasswordRequired',
   dontMatch: 'passwordsDontMatch',
@@ -46,6 +51,11 @@ const passwordSchema = z
   })
   .refine((password) => !/\s/.test(password), { error: passwordErrorKeys.noWhitespace });
 
+const usernameSchema = z
+  .string()
+  .min(1, { error: usernameErrorKeys.minLength })
+  .refine((username) => /[a-z]/i.test(username), { error: usernameErrorKeys.letterRequired });
+
 export const signInFormSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
@@ -53,7 +63,8 @@ export const signInFormSchema = z.object({
 
 export const signUpFormSchema = signInFormSchema
   .extend({
-    confirmPassword: z.string().min(1, { message: confirmPasswordErrorKeys.required }),
+    username: usernameSchema,
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: confirmPasswordErrorKeys.dontMatch,
