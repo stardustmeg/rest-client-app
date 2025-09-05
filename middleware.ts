@@ -5,12 +5,16 @@ import { type RoutingLocales, routing } from '@/i18n/routing';
 
 const DAYS = 30;
 const MAX_COOKIE_LIFESPAN = 60 * 60 * 24 * DAYS;
-
-const isProtectedRoute = createRouteMatcher([
+const AUTH_ROUTES = ['/:locale/sign-in(.*)', '/:locale/sign-up(.*)'];
+const PROTECTED_ROUTES = [
   '/:locale/rest-client(.*)',
   '/:locale/history-and-analytics(.*)',
   '/:locale/variables(.*)',
-]);
+];
+
+const isAuthRoute = createRouteMatcher(AUTH_ROUTES);
+
+const isProtectedRoute = createRouteMatcher(PROTECTED_ROUTES);
 
 function getLocaleFromPath(pathname: string): string | null {
   const segments = pathname.split('/');
@@ -23,6 +27,12 @@ const handleI18nRouting = createMiddleware(routing);
 export default convexAuthNextjsMiddleware(
   async (request, { convexAuth }) => {
     const isAuthenticated = await convexAuth.isAuthenticated();
+
+    if (isAuthRoute(request) && isAuthenticated) {
+      const locale = getLocaleFromPath(request.nextUrl.pathname) || routing.defaultLocale;
+      const redirectUrl = new URL(`/${locale}/`, request.nextUrl.origin);
+      return NextResponse.redirect(redirectUrl);
+    }
 
     if (isProtectedRoute(request) && !isAuthenticated) {
       const locale = getLocaleFromPath(request.nextUrl.pathname) || routing.defaultLocale;
