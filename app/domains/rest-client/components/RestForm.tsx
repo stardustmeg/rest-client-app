@@ -11,7 +11,7 @@ import {
   requestHeadersAtom,
 } from '../atoms';
 import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
-import { BodyViewer } from './BodyViewer';
+import { BodyEditor } from './BodyEditor';
 import { HeadersEditor } from './HeadersEditor';
 
 export const RestForm = () => {
@@ -69,7 +69,7 @@ export const RestForm = () => {
               <Tabs.Trigger value="text">Text</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="json">
-              <BodyViewer
+              <BodyEditor
                 readOnly={false}
                 title="JSON Content"
                 type="json"
@@ -77,7 +77,7 @@ export const RestForm = () => {
               />
             </TabsContent>
             <TabsContent value="text">
-              <BodyViewer
+              <BodyEditor
                 readOnly={false}
                 title="Text Content"
                 type="text"

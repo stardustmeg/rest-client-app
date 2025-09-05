@@ -4,7 +4,7 @@ import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider } from 'jotai';
 import { Select } from '@/app/components/ui/Select';
 import { formDataStore } from './atoms';
-import { BodyViewer } from './components/BodyViewer';
+import { BodyEditor } from './components/BodyEditor';
 import { ResponseInformation } from './components/ResponseInformation';
 import { RestForm } from './components/RestForm';
 import { TEMPORARY_LANGUAGES_SELECT_OPTIONS, TEMPORARY_VARIANTS_SELECT_OPTIONS } from './constants';
@@ -23,7 +23,7 @@ export const RestClient = () => {
               <Tabs.Trigger value="code-snippet">Code snippet</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              <BodyViewer readOnly={true} title="Response" type="json" />
+              <BodyEditor readOnly={true} title="Response" type="json" />
             </TabsContent>
             <TabsContent value="code-snippet">
               {/* TODO (ripetchor): extract to separate component */}
