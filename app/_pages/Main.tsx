@@ -1,7 +1,8 @@
 import { Container, Flex, VStack } from '@chakra-ui/react';
-import { MainHeading } from '@/app/components/MainHeading';
+import { AboutCourseBlock } from '@/app/components/ui/AboutCourseBlock';
 import { AboutDevelopersBlock } from '@/app/components/ui/AboutDevelopersBlock';
 import { AboutProjectBlock } from '@/app/components/ui/AboutProjectBlock';
+import { MainHeading } from '@/app/components/ui/MainHeading';
 import { NavigationButtons } from '@/app/components/ui/NavigationButtons';
 
 export const MainPage = () => (
@@ -12,6 +13,7 @@ export const MainPage = () => (
         <NavigationButtons />
         <AboutProjectBlock />
         <AboutDevelopersBlock />
+        <AboutCourseBlock />
       </VStack>
     </Container>
   </Flex>

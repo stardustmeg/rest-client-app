@@ -97,6 +97,10 @@
         "role": "Developer",
         "description": "Hi, I'm the dev who ships code then immediately hates it. It works... but what if I rewrite it just one more time?"
       }
+    },
+    "course": {
+      "description": "This project was developed as part of the React course",
+      "school": "Rolling Scopes School"
     }
   }
 }
