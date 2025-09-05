@@ -1,6 +1,8 @@
+'use client';
 import { Button, Flex } from '@chakra-ui/react';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import { routes } from '@/app/[locale]/routes';
+import { useAuth } from '@/app/hooks/use-auth';
 import { Link } from '@/i18n/routing';
 
 const authButtons = [
@@ -16,9 +18,11 @@ const navigationButtons = [
 
 export type ButtonListType = 'authButtons' | 'navigationButtons';
 
-export const NavigationButtons = async ({ type }: { type: ButtonListType }) => {
-  const t = await getTranslations('navigation');
-  const routesList = type === 'authButtons' ? authButtons : navigationButtons;
+export const NavigationButtons = () => {
+  const t = useTranslations('navigation');
+  const { isAuthenticated } = useAuth();
+
+  const routesList = isAuthenticated ? navigationButtons : authButtons;
 
   return (
     <Flex gap="4" flexDir={{ base: 'column', md: 'row' }}>
