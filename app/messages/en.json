@@ -44,7 +44,8 @@
     "signUpSuccess": "Welcome aboard! Your account has been successfully created",
     "authError": "Authentication failed! Please check your credentials and try again",
     "networkError": "Connection error! Please check your internet connection and try again",
-    "serverError": "Server error! Something went wrong on our side. Please try again later"
+    "serverError": "Server error! Something went wrong on our side. Please try again later",
+    "signOutSuccess": "Signed out successfully"
   },
   "navigation": {
     "main": "Main",
@@ -53,7 +54,8 @@
     "restClient": "REST Client",
     "historyAndAnalytics": "History and Analytics",
     "variables": "Variables",
-    "notFound": "404"
+    "notFound": "404",
+    "signOut": "Sign Out"
   },
   "MainPage": {
     "title": "Welcome to REST Client!",
@@ -71,6 +73,23 @@
       "organize": {
         "title": "Organize",
         "description": "Group your requests into projects and collections."
+      }
+    },
+    "developers": {
+      "stardustmeg": {
+        "author": "stardustmeg",
+        "role": "Team Lead, Developer",
+        "description": "Hi! I'm Meg. Frontend is my hobby turned obsession. I enjoy code reviews, suffer through bugs — it’s the best experience."
+      },
+      "ripetchor": {
+        "author": "ripetchor",
+        "role": "Developer",
+        "description": "Hi! I identify myself as Borodinsky bread. Currently learning web development, focusing on HTML, CSS, JS, and TS."
+      },
+      "zagorky": {
+        "author": "zagorky",
+        "role": "Developer",
+        "description": "Hi, I'm the dev who ships code then immediately hates it. It works... but what if I rewrite it just one more time?"
       }
     }
   }
