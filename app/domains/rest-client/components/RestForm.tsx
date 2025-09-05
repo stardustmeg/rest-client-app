@@ -9,10 +9,10 @@ import {
   requestBodyAtom,
   requestEndpointAtom,
   requestHeadersAtom,
-} from '../atoms';
-import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
-import { BodyViewer } from './BodyViewer';
-import { HeadersEditor } from './HeadersEditor';
+} from '@/app/domains/rest-client/atoms';
+import { BodyViewer } from '@/app/domains/rest-client/components/BodyViewer';
+import { HeadersEditor } from '@/app/domains/rest-client/components/HeadersEditor';
+import { TEMPORARY_METHOD_SELECT_OPTIONS } from '@/app/domains/rest-client/constants';
 
 export const RestForm = () => {
   const store = useStore();

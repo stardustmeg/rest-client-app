@@ -1,8 +1,7 @@
 import { NextIntlClientProvider, useTranslations } from 'next-intl';
-
+import { Navigation } from '@/app/components/ui/Navigation';
 import { Link } from '@/i18n/routing';
-import { Navigation } from './components/ui/Navigation';
-import './main.css';
+import '@/app/main.css';
 
 const GlobalNotFound = () => {
   const t = useTranslations('global-not-found');

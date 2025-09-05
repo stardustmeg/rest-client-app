@@ -3,11 +3,14 @@
 import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider } from 'jotai';
 import { Select } from '@/app/components/ui/Select';
-import { formDataStore } from './atoms';
-import { BodyViewer } from './components/BodyViewer';
-import { ResponseInformation } from './components/ResponseInformation';
-import { RestForm } from './components/RestForm';
-import { TEMPORARY_LANGUAGES_SELECT_OPTIONS, TEMPORARY_VARIANTS_SELECT_OPTIONS } from './constants';
+import { formDataStore } from '@/app/domains/rest-client/atoms';
+import { BodyViewer } from '@/app/domains/rest-client/components/BodyViewer';
+import { ResponseInformation } from '@/app/domains/rest-client/components/ResponseInformation';
+import { RestForm } from '@/app/domains/rest-client/components/RestForm';
+import {
+  TEMPORARY_LANGUAGES_SELECT_OPTIONS,
+  TEMPORARY_VARIANTS_SELECT_OPTIONS,
+} from '@/app/domains/rest-client/constants';
 
 export const RestClient = () => {
   return (

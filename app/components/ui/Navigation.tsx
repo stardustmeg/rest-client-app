@@ -1,5 +1,5 @@
 import { routes } from '@/app/[locale]/routes';
-import { NavigationLink } from './NavigationLink';
+import { NavigationLink } from '@/app/components/ui/NavigationLink';
 
 export const Navigation = () => {
   return (
