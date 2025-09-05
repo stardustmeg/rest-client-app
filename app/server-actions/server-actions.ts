@@ -15,7 +15,7 @@ export async function generateCodeSnippet({
   body,
   language,
   variant,
-}: GenerateCodeSnippetParams) {
+}: GenerateCodeSnippetParams): Promise<string> {
   const request = new sdk.Request({
     method,
     body: new sdk.RequestBody({ mode: 'raw', raw: body }),
@@ -28,7 +28,7 @@ export async function generateCodeSnippet({
       if (error) {
         reject(error);
       } else {
-        resolve(snippet);
+        resolve(snippet ?? '');
       }
     });
   });
