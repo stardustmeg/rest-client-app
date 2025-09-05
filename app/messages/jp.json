@@ -62,8 +62,9 @@
     "notFound": "404 - 見つかりません",
     "signOut": "サインアウト"
   },
-  "MainPage": {
+  "main-page": {
     "title": "REST Clientへようこそ！",
+    "authenticatedTitle": "おかえりなさい、{username}さん！ 👋",
     "signIn": "サインイン",
     "signUp": "サインアップ",
     "features": {

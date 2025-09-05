@@ -62,8 +62,9 @@
     "notFound": "404",
     "signOut": "Sign Out"
   },
-  "MainPage": {
+  "main-page": {
     "title": "Welcome to REST Client!",
+    "authenticatedTitle": "Welcome back, {username}! 👋",
     "signIn": "Sign In",
     "signUp": "Sign Up",
     "features": {
