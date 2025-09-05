@@ -1,47 +1,47 @@
 declare module 'postman-code-generators' {
   import { Request } from 'postman-collection';
 
-  interface CodegenVariant {
+  interface CodeGenVariant {
     key: string;
   }
 
-  interface CodegenLanguage {
+  interface CodeGenLanguage {
     key: string;
     label: string;
     syntax_mode: string;
-    variants: CodegenVariant[];
+    variants: CodeGenVariant[];
   }
 
-  type CodegenOptionType = 'boolean' | 'enum' | 'positiveInteger';
+  type CodeGenOptionType = 'boolean' | 'enum' | 'positiveInteger';
 
-  interface BaseCodegenOption {
+  interface BaseCodeGenOption {
     name: string;
     id: string;
-    type: CodegenOptionType;
+    type: CodeGenOptionType;
     default: unknown;
     description: string;
   }
 
-  interface EnumCodegenOption extends BaseCodegenOption {
+  interface EnumCodeGenOption extends BaseCodeGenOption {
     type: 'enum';
     availableOptions: string[];
     default: string;
   }
 
-  interface SimpleCodegenOption extends BaseCodegenOption {
+  interface SimpleCodeGenOption extends BaseCodeGenOption {
     type: 'boolean' | 'positiveInteger';
     default: boolean | number;
   }
 
-  type CodegenOption = EnumCodegenOption | SimpleCodegenOption;
+  type CodeGenOption = EnumCodeGenOption | SimpleCodeGenOption;
 
-  function getLanguageList(): CodegenLanguage[];
+  function getLanguageList(): CodeGenLanguage[];
 
 
   function getOptions(
     language: string,
     variant: string,
-    callback: (error: Error | null, options?: CodegenOption[]) => void
+    callback: (error: Error | null, options?: CodeGenOption[]) => void
   ): void;
 
 

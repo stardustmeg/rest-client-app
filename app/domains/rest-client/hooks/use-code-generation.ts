@@ -1,4 +1,4 @@
-import type { CodegenLanguage } from 'postman-code-generators';
+import type { CodeGenLanguage } from 'postman-code-generators';
 import { useCallback, useEffect, useState } from 'react';
 import type { SelectOption } from '@/app/components/ui/Select';
 import { getLanguageList } from '@/app/server-actions/server-actions';
@@ -10,7 +10,7 @@ interface UseCodeGenerationReturn {
 }
 
 export function useCodeGeneration(): UseCodeGenerationReturn {
-  const [languageList, setLanguageList] = useState<CodegenLanguage[]>([]);
+  const [languageList, setLanguageList] = useState<CodeGenLanguage[]>([]);
   const [languages, setLanguages] = useState<SelectOption[]>([]);
   const [variants, setVariants] = useState<SelectOption[]>([]);
 
@@ -33,11 +33,11 @@ export function useCodeGeneration(): UseCodeGenerationReturn {
   return { languages, variants, selectLanguage } as const;
 }
 
-function getLanguageOptions(languageList: CodegenLanguage[]): SelectOption[] {
+function getLanguageOptions(languageList: CodeGenLanguage[]): SelectOption[] {
   return languageList.map((lang) => ({ value: lang.key, label: lang.label }));
 }
 
-function getVariantOptions(language?: CodegenLanguage): SelectOption[] {
+function getVariantOptions(language?: CodeGenLanguage): SelectOption[] {
   if (!language?.variants) {
     return [];
   }
