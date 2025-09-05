@@ -45,7 +45,6 @@ vi.mock('@/i18n/routing', () => ({
 
 vi.mock('next-intl', async (importOriginal) => {
   const actual = await importOriginal<typeof import('next-intl')>();
-
   return {
     ...actual,
     useTranslations: vi.fn(() => (key: string) => key),
@@ -112,6 +111,14 @@ vi.mock('@convex-dev/auth/react', () => ({
     signOut: vi.fn().mockResolvedValue({}),
   })),
 }));
+
+vi.mock('next-intl/server', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('next-intl/server')>();
+  return {
+    ...actual,
+    getTranslations: vi.fn(async () => (key: string) => key),
+  };
+});
 
 vi.mock('@/app/domains/auth/get-validation-error', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/app/domains/auth/get-validation-error')>();

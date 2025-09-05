@@ -74,6 +74,23 @@
         "title": "整理",
         "description": "リクエストをプロジェクトやコレクションにグループ化します。"
       }
+    },
+    "developers": {
+      "stardustmeg": {
+        "author": "stardustmeg",
+        "role": "チームリーダー、開発者",
+        "description": "こんにちは！私はメグです。フロントエンドは趣味から熱中になりました。他人のコードレビューを楽しみ、バグに苦しむ — これが最高の経験です。"
+      },
+      "ripetchor": {
+        "author": "ripetchor",
+        "role": "開発者",
+        "description": "こんにちは！自分をボロディンスキー・ブレッドだと思っています。現在はウェブ開発を学んでおり、HTML、CSS、JS、TS に注力しています。"
+      },
+      "zagorky": {
+        "author": "zagorky",
+        "role": "開発者",
+        "description": "こんにちは。私はコードをリリースしてすぐに嫌いになる開発者です。動くには動くけど…もう一度書き直したらどうだろう？"
+      }
     }
   }
 }

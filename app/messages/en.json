@@ -74,6 +74,23 @@
         "title": "Organize",
         "description": "Group your requests into projects and collections."
       }
+    },
+    "developers": {
+      "stardustmeg": {
+        "author": "stardustmeg",
+        "role": "Team Lead, Developer",
+        "description": "Hi! I'm Meg. Frontend is my hobby turned obsession. I enjoy code reviews, suffer through bugs — it’s the best experience."
+      },
+      "ripetchor": {
+        "author": "ripetchor",
+        "role": "Developer",
+        "description": "Hi! I identify myself as Borodinsky bread. Currently learning web development, focusing on HTML, CSS, JS, and TS."
+      },
+      "zagorky": {
+        "author": "zagorky",
+        "role": "Developer",
+        "description": "Hi, I'm the dev who ships code then immediately hates it. It works... but what if I rewrite it just one more time?"
+      }
     }
   }
 }

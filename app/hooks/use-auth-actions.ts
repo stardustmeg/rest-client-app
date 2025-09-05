@@ -24,6 +24,7 @@ export function useAuthActions() {
       const result = await convexSignIn('password', { ...data, flow: 'signIn' });
 
       const returnTo = getSearchParam('returnTo');
+      // TBD: later remove this check for cross-check and only redirect to main
       if (returnTo) {
         window.location.href = returnTo;
       } else {
