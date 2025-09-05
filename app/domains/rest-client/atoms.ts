@@ -1,5 +1,7 @@
-import { atom } from 'jotai';
+import { atom, createStore } from 'jotai';
 import type { Header } from './components/HeadersEditor';
+
+export const formDataStore = createStore();
 
 export const httpRequestMethodAtom = atom('GET');
 
