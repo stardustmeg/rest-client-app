@@ -12,3 +12,7 @@ export const requestHeadersAtom = atom<RequestHeader[]>([{ key: '', value: '' }]
 export const requestBodyAtom = atom('');
 
 export const responseInformationAtom = atom<{ status: number; size: number; time: number }>();
+
+export const codeGenLanguageAtom = atom('');
+
+export const codeGenVariantAtom = atom('');
