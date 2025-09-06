@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
-import { useEffect, useState } from 'react';
-import { useDebounceValue } from '@/app/hooks/use-debounce-value';
+import { useCallback, useState } from 'react';
+import { useDebouncedEffect } from '@/app/hooks/use-debounced-effect';
 import { generateCodeSnippet } from '@/app/server-actions/server-actions';
 import {
   codeGenLanguageAtom,
@@ -11,7 +11,7 @@ import {
   requestHeadersAtom,
 } from '../atoms';
 
-const DEBOUNCE_DELAY_MILLISECONDS = 200;
+const DEBOUNCE_DELAY_MILLISECONDS = 300;
 
 export function useCodeGenSnippet() {
   const method = useAtomValue(httpRequestMethodAtom);
@@ -23,33 +23,22 @@ export function useCodeGenSnippet() {
 
   const [snippet, setSnippet] = useState('');
 
-  const stringifiedInput = JSON.stringify({
-    method,
-    endpoint,
-    headers,
-    body,
-    language: codeGenLanguage,
-    variant: codeGenVariant,
-  });
-
-  const debouncedInput = useDebounceValue(stringifiedInput, DEBOUNCE_DELAY_MILLISECONDS);
-
-  useEffect(() => {
-    const parsed = JSON.parse(debouncedInput);
-
-    if (!(parsed.language && parsed.variant)) {
+  const generateSnipped = useCallback(() => {
+    if (!(codeGenLanguage && codeGenVariant)) {
       return;
     }
 
     generateCodeSnippet({
-      method: parsed.method,
-      url: parsed.endpoint,
-      headers: parsed.headers,
-      body: parsed.body,
-      language: parsed.language,
-      variant: parsed.variant,
+      method,
+      url: endpoint,
+      headers,
+      body,
+      language: codeGenLanguage,
+      variant: codeGenVariant,
     }).then(setSnippet);
-  }, [debouncedInput]);
+  }, [method, endpoint, headers, body, codeGenLanguage, codeGenVariant]);
+
+  useDebouncedEffect(generateSnipped, DEBOUNCE_DELAY_MILLISECONDS);
 
   return snippet;
 }
