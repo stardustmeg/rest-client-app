@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useReducer,
 } from 'react';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
@@ -101,13 +102,12 @@ export const VariablesProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [storageKey]);
 
-  return (
-    <VariablesContext.Provider
-      value={{ variables, addVariable, updateVariable, deleteVariable, deleteAllVariables }}
-    >
-      {children}
-    </VariablesContext.Provider>
+  const contextValue = useMemo(
+    () => ({ variables, addVariable, updateVariable, deleteVariable, deleteAllVariables }),
+    [variables, addVariable, updateVariable, deleteVariable, deleteAllVariables],
   );
+
+  return <VariablesContext.Provider value={contextValue}>{children}</VariablesContext.Provider>;
 };
 
 export const useVariablesContext = () => {
