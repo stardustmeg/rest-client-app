@@ -1,7 +1,8 @@
 'use client';
-import { Field, Flex, IconButton, Input } from '@chakra-ui/react';
+import { Flex, IconButton } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { FormField } from '@/app/components/ui/FormField';
 import { variablesSchema } from '@/app/domains/variables/types/variables-schema';
 import { useAuth } from '@/app/hooks/use-auth';
 
@@ -29,20 +30,17 @@ export const VariablesForm = () => {
   return (
     <form onSubmit={handleSubmit(handleAddVariable)}>
       <Flex gap="2">
-        <Field.Root invalid={!!errors.name}>
-          <Field.Label w="full">
-            <Input placeholder="Enter variable name" {...register('name')} />
-          </Field.Label>
-          <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
-        </Field.Root>
+        <FormField error={errors.name?.message} placeholder="Name" {...register('name')} />
 
-        <Field.Root invalid={!!errors.value}>
-          <Field.Label w="full">
-            <Input placeholder="Enter variable value" {...register('value')} />
-          </Field.Label>
-          <Field.ErrorText>{errors.value?.message}</Field.ErrorText>
-        </Field.Root>
-        <IconButton p="2" type="submit" loading={isSubmitting} disabled={!isValid || isSubmitting}>
+        <FormField error={errors.value?.message} placeholder="Value" {...register('value')} />
+
+        <IconButton
+          mt="1.5"
+          p="2"
+          type="submit"
+          loading={isSubmitting}
+          disabled={!isValid || isSubmitting}
+        >
           Add Variable
         </IconButton>
       </Flex>
