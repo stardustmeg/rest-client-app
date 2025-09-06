@@ -42,7 +42,10 @@
     "passwordDigitRequired": "パスワードには少なくとも1つの数字（0-9）を含める必要があります",
     "passwordNoWhitespace": "パスワードに空白文字を含めることはできません",
     "confirmPasswordRequired": "パスワードを確認してください",
-    "passwordsDontMatch": "パスワードが一致しません"
+    "passwordsDontMatch": "パスワードが一致しません",
+    "variableNameRequired": "名前は必須です",
+    "variableValueRequired": "値は必須です",
+    "variableUniqueNameRequired": "変数名は一意である必要があります"
   },
   "notifications": {
     "signInSuccess": "おかえりなさい！アカウントに正常にサインインしました",
@@ -102,5 +105,16 @@
       "description": "このプロジェクトはReactコースの一環として開発されました",
       "school": "Rolling Scopes School"
     }
+  },
+  "variables": {
+    "title": "変数",
+    "name": "名前",
+    "value": "値",
+    "key": "キー",
+    "edit": "編集",
+    "delete": "削除",
+    "deleteAll": "すべて削除",
+    "addVariable": "変数を追加",
+    "noVariables": "まだ変数がありません"
   }
 }
