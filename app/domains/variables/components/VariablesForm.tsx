@@ -1,5 +1,5 @@
 'use client';
-import { Flex, IconButton } from '@chakra-ui/react';
+import { Flex, Heading, IconButton } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -33,6 +33,9 @@ export const VariablesForm = () => {
 
   return (
     <form onSubmit={handleSubmit(handleAddVariable)}>
+      <Heading py="4" size="2xl" textAlign="center" as="h2">
+        {t('title')}
+      </Heading>
       <Flex gap="2">
         <FormField
           variant="outline"

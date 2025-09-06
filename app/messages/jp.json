@@ -106,6 +106,7 @@
     }
   },
   "variables": {
+    "title": "変数",
     "name": "名前",
     "value": "値",
     "key": "キー",

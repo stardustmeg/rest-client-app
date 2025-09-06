@@ -106,6 +106,7 @@
     }
   },
   "variables": {
+    "title": "Variables",
     "name": "Name",
     "value": "Value",
     "key": "Key",

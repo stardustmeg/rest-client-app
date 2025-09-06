@@ -1,13 +1,13 @@
 'use client';
-import { IconButton, Table } from '@chakra-ui/react';
+import { Flex, IconButton, Table } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 import { BsPencil, BsTrash3 } from 'react-icons/bs';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
 
 const test = [
-  { id: 1, name: 'name', value: 'name' },
-  { id: 2, name: 'name', value: 'name' },
-  { id: 3, name: 'name', value: 'name' },
+  { id: 1, name: 'name', value: 'value' },
+  { id: 2, name: 'name', value: 'value' },
+  { id: 3, name: 'name', value: 'value' },
 ];
 
 export const VariablesContent = () => {
@@ -30,8 +30,16 @@ export const VariablesContent = () => {
           <Table.ColumnHeader>{t('key')}</Table.ColumnHeader>
           <Table.ColumnHeader textAlign="center">{t('name')}</Table.ColumnHeader>
           <Table.ColumnHeader textAlign="center">{t('value')}</Table.ColumnHeader>
-          <Table.ColumnHeader textAlign="end">{t('edit')}</Table.ColumnHeader>
-          <Table.ColumnHeader textAlign="end">{t('delete')}</Table.ColumnHeader>
+          <Table.ColumnHeader>
+            <Flex px="3" justify="flex-end">
+              <BsPencil />
+            </Flex>
+          </Table.ColumnHeader>
+          <Table.ColumnHeader>
+            <Flex px="3" justify="flex-end">
+              <BsTrash3 />
+            </Flex>
+          </Table.ColumnHeader>
         </Table.Row>
       </Table.Header>
       <Table.Body>
