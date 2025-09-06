@@ -1,5 +1,6 @@
 'use client';
 import { IconButton, Table } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
 import { BsPencil, BsTrash3 } from 'react-icons/bs';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
 
@@ -10,6 +11,7 @@ const test = [
 ];
 
 export const VariablesContent = () => {
+  const t = useTranslations('variables');
   const variables = [...test];
   const handleDelete = (id: number) => {
     // biome-ignore lint/suspicious/noConsole: <temp>
@@ -25,11 +27,11 @@ export const VariablesContent = () => {
     <Table.Root size="lg">
       <Table.Header>
         <Table.Row>
-          <Table.ColumnHeader>Key</Table.ColumnHeader>
-          <Table.ColumnHeader textAlign="center">Name</Table.ColumnHeader>
-          <Table.ColumnHeader textAlign="center">Value</Table.ColumnHeader>
-          <Table.ColumnHeader textAlign="end">Edit</Table.ColumnHeader>
-          <Table.ColumnHeader textAlign="end">Delete</Table.ColumnHeader>
+          <Table.ColumnHeader>{t('key')}</Table.ColumnHeader>
+          <Table.ColumnHeader textAlign="center">{t('name')}</Table.ColumnHeader>
+          <Table.ColumnHeader textAlign="center">{t('value')}</Table.ColumnHeader>
+          <Table.ColumnHeader textAlign="end">{t('edit')}</Table.ColumnHeader>
+          <Table.ColumnHeader textAlign="end">{t('delete')}</Table.ColumnHeader>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -40,19 +42,23 @@ export const VariablesContent = () => {
               <Table.Cell textAlign="center">{item.name}</Table.Cell>
               <Table.Cell textAlign="center">{item.value}</Table.Cell>
               <Table.Cell textAlign="end">
-                <IconButton aria-label="Edit" size="sm" onClick={() => handleEdit(item)}>
+                <IconButton aria-label={t('edit')} size="sm" onClick={() => handleEdit(item)}>
                   <BsPencil />
                 </IconButton>
               </Table.Cell>
               <Table.Cell textAlign="end">
-                <IconButton aria-label="Delete" size="sm" onClick={() => handleDelete(item.id)}>
+                <IconButton
+                  aria-label={t('delete')}
+                  size="sm"
+                  onClick={() => handleDelete(item.id)}
+                >
                   <BsTrash3 />
                 </IconButton>
               </Table.Cell>
             </Table.Row>
           ))
         ) : (
-          <Table.Row textAlign="center">No Variables yet</Table.Row>
+          <Table.Row textAlign="center">{t('noVariables')}</Table.Row>
         )}
       </Table.Body>
     </Table.Root>

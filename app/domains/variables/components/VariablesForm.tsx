@@ -1,13 +1,17 @@
 'use client';
 import { Flex, IconButton } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { FormField } from '@/app/components/ui/FormField';
+import { getValidationError } from '@/app/domains/auth/get-validation-error';
 import { variablesSchema } from '@/app/domains/variables/types/variables-schema';
 import { useAuth } from '@/app/hooks/use-auth';
 
 export const VariablesForm = () => {
   const { username } = useAuth();
+  const t = useTranslations('variables');
+  const tValidation = useTranslations('validation');
   const {
     handleSubmit,
     reset,
@@ -30,9 +34,19 @@ export const VariablesForm = () => {
   return (
     <form onSubmit={handleSubmit(handleAddVariable)}>
       <Flex gap="2">
-        <FormField error={errors.name?.message} placeholder="Name" {...register('name')} />
+        <FormField
+          variant="outline"
+          error={getValidationError(tValidation, errors.name?.message)}
+          placeholder={t('name')}
+          {...register('name')}
+        />
 
-        <FormField error={errors.value?.message} placeholder="Value" {...register('value')} />
+        <FormField
+          variant="outline"
+          error={getValidationError(tValidation, errors.value?.message)}
+          placeholder={t('value')}
+          {...register('value')}
+        />
 
         <IconButton
           mt="1.5"
@@ -41,7 +55,7 @@ export const VariablesForm = () => {
           loading={isSubmitting}
           disabled={!isValid || isSubmitting}
         >
-          Add Variable
+          {t('addVariable')}
         </IconButton>
       </Flex>
     </form>

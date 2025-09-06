@@ -42,7 +42,9 @@
     "passwordDigitRequired": "Пароль должен содержать хотя бы одну цифру (0-9)",
     "passwordNoWhitespace": "Пароль не должен содержать пробелов",
     "confirmPasswordRequired": "Пожалуйста, подтвердите пароль",
-    "passwordsDontMatch": "Пароли не совпадают"
+    "passwordsDontMatch": "Пароли не совпадают",
+    "variableNameRequired": "Имя обязательно",
+    "variableValueRequired": "Значение обязательно"
   },
   "notifications": {
     "signInSuccess": "С возвращением! Вы успешно вошли в свой аккаунт",
@@ -102,5 +104,14 @@
       "description": "Этот проект был разработан в рамках курса по React",
       "school": "Rolling Scopes School"
     }
+  },
+  "variables": {
+    "name": "Имя",
+    "value": "Значение",
+    "key": "Ключ",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "addVariable": "Добавить переменную",
+    "noVariables": "Пока нет переменных"
   }
 }

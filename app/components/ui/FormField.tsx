@@ -4,11 +4,12 @@ import type { ComponentProps } from 'react';
 interface FormFieldProps extends Omit<ComponentProps<typeof Input>, 'children'> {
   error?: string;
   label?: string;
+  variant?: 'outline' | 'subtle' | 'flushed';
 }
-export const FormField = ({ error, label, ...rest }: FormFieldProps) => (
+export const FormField = ({ error, label, variant = 'subtle', ...rest }: FormFieldProps) => (
   <Field.Root invalid={!!error}>
     <Field.Label>{label}</Field.Label>
-    <Input variant="subtle" {...rest} />
+    <Input variant={variant} {...rest} />
     <Box minH="6">
       {error ? <Field.ErrorText data-testid="error-field">{error}</Field.ErrorText> : ' '}
     </Box>

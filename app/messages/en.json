@@ -42,7 +42,9 @@
     "passwordDigitRequired": "Password must contain at least one digit (0-9)",
     "passwordNoWhitespace": "Password must not contain any whitespace characters",
     "confirmPasswordRequired": "Please confirm your password",
-    "passwordsDontMatch": "Passwords don't match"
+    "passwordsDontMatch": "Passwords don't match",
+    "variableNameRequired": "Name is required",
+    "variableValueRequired": "Value is required"
   },
   "notifications": {
     "signInSuccess": "Welcome back! You have successfully signed in to your account",
@@ -102,5 +104,14 @@
       "description": "This project was developed as part of the React course",
       "school": "Rolling Scopes School"
     }
+  },
+  "variables": {
+    "name": "Name",
+    "value": "Value",
+    "key": "Key",
+    "edit": "Edit",
+    "delete": "Delete",
+    "addVariable": "Add Variable",
+    "noVariables": "No Variables yet"
   }
 }
