@@ -1,52 +1,43 @@
-import { Flex, IconButton, Table } from '@chakra-ui/react';
+import { Flex, IconButton, Skeleton, Table, Text } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
-import { BsPencil, BsTrash3 } from 'react-icons/bs';
+import { BsTrash3 } from 'react-icons/bs';
 import { useVariablesContext } from '@/app/domains/variables/components/VariablesProvider';
-import type { Variable } from '@/app/domains/variables/types/variables-schema';
+import { useAuth } from '@/app/hooks/use-auth';
 
 export const VariablesContent = () => {
+  const { isLoading } = useAuth();
   const t = useTranslations('variables');
-  const { variables, deleteVariable, updateVariable } = useVariablesContext();
+  const { variables, deleteVariable, deleteAllVariables } = useVariablesContext();
   const handleDelete = (id: number) => {
     deleteVariable(id);
   };
 
-  const handleEdit = (value: Variable) => {
-    // TODO (zagorky): think about it
-    updateVariable(value.id, value);
-  };
-
-  return (
-    <Table.Root size="lg">
-      <Table.Header>
-        <Table.Row>
-          <Table.ColumnHeader>{t('key')}</Table.ColumnHeader>
-          <Table.ColumnHeader textAlign="center">{t('name')}</Table.ColumnHeader>
-          <Table.ColumnHeader textAlign="center">{t('value')}</Table.ColumnHeader>
-          <Table.ColumnHeader>
-            <Flex px="3" justify="flex-end">
-              <BsPencil />
-            </Flex>
-          </Table.ColumnHeader>
-          <Table.ColumnHeader>
-            <Flex px="3" justify="flex-end">
-              <BsTrash3 />
-            </Flex>
-          </Table.ColumnHeader>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {variables.length > 0 ? (
-          variables.map((item) => (
+  return variables.length > 0 ? (
+    <Skeleton loading={isLoading}>
+      <Table.Root size="lg">
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeader>{t('key')}</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="center">{t('name')}</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="center">{t('value')}</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="end">
+              <IconButton
+                size="sm"
+                onClick={deleteAllVariables}
+                aria-label={t('deleteAll')}
+                variant="surface"
+              >
+                <BsTrash3 />
+              </IconButton>
+            </Table.ColumnHeader>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {variables.map((item) => (
             <Table.Row key={item.id}>
               <Table.Cell>{item.id}</Table.Cell>
               <Table.Cell textAlign="center">{item.name}</Table.Cell>
               <Table.Cell textAlign="center">{item.value}</Table.Cell>
-              <Table.Cell textAlign="end">
-                <IconButton aria-label={t('edit')} size="sm" onClick={() => handleEdit(item)}>
-                  <BsPencil />
-                </IconButton>
-              </Table.Cell>
               <Table.Cell textAlign="end">
                 <IconButton
                   aria-label={t('delete')}
@@ -57,15 +48,15 @@ export const VariablesContent = () => {
                 </IconButton>
               </Table.Cell>
             </Table.Row>
-          ))
-        ) : (
-          <Table.Row>
-            <Table.Cell textAlign="center" w="full">
-              {t('noVariables')}
-            </Table.Cell>
-          </Table.Row>
-        )}
-      </Table.Body>
-    </Table.Root>
+          ))}
+        </Table.Body>
+      </Table.Root>
+    </Skeleton>
+  ) : (
+    <Flex justify="center">
+      <Text textStyle="2xl" fontWeight="bold">
+        {t('noVariables')} 🥲
+      </Text>
+    </Flex>
   );
 };

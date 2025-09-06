@@ -113,6 +113,7 @@
     "key": "キー",
     "edit": "編集",
     "delete": "削除",
+    "deleteAll": "すべて削除",
     "addVariable": "変数を追加",
     "noVariables": "まだ変数がありません"
   }

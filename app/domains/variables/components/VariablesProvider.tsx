@@ -12,20 +12,26 @@ import { useAuth } from '@/app/hooks/use-auth';
 interface VariablesContextType {
   variables: Variable[];
   addVariable: (v: Omit<Variable, 'id'>) => void;
+  //TODO (zagorky): maybe implement later in VariablesContent component
   updateVariable: (id: number, updated: Partial<Omit<Variable, 'id'>>) => void;
   deleteVariable: (id: number) => void;
+  deleteAllVariables: VoidFunction;
 }
 
 type Action =
   | { type: 'ADD'; payload: Omit<Variable, 'id'> }
   | { type: 'UPDATE'; payload: { id: number; updated: Partial<Omit<Variable, 'id'>> } }
   | { type: 'DELETE'; payload: number }
-  | { type: 'SET'; payload: Variable[] };
+  | { type: 'SET'; payload: Variable[] }
+  | { type: 'DELETE_ALL' };
 
 const reducer = (state: Variable[], action: Action): Variable[] => {
   switch (action.type) {
-    case 'ADD':
-      return [...state, { ...action.payload, id: Date.now() }];
+    case 'ADD': {
+      const maxId = state.length > 0 ? Math.max(...state.map((v) => v.id)) : 0;
+      const newId = maxId + 1;
+      return [...state, { ...action.payload, id: newId }];
+    }
     case 'UPDATE':
       return state.map((variable) =>
         variable.id === action.payload.id ? { ...variable, ...action.payload.updated } : variable,
@@ -34,6 +40,8 @@ const reducer = (state: Variable[], action: Action): Variable[] => {
       return state.filter((variable) => variable.id !== action.payload);
     case 'SET':
       return action.payload;
+    case 'DELETE_ALL':
+      return [];
     default:
       return state;
   }
@@ -78,6 +86,11 @@ export const VariablesProvider = ({ children }: { children: ReactNode }) => {
     [variables, saveToStorage],
   );
 
+  const deleteAllVariables = useCallback(() => {
+    const updatedVars = reducer(variables, { type: 'DELETE_ALL' });
+    saveToStorage(updatedVars);
+  }, [variables, saveToStorage]);
+
   useEffect(() => {
     try {
       const json = localStorage.getItem(storageKey);
@@ -89,7 +102,9 @@ export const VariablesProvider = ({ children }: { children: ReactNode }) => {
   }, [storageKey]);
 
   return (
-    <VariablesContext.Provider value={{ variables, addVariable, updateVariable, deleteVariable }}>
+    <VariablesContext.Provider
+      value={{ variables, addVariable, updateVariable, deleteVariable, deleteAllVariables }}
+    >
       {children}
     </VariablesContext.Provider>
   );
