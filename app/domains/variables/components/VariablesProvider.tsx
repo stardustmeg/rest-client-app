@@ -4,7 +4,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useReducer,
 } from 'react';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
@@ -55,21 +54,42 @@ export const VariablesProvider = ({ children }: { children: ReactNode }) => {
   const [variables, dispatch] = useReducer(reducer, []);
   const storageKey = userId ? `${userId}:variables` : 'User:variables';
 
-  const addVariable = useCallback((v: Omit<Variable, 'id'>) => {
-    dispatch({ type: 'ADD', payload: v });
-  }, []);
+  const saveToStorage = useCallback(
+    (vars: Variable[]) => {
+      dispatch({ type: 'SET', payload: vars });
+      localStorage.setItem(storageKey, JSON.stringify(vars));
+    },
+    [storageKey],
+  );
 
-  const updateVariable = useCallback((id: number, updated: Partial<Omit<Variable, 'id'>>) => {
-    dispatch({ type: 'UPDATE', payload: { id, updated } });
-  }, []);
+  const addVariable = useCallback(
+    (v: Omit<Variable, 'id'>) => {
+      const newVars = reducer(variables, { type: 'ADD', payload: v });
+      saveToStorage(newVars);
+    },
+    [variables, saveToStorage],
+  );
 
-  const deleteVariable = useCallback((id: number) => {
-    dispatch({ type: 'DELETE', payload: id });
-  }, []);
+  const updateVariable = useCallback(
+    (id: number, updated: Partial<Omit<Variable, 'id'>>) => {
+      const updatedVars = reducer(variables, { type: 'UPDATE', payload: { id, updated } });
+      saveToStorage(updatedVars);
+    },
+    [variables, saveToStorage],
+  );
+
+  const deleteVariable = useCallback(
+    (id: number) => {
+      const updatedVars = reducer(variables, { type: 'DELETE', payload: id });
+      saveToStorage(updatedVars);
+    },
+    [variables, saveToStorage],
+  );
 
   const deleteAllVariables = useCallback(() => {
-    dispatch({ type: 'DELETE_ALL' });
-  }, []);
+    const updatedVars = reducer(variables, { type: 'DELETE_ALL' });
+    saveToStorage(updatedVars);
+  }, [variables, saveToStorage]);
 
   useEffect(() => {
     try {
@@ -81,12 +101,13 @@ export const VariablesProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [storageKey]);
 
-  const contextValue = useMemo(
-    () => ({ variables, addVariable, updateVariable, deleteVariable, deleteAllVariables }),
-    [variables, addVariable, updateVariable, deleteVariable, deleteAllVariables],
+  return (
+    <VariablesContext.Provider
+      value={{ variables, addVariable, updateVariable, deleteVariable, deleteAllVariables }}
+    >
+      {children}
+    </VariablesContext.Provider>
   );
-
-  return <VariablesContext.Provider value={contextValue}>{children}</VariablesContext.Provider>;
 };
 
 export const useVariablesContext = () => {
