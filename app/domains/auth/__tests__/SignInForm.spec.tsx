@@ -10,7 +10,7 @@ import {
   setupTranslationMocks,
 } from '@/app/__tests__/__mocks__/mock-setup';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
-import { SignInForm } from '@/app/domains/auth/SignInForm';
+import { SignInForm } from '@/app/domains/auth/components/SignInForm';
 
 vi.mock('@/i18n/routing', () => ({
   // biome-ignore lint/style/useNamingConvention: <because>
