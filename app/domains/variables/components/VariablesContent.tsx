@@ -1,26 +1,19 @@
-'use client';
 import { Flex, IconButton, Table } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 import { BsPencil, BsTrash3 } from 'react-icons/bs';
+import { useVariablesContext } from '@/app/domains/variables/components/VariablesProvider';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
-
-const test = [
-  { id: 1, name: 'name', value: 'value' },
-  { id: 2, name: 'name', value: 'value' },
-  { id: 3, name: 'name', value: 'value' },
-];
 
 export const VariablesContent = () => {
   const t = useTranslations('variables');
-  const variables = [...test];
+  const { variables, deleteVariable, updateVariable } = useVariablesContext();
   const handleDelete = (id: number) => {
-    // biome-ignore lint/suspicious/noConsole: <temp>
-    console.log(id);
+    deleteVariable(id);
   };
 
   const handleEdit = (value: Variable) => {
-    // biome-ignore lint/suspicious/noConsole: <temp>
-    console.log(value);
+    // TODO (zagorky): think about it
+    updateVariable(value.id, value);
   };
 
   return (

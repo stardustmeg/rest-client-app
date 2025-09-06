@@ -1,17 +1,18 @@
-'use client';
 import { Flex, Heading, IconButton } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { FormField } from '@/app/components/ui/FormField';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
-import { variablesSchema } from '@/app/domains/variables/types/variables-schema';
-import { useAuth } from '@/app/hooks/use-auth';
+import { useVariablesContext } from '@/app/domains/variables/components/VariablesProvider';
+import { type Variable, variablesSchema } from '@/app/domains/variables/types/variables-schema';
+import { useToast } from '@/app/hooks/use-toast';
 
 export const VariablesForm = () => {
-  const { username } = useAuth();
   const t = useTranslations('variables');
   const tValidation = useTranslations('validation');
+  const { warning } = useToast();
+  const { addVariable, variables } = useVariablesContext();
   const {
     handleSubmit,
     reset,
@@ -23,11 +24,13 @@ export const VariablesForm = () => {
     resolver: zodResolver(variablesSchema),
   });
 
-  const VariableKey = `${username}:variables`;
+  const handleAddVariable = (data: Omit<Variable, 'id'>) => {
+    if (variables.some((v) => v.name === data.name)) {
+      warning(tValidation('variableUniqueNameRequired'));
+      return;
+    }
 
-  const handleAddVariable = (data: unknown) => {
-    // biome-ignore lint/suspicious/noConsole: <temp>
-    console.log(data, VariableKey);
+    addVariable(data);
     reset();
   };
 

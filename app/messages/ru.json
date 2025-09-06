@@ -44,7 +44,8 @@
     "confirmPasswordRequired": "Пожалуйста, подтвердите пароль",
     "passwordsDontMatch": "Пароли не совпадают",
     "variableNameRequired": "Имя обязательно",
-    "variableValueRequired": "Значение обязательно"
+    "variableValueRequired": "Значение обязательно",
+    "variableUniqueNameRequired": "Имя переменной должно быть уникальным"
   },
   "notifications": {
     "signInSuccess": "С возвращением! Вы успешно вошли в свой аккаунт",

@@ -44,7 +44,8 @@
     "confirmPasswordRequired": "Please confirm your password",
     "passwordsDontMatch": "Passwords don't match",
     "variableNameRequired": "Name is required",
-    "variableValueRequired": "Value is required"
+    "variableValueRequired": "Value is required",
+    "variableUniqueNameRequired": "Variable name must be unique"
   },
   "notifications": {
     "signInSuccess": "Welcome back! You have successfully signed in to your account",
