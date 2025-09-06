@@ -4,7 +4,7 @@ const FEATURE_FLAGS = {
   languageSelect: true,
   signUpForm: true,
   signInForm: true,
-  restClient: false,
+  restClient: true,
   variables: true,
 } as const;
 

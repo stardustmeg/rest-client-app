@@ -9,7 +9,7 @@ import {
   setupTranslationMocks,
 } from '@/app/__tests__/__mocks__/mock-setup';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
-import { SignUpForm } from '@/app/domains/auth/components/SignUpForm';
+import { SignUpForm } from '@/app/domains/auth/SignUpForm';
 
 describe('SignUpForm', () => {
   let mockRegister: ReturnType<typeof vi.fn>;
