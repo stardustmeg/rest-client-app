@@ -17,12 +17,8 @@ export const CodeGeneration = () => {
         <Select options={languages} name="language" onValueChange={setLanguage} />
         <Select options={variants} name="variant" onValueChange={setVariant} />
       </Flex>
-      {/* TODO (ripetchor): there is still problem with word wrap */}
       {/** biome-ignore lint/security/noDangerouslySetInnerHtml: <yayayaya> */}
       <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
     </div>
   );
 };
-
-// !!!!!!!!!!!!!!!!! NOT SUPPORTED LANGUAGES !!!!!!!!!!!!!!!
-// curl

@@ -35,9 +35,20 @@ export async function generateCodeSnippet({
   });
 }
 
-export async function highlightSyntax(code: string, language: string, currentTheme: string) {
-  const lang: BundledLanguage =
-    language === 'nodejs' ? 'javascript' : (language as BundledLanguage);
+export async function highlightSyntax(
+  code: string,
+  language: string,
+  currentTheme: string,
+): Promise<string> {
+  let lang: BundledLanguage;
+
+  if (language === 'nodejs') {
+    lang = 'javascript';
+  } else if (language === 'curl') {
+    lang = 'bash';
+  } else {
+    lang = language as BundledLanguage;
+  }
 
   const theme = currentTheme === 'dark' ? 'github-dark' : 'github-light';
 
