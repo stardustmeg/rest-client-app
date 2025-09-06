@@ -34,17 +34,13 @@ export const VariablesContent = () => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {variables.map((item) => (
-              <Table.Row key={item.id}>
-                <Table.Cell>{item.id}</Table.Cell>
-                <Table.Cell textAlign="center">{item.name}</Table.Cell>
-                <Table.Cell textAlign="center">{item.value}</Table.Cell>
+            {variables.map(({ id, name, value }) => (
+              <Table.Row key={id}>
+                <Table.Cell>{id}</Table.Cell>
+                <Table.Cell textAlign="center">{name}</Table.Cell>
+                <Table.Cell textAlign="center">{value}</Table.Cell>
                 <Table.Cell textAlign="end">
-                  <IconButton
-                    aria-label={t('delete')}
-                    size="sm"
-                    onClick={() => handleDelete(item.id)}
-                  >
+                  <IconButton aria-label={t('delete')} size="sm" onClick={() => handleDelete(id)}>
                     <BsTrash3 />
                   </IconButton>
                 </Table.Cell>

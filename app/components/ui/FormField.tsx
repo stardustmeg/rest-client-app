@@ -1,10 +1,10 @@
-import { Box, Field, Input } from '@chakra-ui/react';
+import { Box, Field, Input, type InputProps } from '@chakra-ui/react';
 import type { ComponentProps } from 'react';
 
 interface FormFieldProps extends Omit<ComponentProps<typeof Input>, 'children'> {
   error?: string;
   label?: string;
-  variant?: 'outline' | 'subtle' | 'flushed';
+  variant?: InputProps['variant'];
 }
 export const FormField = ({ error, label, variant = 'subtle', ...rest }: FormFieldProps) => (
   <Field.Root invalid={!!error}>
