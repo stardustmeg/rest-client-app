@@ -15,15 +15,6 @@ vi.mock('@/app/domains/variables/components/VariablesProvider', async (importOri
   };
 });
 
-vi.mock('@/app/domains/variables/components/VariablesProvider', async (importOriginal) => {
-  const actual =
-    await importOriginal<typeof import('@/app/domains/variables/components/VariablesProvider')>();
-  return {
-    ...actual,
-    useVariablesContext: vi.fn(),
-  };
-});
-
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(() => ({
     push: vi.fn(),
