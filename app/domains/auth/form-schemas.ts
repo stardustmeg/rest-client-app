@@ -43,9 +43,9 @@ const passwordSchema = z
   .string()
   .min(MIN_PASSWORD_LENGTH, { error: passwordErrorKeys.minLength })
   .max(MAX_PASSWORD_LENGTH, { error: passwordErrorKeys.maxLength })
-  .refine((password) => /[A-Z]/.test(password), { error: passwordErrorKeys.uppercaseRequired })
-  .refine((password) => /[a-z]/.test(password), { error: passwordErrorKeys.lowercaseRequired })
-  .refine((password) => /\d/.test(password), { error: passwordErrorKeys.digitRequired })
+  .refine((password) => /\p{Lu}/u.test(password), { error: passwordErrorKeys.uppercaseRequired })
+  .refine((password) => /\p{Ll}/u.test(password), { error: passwordErrorKeys.lowercaseRequired })
+  .refine((password) => /\p{N}/u.test(password), { error: passwordErrorKeys.digitRequired })
   .refine((password) => SPECIAL_CHARACTERS_REGEX.test(password), {
     error: passwordErrorKeys.specialCharRequired,
   })
@@ -54,7 +54,7 @@ const passwordSchema = z
 const usernameSchema = z
   .string()
   .min(1, { error: usernameErrorKeys.minLength })
-  .refine((username) => /[a-z]/i.test(username), { error: usernameErrorKeys.letterRequired });
+  .refine((username) => /\p{L}/u.test(username), { error: usernameErrorKeys.letterRequired });
 
 export const signInFormSchema = z.object({
   email: emailSchema,
