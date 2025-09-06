@@ -15,6 +15,7 @@ export const CodeGeneration = () => {
         <Select options={languages} name="language" onValueChange={setLanguage} />
         <Select options={variants} name="variant" onValueChange={setVariant} />
       </Flex>
+      {/* TODO (ripetchor): there is still problem with word wrap */}
       <pre>
         <code>{snippet}</code>
       </pre>
