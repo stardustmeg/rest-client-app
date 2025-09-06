@@ -5,7 +5,7 @@ import { useAtom } from 'jotai';
 import { BsXLg } from 'react-icons/bs';
 import { requestHeadersAtom } from '@/app/domains/rest-client/atoms';
 
-export interface Header {
+export interface RequestHeader {
   key: string;
   value: string;
 }
@@ -13,7 +13,7 @@ export interface Header {
 export const HeadersEditor = () => {
   const [headers, setHeaders] = useAtom(requestHeadersAtom);
 
-  const handleChange = (key: keyof Header, value: string, index: number) => {
+  const handleChange = (key: keyof RequestHeader, value: string, index: number) => {
     const newHeaders = [...headers];
     newHeaders[index][key] = value;
     setHeaders(newHeaders);

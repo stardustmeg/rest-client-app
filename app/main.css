@@ -3,3 +3,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @custom-variant light (&:where(.light, .light *));
+
+html {
+  scrollbar-gutter: stable;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

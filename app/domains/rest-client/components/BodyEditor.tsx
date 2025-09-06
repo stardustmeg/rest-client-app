@@ -2,17 +2,17 @@
 
 import { Button, Flex, Stack, Textarea } from '@chakra-ui/react';
 
-export type BodyViewerContentType = 'json' | 'text';
+export type BodyEditorContentType = 'json' | 'text';
 
-export interface BodyViewerProps {
+export interface BodyEditorProps {
   readOnly: boolean;
   title: string;
-  type: BodyViewerContentType;
+  type: BodyEditorContentType;
   name?: string;
   onChange?(value: string): void;
 }
 
-export const BodyViewer = ({ readOnly, title, type, name, onChange }: BodyViewerProps) => {
+export const BodyEditor = ({ readOnly, title, type, name, onChange }: BodyEditorProps) => {
   return (
     <Stack>
       <Flex align="center" justify="space-between" height="10">

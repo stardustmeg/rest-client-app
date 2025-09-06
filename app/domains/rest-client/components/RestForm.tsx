@@ -9,10 +9,10 @@ import {
   requestBodyAtom,
   requestEndpointAtom,
   requestHeadersAtom,
-} from '@/app/domains/rest-client/atoms';
-import { BodyViewer } from '@/app/domains/rest-client/components/BodyViewer';
-import { HeadersEditor } from '@/app/domains/rest-client/components/HeadersEditor';
-import { TEMPORARY_METHOD_SELECT_OPTIONS } from '@/app/domains/rest-client/constants';
+} from '../atoms';
+import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
+import { BodyEditor } from './BodyEditor';
+import { HeadersEditor } from './HeadersEditor';
 
 export const RestForm = () => {
   const store = useStore();
@@ -69,7 +69,7 @@ export const RestForm = () => {
               <Tabs.Trigger value="text">Text</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="json">
-              <BodyViewer
+              <BodyEditor
                 readOnly={false}
                 title="JSON Content"
                 type="json"
@@ -77,7 +77,7 @@ export const RestForm = () => {
               />
             </TabsContent>
             <TabsContent value="text">
-              <BodyViewer
+              <BodyEditor
                 readOnly={false}
                 title="Text Content"
                 type="text"

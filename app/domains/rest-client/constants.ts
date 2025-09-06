@@ -6,13 +6,3 @@ export const TEMPORARY_METHOD_SELECT_OPTIONS: SelectOption[] = [
   { value: 'PUT', label: 'PUT' },
   { value: 'DELETE', label: 'DELETE' },
 ];
-
-export const TEMPORARY_LANGUAGES_SELECT_OPTIONS: SelectOption[] = [
-  { value: 'js', label: 'JavaScript' },
-  { value: 'java', label: 'Java' },
-];
-
-export const TEMPORARY_VARIANTS_SELECT_OPTIONS: SelectOption[] = [
-  { value: 'fetch', label: 'Fetch' },
-  { value: 'curl', label: 'Curl' },
-];
