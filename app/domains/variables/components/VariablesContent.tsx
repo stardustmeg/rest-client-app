@@ -59,7 +59,11 @@ export const VariablesContent = () => {
             </Table.Row>
           ))
         ) : (
-          <Table.Row textAlign="center">{t('noVariables')}</Table.Row>
+          <Table.Row>
+            <Table.Cell textAlign="center" w="full">
+              {t('noVariables')}
+            </Table.Cell>
+          </Table.Row>
         )}
       </Table.Body>
     </Table.Root>

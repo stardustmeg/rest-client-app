@@ -12,9 +12,9 @@ interface VariablesContextType {
 const VariablesContext = createContext<VariablesContextType | undefined>(undefined);
 
 export const VariablesProvider = ({ children }: { children: ReactNode }) => {
-  const { username } = useAuth();
+  const { userId } = useAuth();
   const [variables, setVariables] = useState<Variable[]>([]);
-  const storageKey = username ? `${username}:variables` : 'User:variables';
+  const storageKey = userId ? `${userId}:variables` : 'User:variables';
 
   const saveToStorage = useCallback(
     (vars: Variable[]) => {
