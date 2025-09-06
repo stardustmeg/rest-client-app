@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react';
 
 interface FormFieldProps extends Omit<ComponentProps<typeof Input>, 'children'> {
   error?: string;
-  label: string;
+  label?: string;
 }
 export const FormField = ({ error, label, ...rest }: FormFieldProps) => (
   <Field.Root invalid={!!error}>
