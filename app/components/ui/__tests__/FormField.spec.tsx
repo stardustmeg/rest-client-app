@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
-import { FormField } from '@/app/components/ui/FormField';
+import { FormField } from '@/app/domains/auth/FormField';
 
 const mockRegister: UseFormRegisterReturn = {
   onChange: vi.fn(),

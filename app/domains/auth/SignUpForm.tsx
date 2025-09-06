@@ -3,16 +3,16 @@ import { Button, Fieldset, Stack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
-import { FormField } from '@/app/components/ui/FormField';
+import { FormField } from '@/app/domains/auth/FormField';
 import { type SignUpFormType, signUpFormSchema } from '@/app/domains/auth/form-schemas';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
+import { PasswordField } from '@/app/domains/auth/PasswordField';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
 
 export const SignUpForm = () => {
   const { success, error } = useToast();
-
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
   const tValidation = useTranslations('validation');
@@ -53,12 +53,12 @@ export const SignUpForm = () => {
           label={t('email')}
           {...register('email')}
         />
-        <FormField
+        <PasswordField
           error={getValidationError(tValidation, errors.password?.message)}
           label={t('password')}
           {...register('password')}
         />
-        <FormField
+        <PasswordField
           error={getValidationError(tValidation, errors.confirmPassword?.message)}
           label={t('confirmPassword')}
           {...register('confirmPassword')}
