@@ -1,4 +1,11 @@
-import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
 import { useAuth } from '@/app/hooks/use-auth';
 
@@ -9,16 +16,39 @@ interface VariablesContextType {
   deleteVariable: (id: number) => void;
 }
 
+type Action =
+  | { type: 'ADD'; payload: Omit<Variable, 'id'> }
+  | { type: 'UPDATE'; payload: { id: number; updated: Partial<Omit<Variable, 'id'>> } }
+  | { type: 'DELETE'; payload: number }
+  | { type: 'SET'; payload: Variable[] };
+
+const reducer = (state: Variable[], action: Action): Variable[] => {
+  switch (action.type) {
+    case 'ADD':
+      return [...state, { ...action.payload, id: Date.now() }];
+    case 'UPDATE':
+      return state.map((variable) =>
+        variable.id === action.payload.id ? { ...variable, ...action.payload.updated } : variable,
+      );
+    case 'DELETE':
+      return state.filter((variable) => variable.id !== action.payload);
+    case 'SET':
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const VariablesContext = createContext<VariablesContextType | undefined>(undefined);
 
 export const VariablesProvider = ({ children }: { children: ReactNode }) => {
   const { userId } = useAuth();
-  const [variables, setVariables] = useState<Variable[]>([]);
+  const [variables, dispatch] = useReducer(reducer, []);
   const storageKey = userId ? `${userId}:variables` : 'User:variables';
 
   const saveToStorage = useCallback(
     (vars: Variable[]) => {
-      setVariables(vars);
+      dispatch({ type: 'SET', payload: vars });
       localStorage.setItem(storageKey, JSON.stringify(vars));
     },
     [storageKey],
@@ -26,15 +56,15 @@ export const VariablesProvider = ({ children }: { children: ReactNode }) => {
 
   const addVariable = useCallback(
     (v: Omit<Variable, 'id'>) => {
-      const newVar: Variable = { ...v, id: Date.now() };
-      saveToStorage([...variables, newVar]);
+      const newVars = reducer(variables, { type: 'ADD', payload: v });
+      saveToStorage(newVars);
     },
     [variables, saveToStorage],
   );
 
   const updateVariable = useCallback(
     (id: number, updated: Partial<Omit<Variable, 'id'>>) => {
-      const updatedVars = variables.map((v) => (v.id === id ? { ...v, ...updated } : v));
+      const updatedVars = reducer(variables, { type: 'UPDATE', payload: { id, updated } });
       saveToStorage(updatedVars);
     },
     [variables, saveToStorage],
@@ -42,7 +72,8 @@ export const VariablesProvider = ({ children }: { children: ReactNode }) => {
 
   const deleteVariable = useCallback(
     (id: number) => {
-      saveToStorage(variables.filter((v) => v.id !== id));
+      const updatedVars = reducer(variables, { type: 'DELETE', payload: id });
+      saveToStorage(updatedVars);
     },
     [variables, saveToStorage],
   );
@@ -50,9 +81,10 @@ export const VariablesProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     try {
       const json = localStorage.getItem(storageKey);
-      setVariables(json ? JSON.parse(json) : []);
+      const loadedVars = json ? JSON.parse(json) : [];
+      dispatch({ type: 'SET', payload: loadedVars });
     } catch {
-      setVariables([]);
+      dispatch({ type: 'SET', payload: [] });
     }
   }, [storageKey]);
 
