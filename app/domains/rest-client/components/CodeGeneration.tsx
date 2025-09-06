@@ -1,6 +1,6 @@
 'use client';
 
-import { Flex } from '@chakra-ui/react';
+import { Clipboard, Flex, IconButton } from '@chakra-ui/react';
 import { Select } from '@/app/components/ui/Select';
 import { useCodeGenSelection } from '../hooks/use-code-gen-selection';
 import { useCodeGenSnippet } from '../hooks/use-code-gen-snippet';
@@ -13,9 +13,16 @@ export const CodeGeneration = () => {
 
   return (
     <div>
-      <Flex gap="3" marginBottom="5">
+      <Flex gap="3" marginBottom="5" alignItems="center">
         <Select options={languages} name="language" onValueChange={setLanguage} />
         <Select options={variants} name="variant" onValueChange={setVariant} />
+        <Clipboard.Root value={snippet}>
+          <Clipboard.Trigger asChild>
+            <IconButton variant="surface" size="xs">
+              <Clipboard.Indicator />
+            </IconButton>
+          </Clipboard.Trigger>
+        </Clipboard.Root>
       </Flex>
       {/** biome-ignore lint/security/noDangerouslySetInnerHtml: <yayayaya> */}
       <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
