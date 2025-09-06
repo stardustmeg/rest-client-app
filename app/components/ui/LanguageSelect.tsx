@@ -9,8 +9,8 @@ import {
   useSelectContext,
 } from '@chakra-ui/react';
 import { useLocale, useTranslations } from 'next-intl';
+import { FlagIcon } from '@/app/components/ui/FlagIcon';
 import { type RoutingLocales, routing, usePathname, useRouter } from '@/i18n/routing';
-import { FlagIcon } from './FlagIcon';
 
 const SelectTrigger = () => {
   const { selectedItems, getTriggerProps } = useSelectContext();

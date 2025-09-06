@@ -16,8 +16,7 @@ export const Header = () => {
   const { success } = useToast();
 
   const handleSignOut = () => {
-    signOut();
-    success(tNotification('signOutSuccess'));
+    signOut().finally(() => success(tNotification('signOutSuccess')));
   };
 
   return (

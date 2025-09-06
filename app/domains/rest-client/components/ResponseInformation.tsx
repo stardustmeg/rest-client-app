@@ -1,7 +1,7 @@
 'use client';
 
 import { useAtomValue } from 'jotai';
-import { responseInformationAtom } from '../atoms';
+import { responseInformationAtom } from '@/app/domains/rest-client/atoms';
 
 export const ResponseInformation = () => {
   const responseInfo = useAtomValue(responseInformationAtom);

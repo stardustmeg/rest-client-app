@@ -3,7 +3,7 @@
 import { Button, Flex, For, Input, Stack } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { BsXLg } from 'react-icons/bs';
-import { requestHeadersAtom } from '../atoms';
+import { requestHeadersAtom } from '@/app/domains/rest-client/atoms';
 
 export interface RequestHeader {
   key: string;
