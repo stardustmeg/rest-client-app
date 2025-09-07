@@ -1,32 +1,23 @@
 'use client';
 
-import type { ButtonProps, GroupProps, InputProps, StackProps } from '@chakra-ui/react';
-import {
-  Box,
-  HStack,
-  IconButton,
-  Input,
-  InputGroup,
-  mergeRefs,
-  Stack,
-  useControllableState,
-} from '@chakra-ui/react';
-import * as React from 'react';
+import type { ButtonProps, GroupProps, InputProps } from '@chakra-ui/react';
+import { IconButton, Input, InputGroup, mergeRefs, useControllableState } from '@chakra-ui/react';
+import { forwardRef, type ReactNode, useRef } from 'react';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 
 export interface PasswordVisibilityProps {
   defaultVisible?: boolean;
   visible?: boolean;
   onVisibleChange?: (visible: boolean) => void;
-  visibilityIcon?: { on: React.ReactNode; off: React.ReactNode };
+  visibilityIcon?: { on: ReactNode; off: ReactNode };
 }
 
 export interface PasswordInputProps extends InputProps, PasswordVisibilityProps {
   rootProps?: GroupProps;
 }
 
-export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
-  // biome-ignore lint/nursery/noShadow: <explanation>
+export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+  // biome-ignore lint/nursery/noShadow: <фффффф>
   function PasswordInput(props, ref) {
     const {
       rootProps,
@@ -43,7 +34,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
       onChange: onVisibleChange,
     });
 
-    const inputRef = React.useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     return (
       <InputGroup
@@ -68,8 +59,8 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
   },
 );
 
-const VisibilityTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  // biome-ignore lint/nursery/noShadow: <explanation>
+const VisibilityTrigger = forwardRef<HTMLButtonElement, ButtonProps>(
+  // biome-ignore lint/nursery/noShadow: <фффффф>
   function VisibilityTrigger(props, ref) {
     return (
       <IconButton
@@ -86,56 +77,3 @@ const VisibilityTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
-
-interface PasswordStrengthMeterProps extends StackProps {
-  max?: number;
-  value: number;
-}
-
-export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordStrengthMeterProps>(
-  // biome-ignore lint/nursery/noShadow: <explanation>
-  function PasswordStrengthMeter(props, ref) {
-    const { max = 4, value, ...rest } = props;
-    const fullPercent = 100;
-    const percent = (value / max) * fullPercent;
-    const { label, colorPalette } = getColorPalette(percent);
-
-    return (
-      <Stack align="flex-end" gap="1" ref={ref} {...rest}>
-        <HStack width="full" {...rest}>
-          {Array.from({ length: max }).map((_, index) => (
-            <Box
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              key={index}
-              height="1"
-              flex="1"
-              rounded="sm"
-              data-selected={index < value ? '' : undefined}
-              layerStyle="fill.subtle"
-              colorPalette="gray"
-              _selected={{
-                colorPalette,
-                layerStyle: 'fill.solid',
-              }}
-            />
-          ))}
-        </HStack>
-        {label && <HStack textStyle="xs">{label}</HStack>}
-      </Stack>
-    );
-  },
-);
-
-function getColorPalette(percent: number) {
-  // biome-ignore lint/nursery/noUnnecessaryConditions: <explanation>
-  switch (true) {
-    // biome-ignore lint/style/noMagicNumbers: <explanation>
-    case percent < 33:
-      return { label: 'Low', colorPalette: 'red' };
-    // biome-ignore lint/style/noMagicNumbers: <explanation>
-    case percent < 66:
-      return { label: 'Medium', colorPalette: 'orange' };
-    default:
-      return { label: 'High', colorPalette: 'green' };
-  }
-}

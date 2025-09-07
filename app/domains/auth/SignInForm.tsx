@@ -55,7 +55,12 @@ export const SignInForm = () => {
           label={t('password')}
           {...register('password')}
         />
-        <Button loading={isLoading} w="full" disabled={!isValid || isSubmitting} type="submit">
+        <Button
+          loading={isLoading || isSubmitting}
+          w="full"
+          disabled={!isValid || isSubmitting}
+          type="submit"
+        >
           {t('submit')}
         </Button>
 
