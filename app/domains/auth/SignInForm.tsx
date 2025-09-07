@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { FormField } from '@/app/components/ui/FormField';
 import { type SignInFormType, signInFormSchema } from '@/app/domains/auth/form-schemas';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
+import { PasswordField } from '@/app/domains/auth/PasswordField';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
@@ -49,12 +50,18 @@ export const SignInForm = () => {
           label={t('email')}
           {...register('email')}
         />
-        <FormField
+        <PasswordField
           error={getValidationError(tValidation, errors.password?.message)}
           label={t('password')}
           {...register('password')}
         />
-        <Button loading={isLoading} w="full" disabled={!isValid || isSubmitting} type="submit">
+        <Button
+          data-testid="submit-button"
+          loading={isLoading || isSubmitting}
+          w="full"
+          disabled={!isValid || isSubmitting}
+          type="submit"
+        >
           {t('submit')}
         </Button>
 

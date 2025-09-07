@@ -47,7 +47,7 @@ describe('SignInForm', () => {
 
     expect(screen.getByText('Sign In')).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'Password' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 
@@ -100,7 +100,7 @@ describe('SignInForm', () => {
       </TestProviders>,
     );
 
-    const submitButton = screen.getByRole('button', { name: /submit/i });
+    const submitButton = screen.getByTestId('submit-button');
     expect(submitButton).toBeDisabled();
   });
 

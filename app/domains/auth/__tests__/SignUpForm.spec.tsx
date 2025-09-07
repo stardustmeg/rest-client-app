@@ -44,10 +44,10 @@ describe('SignUpForm', () => {
     );
 
     expect(screen.getByText('Sign Up')).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'Username' })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'Email' })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'Password' })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'Confirm Password' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: /username/i })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
+    expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    expect(screen.getByLabelText('Confirm Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 
@@ -101,7 +101,7 @@ describe('SignUpForm', () => {
       </TestProviders>,
     );
 
-    const submitButton = screen.getByRole('button', { name: /submit/i });
+    const submitButton = screen.getByTestId('submit-button');
     expect(submitButton).toBeDisabled();
   });
 
