@@ -14,7 +14,7 @@ describe('AboutDevelopersBlock', () => {
     expect(html).toContain('developers.ripetchor.author');
     expect(html).toContain('developers.zagorky.author');
     expect(html).toContain('https://avatars.githubusercontent.com/u/146496794?v=4');
-    expect(html).toContain('https://avatars.githubusercontent.com/u/115036520?v=4');
+    expect(html).toContain('ripetchor-real-photo.jpg');
     expect(html).toContain('https://avatars.githubusercontent.com/u/156232667?v=4');
   });
 
