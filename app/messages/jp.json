@@ -29,7 +29,7 @@
   },
   "validation": {
     "usernameRequired": "ユーザー名は空にできません",
-    "usernameLetterRequired": "ユーザー名には少なくとも1つのラテン文字（A-Z）を含める必要があります",
+    "usernameLetterRequired": "ユーザー名には少なくとも1つの文字を含める必要があります",
     "emailRequired": "メールアドレスは必須です",
     "emailNoWhitespace": "メールアドレスに空白文字を含めることはできません",
     "emailMustContainAt": "メールアドレスには「@」記号を含める必要があります",
@@ -37,12 +37,15 @@
     "passwordMinLength": "パスワードは8文字以上である必要があります",
     "passwordMaxLength": "パスワードは20文字以内である必要があります",
     "passwordSpecialCharRequired": "パスワードには少なくとも1つの特殊文字（例: !@#$%^&?*）を含める必要があります",
-    "passwordUppercaseRequired": "パスワードには少なくとも1つの大文字（A-Z）を含める必要があります",
-    "passwordLowercaseRequired": "パスワードには少なくとも1つの小文字（a-z）を含める必要があります",
+    "passwordUppercaseRequired": "パスワードには少なくとも1つの大文字を含める必要があります",
+    "passwordLowercaseRequired": "パスワードには少なくとも1つの小文字を含める必要があります",
     "passwordDigitRequired": "パスワードには少なくとも1つの数字（0-9）を含める必要があります",
     "passwordNoWhitespace": "パスワードに空白文字を含めることはできません",
     "confirmPasswordRequired": "パスワードを確認してください",
-    "passwordsDontMatch": "パスワードが一致しません"
+    "passwordsDontMatch": "パスワードが一致しません",
+    "variableNameRequired": "名前は必須です",
+    "variableValueRequired": "値は必須です",
+    "variableUniqueNameRequired": "変数名は一意である必要があります"
   },
   "notifications": {
     "signInSuccess": "おかえりなさい！アカウントに正常にサインインしました",
@@ -102,5 +105,16 @@
       "description": "このプロジェクトはReactコースの一環として開発されました",
       "school": "Rolling Scopes School"
     }
+  },
+  "variables": {
+    "title": "変数",
+    "name": "名前",
+    "value": "値",
+    "key": "キー",
+    "edit": "編集",
+    "delete": "削除",
+    "deleteAll": "すべて削除",
+    "addVariable": "変数を追加",
+    "noVariables": "まだ変数がありません"
   }
 }

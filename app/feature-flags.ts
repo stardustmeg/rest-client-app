@@ -5,6 +5,7 @@ const FEATURE_FLAGS = {
   signUpForm: true,
   signInForm: true,
   restClient: false,
+  variables: true,
 } as const;
 
 export const enabled = (feature: FeatureFlag) => FEATURE_FLAGS[feature];

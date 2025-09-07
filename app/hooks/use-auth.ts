@@ -14,5 +14,6 @@ export function useAuth() {
     isUnauthenticated: !(isLoading || isAuthenticated),
 
     username: currentUser?.username ?? null,
+    userId: currentUser?._id ?? null,
   };
 }

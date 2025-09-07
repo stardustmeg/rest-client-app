@@ -3,7 +3,7 @@ import { Button, Fieldset, Stack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
-import { FormField } from '@/app/domains/auth/FormField';
+import { FormField } from '@/app/components/ui/FormField';
 import { type SignUpFormType, signUpFormSchema } from '@/app/domains/auth/form-schemas';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
 import { PasswordField } from '@/app/domains/auth/PasswordField';
