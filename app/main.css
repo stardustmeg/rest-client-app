@@ -12,3 +12,16 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 3s linear infinite;
+}
