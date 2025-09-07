@@ -41,7 +41,7 @@ const characters = [
 ];
 
 export const Spinner = ({ message }: { message?: ReactNode }) => (
-  <div className="flex min-h-full items-center justify-center">
+  <div className="flex min-h-full items-center justify-center" data-testid="spinner">
     <div className="relative flex h-80 w-80 items-center justify-center">
       <div className="absolute h-64 w-64">
         {characters.map((char, index) => {
@@ -68,6 +68,6 @@ export const Spinner = ({ message }: { message?: ReactNode }) => (
         <div className="!text-8xl absolute top-[41%] left-[31%] animate-spin rounded-full">🥸</div>
       </div>
     </div>
-    <Text>{message}</Text>
+    {message && <Text data-testid="spinner-message">{message}</Text>}
   </div>
 );
