@@ -14,7 +14,7 @@ export const RestClient = () => {
       <Flex gap="3">
         <RestForm />
         <Separator orientation="vertical" />
-        <div className="w-full">
+        <div className="w-full max-w-[48%]">
           <ResponseInformation />
           {/* TODO (ripetchor): change to default response */}
           <Tabs.Root defaultValue="code-snippet">

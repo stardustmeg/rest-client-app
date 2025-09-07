@@ -8,7 +8,11 @@ html {
   scrollbar-gutter: stable;
 }
 
-pre {
+pre,
+code {
   white-space: pre-wrap;
   word-wrap: break-word;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 4px;
 }
