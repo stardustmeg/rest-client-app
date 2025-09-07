@@ -8,10 +8,10 @@ export interface ResponseInformationProps {
 
 export const ResponseInformation = ({ size, status, time }: ResponseInformationProps) => {
   return (
-    <div className="flex gap-3">
-      <span>Status: {status}</span>
-      <span>Size: {size}</span>
-      <span>Time: {time}</span>
+    <div data-testid="response-information" className="flex gap-3">
+      <span data-testid="response-information-status">Status: {status}</span>
+      <span data-testid="response-information-size">Size: {size}</span>
+      <span data-testid="response-information-time">Time: {time}</span>
     </div>
   );
 };

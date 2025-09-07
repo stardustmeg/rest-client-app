@@ -12,20 +12,30 @@ export interface BodyEditorRequestBody {
 export type BodyEditorProps = Omit<TextareaProps, 'onChange'> & {
   type: BodyEditorContentType;
   onChange?(props: { value: string; type: BodyEditorContentType }): void;
+  dataTestId?: string;
 };
 
-export const BodyEditor = ({ readOnly, title, type, name, onChange, value }: BodyEditorProps) => {
+export const BodyEditor = ({
+  readOnly,
+  title,
+  type,
+  name,
+  onChange,
+  value,
+  dataTestId,
+}: BodyEditorProps) => {
   return (
     <Stack>
       <Flex align="center" justify="space-between" height="10">
-        <p>{title}</p>
+        <p data-testid="body-editor-title">{title}</p>
         {type === 'json' && !readOnly && (
-          <Button size="xs" variant="ghost">
+          <Button data-testid="body-editor-format-button" size="xs" variant="ghost">
             Format
           </Button>
         )}
       </Flex>
       <Textarea
+        data-testid={dataTestId}
         height="full"
         resize="vertical"
         readOnly={readOnly}

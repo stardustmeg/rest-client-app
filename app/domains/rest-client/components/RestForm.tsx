@@ -54,15 +54,23 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form data-testid="rest-form" onSubmit={handleSubmit} className="w-full">
       <Flex gap="1">
         <Select
+          dataTestId="rest-form-method-select"
           onValueChange={handleMethodChange}
           options={TEMPORARY_METHOD_SELECT_OPTIONS}
           name="method"
         />
-        <Input name="endpoint" placeholder="Endpoint" onChange={handleEndpointChange} />
-        <Button type="submit">Send</Button>
+        <Input
+          data-testid="rest-form-endpoint-input"
+          name="endpoint"
+          placeholder="Endpoint"
+          onChange={handleEndpointChange}
+        />
+        <Button data-testid="rest-form-submit-button" type="submit">
+          Send
+        </Button>
       </Flex>
       <Tabs.Root defaultValue="headers">
         <Tabs.List>
@@ -80,6 +88,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             </Tabs.List>
             <TabsContent value="json">
               <BodyEditor
+                dataTestId="rest-form-body-editor-json"
                 readOnly={false}
                 title="JSON Content"
                 type="json"
@@ -88,6 +97,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             </TabsContent>
             <TabsContent value="text">
               <BodyEditor
+                dataTestId="rest-form-body-editor-text"
                 readOnly={false}
                 title="Text Content"
                 type="text"
