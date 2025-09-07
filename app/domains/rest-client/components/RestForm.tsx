@@ -11,14 +11,14 @@ import {
   requestHeadersAtom,
 } from '../atoms';
 import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
-import { BodyEditor } from './BodyEditor';
+import { BodyEditor, type BodyEditorRequestBody } from './BodyEditor';
 import { HeadersEditor, type RequestHeader } from './HeadersEditor';
 
 export interface RestFormData {
   method: string;
   endpoint: string;
   headers: RequestHeader[];
-  body: string;
+  body: BodyEditorRequestBody;
 }
 
 export interface RestFormProps {

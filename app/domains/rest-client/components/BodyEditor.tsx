@@ -1,18 +1,20 @@
 'use client';
 
-import { Button, Flex, Stack, Textarea } from '@chakra-ui/react';
+import { Button, Flex, Stack, Textarea, type TextareaProps } from '@chakra-ui/react';
 
 export type BodyEditorContentType = 'json' | 'text';
 
-export interface BodyEditorProps {
-  readOnly: boolean;
-  title: string;
+export interface BodyEditorRequestBody {
   type: BodyEditorContentType;
-  name?: string;
-  onChange?(value: string): void;
+  value: string;
 }
 
-export const BodyEditor = ({ readOnly, title, type, name, onChange }: BodyEditorProps) => {
+export type BodyEditorProps = Omit<TextareaProps, 'onChange'> & {
+  type: BodyEditorContentType;
+  onChange?(props: { value: string; type: BodyEditorContentType }): void;
+};
+
+export const BodyEditor = ({ readOnly, title, type, name, onChange, value }: BodyEditorProps) => {
   return (
     <Stack>
       <Flex align="center" justify="space-between" height="10">
@@ -27,8 +29,9 @@ export const BodyEditor = ({ readOnly, title, type, name, onChange }: BodyEditor
         height="full"
         resize="vertical"
         readOnly={readOnly}
+        value={value}
         name={name}
-        onChange={(e) => onChange?.(e.target.value)}
+        onChange={(e) => onChange?.({ type, value: e.target.value })}
       />
     </Stack>
   );

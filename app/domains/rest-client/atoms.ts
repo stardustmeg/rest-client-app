@@ -1,4 +1,5 @@
 import { atom, createStore } from 'jotai';
+import type { BodyEditorRequestBody } from './components/BodyEditor';
 import type { RequestHeader } from './components/HeadersEditor';
 import type { ResponseInformationProps } from './components/ResponseInformation';
 
@@ -10,7 +11,10 @@ export const requestEndpointAtom = atom('');
 
 export const requestHeadersAtom = atom<RequestHeader[]>([{ key: '', value: '' }]);
 
-export const requestBodyAtom = atom('');
+export const requestBodyAtom = atom<BodyEditorRequestBody>({
+  type: 'json',
+  value: '',
+});
 
 export const responseInformationAtom = atom<ResponseInformationProps>({
   status: 0,

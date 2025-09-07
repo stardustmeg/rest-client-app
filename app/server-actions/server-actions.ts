@@ -18,7 +18,7 @@ export async function generateCodeSnippet({
 }: GenerateCodeSnippetParams): Promise<string> {
   const request = new sdk.Request({
     method,
-    body: new sdk.RequestBody({ mode: 'raw', raw: body }),
+    body: new sdk.RequestBody({ mode: 'raw', raw: body.value }),
     url,
     header: headers,
   });
