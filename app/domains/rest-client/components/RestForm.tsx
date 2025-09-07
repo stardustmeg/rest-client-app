@@ -12,9 +12,20 @@ import {
 } from '../atoms';
 import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
 import { BodyEditor } from './BodyEditor';
-import { HeadersEditor } from './HeadersEditor';
+import { HeadersEditor, type RequestHeader } from './HeadersEditor';
 
-export const RestForm = () => {
+export interface RestFormData {
+  method: string;
+  endpoint: string;
+  headers: RequestHeader[];
+  body: string;
+}
+
+export interface RestFormProps {
+  onSubmit(data: RestFormData): void;
+}
+
+export const RestForm = ({ onSubmit }: RestFormProps) => {
   const store = useStore();
 
   const setEndpoint = useSetAtom(requestEndpointAtom);
@@ -39,8 +50,7 @@ export const RestForm = () => {
       body: store.get(requestBodyAtom),
     };
 
-    // biome-ignore lint/suspicious/noConsole: <ya ya ya>
-    console.log(formData);
+    onSubmit(formData);
   };
 
   return (
