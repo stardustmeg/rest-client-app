@@ -48,7 +48,6 @@ export const Spinner = ({ message }: { message?: ReactNode }) => (
           const fullCircle = 360;
           const angle = (index / characters.length) * fullCircle;
           const radius = 2.5;
-
           return (
             <span
               key={`${index}-${char}`}
