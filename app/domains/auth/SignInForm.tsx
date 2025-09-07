@@ -56,6 +56,7 @@ export const SignInForm = () => {
           {...register('password')}
         />
         <Button
+          data-testid="submit-button"
           loading={isLoading || isSubmitting}
           w="full"
           disabled={!isValid || isSubmitting}

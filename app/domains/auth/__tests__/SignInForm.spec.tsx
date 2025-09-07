@@ -100,7 +100,7 @@ describe('SignInForm', () => {
       </TestProviders>,
     );
 
-    const submitButton = screen.getByRole('button', { name: /submit/i });
+    const submitButton = screen.getByTestId('submit-button');
     expect(submitButton).toBeDisabled();
   });
 
