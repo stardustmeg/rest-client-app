@@ -1,5 +1,6 @@
 import { atom, createStore } from 'jotai';
 import type { RequestHeader } from './components/HeadersEditor';
+import type { ResponseInformationProps } from './components/ResponseInformation';
 
 export const formDataStore = createStore();
 
@@ -11,7 +12,11 @@ export const requestHeadersAtom = atom<RequestHeader[]>([{ key: '', value: '' }]
 
 export const requestBodyAtom = atom('');
 
-export const responseInformationAtom = atom<{ status: number; size: number; time: number }>();
+export const responseInformationAtom = atom<ResponseInformationProps>({
+  status: 0,
+  size: 0,
+  time: 0,
+});
 
 export const codeGenLanguageAtom = atom('');
 
