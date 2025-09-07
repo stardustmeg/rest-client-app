@@ -48,21 +48,32 @@ export function useCodeGenSelection(): UseCodeGenSelectionReturn {
     });
   }, [setLanguageAtom, setVariantAtom]);
 
-  return { languages, variants, setVariant: setVariantAtom, setLanguage } as const;
+  return {
+    languages,
+    variants,
+    setVariant: setVariantAtom,
+    setLanguage,
+  } as const;
 }
 
-function getLanguageOptions(languageList: CodeGenLanguage[]): SelectOption[] {
+export function getLanguageOptions(languageList: CodeGenLanguage[]): SelectOption[] {
   return languageList.map((lang) => ({ value: lang.key, label: lang.label }));
 }
 
-function getVariantOptions(language?: CodeGenLanguage): SelectOption[] {
+export function getVariantOptions(language?: CodeGenLanguage): SelectOption[] {
   if (!language?.variants) {
     return [];
   }
 
-  return language.variants.map((variant) => ({ value: variant.key, label: variant.key }));
+  return language.variants.map((variant) => ({
+    value: variant.key,
+    label: variant.key,
+  }));
 }
 
-function findLanguageByKey(languages: CodeGenLanguage[], key: string): CodeGenLanguage | undefined {
+export function findLanguageByKey(
+  languages: CodeGenLanguage[],
+  key: string,
+): CodeGenLanguage | undefined {
   return languages.find((lang) => lang.key === key);
 }
