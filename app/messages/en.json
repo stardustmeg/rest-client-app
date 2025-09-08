@@ -4,7 +4,8 @@
   },
   "global-not-found": {
     "title": "Page not found",
-    "link": "Home"
+    "link": "Home",
+    "description": "We're sorry, the page you requested could not be found. It may have been moved or deleted."
   },
   "form": {
     "username": "Username",

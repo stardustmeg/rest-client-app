@@ -10,7 +10,7 @@ const infoSection = [
   },
   {
     author: 'developers.ripetchor.author',
-    avatar: 'https://avatars.githubusercontent.com/u/115036520?v=4',
+    avatar: 'ripetchor-real-photo.jpg',
     role: 'developers.ripetchor.role',
     description: 'developers.ripetchor.description',
   },
