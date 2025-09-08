@@ -1,12 +1,19 @@
+import { HStack } from '@chakra-ui/react';
 import { routes } from '@/app/[locale]/routes';
 import { NavigationLink } from '@/app/components/ui/NavigationLink';
 
 export const Navigation = () => {
+  const mainRoutes = Object.values(routes).filter(
+    (route) => !['notFound'].includes(route.translationKey),
+  );
+
   return (
-    <nav className="!p-4 flex gap-4 bg-gray-100 dark:bg-gray-800">
-      {Object.values(routes).map((route) => (
-        <NavigationLink key={route.path} route={route} />
-      ))}
+    <nav>
+      <HStack gap={6} align="center" wrap="wrap">
+        {mainRoutes.map((route) => (
+          <NavigationLink key={route.path} route={route} />
+        ))}
+      </HStack>
     </nav>
   );
 };

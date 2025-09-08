@@ -49,7 +49,6 @@ export const LanguageSelect = () => {
       positioning={{ sameWidth: false }}
       collection={languages}
       size="sm"
-      width="320px"
       defaultValue={[locale]}
       onValueChange={handleLanguageChange}
     >

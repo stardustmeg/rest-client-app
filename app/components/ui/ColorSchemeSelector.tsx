@@ -20,12 +20,12 @@ export const ColorSchemeSelector = () => {
 
   return (
     <ClientOnly fallback={<Skeleton boxSize="8" />}>
-      <div className="flex h-fit items-center gap-2">
+      <div className="flex h-fit flex-wrap items-center gap-1 sm:flex-nowrap">
         {colorSchemes.map((scheme) => (
           <IconButton
             key={scheme.value}
             onClick={() => setColorScheme(scheme.value)}
-            aria-label="Toggle color scheme"
+            aria-label={`Set ${scheme.value} color scheme`}
             size="sm"
             variant="plain"
             css={{
