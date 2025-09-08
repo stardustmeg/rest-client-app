@@ -14,6 +14,7 @@ export interface KeyValueEditorProps {
   onDelete(index: number): void;
   items: KeyValue[];
   addButtonText: string;
+  testIdPrefix?: string;
 }
 
 export const KeyValueEditor = ({
@@ -22,11 +23,18 @@ export const KeyValueEditor = ({
   onChange,
   onAdd,
   addButtonText,
+  testIdPrefix,
 }: KeyValueEditorProps) => {
   return (
-    <Stack>
+    <Stack data-testid={testIdPrefix ? `${testIdPrefix}-key-value-editor` : 'key-value-editor'}>
       {items.length === 0 && (
-        <Button type="button" size="sm" width="max-content" onClick={onAdd}>
+        <Button
+          data-testid={testIdPrefix ? `${testIdPrefix}-add-button` : 'add-button'}
+          type="button"
+          size="sm"
+          width="max-content"
+          onClick={onAdd}
+        >
           {addButtonText}
         </Button>
       )}
@@ -34,6 +42,9 @@ export const KeyValueEditor = ({
         {(item, index) => (
           <Flex gap="2" key={index}>
             <Input
+              data-testid={
+                testIdPrefix ? `${testIdPrefix}-key-input-${index}` : `key-input-${index}`
+              }
               name={`header-key-${index}`}
               size="sm"
               type="text"
@@ -42,6 +53,9 @@ export const KeyValueEditor = ({
               onChange={(e) => onChange('key', e.target.value, index)}
             />
             <Input
+              data-testid={
+                testIdPrefix ? `${testIdPrefix}-value-input-${index}` : `value-input-${index}`
+              }
               name={`header-value-${index}`}
               size="sm"
               type="text"
@@ -49,7 +63,14 @@ export const KeyValueEditor = ({
               placeholder="value"
               onChange={(e) => onChange('value', e.target.value, index)}
             />
-            <Button variant="subtle" size="sm" onClick={() => onDelete(index)}>
+            <Button
+              data-testid={
+                testIdPrefix ? `${testIdPrefix}-delete-button-${index}` : `delete-button-${index}`
+              }
+              variant="subtle"
+              size="sm"
+              onClick={() => onDelete(index)}
+            >
               <BsXLg />
             </Button>
           </Flex>
