@@ -1,35 +1,15 @@
 import { Avatar, Box, Heading, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { getTranslations } from 'next-intl/server';
-
-const infoSection = [
-  {
-    author: 'developers.stardustmeg.author',
-    avatar: 'https://avatars.githubusercontent.com/u/146496794?v=4',
-    role: 'developers.stardustmeg.role',
-    description: 'developers.stardustmeg.description',
-  },
-  {
-    author: 'developers.ripetchor.author',
-    avatar: 'ripetchor-real-photo.jpg',
-    role: 'developers.ripetchor.role',
-    description: 'developers.ripetchor.description',
-  },
-  {
-    author: 'developers.zagorky.author',
-    avatar: 'https://avatars.githubusercontent.com/u/156232667?v=4',
-    role: 'developers.zagorky.role',
-    description: 'developers.zagorky.description',
-  },
-] as const;
+import { developersInfo } from '@/data/developersInfo';
 
 export const AboutDevelopersBlock = async () => {
   const t = await getTranslations('main-page');
 
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap="8" w="full">
-      {infoSection.map((item) => (
+      {developersInfo.map(({ name, author, avatar, role, description }) => (
         <Box
-          key={item.author}
+          key={name}
           p="8"
           borderRadius="2xl"
           borderWidth="1px"
@@ -39,17 +19,17 @@ export const AboutDevelopersBlock = async () => {
         >
           <VStack gap="4">
             <Avatar.Root size="xl">
-              <Avatar.Fallback name={t(item.author)} />
-              <Avatar.Image src={item.avatar} />
+              <Avatar.Fallback name={t(author)} />
+              <Avatar.Image src={avatar} />
             </Avatar.Root>
             <Heading as="h3" size="xl" color="pink.600">
-              {t(item.author)}
+              {t(author)}
             </Heading>
             <Text fontWeight="semibold" color="teal.500">
-              {t(item.role)}
+              {t(role)}
             </Text>
             <Text fontSize="md" opacity="0.8">
-              {t(item.description)}
+              {t(description)}
             </Text>
           </VStack>
         </Box>
