@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
-import { useSetAtom, useStore } from 'jotai';
+import { useAtom, useSetAtom, useStore } from 'jotai';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Select } from '@/app/components/ui/Select';
 import {
@@ -12,12 +12,12 @@ import {
 } from '../atoms';
 import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
 import { BodyEditor, type BodyEditorRequestBody } from './BodyEditor';
-import { HeadersEditor, type RequestHeader } from './HeadersEditor';
+import { type KeyValue, KeyValueEditor } from './KeyValueEditor';
 
 export interface RestFormData {
   method: string;
   endpoint: string;
-  headers: RequestHeader[];
+  headers: KeyValue[];
   body: BodyEditorRequestBody;
 }
 
@@ -31,6 +31,29 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
   const setEndpoint = useSetAtom(requestEndpointAtom);
   const setHttpMethod = useSetAtom(httpRequestMethodAtom);
   const setRequestBody = useSetAtom(requestBodyAtom);
+
+  const [headers, setHeaders] = useAtom(requestHeadersAtom);
+
+  const handleHeadersChange = (key: keyof KeyValue, value: string, index: number) => {
+    const newHeaders = [...headers];
+    newHeaders[index][key] = value;
+    setHeaders(newHeaders);
+
+    const isLastRow = index === headers.length - 1;
+    const isRowFilled = newHeaders[index].key !== '' || newHeaders[index].value !== '';
+
+    if (isLastRow && isRowFilled) {
+      setHeaders((prev) => [...prev, { key: '', value: '' }]);
+    }
+  };
+
+  const addHeader = () => {
+    setHeaders([{ key: '', value: '' }]);
+  };
+
+  const deleteHeader = (index: number) => {
+    setHeaders((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleMethodChange = (v: string) => {
     setHttpMethod(v);
@@ -78,7 +101,12 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
           <Tabs.Trigger value="body">Body</Tabs.Trigger>
         </Tabs.List>
         <TabsContent value="headers">
-          <HeadersEditor />
+          <KeyValueEditor
+            items={headers}
+            onChange={handleHeadersChange}
+            onAdd={addHeader}
+            onDelete={deleteHeader}
+          />
         </TabsContent>
         <TabsContent value="body">
           <Tabs.Root defaultValue="json">
