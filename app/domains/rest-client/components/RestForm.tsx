@@ -106,6 +106,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             onChange={handleHeadersChange}
             onAdd={addHeader}
             onDelete={deleteHeader}
+            addButtonText="Add Header"
           />
         </TabsContent>
         <TabsContent value="body">

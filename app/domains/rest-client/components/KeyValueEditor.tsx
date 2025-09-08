@@ -13,14 +13,21 @@ export interface KeyValueEditorProps {
   onAdd(): void;
   onDelete(index: number): void;
   items: KeyValue[];
+  addButtonText: string;
 }
 
-export const KeyValueEditor = ({ items, onDelete, onChange, onAdd }: KeyValueEditorProps) => {
+export const KeyValueEditor = ({
+  items,
+  onDelete,
+  onChange,
+  onAdd,
+  addButtonText,
+}: KeyValueEditorProps) => {
   return (
     <Stack>
       {items.length === 0 && (
         <Button type="button" size="sm" width="max-content" onClick={onAdd}>
-          Add header
+          {addButtonText}
         </Button>
       )}
       <For each={items}>
