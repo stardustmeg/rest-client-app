@@ -1,7 +1,9 @@
+import { VStack } from '@chakra-ui/react';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Header } from '@/app/components/Header';
+import { Footer } from '@/app/components/ui/Footer';
 import { type RoutingLocales, routing } from '@/i18n/routing';
 
 interface LocaleLayoutProps {
@@ -20,8 +22,13 @@ const LocaleLayout = async ({ children, params }: LocaleLayoutProps) => {
 
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
-      <Header />
-      {children}
+      <VStack className="min-h-screen justify-between gap-0">
+        <div className="w-full flex-1">
+          <Header />
+          <main className="min-h-screen">{children}</main>
+        </div>
+        <Footer />
+      </VStack>
     </NextIntlClientProvider>
   );
 };
