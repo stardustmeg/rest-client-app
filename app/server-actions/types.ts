@@ -1,10 +1,11 @@
-import type { RequestHeader } from '../domains/rest-client/components/HeadersEditor';
+import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
+import type { KeyValue } from '../domains/rest-client/components/KeyValueEditor';
 
 export interface GenerateCodeSnippetParams {
   method: string;
   url: string;
-  headers: RequestHeader[];
-  body: string;
+  headers: KeyValue[];
+  body: BodyEditorRequestBody;
   language: string;
   variant: string;
 }

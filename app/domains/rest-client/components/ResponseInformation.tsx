@@ -1,16 +1,17 @@
 'use client';
 
-import { useAtomValue } from 'jotai';
-import { responseInformationAtom } from '@/app/domains/rest-client/atoms';
+export interface ResponseInformationProps {
+  status: number;
+  size: number;
+  time: number;
+}
 
-export const ResponseInformation = () => {
-  const responseInfo = useAtomValue(responseInformationAtom);
-
+export const ResponseInformation = ({ size, status, time }: ResponseInformationProps) => {
   return (
-    <div className="flex gap-3">
-      <span>Status: {responseInfo?.status}</span>
-      <span>Size: {responseInfo?.size}</span>
-      <span>Time: {responseInfo?.time}</span>
+    <div data-testid="response-information" className="flex gap-3">
+      <span data-testid="response-information-status">Status: {status}</span>
+      <span data-testid="response-information-size">Size: {size}</span>
+      <span data-testid="response-information-time">Time: {time}</span>
     </div>
   );
 };

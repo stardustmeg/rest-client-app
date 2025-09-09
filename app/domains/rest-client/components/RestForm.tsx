@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
-import { useSetAtom, useStore } from 'jotai';
+import { useAtom, useSetAtom, useStore } from 'jotai';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Select } from '@/app/components/ui/Select';
 import {
@@ -11,15 +11,49 @@ import {
   requestHeadersAtom,
 } from '../atoms';
 import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
-import { BodyEditor } from './BodyEditor';
-import { HeadersEditor } from './HeadersEditor';
+import { BodyEditor, type BodyEditorRequestBody } from './BodyEditor';
+import { type KeyValue, KeyValueEditor } from './KeyValueEditor';
 
-export const RestForm = () => {
+export interface RestFormData {
+  method: string;
+  endpoint: string;
+  headers: KeyValue[];
+  body: BodyEditorRequestBody;
+}
+
+export interface RestFormProps {
+  onSubmit(data: RestFormData): void;
+}
+
+export const RestForm = ({ onSubmit }: RestFormProps) => {
   const store = useStore();
 
   const setEndpoint = useSetAtom(requestEndpointAtom);
   const setHttpMethod = useSetAtom(httpRequestMethodAtom);
   const setRequestBody = useSetAtom(requestBodyAtom);
+
+  const [headers, setHeaders] = useAtom(requestHeadersAtom);
+
+  const handleHeadersChange = (key: keyof KeyValue, value: string, index: number) => {
+    const newHeaders = [...headers];
+    newHeaders[index][key] = value;
+    setHeaders(newHeaders);
+
+    const isLastRow = index === headers.length - 1;
+    const isRowFilled = newHeaders[index].key !== '' || newHeaders[index].value !== '';
+
+    if (isLastRow && isRowFilled) {
+      setHeaders((prev) => [...prev, { key: '', value: '' }]);
+    }
+  };
+
+  const addHeader = () => {
+    setHeaders([{ key: '', value: '' }]);
+  };
+
+  const deleteHeader = (index: number) => {
+    setHeaders((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleMethodChange = (v: string) => {
     setHttpMethod(v);
@@ -39,20 +73,27 @@ export const RestForm = () => {
       body: store.get(requestBodyAtom),
     };
 
-    // biome-ignore lint/suspicious/noConsole: <ya ya ya>
-    console.log(formData);
+    onSubmit(formData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form data-testid="rest-form" onSubmit={handleSubmit} className="w-full">
       <Flex gap="1">
         <Select
+          dataTestId="rest-form-method-select"
           onValueChange={handleMethodChange}
           options={TEMPORARY_METHOD_SELECT_OPTIONS}
           name="method"
         />
-        <Input name="endpoint" placeholder="Endpoint" onChange={handleEndpointChange} />
-        <Button type="submit">Send</Button>
+        <Input
+          data-testid="rest-form-endpoint-input"
+          name="endpoint"
+          placeholder="Endpoint"
+          onChange={handleEndpointChange}
+        />
+        <Button data-testid="rest-form-submit-button" type="submit">
+          Send
+        </Button>
       </Flex>
       <Tabs.Root defaultValue="headers">
         <Tabs.List>
@@ -60,7 +101,13 @@ export const RestForm = () => {
           <Tabs.Trigger value="body">Body</Tabs.Trigger>
         </Tabs.List>
         <TabsContent value="headers">
-          <HeadersEditor />
+          <KeyValueEditor
+            items={headers}
+            onChange={handleHeadersChange}
+            onAdd={addHeader}
+            onDelete={deleteHeader}
+            addButtonText="Add Header"
+          />
         </TabsContent>
         <TabsContent value="body">
           <Tabs.Root defaultValue="json">
@@ -70,6 +117,7 @@ export const RestForm = () => {
             </Tabs.List>
             <TabsContent value="json">
               <BodyEditor
+                dataTestId="rest-form-body-editor-json"
                 readOnly={false}
                 title="JSON Content"
                 type="json"
@@ -78,6 +126,7 @@ export const RestForm = () => {
             </TabsContent>
             <TabsContent value="text">
               <BodyEditor
+                dataTestId="rest-form-body-editor-text"
                 readOnly={false}
                 title="Text Content"
                 type="text"
