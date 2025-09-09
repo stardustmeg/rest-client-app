@@ -1,12 +1,25 @@
+import { HStack, VStack } from '@chakra-ui/react';
 import { routes } from '@/app/[locale]/routes';
 import { NavigationLink } from '@/app/components/ui/NavigationLink';
 
-export const Navigation = () => {
+interface NavigationProps {
+  direction?: 'horizontal' | 'vertical';
+}
+
+export const Navigation = ({ direction = 'horizontal' }: NavigationProps) => {
+  const mainRoutes = Object.values(routes).filter(
+    (route) => !['notFound', 'signIn', 'signUp'].includes(route.translationKey),
+  );
+
+  const NavigationContainer = direction === 'vertical' ? VStack : HStack;
+
   return (
-    <nav className="!p-4 flex gap-4 bg-gray-100 dark:bg-gray-800">
-      {Object.values(routes).map((route) => (
-        <NavigationLink key={route.path} route={route} />
-      ))}
+    <nav>
+      <NavigationContainer {...{ gap: 4 }}>
+        {mainRoutes.map((route) => (
+          <NavigationLink key={route.path} route={route} direction={direction} />
+        ))}
+      </NavigationContainer>
     </nav>
   );
 };
