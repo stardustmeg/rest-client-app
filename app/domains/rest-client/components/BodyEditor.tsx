@@ -13,6 +13,7 @@ export type BodyEditorProps = Omit<TextareaProps, 'onChange'> & {
   type: BodyEditorContentType;
   onChange?(props: { value: string; type: BodyEditorContentType }): void;
   dataTestId?: string;
+  buttonFormatText?: string;
 };
 
 export const BodyEditor = ({
@@ -23,14 +24,15 @@ export const BodyEditor = ({
   onChange,
   value,
   dataTestId,
+  buttonFormatText,
 }: BodyEditorProps) => {
   return (
     <Stack>
       <Flex align="center" justify="space-between" height="10">
-        <p data-testid="body-editor-title">{title}</p>
+        {title && <p data-testid="body-editor-title">{title}</p>}
         {type === 'json' && !readOnly && (
           <Button data-testid="body-editor-format-button" size="xs" variant="ghost">
-            Format
+            {buttonFormatText ?? 'Format'}
           </Button>
         )}
       </Flex>

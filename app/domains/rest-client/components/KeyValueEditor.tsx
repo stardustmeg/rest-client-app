@@ -15,6 +15,8 @@ export interface KeyValueEditorProps {
   items: KeyValue[];
   addButtonText: string;
   testIdPrefix?: string;
+  placeholderKey?: string;
+  placeholderValue?: string;
 }
 
 export const KeyValueEditor = ({
@@ -24,6 +26,8 @@ export const KeyValueEditor = ({
   onAdd,
   addButtonText,
   testIdPrefix,
+  placeholderKey,
+  placeholderValue,
 }: KeyValueEditorProps) => {
   return (
     <Stack data-testid={testIdPrefix ? `${testIdPrefix}-key-value-editor` : 'key-value-editor'}>
@@ -49,7 +53,7 @@ export const KeyValueEditor = ({
               size="sm"
               type="text"
               value={item.key}
-              placeholder="header"
+              placeholder={placeholderKey ?? 'key'}
               onChange={(e) => onChange('key', e.target.value, index)}
             />
             <Input
@@ -60,7 +64,7 @@ export const KeyValueEditor = ({
               size="sm"
               type="text"
               value={item.value}
-              placeholder="value"
+              placeholder={placeholderValue ?? 'value'}
               onChange={(e) => onChange('value', e.target.value, index)}
             />
             <Button

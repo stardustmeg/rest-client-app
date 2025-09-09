@@ -2,6 +2,7 @@
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
 import { useAtom, useSetAtom, useStore } from 'jotai';
+import { useTranslations } from 'next-intl';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Select } from '@/app/components/ui/Select';
 import {
@@ -25,7 +26,10 @@ export interface RestFormProps {
   onSubmit(data: RestFormData): void;
 }
 
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <explanation>
 export const RestForm = ({ onSubmit }: RestFormProps) => {
+  const t = useTranslations('restClient.form');
+
   const store = useStore();
 
   const setEndpoint = useSetAtom(requestEndpointAtom);
@@ -88,17 +92,17 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
         <Input
           data-testid="rest-form-endpoint-input"
           name="endpoint"
-          placeholder="Endpoint"
+          placeholder={t('inputPlaceholderEndpoint')}
           onChange={handleEndpointChange}
         />
         <Button data-testid="rest-form-submit-button" type="submit">
-          Send
+          {t('buttonSend')}
         </Button>
       </Flex>
       <Tabs.Root defaultValue="headers">
         <Tabs.List>
-          <Tabs.Trigger value="headers">Headers</Tabs.Trigger>
-          <Tabs.Trigger value="body">Body</Tabs.Trigger>
+          <Tabs.Trigger value="headers">{t('tabTriggerHeaders')}</Tabs.Trigger>
+          <Tabs.Trigger value="body">{t('tabTriggerBody')}</Tabs.Trigger>
         </Tabs.List>
         <TabsContent value="headers">
           <KeyValueEditor
@@ -106,29 +110,32 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             onChange={handleHeadersChange}
             onAdd={addHeader}
             onDelete={deleteHeader}
-            addButtonText="Add Header"
+            addButtonText={t('buttonAddHeader')}
+            placeholderKey={t('inputPlaceholderHeaderKey')}
+            placeholderValue={t('inputPlaceholderHeaderValue')}
           />
         </TabsContent>
         <TabsContent value="body">
           <Tabs.Root defaultValue="json">
             <Tabs.List>
-              <Tabs.Trigger value="json">JSON</Tabs.Trigger>
-              <Tabs.Trigger value="text">Text</Tabs.Trigger>
+              <Tabs.Trigger value="json">{t('tabTriggerJson')}</Tabs.Trigger>
+              <Tabs.Trigger value="text">{t('tabTriggerText')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="json">
               <BodyEditor
                 dataTestId="rest-form-body-editor-json"
                 readOnly={false}
-                title="JSON Content"
+                title={t('tabBodyTitleJson')}
                 type="json"
                 onChange={setRequestBody}
+                buttonFormatText={t('buttonFormat')}
               />
             </TabsContent>
             <TabsContent value="text">
               <BodyEditor
                 dataTestId="rest-form-body-editor-text"
                 readOnly={false}
-                title="Text Content"
+                title={t('tabBodyTitleText')}
                 type="text"
                 onChange={setRequestBody}
               />
