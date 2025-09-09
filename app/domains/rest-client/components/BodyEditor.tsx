@@ -34,7 +34,7 @@ export const BodyEditor = ({
   title,
 }: BodyEditorProps) => {
   return (
-    <div data-testid={dataTestId}>
+    <div>
       <Flex align="center" justify="space-between" height="10">
         {title && <p data-testid="body-editor-title">{title}</p>}
         {type === 'json' && !readOnly && (
@@ -49,6 +49,7 @@ export const BodyEditor = ({
         )}
       </Flex>
       <Editor
+        data-testid={dataTestId}
         language={type}
         height="70dvh"
         options={{ readOnly }}
