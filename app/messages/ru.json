@@ -132,7 +132,8 @@
       "tabTriggerText": "Текст",
       "tabBodyTitleJson": "Содержимое JSON",
       "tabBodyTitleText": "Текстовое содержимое",
-      "buttonFormat": "Форматировать"
+      "buttonFormat": "Форматировать",
+      "formatFailed": "Не удалось отформатировать JSON. Пожалуйста, исправьте синтаксические ошибки и попробуйте снова."
     },
     "response": {
       "tabTriggerResponse": "Ответ",

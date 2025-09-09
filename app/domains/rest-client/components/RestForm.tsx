@@ -73,7 +73,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
   };
 
   const handleFormatJson = () => {
-    const formatted = formatJson(requestBody.value, () => error('Failed to format JSON'));
+    const formatted = formatJson(requestBody.value, () => error(t('formatFailed')));
     setRequestBody({ type: 'json', value: formatted });
   };
 

@@ -131,7 +131,8 @@
       "tabTriggerText": "テキスト",
       "tabBodyTitleJson": "JSONコンテンツ",
       "tabBodyTitleText": "テキストコンテンツ",
-      "buttonFormat": "整形"
+      "buttonFormat": "整形",
+      "formatFailed": "JSON の整形に失敗しました。構文エラーを修正して、もう一度お試しください。"
     },
     "response": {
       "tabTriggerResponse": "レスポンス",
