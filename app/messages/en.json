@@ -131,7 +131,8 @@
       "tabTriggerText": "Text",
       "tabBodyTitleJson": "JSON Content",
       "tabBodyTitleText": "Text Content",
-      "buttonFormat": "Format"
+      "buttonFormat": "Format",
+      "formatFailed": "Could not format JSON. Please fix syntax errors and try again."
     },
     "response": {
       "tabTriggerResponse": "Response",

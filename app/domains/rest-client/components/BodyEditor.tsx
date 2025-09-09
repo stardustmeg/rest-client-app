@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Flex, Stack, Textarea, type TextareaProps } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
+import Editor from '@monaco-editor/react';
 
 export type BodyEditorContentType = 'json' | 'text';
 
@@ -9,42 +10,55 @@ export interface BodyEditorRequestBody {
   value: string;
 }
 
-export type BodyEditorProps = Omit<TextareaProps, 'onChange'> & {
+export interface BodyEditorProps {
   type: BodyEditorContentType;
-  onChange?(props: { value: string; type: BodyEditorContentType }): void;
+  onChange?(payload: { value: string; type: BodyEditorContentType }): void;
+  onFormat?(): void;
   dataTestId?: string;
   buttonFormatText?: string;
-};
+  readOnly: boolean;
+  value?: string;
+  title?: string;
+  theme?: string;
+}
 
 export const BodyEditor = ({
   readOnly,
-  title,
+  theme,
   type,
-  name,
   onChange,
-  value,
+  onFormat,
   dataTestId,
+  value,
   buttonFormatText,
+  title,
 }: BodyEditorProps) => {
   return (
-    <Stack>
+    <div>
       <Flex align="center" justify="space-between" height="10">
         {title && <p data-testid="body-editor-title">{title}</p>}
         {type === 'json' && !readOnly && (
-          <Button data-testid="body-editor-format-button" size="xs" variant="ghost">
+          <Button
+            data-testid="body-editor-format-button"
+            size="xs"
+            variant="ghost"
+            onClick={onFormat}
+          >
             {buttonFormatText ?? 'Format'}
           </Button>
         )}
       </Flex>
-      <Textarea
+      <Editor
         data-testid={dataTestId}
-        height="full"
-        resize="vertical"
-        readOnly={readOnly}
+        language={type}
+        height="70dvh"
+        options={{ readOnly }}
         value={value}
-        name={name}
-        onChange={(e) => onChange?.({ type, value: e.target.value })}
+        theme={theme === 'dark' ? 'vs-dark' : 'light'}
+        onChange={(v) => {
+          onChange?.({ type, value: v ?? '' });
+        }}
       />
-    </Stack>
+    </div>
   );
 };

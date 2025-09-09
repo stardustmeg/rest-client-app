@@ -3,8 +3,10 @@
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
 import { useAtom, useSetAtom, useStore } from 'jotai';
 import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Select } from '@/app/components/ui/Select';
+import { useToast } from '@/app/hooks/use-toast';
 import {
   httpRequestMethodAtom,
   requestBodyAtom,
@@ -12,6 +14,7 @@ import {
   requestHeadersAtom,
 } from '../atoms';
 import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
+import { formatJson } from '../utils';
 import { BodyEditor, type BodyEditorRequestBody } from './BodyEditor';
 import { type KeyValue, KeyValueEditor } from './KeyValueEditor';
 
@@ -29,12 +32,14 @@ export interface RestFormProps {
 // biome-ignore lint/complexity/noExcessiveLinesPerFunction: <explanation>
 export const RestForm = ({ onSubmit }: RestFormProps) => {
   const t = useTranslations('restClient.form');
+  const { resolvedTheme } = useTheme();
+  const { error } = useToast();
 
   const store = useStore();
 
   const setEndpoint = useSetAtom(requestEndpointAtom);
   const setHttpMethod = useSetAtom(httpRequestMethodAtom);
-  const setRequestBody = useSetAtom(requestBodyAtom);
+  const [requestBody, setRequestBody] = useAtom(requestBodyAtom);
 
   const [headers, setHeaders] = useAtom(requestHeadersAtom);
 
@@ -65,6 +70,11 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
 
   const handleEndpointChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEndpoint(event.target.value);
+  };
+
+  const handleFormatJson = () => {
+    const formatted = formatJson(requestBody.value, () => error(t('formatFailed')));
+    setRequestBody({ type: 'json', value: formatted });
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -123,16 +133,20 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             </Tabs.List>
             <TabsContent value="json">
               <BodyEditor
+                theme={resolvedTheme}
+                value={requestBody.value}
                 dataTestId="rest-form-body-editor-json"
                 readOnly={false}
                 title={t('tabBodyTitleJson')}
                 type="json"
                 onChange={setRequestBody}
                 buttonFormatText={t('buttonFormat')}
+                onFormat={handleFormatJson}
               />
             </TabsContent>
             <TabsContent value="text">
               <BodyEditor
+                theme={resolvedTheme}
                 dataTestId="rest-form-body-editor-text"
                 readOnly={false}
                 title={t('tabBodyTitleText')}
