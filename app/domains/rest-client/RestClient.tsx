@@ -2,6 +2,7 @@
 
 import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider, useAtomValue } from 'jotai';
+import { useTranslations } from 'next-intl';
 import { formDataStore, responseInformationAtom } from './atoms';
 import { BodyEditor } from './components/BodyEditor';
 import { CodeGeneration } from './components/CodeGeneration';
@@ -9,6 +10,8 @@ import { ResponseInformation } from './components/ResponseInformation';
 import { RestForm, type RestFormData } from './components/RestForm';
 
 export const RestClient = () => {
+  const t = useTranslations('restClient.response');
+
   const responseInfo = useAtomValue(responseInformationAtom);
 
   const handleFormSubmit = (data: RestFormData) => {
@@ -26,15 +29,18 @@ export const RestClient = () => {
             status={responseInfo.status}
             size={responseInfo.status}
             time={responseInfo.time}
+            labelStatus={t('status')}
+            labelSize={t('size')}
+            labelTime={t('time')}
           />
           {/* TODO (ripetchor): change to default response */}
           <Tabs.Root defaultValue="code-snippet">
             <Tabs.List>
-              <Tabs.Trigger value="response">Response</Tabs.Trigger>
-              <Tabs.Trigger value="code-snippet">Code snippet</Tabs.Trigger>
+              <Tabs.Trigger value="response">{t('tabTriggerResponse')}</Tabs.Trigger>
+              <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              <BodyEditor readOnly={true} title="Response" type="json" />
+              <BodyEditor readOnly={true} type="json" />
             </TabsContent>
             <TabsContent value="code-snippet">
               <CodeGeneration />

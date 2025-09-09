@@ -124,7 +124,7 @@
       "inputPlaceholderEndpoint": "Адрес запроса",
       "buttonSend": "Отправить",
       "tabTriggerHeaders": "Заголовки",
-      "tabTriggerBody": "Тело",
+      "tabTriggerBody": "Тело запроса",
       "inputPlaceholderHeaderKey": "Ключ",
       "inputPlaceholderHeaderValue": "Значение",
       "buttonAddHeader": "Добавить заголовок",
