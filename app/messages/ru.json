@@ -117,5 +117,29 @@
     "deleteAll": "Удалить все",
     "addVariable": "Добавить переменную",
     "noVariables": "Пока нет переменных"
+  },
+
+  "restClient": {
+    "form": {
+      "inputPlaceholderEndpoint": "Адрес запроса",
+      "buttonSend": "Отправить",
+      "tabTriggerHeaders": "Заголовки",
+      "tabTriggerBody": "Тело",
+      "inputPlaceholderHeaderKey": "Ключ",
+      "inputPlaceholderHeaderValue": "Значение",
+      "buttonAddHeader": "Добавить заголовок",
+      "tabTriggerJson": "JSON",
+      "tabTriggerText": "Текст",
+      "tabBodyTitleJson": "Содержимое JSON",
+      "tabBodyTitleText": "Текстовое содержимое",
+      "buttonFormat": "Форматировать"
+    },
+    "response": {
+      "tabTriggerResponse": "Ответ",
+      "tabTriggerCodeSnippet": "Пример кода",
+      "status": "Статус",
+      "size": "Размер",
+      "time": "Время"
+    }
   }
 }

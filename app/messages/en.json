@@ -117,5 +117,28 @@
     "deleteAll": "Delete All",
     "addVariable": "Add Variable",
     "noVariables": "No Variables yet"
+  },
+  "restClient": {
+    "form": {
+      "inputPlaceholderEndpoint": "Endpoint",
+      "buttonSend": "Send",
+      "tabTriggerHeaders": "Headers",
+      "tabTriggerBody": "Body",
+      "inputPlaceholderHeaderKey": "Key",
+      "inputPlaceholderHeaderValue": "Value",
+      "buttonAddHeader": "Add Header",
+      "tabTriggerJson": "JSON",
+      "tabTriggerText": "Text",
+      "tabBodyTitleJson": "JSON Content",
+      "tabBodyTitleText": "Text Content",
+      "buttonFormat": "Format"
+    },
+    "response": {
+      "tabTriggerResponse": "Response",
+      "tabTriggerCodeSnippet": "Code Snippet",
+      "status": "Status",
+      "size": "Size",
+      "time": "Time"
+    }
   }
 }

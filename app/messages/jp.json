@@ -117,5 +117,28 @@
     "deleteAll": "すべて削除",
     "addVariable": "変数を追加",
     "noVariables": "まだ変数がありません"
+  },
+  "restClient": {
+    "form": {
+      "inputPlaceholderEndpoint": "エンドポイント",
+      "buttonSend": "送信",
+      "tabTriggerHeaders": "ヘッダー",
+      "tabTriggerBody": "ボディ",
+      "inputPlaceholderHeaderKey": "キー",
+      "inputPlaceholderHeaderValue": "値",
+      "buttonAddHeader": "ヘッダーを追加",
+      "tabTriggerJson": "JSON",
+      "tabTriggerText": "テキスト",
+      "tabBodyTitleJson": "JSONコンテンツ",
+      "tabBodyTitleText": "テキストコンテンツ",
+      "buttonFormat": "整形"
+    },
+    "response": {
+      "tabTriggerResponse": "レスポンス",
+      "tabTriggerCodeSnippet": "コードスニペット",
+      "status": "ステータス",
+      "size": "サイズ",
+      "time": "時間"
+    }
   }
 }
