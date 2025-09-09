@@ -34,7 +34,7 @@ export const VariablesContent = () => {
           onDelete={(index) => deleteVariable(variables[index].id)}
           onAdd={() => addVariable({ name: '', value: '' })}
           addButtonText={t('addVariable')}
-          placeholderKey={t('key')}
+          placeholderKey={t('name')}
           placeholderValue={t('value')}
         />
       ) : (

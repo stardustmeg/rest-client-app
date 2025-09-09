@@ -2,6 +2,7 @@ import { Flex, Heading, IconButton, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+import { BsPlusLg } from 'react-icons/bs';
 import { FormField } from '@/app/components/ui/FormField';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
 import { useVariablesContext } from '@/app/domains/variables/components/VariablesProvider';
@@ -45,6 +46,7 @@ export const VariablesForm = () => {
       <Flex gap="2">
         <FormField
           variant="outline"
+          size="sm"
           error={getValidationError(tValidation, errors.name?.message)}
           placeholder={t('name')}
           {...register('name')}
@@ -52,6 +54,7 @@ export const VariablesForm = () => {
 
         <FormField
           variant="outline"
+          size="sm"
           error={getValidationError(tValidation, errors.value?.message)}
           placeholder={t('value')}
           {...register('value')}
@@ -59,12 +62,14 @@ export const VariablesForm = () => {
 
         <IconButton
           mt="1.5"
-          p="2"
+          py="2"
+          px="3.5"
+          size="sm"
           type="submit"
           loading={isSubmitting}
           disabled={!isValid || isSubmitting}
         >
-          {t('addVariable')}
+          <BsPlusLg />
         </IconButton>
       </Flex>
     </form>

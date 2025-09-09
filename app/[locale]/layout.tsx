@@ -25,7 +25,7 @@ const LocaleLayout = async ({ children, params }: LocaleLayoutProps) => {
       <VStack className="min-h-screen justify-between gap-0">
         <div className="grid w-full flex-1 grid-rows-[min-content_1fr]">
           <Header />
-          <main className="grid min-h-screen">{children}</main>
+          <main className="grid">{children}</main>
         </div>
         <Footer />
       </VStack>
