@@ -1,17 +1,18 @@
 'use client';
 
 import { ChakraProvider, ClientOnly } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { ColorModeProvider } from '@/app/components/ui/ColorMode';
 import { createAppTheme } from '@/app/components/ui/theme';
+import { useLocalStorage } from '@/app/hooks/use-local-storage';
 import type { ColorModeProviderProps, ColorScheme } from '@/app/types/color-theme';
 
 export const AppChakraProvider = (props: ColorModeProviderProps) => {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('purple');
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>('colorScheme', 'purple');
 
   const system = useMemo(
     () => Object.assign(createAppTheme(colorScheme), { setColorScheme }),
-    [colorScheme],
+    [colorScheme, setColorScheme],
   );
 
   return (
