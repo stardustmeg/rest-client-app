@@ -8,9 +8,6 @@ export const VariablesContent = () => {
   const { isLoading } = useAuth();
   const t = useTranslations('variables');
   const { variables, deleteVariable, deleteAllVariables } = useVariablesContext();
-  const handleDelete = (id: number) => {
-    deleteVariable(id);
-  };
 
   return (
     <Skeleton loading={isLoading} minH="300px">
@@ -40,7 +37,7 @@ export const VariablesContent = () => {
                 <Table.Cell textAlign="center">{name}</Table.Cell>
                 <Table.Cell textAlign="center">{value}</Table.Cell>
                 <Table.Cell textAlign="end">
-                  <IconButton aria-label={t('delete')} size="sm" onClick={() => handleDelete(id)}>
+                  <IconButton aria-label={t('delete')} size="sm" onClick={() => deleteVariable(id)}>
                     <BsTrash3 />
                   </IconButton>
                 </Table.Cell>
