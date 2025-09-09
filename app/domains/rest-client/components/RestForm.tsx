@@ -3,6 +3,7 @@
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
 import { useAtom, useSetAtom, useStore } from 'jotai';
 import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Select } from '@/app/components/ui/Select';
 import {
@@ -29,6 +30,7 @@ export interface RestFormProps {
 // biome-ignore lint/complexity/noExcessiveLinesPerFunction: <explanation>
 export const RestForm = ({ onSubmit }: RestFormProps) => {
   const t = useTranslations('restClient.form');
+  const { resolvedTheme } = useTheme();
 
   const store = useStore();
 
@@ -123,6 +125,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             </Tabs.List>
             <TabsContent value="json">
               <BodyEditor
+                theme={resolvedTheme}
                 dataTestId="rest-form-body-editor-json"
                 readOnly={false}
                 title={t('tabBodyTitleJson')}
@@ -133,6 +136,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             </TabsContent>
             <TabsContent value="text">
               <BodyEditor
+                theme={resolvedTheme}
                 dataTestId="rest-form-body-editor-text"
                 readOnly={false}
                 title={t('tabBodyTitleText')}

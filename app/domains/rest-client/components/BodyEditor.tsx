@@ -18,10 +18,12 @@ export interface BodyEditorProps {
   readOnly: boolean;
   value?: string;
   title?: string;
+  theme?: string;
 }
 
 export const BodyEditor = ({
   readOnly,
+  theme,
   type,
   onChange,
   dataTestId,
@@ -44,7 +46,7 @@ export const BodyEditor = ({
         height="70dvh"
         options={{ readOnly }}
         value={value}
-        theme="vs-light"
+        theme={theme === 'dark' ? 'vs-dark' : 'light'}
         onChange={(v) => {
           onChange?.({ type, value: v ?? '' });
         }}

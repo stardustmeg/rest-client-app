@@ -3,6 +3,7 @@
 import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider, useAtomValue } from 'jotai';
 import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
 import { formDataStore, responseInformationAtom } from './atoms';
 import { BodyEditor } from './components/BodyEditor';
 import { CodeGeneration } from './components/CodeGeneration';
@@ -11,6 +12,7 @@ import { RestForm, type RestFormData } from './components/RestForm';
 
 export const RestClient = () => {
   const t = useTranslations('restClient.response');
+  const { resolvedTheme } = useTheme();
 
   const responseInfo = useAtomValue(responseInformationAtom);
 
@@ -40,7 +42,7 @@ export const RestClient = () => {
               <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              <BodyEditor readOnly={true} type="json" />
+              <BodyEditor theme={resolvedTheme} readOnly={true} type="json" />
             </TabsContent>
             <TabsContent value="code-snippet">
               <CodeGeneration />
