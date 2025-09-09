@@ -1,9 +1,11 @@
 'use client';
-import { Button, HStack, VStack } from '@chakra-ui/react';
+import { Button, HStack, useBreakpointValue, VStack } from '@chakra-ui/react';
 import { cn } from 'clsx-for-tailwind';
 import { Authenticated } from 'convex/react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+import { BurgerButton } from '@/app/components/ui/BurgerButton';
+import { BurgerMenu } from '@/app/components/ui/BurgerMenu';
 import { ColorModeSelector } from '@/app/components/ui/ColorModeSelector';
 import { ColorSchemeSelector } from '@/app/components/ui/ColorSchemeSelector';
 import { LanguageSelect } from '@/app/components/ui/LanguageSelect';
@@ -22,6 +24,9 @@ export const Header = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+
+  const isMobile = useBreakpointValue({ base: true, md: false }, { ssr: false });
 
   useEffect(() => {
     let animationFrameId: number | null = null;
@@ -77,21 +82,29 @@ export const Header = () => {
     >
       <VStack className="gap-2 px-4 py-3">
         <HStack className="mx-auto w-full max-w-7xl justify-between">
-          <Navigation />
+          {!isMobile && <Navigation />}
 
           <HStack align="center" gap={1}>
-            <ColorSchemeSelector />
-            <ColorModeSelector />
-            <LanguageSelect />
+            {!isMobile && (
+              <>
+                <ColorSchemeSelector />
+                <ColorModeSelector />
+                <LanguageSelect />
 
-            <Authenticated>
-              <Button size="sm" variant="outline" onClick={handleSignOut}>
-                {t('signOut')}
-              </Button>
-            </Authenticated>
+                <Authenticated>
+                  <Button size="sm" variant="outline" onClick={handleSignOut}>
+                    {t('signOut')}
+                  </Button>
+                </Authenticated>
+              </>
+            )}
           </HStack>
+
+          {isMobile && <BurgerButton onClick={() => setIsBurgerOpen(true)} />}
         </HStack>
       </VStack>
+
+      {isMobile && <BurgerMenu isOpen={isBurgerOpen} onClose={() => setIsBurgerOpen(false)} />}
     </header>
   );
 };

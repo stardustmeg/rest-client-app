@@ -33,7 +33,11 @@ const languageItems = () => {
   });
 };
 
-export const LanguageSelect = () => {
+interface LanguageSelectProps {
+  disablePortal?: boolean;
+}
+
+export const LanguageSelect = ({ disablePortal = false }: LanguageSelectProps) => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -56,7 +60,7 @@ export const LanguageSelect = () => {
       <Select.Control>
         <SelectTrigger />
       </Select.Control>
-      <Portal>
+      {disablePortal ? (
         <Select.Positioner>
           <Select.Content minW="32">
             {languages.items.map(({ value, icon, label, ...language }) => (
@@ -70,7 +74,23 @@ export const LanguageSelect = () => {
             ))}
           </Select.Content>
         </Select.Positioner>
-      </Portal>
+      ) : (
+        <Portal>
+          <Select.Positioner>
+            <Select.Content minW="32">
+              {languages.items.map(({ value, icon, label, ...language }) => (
+                <Select.Item item={{ value, icon, label, ...language }} key={value}>
+                  <HStack>
+                    {icon}
+                    {label}
+                  </HStack>
+                  <Select.ItemIndicator />
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Positioner>
+        </Portal>
+      )}
     </Select.Root>
   );
 };

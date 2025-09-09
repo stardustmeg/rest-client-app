@@ -20,7 +20,7 @@ export const ColorSchemeSelector = () => {
 
   return (
     <ClientOnly fallback={<Skeleton boxSize="8" />}>
-      <div className="flex h-fit flex-wrap items-center gap-1 sm:flex-nowrap">
+      <div className="flex h-fit items-center gap-1">
         {colorSchemes.map((scheme) => (
           <IconButton
             key={scheme.value}
