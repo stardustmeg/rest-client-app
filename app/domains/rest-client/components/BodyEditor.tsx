@@ -13,6 +13,7 @@ export interface BodyEditorRequestBody {
 export interface BodyEditorProps {
   type: BodyEditorContentType;
   onChange?(payload: { value: string; type: BodyEditorContentType }): void;
+  onFormat?(): void;
   dataTestId?: string;
   buttonFormatText?: string;
   readOnly: boolean;
@@ -26,6 +27,7 @@ export const BodyEditor = ({
   theme,
   type,
   onChange,
+  onFormat,
   dataTestId,
   value,
   buttonFormatText,
@@ -36,7 +38,12 @@ export const BodyEditor = ({
       <Flex align="center" justify="space-between" height="10">
         {title && <p data-testid="body-editor-title">{title}</p>}
         {type === 'json' && !readOnly && (
-          <Button data-testid="body-editor-format-button" size="xs" variant="ghost">
+          <Button
+            data-testid="body-editor-format-button"
+            size="xs"
+            variant="ghost"
+            onClick={onFormat}
+          >
             {buttonFormatText ?? 'Format'}
           </Button>
         )}
