@@ -66,6 +66,7 @@ export const VariablesForm = () => {
           px="3.5"
           size="sm"
           type="submit"
+          data-testid="add-variable"
           loading={isSubmitting}
           disabled={!isValid || isSubmitting}
         >
