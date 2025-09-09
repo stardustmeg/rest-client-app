@@ -7,7 +7,7 @@ describe(BodyEditor.name, () => {
   it('should render', () => {
     render(
       <TestProviders>
-        <BodyEditor type="json" title="Test" dataTestId="body-editor-textarea" />
+        <BodyEditor type="json" title="Test" dataTestId="body-editor-textarea" readOnly={false} />
       </TestProviders>,
     );
 
@@ -22,7 +22,12 @@ describe(BodyEditor.name, () => {
 
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <BodyEditor type="json" onChange={onChange} dataTestId="body-editor-textarea" />
+        <BodyEditor
+          type="json"
+          onChange={onChange}
+          dataTestId="body-editor-textarea"
+          readOnly={false}
+        />
       </TestProviders>,
     );
 
@@ -36,7 +41,12 @@ describe(BodyEditor.name, () => {
 
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <BodyEditor type="text" onChange={onChange} dataTestId="body-editor-textarea" />
+        <BodyEditor
+          type="text"
+          onChange={onChange}
+          dataTestId="body-editor-textarea"
+          readOnly={false}
+        />
       </TestProviders>,
     );
 
