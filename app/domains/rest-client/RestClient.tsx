@@ -1,11 +1,12 @@
+/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use client';
 
 import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider, useAtom } from 'jotai';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { encodeRequestUrl, formatJson } from '@/app/lib/utils';
+import { decodeRequestUrl, encodeRequestUrl, formatJson } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { formDataStore, responseBodyAtom, responseInformationAtom } from './atoms';
 import { BodyEditor } from './components/BodyEditor';
@@ -13,12 +14,16 @@ import { CodeGeneration } from './components/CodeGeneration';
 import { ResponseInformation } from './components/ResponseInformation';
 import { RestForm, type RestFormData } from './components/RestForm';
 
-export const RestClient = () => {
+export const RestClient = ({ params }: { params?: string[] | undefined }) => {
   const t = useTranslations('restClient.response');
   const { resolvedTheme } = useTheme();
 
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
+
+  const searchParams = useSearchParams();
+
+  decodeRequestUrl(params, searchParams);
 
   const router = useRouter();
 
@@ -30,7 +35,6 @@ export const RestClient = () => {
       setResponseInfo({ time: res.time, status: res.status, size: res.size ?? '' });
 
       const formattedBody = formatJson(res.body, (e) => {
-        // biome-ignore lint/suspicious/noConsole: <shhhhhh>
         console.log(e.message);
       });
 

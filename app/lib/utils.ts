@@ -1,3 +1,6 @@
+/** biome-ignore-all lint/suspicious/noConsole: <asdasdadsdasdas> */
+
+import type { ReadonlyURLSearchParams } from 'next/navigation';
 import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEditor';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
 
@@ -79,4 +82,9 @@ export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormDa
   }
 
   return url;
+}
+
+export function decodeRequestUrl(path: string[] | undefined, sp: ReadonlyURLSearchParams) {
+  console.log('PATH', path);
+  console.log('SP', sp);
 }
