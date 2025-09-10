@@ -33,15 +33,14 @@ export const VariablesContent = () => {
         <Flex direction="column" gap="2">
           <Separator />
 
-          <Flex align="center" gap="2">
-            <Text flex="1" fontWeight="semibold">
+          <Flex align="center" gap="1">
+            <Text px="2" flex="1" fontSize="sm">
               {t('name')}
             </Text>
             <Separator orientation="vertical" height="4" />
-            <Text flex="1" fontWeight="semibold">
+            <Text px="2" flex="1" fontSize="sm">
               {t('value')}
             </Text>
-            <Separator orientation="vertical" height="4" />
             <IconButton py="2" px="3.5" size="sm" variant="outline" onClick={deleteAllVariables}>
               <BsTrash />
             </IconButton>

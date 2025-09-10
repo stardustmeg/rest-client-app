@@ -37,7 +37,7 @@ export const VariablesForm = () => {
 
   return (
     <form onSubmit={handleSubmit(handleAddVariable)}>
-      <Heading py="4" size="2xl" textAlign="center" as="h2">
+      <Heading size="2xl" textAlign="center" as="h2">
         {t('title')}
       </Heading>
       <Text pb="6" fontSize="xs" textAlign="center">
