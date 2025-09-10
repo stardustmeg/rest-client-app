@@ -1,9 +1,9 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { Authenticated, Unauthenticated } from 'convex/react';
 import { useTranslations } from 'next-intl';
-import { routes } from '@/app/[locale]/routes';
 import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
+import { authButtons } from '@/data/navLinksInfo';
 import { Link } from '@/i18n/routing';
 
 interface AuthButtonsProps {
@@ -32,24 +32,20 @@ export const AuthButtons = ({ variant = 'compact', onAction }: AuthButtonsProps)
     <Wrapper gap="2" w={variant === 'full' ? 'full' : 'auto'}>
       <Unauthenticated>
         <Wrapper gap="2" w={variant === 'full' ? 'full' : 'auto'}>
-          <Button
-            asChild
-            size="sm"
-            variant="outline"
-            w={variant === 'full' ? 'full' : undefined}
-            onClick={onAction}
-          >
-            <Link href={routes.signIn.path}>{t('signIn')}</Link>
-          </Button>
-          <Button
-            asChild
-            size="sm"
-            variant="outline"
-            w={variant === 'full' ? 'full' : undefined}
-            onClick={onAction}
-          >
-            <Link href={routes.signUp.path}>{t('signUp')}</Link>
-          </Button>
+          {authButtons.map((route) => (
+            <Button
+              key={route.route}
+              asChild
+              size="sm"
+              variant="outline"
+              w={variant === 'full' ? 'full' : undefined}
+              onClick={onAction}
+            >
+              <Link data-testid={route.title} href={route.route}>
+                {t(route.title)}
+              </Link>
+            </Button>
+          ))}
         </Wrapper>
       </Unauthenticated>
 
