@@ -1,9 +1,9 @@
 import { Avatar, Box, Heading, SimpleGrid, Text, VStack } from '@chakra-ui/react';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import { developersInfo } from '@/data/developersInfo';
 
-export const AboutDevelopersBlock = async () => {
-  const t = await getTranslations('main-page');
+export const AboutDevelopersBlock = () => {
+  const t = useTranslations('main-page');
 
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap="8" w="full">

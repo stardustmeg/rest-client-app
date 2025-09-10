@@ -1,9 +1,9 @@
 import { Box, Text, VStack } from '@chakra-ui/react';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 
-export const AboutCourseBlock = async () => {
-  const t = await getTranslations('main-page.course');
+export const AboutCourseBlock = () => {
+  const t = useTranslations('main-page.course');
 
   return (
     <Box borderRadius="md" p={4} textAlign="center">

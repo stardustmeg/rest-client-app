@@ -1,5 +1,5 @@
 import { Box, Heading, SimpleGrid, Text } from '@chakra-ui/react';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 
 const infoSection = [
   {
@@ -16,8 +16,8 @@ const infoSection = [
   },
 ] as const;
 
-export const AboutProjectBlock = async () => {
-  const t = await getTranslations('main-page');
+export const AboutProjectBlock = () => {
+  const t = useTranslations('main-page');
 
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap="8" w="full" textAlign="left">
