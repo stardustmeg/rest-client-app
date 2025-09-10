@@ -23,7 +23,7 @@ export const RestClient = ({ params }: { params?: string[] | undefined }) => {
 
   const searchParams = useSearchParams();
 
-  decodeRequestUrl(params, searchParams);
+  console.log(decodeRequestUrl(params, searchParams));
 
   const router = useRouter();
 

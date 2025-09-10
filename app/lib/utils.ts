@@ -40,7 +40,7 @@ export function getUniqueRequestHeaders(pairs: KeyValue[]): Record<string, strin
   return Object.fromEntries(map);
 }
 
-export function headersToSearchParams(pairs: KeyValue[]) {
+export function headersToSearchParams(pairs: KeyValue[]): URLSearchParams {
   const sp = new URLSearchParams();
 
   for (const { key, value } of pairs) {
@@ -55,15 +55,15 @@ export function headersToSearchParams(pairs: KeyValue[]) {
   return sp;
 }
 
-export function encodeBase64(v: string) {
+export function encodeBase64(v: string): string {
   return btoa(encodeURIComponent(v));
 }
 
-export function decodeBase64(v: string) {
-  return decodeURIComponent(atob(v));
+export function decodeBase64(v: string): string {
+  return decodeURIComponent(atob(decodeURIComponent(v)));
 }
 
-export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormData) {
+export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormData): string {
   let url = '';
 
   url += method;
@@ -84,7 +84,24 @@ export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormDa
   return url;
 }
 
-export function decodeRequestUrl(path: string[] | undefined, sp: ReadonlyURLSearchParams) {
-  console.log('PATH', path);
-  console.log('SP', sp);
+export function decodeRequestUrl(
+  path: string[] | undefined,
+  sp: ReadonlyURLSearchParams,
+): RestFormData | null {
+  if (!path) {
+    return null;
+  }
+
+  const [method, endpoint, body] = path;
+
+  const headers: KeyValue[] = [...sp.entries()].map(([k, v]) => ({ key: k, value: v }));
+
+  const formData = {
+    method,
+    endpoint: decodeBase64(endpoint),
+    body: { value: decodeBase64(body), type: 'json' } as const,
+    headers,
+  };
+
+  return formData;
 }
