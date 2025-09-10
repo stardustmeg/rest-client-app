@@ -11,4 +11,9 @@ export const HTTP_METHOD = {
   PATCH: 'PATCH',
 } as const;
 
+export const MIME_TYPE = {
+  JSON: 'application/json',
+  TEXT: 'text/plain',
+} as const;
+
 export const KILOBYTE = 1024;
