@@ -30,7 +30,7 @@ describe('VariablesForm', () => {
 
     expect(screen.getByPlaceholderText('name')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('value')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'addVariable' })).toBeInTheDocument();
+    expect(screen.getByTestId('add-variable')).toBeInTheDocument();
   });
 
   it('should add variable when form is submitted with valid data', async () => {
@@ -42,7 +42,7 @@ describe('VariablesForm', () => {
 
     await user.type(screen.getByPlaceholderText('name'), 'myVar');
     await user.type(screen.getByPlaceholderText('value'), '123');
-    await user.click(screen.getByRole('button', { name: 'addVariable' }));
+    await user.click(screen.getByTestId('add-variable'));
 
     expect(addVariable).toHaveBeenCalledWith({ name: 'myVar', value: '123' });
   });
@@ -61,7 +61,7 @@ describe('VariablesForm', () => {
 
     await user.type(screen.getByPlaceholderText('name'), 'myVar');
     await user.type(screen.getByPlaceholderText('value'), '456');
-    await user.click(screen.getByRole('button', { name: 'addVariable' }));
+    await user.click(screen.getByTestId('add-variable'));
 
     expect(warning).toHaveBeenCalledWith('variableUniqueNameRequired');
     expect(addVariable).not.toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe('VariablesForm', () => {
       </TestProviders>,
     );
 
-    const submitButton = screen.getByRole('button', { name: 'addVariable' });
+    const submitButton = screen.getByTestId('add-variable');
     expect(submitButton).toBeDisabled();
   });
 });

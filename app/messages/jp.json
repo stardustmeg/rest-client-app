@@ -111,12 +111,9 @@
     "title": "変数",
     "name": "名前",
     "value": "値",
-    "key": "キー",
-    "edit": "編集",
-    "delete": "削除",
-    "deleteAll": "すべて削除",
     "addVariable": "変数を追加",
-    "noVariables": "まだ変数がありません"
+    "noVariables": "まだ変数がありません",
+    "sensitiveData": "変数を使用して値を再利用し、機密データを保護します。"
   },
   "restClient": {
     "form": {
