@@ -111,12 +111,9 @@
     "title": "Variables",
     "name": "Name",
     "value": "Value",
-    "key": "Key",
-    "edit": "Edit",
-    "delete": "Delete",
-    "deleteAll": "Delete All",
     "addVariable": "Add Variable",
-    "noVariables": "No Variables yet"
+    "noVariables": "No variables yet",
+    "sensitiveData": "Use variables to reuse values and protect sensitive data "
   },
   "restClient": {
     "form": {

@@ -23,9 +23,9 @@ const LocaleLayout = async ({ children, params }: LocaleLayoutProps) => {
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
       <VStack className="min-h-screen justify-between gap-0">
-        <div className="w-full flex-1">
+        <div className="grid w-full flex-1 grid-rows-[min-content_1fr]">
           <Header />
-          <main className="min-h-screen">{children}</main>
+          <main className="grid">{children}</main>
         </div>
         <Footer />
       </VStack>

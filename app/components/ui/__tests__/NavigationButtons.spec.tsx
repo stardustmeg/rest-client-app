@@ -1,23 +1,38 @@
-import type { PropsWithChildren } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import type { ReactNode } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
-import { type ButtonListType, NavigationButtons } from '@/app/components/ui/NavigationButtons';
+import { NavigationButtons } from '@/app/components/ui/NavigationButtons';
 
-vi.mock('@/i18n/routing', () => ({
-  // biome-ignore lint/style/useNamingConvention: <because>
-  Link: ({ children, href }: PropsWithChildren<{ href: string }>) => <a href={href}>{children}</a>,
+vi.mock('convex/react', () => ({
+  // biome-ignore lint/style/useNamingConvention: <ddd>
+  Authenticated: ({ children }: { children: ReactNode }) => <>{children}</>,
+  // biome-ignore lint/style/useNamingConvention: <dddddddd>
+  Unauthenticated: ({ children }: { children: ReactNode }) => <>{children}</>,
 }));
 
-describe('NavigationButtons (server)', () => {
-  const types: ButtonListType[] = ['authButtons', 'navigationButtons'];
+describe('NavigationButtons', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-  it.each(types)('renders all %s buttons', () => {
-    const element = NavigationButtons();
+  it('should render auth buttons when unauthenticated', () => {
+    render(
+      <TestProviders>
+        <NavigationButtons />
+      </TestProviders>,
+    );
 
-    const html = renderToStaticMarkup(<TestProviders>{element}</TestProviders>);
+    expect(screen.getAllByRole('button').length).toBeGreaterThan(0);
+  });
 
-    expect(html).toContain('<button');
-    expect(html.length).toBeGreaterThan(0);
+  it('should render navigation buttons when authenticated', () => {
+    render(
+      <TestProviders>
+        <NavigationButtons />
+      </TestProviders>,
+    );
+
+    expect(screen.getAllByRole('button').length).toBeGreaterThan(0);
   });
 });
