@@ -7,14 +7,14 @@ import { useTheme } from 'next-themes';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Select } from '@/app/components/ui/Select';
 import { useToast } from '@/app/hooks/use-toast';
+import { formatJson } from '@/app/lib/utils';
 import {
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
   requestHeadersAtom,
 } from '../atoms';
-import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
-import { formatJson } from '../utils';
+import { HTTP_METHOD_SELECT_OPTIONS } from '../constants';
 import { BodyEditor, type BodyEditorRequestBody } from './BodyEditor';
 import { type KeyValue, KeyValueEditor } from './KeyValueEditor';
 
@@ -29,7 +29,7 @@ export interface RestFormProps {
   onSubmit(data: RestFormData): void;
 }
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <explanation>
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <shhhhhhhh>
 export const RestForm = ({ onSubmit }: RestFormProps) => {
   const t = useTranslations('restClient.form');
   const { resolvedTheme } = useTheme();
@@ -96,7 +96,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
         <Select
           dataTestId="rest-form-method-select"
           onValueChange={handleMethodChange}
-          options={TEMPORARY_METHOD_SELECT_OPTIONS}
+          options={HTTP_METHOD_SELECT_OPTIONS}
           name="method"
         />
         <Input

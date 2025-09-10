@@ -1,0 +1,14 @@
+/** biome-ignore-all lint/style/useNamingConvention: <no> */
+export const HTTP_METHOD = {
+  GET: 'GET',
+  HEAD: 'HEAD',
+  POST: 'POST',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+  CONNECT: 'CONNECT',
+  OPTIONS: 'OPTIONS',
+  TRACE: 'TRACE',
+  PATCH: 'PATCH',
+} as const;
+
+export const KILOBYTE = 1024;
