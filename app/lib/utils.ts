@@ -55,6 +55,10 @@ export function headersToSearchParams(pairs: KeyValue[]): URLSearchParams {
   return sp;
 }
 
+export function searchParamsToHeaders(params: ReadonlyURLSearchParams): KeyValue[] {
+  return [...params.entries()].map(([key, value]) => ({ key, value }));
+}
+
 export function encodeBase64(v: string): string {
   return btoa(encodeURIComponent(v));
 }
@@ -86,7 +90,7 @@ export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormDa
 
 export function decodeRequestUrl(
   path: string[] | undefined,
-  sp: ReadonlyURLSearchParams,
+  searchParams: ReadonlyURLSearchParams,
 ): RestFormData | null {
   if (!path) {
     return null;
@@ -94,7 +98,7 @@ export function decodeRequestUrl(
 
   const [method, endpoint, body] = path;
 
-  const headers: KeyValue[] = [...sp.entries()].map(([k, v]) => ({ key: k, value: v }));
+  const headers = searchParamsToHeaders(searchParams);
 
   const formData = {
     method,
