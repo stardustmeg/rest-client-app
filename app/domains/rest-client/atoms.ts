@@ -16,9 +16,11 @@ export const requestBodyAtom = atom<BodyEditorRequestBody>({
   value: '',
 });
 
+export const responseBodyAtom = atom('');
+
 export const responseInformationAtom = atom<ResponseInformationProps>({
   status: 0,
-  size: 0,
+  size: '',
   time: 0,
 });
 

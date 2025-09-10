@@ -1,11 +1,14 @@
 import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEditor';
 
-export function formatJson(text: string, onError: () => void): string {
+export function formatJson(input: unknown, onError: (error: Error) => void): string {
   try {
-    return JSON.stringify(JSON.parse(text), null, 4);
-  } catch {
-    onError();
-    return text;
+    if (isString(input)) {
+      return JSON.stringify(JSON.parse(input), null, 4);
+    }
+    return JSON.stringify(input, null, 4);
+  } catch (e) {
+    onError(normalizeError(e));
+    return String(input ?? '');
   }
 }
 
