@@ -1,4 +1,5 @@
 import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEditor';
+import type { RestFormData } from '../domains/rest-client/components/RestForm';
 
 export function formatJson(input: unknown, onError: (error: Error) => void): string {
   try {
@@ -43,8 +44,39 @@ export function headersToSearchParams(pairs: KeyValue[]) {
     const normalizedKey = key.trim().toLowerCase();
     const normalizedValue = value.trim();
 
-    sp.append(normalizedKey, normalizedValue);
+    if (normalizedKey && normalizedValue) {
+      sp.append(normalizedKey, normalizedValue);
+    }
   }
 
   return sp;
+}
+
+export function encodeBase64(v: string) {
+  return btoa(encodeURIComponent(v));
+}
+
+export function decodeBase64(v: string) {
+  return decodeURIComponent(atob(v));
+}
+
+export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormData) {
+  let url = '';
+
+  url += method;
+  url += '/';
+  url += encodeBase64(endpoint);
+
+  if (body.value) {
+    url += '/';
+    url += encodeBase64(body.value);
+  }
+
+  const sp = headersToSearchParams(headers);
+
+  if (sp.size > 0) {
+    url += `?${sp.toString()}`;
+  }
+
+  return url;
 }

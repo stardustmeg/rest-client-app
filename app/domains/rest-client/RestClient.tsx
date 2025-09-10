@@ -2,10 +2,10 @@
 
 import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider, useAtom } from 'jotai';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { formatJson } from '@/app/lib/utils';
+import { encodeRequestUrl, formatJson } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { formDataStore, responseBodyAtom, responseInformationAtom } from './atoms';
 import { BodyEditor } from './components/BodyEditor';
@@ -20,11 +20,12 @@ export const RestClient = () => {
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
 
-  const p = useParams<{ locale: string; params: string[] }>();
-  // biome-ignore lint/suspicious/noConsole: <yayaya>
-  console.log(p);
+  const router = useRouter();
 
   const handleFormSubmit = (data: RestFormData) => {
+    const url = encodeRequestUrl(data);
+    router.push(`/rest-client/${url}`);
+
     sendRequest(data).then((res) => {
       setResponseInfo({ time: res.time, status: res.status, size: res.size ?? '' });
 
