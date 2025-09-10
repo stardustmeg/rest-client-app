@@ -20,7 +20,7 @@ const InnerSaver = ({ userId }: { userId: string }) => {
         dispatch({ type: 'SET', payload: loadedVars });
       }
     } catch (er) {
-      error(`Error occurred while saving variables in localStorage:${er}`);
+      error(`Error occurred while loading variables from localStorage: ${er}`);
       dispatch({ type: 'SET', payload: [] });
     }
   }, [dispatch, storageKey, error, variables]);
@@ -34,7 +34,7 @@ const InnerSaver = ({ userId }: { userId: string }) => {
         localStorage.setItem(storageKey, jsonToStore);
       }
     } catch (er) {
-      error(`Error occurred while saving variables in localStorage:${er}`);
+      error(`Error occurred while saving variables in localStorage: ${er}`);
     }
   }, [variables, storageKey, error]);
 
