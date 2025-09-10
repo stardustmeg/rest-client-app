@@ -2,6 +2,7 @@
 
 import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider, useAtom } from 'jotai';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { formatJson } from '@/app/lib/utils';
@@ -18,6 +19,10 @@ export const RestClient = () => {
 
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
+
+  const p = useParams<{ locale: string; params: string[] }>();
+  // biome-ignore lint/suspicious/noConsole: <yayaya>
+  console.log(p);
 
   const handleFormSubmit = (data: RestFormData) => {
     sendRequest(data).then((res) => {
