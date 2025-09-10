@@ -1,14 +1,15 @@
+'use client';
+
 import {
   createContext,
+  type Dispatch,
   type ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useReducer,
 } from 'react';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
-import { useAuth } from '@/app/hooks/use-auth';
 
 interface VariablesContextType {
   variables: Variable[];
@@ -16,6 +17,7 @@ interface VariablesContextType {
   updateVariable: (id: number, updated: Partial<Omit<Variable, 'id'>>) => void;
   deleteVariable: (id: number) => void;
   deleteAllVariables: VoidFunction;
+  dispatch: Dispatch<Action>;
 }
 
 type Action =
@@ -25,7 +27,7 @@ type Action =
   | { type: 'SET'; payload: Variable[] }
   | { type: 'DELETE_ALL' };
 
-const reducer = (state: Variable[], action: Action): Variable[] => {
+export const reducer = (state: Variable[], action: Action): Variable[] => {
   switch (action.type) {
     case 'ADD': {
       const maxId = state.length > 0 ? Math.max(...state.map((v) => v.id)) : 0;
@@ -50,59 +52,32 @@ const reducer = (state: Variable[], action: Action): Variable[] => {
 const VariablesContext = createContext<VariablesContextType | undefined>(undefined);
 
 export const VariablesProvider = ({ children }: { children: ReactNode }) => {
-  const { userId } = useAuth();
   const [variables, dispatch] = useReducer(reducer, []);
-  const storageKey = userId ? `${userId}:variables` : 'User:variables';
-
-  const saveToStorage = useCallback(
-    (vars: Variable[]) => {
-      dispatch({ type: 'SET', payload: vars });
-      localStorage.setItem(storageKey, JSON.stringify(vars));
-    },
-    [storageKey],
-  );
 
   const addVariable = useCallback(
-    (v: Omit<Variable, 'id'>) => {
-      const newVars = reducer(variables, { type: 'ADD', payload: v });
-      saveToStorage(newVars);
-    },
-    [variables, saveToStorage],
+    (v: Omit<Variable, 'id'>) => dispatch({ type: 'ADD', payload: v }),
+    [],
   );
 
   const updateVariable = useCallback(
-    (id: number, updated: Partial<Omit<Variable, 'id'>>) => {
-      const updatedVars = reducer(variables, { type: 'UPDATE', payload: { id, updated } });
-      saveToStorage(updatedVars);
-    },
-    [variables, saveToStorage],
+    (id: number, updated: Partial<Omit<Variable, 'id'>>) =>
+      dispatch({ type: 'UPDATE', payload: { id, updated } }),
+    [],
   );
 
-  const deleteVariable = useCallback(
-    (id: number) => {
-      const updatedVars = reducer(variables, { type: 'DELETE', payload: id });
-      saveToStorage(updatedVars);
-    },
-    [variables, saveToStorage],
-  );
+  const deleteVariable = useCallback((id: number) => dispatch({ type: 'DELETE', payload: id }), []);
 
-  const deleteAllVariables = useCallback(() => {
-    const updatedVars = reducer(variables, { type: 'DELETE_ALL' });
-    saveToStorage(updatedVars);
-  }, [variables, saveToStorage]);
-
-  useEffect(() => {
-    try {
-      const json = localStorage.getItem(storageKey);
-      const loadedVars = json ? JSON.parse(json) : [];
-      dispatch({ type: 'SET', payload: loadedVars });
-    } catch {
-      dispatch({ type: 'SET', payload: [] });
-    }
-  }, [storageKey]);
+  const deleteAllVariables = useCallback(() => dispatch({ type: 'DELETE_ALL' }), []);
 
   const contextValue = useMemo(
-    () => ({ variables, addVariable, updateVariable, deleteVariable, deleteAllVariables }),
+    () => ({
+      variables,
+      addVariable,
+      updateVariable,
+      deleteVariable,
+      deleteAllVariables,
+      dispatch,
+    }),
     [variables, addVariable, updateVariable, deleteVariable, deleteAllVariables],
   );
 
