@@ -13,7 +13,6 @@ import { useAuth } from '@/app/hooks/use-auth';
 interface VariablesContextType {
   variables: Variable[];
   addVariable: (v: Omit<Variable, 'id'>) => void;
-  //TODO (zagorky): maybe implement later in VariablesContent component
   updateVariable: (id: number, updated: Partial<Omit<Variable, 'id'>>) => void;
   deleteVariable: (id: number) => void;
   deleteAllVariables: VoidFunction;

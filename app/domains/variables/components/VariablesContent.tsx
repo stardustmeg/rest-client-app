@@ -1,5 +1,6 @@
-import { Flex, Skeleton, Text } from '@chakra-ui/react';
+import { Flex, IconButton, Separator, Skeleton, Text } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
+import { BsTrash } from 'react-icons/bs';
 import { type KeyValue, KeyValueEditor } from '@/app/domains/rest-client/components/KeyValueEditor';
 import { useVariablesContext } from '@/app/domains/variables/components/VariablesProvider';
 import { useAuth } from '@/app/hooks/use-auth';
@@ -7,7 +8,8 @@ import { useAuth } from '@/app/hooks/use-auth';
 export const VariablesContent = () => {
   const { isLoading } = useAuth();
   const t = useTranslations('variables');
-  const { variables, addVariable, updateVariable, deleteVariable } = useVariablesContext();
+  const { variables, addVariable, updateVariable, deleteVariable, deleteAllVariables } =
+    useVariablesContext();
 
   const keyValueItems: KeyValue[] = variables.map((v) => ({
     key: v.name,
@@ -28,15 +30,35 @@ export const VariablesContent = () => {
   return (
     <Skeleton loading={isLoading} minH="300px">
       {variables.length > 0 ? (
-        <KeyValueEditor
-          items={keyValueItems}
-          onChange={handleChange}
-          onDelete={(index) => deleteVariable(variables[index].id)}
-          onAdd={() => addVariable({ name: '', value: '' })}
-          addButtonText={t('addVariable')}
-          placeholderKey={t('name')}
-          placeholderValue={t('value')}
-        />
+        <Flex direction="column" gap="2">
+          <Separator />
+
+          <Flex align="center" gap="2">
+            <Text flex="1" fontWeight="semibold">
+              {t('name')}
+            </Text>
+            <Separator orientation="vertical" height="4" />
+            <Text flex="1" fontWeight="semibold">
+              {t('value')}
+            </Text>
+            <Separator orientation="vertical" height="4" />
+            <IconButton py="2" px="3.5" size="sm" variant="outline" onClick={deleteAllVariables}>
+              <BsTrash />
+            </IconButton>
+          </Flex>
+
+          <Separator />
+
+          <KeyValueEditor
+            items={keyValueItems}
+            onChange={handleChange}
+            onDelete={(index) => deleteVariable(variables[index].id)}
+            onAdd={() => addVariable({ name: '', value: '' })}
+            addButtonText={t('addVariable')}
+            placeholderKey={t('name')}
+            placeholderValue={t('value')}
+          />
+        </Flex>
       ) : (
         <Flex justify="center">
           <Text textStyle="2xl" fontWeight="bold">
