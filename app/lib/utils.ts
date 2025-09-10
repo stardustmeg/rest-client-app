@@ -35,3 +35,16 @@ export function getUniqueRequestHeaders(pairs: KeyValue[]): Record<string, strin
 
   return Object.fromEntries(map);
 }
+
+export function headersToSearchParams(pairs: KeyValue[]) {
+  const sp = new URLSearchParams();
+
+  for (const { key, value } of pairs) {
+    const normalizedKey = key.trim().toLowerCase();
+    const normalizedValue = value.trim();
+
+    sp.append(normalizedKey, normalizedValue);
+  }
+
+  return sp;
+}
