@@ -79,9 +79,9 @@ export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormDa
 
   url += method;
   url += '/';
-  url += encodeBase64(endpoint);
-  url += '/';
   url += body.type;
+  url += '/';
+  url += encodeBase64(endpoint);
 
   if (body.value) {
     url += '/';
@@ -105,7 +105,7 @@ export function decodeRequestUrl(
     return null;
   }
 
-  const [method, endpoint, bodyType, body] = path;
+  const [method, bodyType, endpoint, body] = path;
 
   const headers = searchParamsToHeaders(searchParams);
 
