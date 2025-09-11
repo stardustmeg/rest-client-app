@@ -1,8 +1,6 @@
 'use client';
-import { Button, HStack, useBreakpointValue, VStack } from '@chakra-ui/react';
+import { HStack, useBreakpointValue, VStack } from '@chakra-ui/react';
 import { cn } from 'clsx-for-tailwind';
-import { Authenticated } from 'convex/react';
-import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { BurgerButton } from '@/app/components/ui/BurgerButton';
 import { BurgerMenu } from '@/app/components/ui/BurgerMenu';
@@ -10,18 +8,12 @@ import { ColorModeSelector } from '@/app/components/ui/ColorModeSelector';
 import { ColorSchemeSelector } from '@/app/components/ui/ColorSchemeSelector';
 import { LanguageSelect } from '@/app/components/ui/LanguageSelect';
 import { Navigation } from '@/app/components/ui/Navigation';
-import { useAuthActions } from '@/app/hooks/use-auth-actions';
-import { useToast } from '@/app/hooks/use-toast';
+import { AuthButtons } from '@/app/domains/auth/ui/NavigationButtons';
 
 const SCROLL_THRESHOLD = 10;
 const FADE_IN_ANIMATION_DURATION = 600;
 
 export const Header = () => {
-  const t = useTranslations('navigation');
-  const tNotification = useTranslations('notifications');
-  const { signOut } = useAuthActions();
-  const { success } = useToast();
-
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
@@ -67,7 +59,6 @@ export const Header = () => {
     };
   }, [isScrolled]);
 
-  const handleSignOut = () => signOut().finally(() => success(tNotification('signOutSuccess')));
   return (
     <header
       className={cn(
@@ -90,12 +81,9 @@ export const Header = () => {
                 <ColorSchemeSelector />
                 <ColorModeSelector />
                 <LanguageSelect />
-
-                <Authenticated>
-                  <Button size="sm" variant="outline" onClick={handleSignOut}>
-                    {t('signOut')}
-                  </Button>
-                </Authenticated>
+                <HStack gap="2" w="full">
+                  <AuthButtons variant="outline" />
+                </HStack>
               </>
             )}
           </HStack>

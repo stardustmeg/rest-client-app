@@ -3,7 +3,7 @@ import { AboutCourseBlock } from '@/app/components/ui/AboutCourseBlock';
 import { AboutDevelopersBlock } from '@/app/components/ui/AboutDevelopersBlock';
 import { AboutProjectBlock } from '@/app/components/ui/AboutProjectBlock';
 import { MainHeading } from '@/app/components/ui/MainHeading';
-import { NavigationButtons } from '@/app/components/ui/NavigationButtons';
+import { NavigationButtons } from '@/app/domains/auth/ui/NavigationButtons';
 
 export const MainPage = () => (
   <Flex as="main" minH="100vh" align="center" justify="center" px="6" py="12">
