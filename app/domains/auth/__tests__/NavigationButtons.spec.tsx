@@ -1,11 +1,11 @@
 /** biome-ignore-all lint/style/useNamingConvention: false positive */
 
-import { screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Authenticated, Unauthenticated } from 'convex/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
-import { AuthButtons } from '@/app/components/ui/AuthButtons';
+import { AuthButtons, NavigationButtons } from '@/app/domains/auth/ui/NavigationButtons';
 import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
 
@@ -31,6 +31,32 @@ vi.mock('convex/react', async (importOriginal) => {
       <div data-testid="unauthenticated">{children}</div>
     ),
   };
+});
+
+describe('NavigationButtons', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('should render auth buttons when unauthenticated', () => {
+    render(
+      <TestProviders>
+        <NavigationButtons />
+      </TestProviders>,
+    );
+
+    expect(screen.getAllByRole('link').length).toBeGreaterThan(0);
+  });
+
+  it('should render navigation buttons when authenticated', () => {
+    render(
+      <TestProviders>
+        <NavigationButtons />
+      </TestProviders>,
+    );
+
+    expect(screen.getAllByRole('link').length).toBeGreaterThan(0);
+  });
 });
 
 describe('AuthButtons', () => {

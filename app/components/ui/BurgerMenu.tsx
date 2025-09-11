@@ -1,10 +1,10 @@
 'use client';
 import { Box, HStack, Portal, VStack } from '@chakra-ui/react';
-import { AuthButtons } from '@/app/components/ui/AuthButtons';
 import { ColorModeSelector } from '@/app/components/ui/ColorModeSelector';
 import { ColorSchemeSelector } from '@/app/components/ui/ColorSchemeSelector';
 import { LanguageSelect } from '@/app/components/ui/LanguageSelect';
 import { Navigation } from '@/app/components/ui/Navigation';
+import { AuthButtons } from '@/app/domains/auth/ui/NavigationButtons';
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -53,7 +53,9 @@ export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => {
               <ColorModeSelector />
               <LanguageSelect disablePortal />
             </HStack>
-            <AuthButtons variant="full" onAction={onClose} />
+            <VStack gap="2" align="stretch">
+              <AuthButtons onAction={onClose} />
+            </VStack>
           </VStack>
         </VStack>
       </Box>

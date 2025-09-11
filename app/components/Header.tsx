@@ -2,13 +2,13 @@
 import { HStack, useBreakpointValue, VStack } from '@chakra-ui/react';
 import { cn } from 'clsx-for-tailwind';
 import { useEffect, useState } from 'react';
-import { AuthButtons } from '@/app/components/ui/AuthButtons';
 import { BurgerButton } from '@/app/components/ui/BurgerButton';
 import { BurgerMenu } from '@/app/components/ui/BurgerMenu';
 import { ColorModeSelector } from '@/app/components/ui/ColorModeSelector';
 import { ColorSchemeSelector } from '@/app/components/ui/ColorSchemeSelector';
 import { LanguageSelect } from '@/app/components/ui/LanguageSelect';
 import { Navigation } from '@/app/components/ui/Navigation';
+import { AuthButtons } from '@/app/domains/auth/ui/NavigationButtons';
 
 const SCROLL_THRESHOLD = 10;
 const FADE_IN_ANIMATION_DURATION = 600;
@@ -81,7 +81,9 @@ export const Header = () => {
                 <ColorSchemeSelector />
                 <ColorModeSelector />
                 <LanguageSelect />
-                <AuthButtons variant="compact" />
+                <HStack gap="2" w="full">
+                  <AuthButtons />
+                </HStack>
               </>
             )}
           </HStack>
