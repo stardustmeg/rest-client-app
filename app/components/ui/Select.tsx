@@ -12,13 +12,15 @@ export interface SelectProps {
   options: SelectOption[];
   name: string;
   dataTestId?: string;
+  value?: string;
 }
 
-export const Select = ({ options, onValueChange, name, dataTestId }: SelectProps) => {
+export const Select = ({ options, onValueChange, name, dataTestId, value }: SelectProps) => {
   return (
     <NativeSelect.Root width="max-content">
       <NativeSelect.Field
         name={name}
+        value={value}
         width="max-content"
         onChange={(e) => onValueChange?.(e.currentTarget.value)}
         data-testid={dataTestId}

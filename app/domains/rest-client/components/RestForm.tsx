@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
-import { useAtom, useSetAtom, useStore } from 'jotai';
+import { useAtom, useStore } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import type { ChangeEvent, FormEvent } from 'react';
@@ -37,8 +37,8 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
 
   const store = useStore();
 
-  const setEndpoint = useSetAtom(requestEndpointAtom);
-  const setHttpMethod = useSetAtom(httpRequestMethodAtom);
+  const [endpoint, setEndpoint] = useAtom(requestEndpointAtom);
+  const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom);
   const [requestBody, setRequestBody] = useAtom(requestBodyAtom);
 
   const [headers, setHeaders] = useAtom(requestHeadersAtom);
@@ -98,12 +98,14 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
           onValueChange={handleMethodChange}
           options={HTTP_METHOD_SELECT_OPTIONS}
           name="method"
+          value={httpMethod}
         />
         <Input
           data-testid="rest-form-endpoint-input"
           name="endpoint"
           placeholder={t('inputPlaceholderEndpoint')}
           onChange={handleEndpointChange}
+          value={endpoint}
         />
         <Button data-testid="rest-form-submit-button" type="submit">
           {t('buttonSend')}
@@ -134,7 +136,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             <TabsContent value="json">
               <BodyEditor
                 theme={resolvedTheme}
-                value={requestBody.value}
+                value={requestBody.type === 'json' ? requestBody.value : undefined}
                 dataTestId="rest-form-body-editor-json"
                 readOnly={false}
                 title={t('tabBodyTitleJson')}
@@ -147,6 +149,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             <TabsContent value="text">
               <BodyEditor
                 theme={resolvedTheme}
+                value={requestBody.type === 'text' ? requestBody.value : undefined}
                 dataTestId="rest-form-body-editor-text"
                 readOnly={false}
                 title={t('tabBodyTitleText')}
