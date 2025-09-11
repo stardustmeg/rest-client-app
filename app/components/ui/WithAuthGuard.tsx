@@ -1,5 +1,6 @@
 import { Authenticated, Unauthenticated } from 'convex/react';
 import type { ComponentType } from 'react';
+import { isValidElementType } from 'react-is';
 
 type WithAuthGuardProps<T> =
   | {
@@ -16,10 +17,10 @@ export const withAuthGuard = <T extends object>({
     return (
       <>
         <Authenticated>
-          {AuthenticatedComponent && <AuthenticatedComponent {...props} />}
+          {isValidElementType(AuthenticatedComponent) && <AuthenticatedComponent {...props} />}
         </Authenticated>
         <Unauthenticated>
-          {UnauthenticatedComponent && <UnauthenticatedComponent {...props} />}
+          {isValidElementType(UnauthenticatedComponent) && <UnauthenticatedComponent {...props} />}
         </Unauthenticated>
       </>
     );
