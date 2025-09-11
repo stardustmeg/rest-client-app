@@ -15,7 +15,7 @@ import { ResponseInformation } from './components/ResponseInformation';
 import { RestForm, type RestFormData } from './components/RestForm';
 import { useInitFormAtoms } from './hooks/use-init-form-atoms';
 
-export const RestClient = ({ params }: { params?: string[] | undefined }) => {
+export const RestClient = ({ params }: { params?: string[] }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
