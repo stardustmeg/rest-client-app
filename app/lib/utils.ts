@@ -2,6 +2,7 @@
 
 import type { ReadonlyURLSearchParams } from 'next/navigation';
 import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEditor';
+import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
 
 export function formatJson(input: unknown, onError: (error: Error) => void): string {
@@ -76,6 +77,8 @@ export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormDa
 
   if (body.value) {
     url += '/';
+    url += body.type;
+    url += '/';
     url += encodeBase64(body.value);
   }
 
@@ -96,14 +99,17 @@ export function decodeRequestUrl(
     return null;
   }
 
-  const [method, endpoint, body] = path;
+  const [method, endpoint, body, bodyType] = path;
 
   const headers = searchParamsToHeaders(searchParams);
 
   const formData = {
     method,
     endpoint: decodeBase64(endpoint),
-    body: { value: decodeBase64(body), type: 'json' } as const,
+    body: {
+      value: body ? decodeBase64(body) : '',
+      type: bodyType as BodyEditorRequestBody['type'],
+    } as const,
     headers,
   };
 
