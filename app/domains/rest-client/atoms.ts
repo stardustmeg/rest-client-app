@@ -9,16 +9,18 @@ export const httpRequestMethodAtom = atom('GET');
 
 export const requestEndpointAtom = atom('');
 
-export const requestHeadersAtom = atom<KeyValue[]>([{ key: '', value: '' }]);
+export const requestHeadersAtom = atom<KeyValue[]>([]);
 
 export const requestBodyAtom = atom<BodyEditorRequestBody>({
   type: 'json',
   value: '',
 });
 
+export const responseBodyAtom = atom('');
+
 export const responseInformationAtom = atom<ResponseInformationProps>({
   status: 0,
-  size: 0,
+  size: '',
   time: 0,
 });
 
