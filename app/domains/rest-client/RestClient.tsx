@@ -1,9 +1,9 @@
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
+/** biome-ignore-all lint/suspicious/noConsole: <shhhh> */
 'use client';
 
 import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider, useAtom } from 'jotai';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { decodeRequestUrl, encodeRequestUrl, formatJson } from '@/app/lib/utils';
@@ -15,8 +15,9 @@ import { ResponseInformation } from './components/ResponseInformation';
 import { RestForm, type RestFormData } from './components/RestForm';
 import { useInitFormAtoms } from './hooks/use-init-form-atoms';
 
-export const RestClient = ({ params }: { params?: string[] }) => {
+export const RestClient = () => {
   const router = useRouter();
+  const { params } = useParams<{ locale: string; params?: string[] }>();
   const searchParams = useSearchParams();
 
   const t = useTranslations('restClient.response');
@@ -24,6 +25,7 @@ export const RestClient = ({ params }: { params?: string[] }) => {
 
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
+
   useInitFormAtoms(decodeRequestUrl(params, searchParams));
 
   const handleFormSubmit = (data: RestFormData) => {
