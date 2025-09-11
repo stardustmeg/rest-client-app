@@ -82,7 +82,7 @@ export const Header = () => {
                 <ColorModeSelector />
                 <LanguageSelect />
                 <HStack gap="2" w="full">
-                  <AuthButtons />
+                  <AuthButtons variant="outline" />
                 </HStack>
               </>
             )}

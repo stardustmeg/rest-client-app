@@ -54,7 +54,7 @@ export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => {
               <LanguageSelect disablePortal />
             </HStack>
             <VStack gap="2" align="stretch">
-              <AuthButtons onAction={onClose} />
+              <AuthButtons variant="outline" onAction={onClose} />
             </VStack>
           </VStack>
         </VStack>

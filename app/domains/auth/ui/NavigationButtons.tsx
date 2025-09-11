@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Flex, Skeleton } from '@chakra-ui/react';
+import { Button, type ButtonProps, Flex, Skeleton } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 import { withAuthGuard } from '@/app/components/hoc/WithAuthGuard';
 import { useAuth } from '@/app/hooks/use-auth';
@@ -11,12 +11,13 @@ import { Link } from '@/i18n/routing';
 
 export interface AuthButtonsProps {
   onAction?: VoidFunction;
+  variant?: ButtonProps['variant'];
 }
 
-const GuestButtons = ({ onAction }: AuthButtonsProps) => {
+const GuestButtons = ({ onAction, variant }: AuthButtonsProps) => {
   const t = useTranslations('navigation');
   return authButtons.map(({ route, title }) => (
-    <Button key={route} asChild size="sm" onClick={onAction}>
+    <Button key={route} variant={variant} asChild size="sm" onClick={onAction}>
       <Link data-testid={title} href={route}>
         {t(title)}
       </Link>
@@ -35,7 +36,7 @@ const UserNavigation = () => {
   ));
 };
 
-const UserButtons = ({ onAction }: AuthButtonsProps) => {
+const UserButtons = ({ onAction, variant }: AuthButtonsProps) => {
   const t = useTranslations('navigation');
   const tNotification = useTranslations('notifications');
   const { signOut } = useAuthActions();
@@ -49,7 +50,7 @@ const UserButtons = ({ onAction }: AuthButtonsProps) => {
   };
 
   return (
-    <Button onClick={handleSignOut} size="sm">
+    <Button variant={variant} onClick={handleSignOut} size="sm">
       {t('signOut')}
     </Button>
   );
