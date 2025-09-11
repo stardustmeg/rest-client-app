@@ -56,7 +56,7 @@ export const RestClient = ({ params }: { params?: string[] }) => {
             labelTime={t('time')}
           />
           {/* TODO (ripetchor): change to default response */}
-          <Tabs.Root defaultValue="response">
+          <Tabs.Root defaultValue="response" lazyMount>
             <Tabs.List>
               <Tabs.Trigger value="response">{t('tabTriggerResponse')}</Tabs.Trigger>
               <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
