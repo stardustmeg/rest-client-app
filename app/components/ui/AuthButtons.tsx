@@ -72,4 +72,7 @@ const UserButtons = ({ variant = 'compact', onAction }: AuthButtonsProps) => {
   );
 };
 
-export const AuthButtons = withAuthGuard<AuthButtonsProps>(UserButtons, GuestButtons);
+export const AuthButtons = withAuthGuard<AuthButtonsProps>({
+  authenticated: UserButtons,
+  unauthenticated: GuestButtons,
+});
