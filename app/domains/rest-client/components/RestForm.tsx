@@ -33,6 +33,7 @@ export interface RestFormProps {
 export const RestForm = ({ onSubmit }: RestFormProps) => {
   const t = useTranslations('restClient.form');
   const { resolvedTheme } = useTheme();
+
   const { error } = useToast();
 
   const store = useStore();
@@ -40,7 +41,6 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
   const [endpoint, setEndpoint] = useAtom(requestEndpointAtom);
   const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom);
   const [requestBody, setRequestBody] = useAtom(requestBodyAtom);
-
   const [headers, setHeaders] = useAtom(requestHeadersAtom);
 
   const handleHeadersChange = (key: keyof KeyValue, value: string, index: number) => {

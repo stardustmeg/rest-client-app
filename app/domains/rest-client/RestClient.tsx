@@ -16,17 +16,15 @@ import { RestForm, type RestFormData } from './components/RestForm';
 import { useInitFormAtoms } from './hooks/use-init-form-atoms';
 
 export const RestClient = ({ params }: { params?: string[] | undefined }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const t = useTranslations('restClient.response');
   const { resolvedTheme } = useTheme();
 
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
-
-  const searchParams = useSearchParams();
-
   useInitFormAtoms(decodeRequestUrl(params, searchParams));
-
-  const router = useRouter();
 
   const handleFormSubmit = (data: RestFormData) => {
     const url = encodeRequestUrl(data);
