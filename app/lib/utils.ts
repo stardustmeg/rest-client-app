@@ -57,7 +57,8 @@ export function headersToSearchParams(pairs: KeyValue[]): URLSearchParams {
 }
 
 export function searchParamsToHeaders(params: ReadonlyURLSearchParams): KeyValue[] {
-  return [...params.entries()].map(([key, value]) => ({ key, value }));
+  const headers = [...params.entries()].map(([key, value]) => ({ key, value }));
+  return [...headers, { key: '', value: '' }];
 }
 
 export function encodeBase64(v: string): string {
