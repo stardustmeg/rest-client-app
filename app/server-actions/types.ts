@@ -9,3 +9,19 @@ export interface GenerateCodeSnippetParams {
   language: string;
   variant: string;
 }
+
+export interface SuccessResponse {
+  ok: true;
+  responseSize: number;
+  time: number;
+  status: number;
+  body: unknown;
+}
+
+export interface FailedResponse {
+  ok: false;
+  responseSize: number;
+  time: number;
+  status: number;
+  error: string;
+}
