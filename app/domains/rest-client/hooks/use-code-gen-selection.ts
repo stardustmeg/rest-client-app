@@ -39,7 +39,6 @@ export function useCodeGenSelection(): UseCodeGenSelectionReturn {
     getLanguageList().then((list) => {
       setLanguageList(list);
       setLanguages(getLanguageOptions(list));
-
       const initialLang = list[0];
 
       setVariants(getVariantOptions(initialLang));

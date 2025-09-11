@@ -1,20 +1,20 @@
 'use client';
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
-import { useAtom, useSetAtom, useStore } from 'jotai';
+import { useAtom, useStore } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Select } from '@/app/components/ui/Select';
 import { useToast } from '@/app/hooks/use-toast';
+import { formatJson } from '@/app/lib/utils';
 import {
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
   requestHeadersAtom,
 } from '../atoms';
-import { TEMPORARY_METHOD_SELECT_OPTIONS } from '../constants';
-import { formatJson } from '../utils';
+import { HTTP_METHOD_SELECT_OPTIONS } from '../constants';
 import { BodyEditor, type BodyEditorRequestBody } from './BodyEditor';
 import { type KeyValue, KeyValueEditor } from './KeyValueEditor';
 
@@ -29,18 +29,18 @@ export interface RestFormProps {
   onSubmit(data: RestFormData): void;
 }
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <ыыы>
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <shhhhhhhh>
 export const RestForm = ({ onSubmit }: RestFormProps) => {
   const t = useTranslations('restClient.form');
   const { resolvedTheme } = useTheme();
+
   const { error } = useToast();
 
   const store = useStore();
 
-  const setEndpoint = useSetAtom(requestEndpointAtom);
-  const setHttpMethod = useSetAtom(httpRequestMethodAtom);
+  const [endpoint, setEndpoint] = useAtom(requestEndpointAtom);
+  const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom);
   const [requestBody, setRequestBody] = useAtom(requestBodyAtom);
-
   const [headers, setHeaders] = useAtom(requestHeadersAtom);
 
   const handleHeadersChange = (key: keyof KeyValue, value: string, index: number) => {
@@ -96,14 +96,16 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
         <Select
           dataTestId="rest-form-method-select"
           onValueChange={handleMethodChange}
-          options={TEMPORARY_METHOD_SELECT_OPTIONS}
+          options={HTTP_METHOD_SELECT_OPTIONS}
           name="method"
+          value={httpMethod}
         />
         <Input
           data-testid="rest-form-endpoint-input"
           name="endpoint"
           placeholder={t('inputPlaceholderEndpoint')}
           onChange={handleEndpointChange}
+          value={endpoint}
         />
         <Button data-testid="rest-form-submit-button" type="submit">
           {t('buttonSend')}
@@ -134,7 +136,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             <TabsContent value="json">
               <BodyEditor
                 theme={resolvedTheme}
-                value={requestBody.value}
+                value={requestBody.type === 'json' ? requestBody.value : undefined}
                 dataTestId="rest-form-body-editor-json"
                 readOnly={false}
                 title={t('tabBodyTitleJson')}
@@ -147,6 +149,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             <TabsContent value="text">
               <BodyEditor
                 theme={resolvedTheme}
+                value={requestBody.type === 'text' ? requestBody.value : undefined}
                 dataTestId="rest-form-body-editor-text"
                 readOnly={false}
                 title={t('tabBodyTitleText')}

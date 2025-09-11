@@ -2,7 +2,7 @@
 
 export interface ResponseInformationProps {
   status: number;
-  size: number;
+  size: string;
   time: number;
   labelStatus?: string;
   labelSize?: string;
