@@ -57,6 +57,10 @@ export function headersToSearchParams(pairs: KeyValue[]): URLSearchParams {
 }
 
 export function searchParamsToHeaders(params: ReadonlyURLSearchParams): KeyValue[] {
+  if (params.size === 0) {
+    return [];
+  }
+
   const headers = [...params.entries()].map(([key, value]) => ({ key, value }));
   return [...headers, { key: '', value: '' }];
 }
