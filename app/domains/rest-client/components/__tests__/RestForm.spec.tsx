@@ -61,7 +61,7 @@ describe(RestForm.name, () => {
     expect(onSubmit).toHaveBeenCalledWith({
       method: 'POST',
       endpoint: '/test',
-      headers: [{ key: '', value: '' }],
+      headers: [],
       body: { type: 'json', value: '{"key": "value"}' },
     });
   });
