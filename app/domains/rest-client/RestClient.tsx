@@ -13,6 +13,7 @@ import { BodyEditor } from './components/BodyEditor';
 import { CodeGeneration } from './components/CodeGeneration';
 import { ResponseInformation } from './components/ResponseInformation';
 import { RestForm, type RestFormData } from './components/RestForm';
+import { useInitFormAtoms } from './hooks/use-init-form-atoms';
 
 export const RestClient = ({ params }: { params?: string[] | undefined }) => {
   const t = useTranslations('restClient.response');
@@ -23,7 +24,7 @@ export const RestClient = ({ params }: { params?: string[] | undefined }) => {
 
   const searchParams = useSearchParams();
 
-  console.log(decodeRequestUrl(params, searchParams));
+  useInitFormAtoms(decodeRequestUrl(params, searchParams));
 
   const router = useRouter();
 
