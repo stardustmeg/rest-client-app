@@ -44,7 +44,7 @@ describe('VariablesForm', () => {
     await user.type(screen.getByPlaceholderText('value'), '123');
     await user.click(screen.getByTestId('add-variable'));
 
-    expect(addVariable).toHaveBeenCalledWith({ name: 'myVar', value: '123' });
+    expect(addVariable).toHaveBeenCalledWith({ name: '{{myVar}}', value: '123' });
   });
 
   it('should show warning when variable name already exists', async () => {
