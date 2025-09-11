@@ -15,6 +15,7 @@ export interface SuccessResponse {
   responseSize: number;
   time: number;
   status: number;
+  statusText: string;
   body: unknown;
 }
 
@@ -23,5 +24,6 @@ export interface FailedResponse {
   responseSize: number;
   time: number;
   status: number;
+  statusText?: string;
   error: string;
 }

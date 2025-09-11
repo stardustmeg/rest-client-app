@@ -7,18 +7,20 @@ export function successResponse({
   responseSize,
   time,
   status,
+  statusText,
   body,
 }: Omit<SuccessResponse, 'ok'>): SuccessResponse {
-  return { ok: true, responseSize, time, status, body };
+  return { ok: true, responseSize, time, status, statusText, body };
 }
 
 export function failedResponse({
   responseSize,
   time,
   status,
+  statusText,
   error,
 }: Omit<FailedResponse, 'ok'>): FailedResponse {
-  return { ok: false, responseSize, time, status, error };
+  return { ok: false, responseSize, time, status, statusText, error };
 }
 
 export async function proxySendRequest({ method, endpoint, headers, body }: RestFormData) {
@@ -31,16 +33,17 @@ export async function proxySendRequest({ method, endpoint, headers, body }: Rest
       headers: getUniqueRequestHeaders(headers),
     });
 
+    const arrayBuffer = await response.clone().arrayBuffer();
+
     if (!response.ok) {
       return failedResponse({
         status: response.status,
-        responseSize: 0,
+        statusText: response.statusText,
         time: Date.now() - requestStart,
+        responseSize: arrayBuffer.byteLength,
         error: response.statusText,
       });
     }
-
-    const arrayBuffer = await response.clone().arrayBuffer();
 
     const contentType = response.headers.get('content-type');
     const responseBody = contentType?.includes(MIME_TYPE.JSON)
@@ -49,6 +52,7 @@ export async function proxySendRequest({ method, endpoint, headers, body }: Rest
 
     return successResponse({
       status: response.status,
+      statusText: response.statusText,
       responseSize: arrayBuffer.byteLength,
       time: Date.now() - requestStart,
       body: responseBody,
