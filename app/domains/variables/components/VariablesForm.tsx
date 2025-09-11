@@ -31,7 +31,7 @@ export const VariablesForm = () => {
       return;
     }
 
-    addVariable(data);
+    addVariable({ name: `{{${data.name}}}`, value: data.value });
     reset();
   };
 

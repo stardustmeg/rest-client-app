@@ -12,7 +12,7 @@ export const VariablesContent = () => {
     useVariablesContext();
 
   const keyValueItems: KeyValue[] = variables.map((v) => ({
-    key: v.name,
+    key: v.name.replace('{{', '').replace('}}', ''),
     value: v.value,
   }));
 
