@@ -9,7 +9,15 @@ export const HTTP_METHOD = {
   OPTIONS: 'OPTIONS',
   TRACE: 'TRACE',
   PATCH: 'PATCH',
-} as const;
+};
+
+export const HTTP_METHODS_WITH_BODY = new Set([
+  HTTP_METHOD.POST,
+  HTTP_METHOD.PUT,
+  HTTP_METHOD.PATCH,
+  HTTP_METHOD.DELETE,
+  HTTP_METHOD.OPTIONS,
+]);
 
 export const MIME_TYPE = {
   JSON: 'application/json',

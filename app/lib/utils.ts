@@ -4,6 +4,7 @@ import type { ReadonlyURLSearchParams } from 'next/navigation';
 import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEditor';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
+import { HTTP_METHODS_WITH_BODY } from './constants';
 
 export function formatJson(input: unknown, onError: (error: Error) => void): string {
   try {
@@ -119,4 +120,8 @@ export function decodeRequestUrl(
   };
 
   return formData;
+}
+
+export function methodHasBody(method: string): boolean {
+  return HTTP_METHODS_WITH_BODY.has(method);
 }

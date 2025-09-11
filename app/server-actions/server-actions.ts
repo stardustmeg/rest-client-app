@@ -4,7 +4,7 @@ import pcg from 'postman-code-generators';
 import sdk from 'postman-collection';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
 import { KILOBYTE, MIME_TYPE } from '../lib/constants';
-import { getUniqueRequestHeaders, normalizeError } from '../lib/utils';
+import { getUniqueRequestHeaders, methodHasBody, normalizeError } from '../lib/utils';
 import type { GenerateCodeSnippetParams } from './types';
 
 export async function getLanguageList() {
@@ -43,7 +43,7 @@ export async function sendRequest({ method, endpoint, headers, body }: RestFormD
   try {
     const res = await fetch(endpoint, {
       method,
-      body: method !== 'GET' && method !== 'HEAD' ? body.value : undefined,
+      body: methodHasBody(method) ? body.value : undefined,
       headers: getUniqueRequestHeaders(headers),
     });
 
