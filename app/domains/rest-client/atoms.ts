@@ -20,7 +20,7 @@ export const responseBodyAtom = atom('');
 
 export const responseInformationAtom = atom<ResponseInformationProps>({
   status: 0,
-  size: '',
+  size: 0,
   time: 0,
 });
 

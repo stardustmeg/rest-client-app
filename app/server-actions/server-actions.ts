@@ -54,6 +54,7 @@ export async function sendRequest({ method, endpoint, headers, body }: RestFormD
         statusText: res.statusText,
         time: Date.now() - start,
         body: null,
+        size: 0,
         error: `Request failed with status ${res.status}`,
       };
     }
@@ -74,7 +75,7 @@ export async function sendRequest({ method, endpoint, headers, body }: RestFormD
       statusText: res.statusText,
       body: responseBody,
       time: end - start,
-      size: sizeKb.toFixed(2),
+      size: Number(sizeKb.toFixed(2)),
     };
   } catch (err) {
     return {
@@ -83,6 +84,7 @@ export async function sendRequest({ method, endpoint, headers, body }: RestFormD
       statusText: 'Network Error',
       time: Date.now() - start,
       body: null,
+      size: 0,
       error: normalizeError(err).message,
     };
   }

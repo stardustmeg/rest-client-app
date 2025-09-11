@@ -33,7 +33,7 @@ export const RestClient = () => {
     router.push(`/rest-client/${url}`);
 
     sendRequest(data).then((res) => {
-      setResponseInfo({ time: res.time, status: res.status, size: res.size ?? '' });
+      setResponseInfo({ time: res.time, status: res.status, size: res.size });
 
       const formattedBody = formatJson(res.body, (e) => {
         console.log(e.message);
