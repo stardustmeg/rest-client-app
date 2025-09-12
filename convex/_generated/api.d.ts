@@ -19,6 +19,7 @@ import type * as history from "../history.js";
 import type * as http from "../http.js";
 import type * as schemas_historySchema from "../schemas/historySchema.js";
 import type * as schemas_usersSchema from "../schemas/usersSchema.js";
+import type * as types_index from "../types/index.js";
 import type * as users from "../users.js";
 
 /**
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   "schemas/historySchema": typeof schemas_historySchema;
   "schemas/usersSchema": typeof schemas_usersSchema;
+  "types/index": typeof types_index;
   users: typeof users;
 }>;
 export declare const api: FilterApi<
