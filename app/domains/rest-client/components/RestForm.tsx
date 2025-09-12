@@ -128,7 +128,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
           />
         </TabsContent>
         <TabsContent value="body">
-          <Tabs.Root defaultValue="json">
+          <Tabs.Root defaultValue={requestBody.type}>
             <Tabs.List>
               <Tabs.Trigger value="json">{t('tabTriggerJson')}</Tabs.Trigger>
               <Tabs.Trigger value="text">{t('tabTriggerText')}</Tabs.Trigger>
