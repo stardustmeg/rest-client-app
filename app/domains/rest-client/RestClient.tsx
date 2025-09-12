@@ -43,7 +43,7 @@ export const RestClient = () => {
         return;
       }
 
-      const formattedBody = formatJson(response.body, (e) => {
+      const formattedBody = formatJson(response.body?.value, (e) => {
         console.log(e.message);
       });
 

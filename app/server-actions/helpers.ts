@@ -46,6 +46,7 @@ export async function proxySendRequest({
       responseStatusCode: 0,
       requestSize: 0,
       responseSize: 0,
+      body: { type: body.type },
       errorDetails: normalizeError(error).message,
     };
   }
