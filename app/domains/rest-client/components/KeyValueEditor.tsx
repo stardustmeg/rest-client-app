@@ -17,6 +17,7 @@ export interface KeyValueEditorProps {
   testIdPrefix?: string;
   placeholderKey?: string;
   placeholderValue?: string;
+  disabled?: boolean;
 }
 
 export const KeyValueEditor = ({
@@ -28,11 +29,13 @@ export const KeyValueEditor = ({
   testIdPrefix,
   placeholderKey,
   placeholderValue,
+  disabled,
 }: KeyValueEditorProps) => {
   return (
     <Stack data-testid={testIdPrefix ? `${testIdPrefix}-key-value-editor` : 'key-value-editor'}>
       {items.length === 0 && (
         <Button
+          disabled={disabled}
           data-testid={testIdPrefix ? `${testIdPrefix}-add-button` : 'add-button'}
           type="button"
           size="sm"
@@ -49,6 +52,7 @@ export const KeyValueEditor = ({
               data-testid={
                 testIdPrefix ? `${testIdPrefix}-key-input-${index}` : `key-input-${index}`
               }
+              disabled={disabled}
               name={`header-key-${index}`}
               size="sm"
               type="text"
@@ -60,6 +64,7 @@ export const KeyValueEditor = ({
               data-testid={
                 testIdPrefix ? `${testIdPrefix}-value-input-${index}` : `value-input-${index}`
               }
+              disabled={disabled}
               name={`header-value-${index}`}
               size="sm"
               type="text"
@@ -71,6 +76,7 @@ export const KeyValueEditor = ({
               data-testid={
                 testIdPrefix ? `${testIdPrefix}-delete-button-${index}` : `delete-button-${index}`
               }
+              disabled={disabled}
               variant="subtle"
               size="sm"
               onClick={() => onDelete(index)}

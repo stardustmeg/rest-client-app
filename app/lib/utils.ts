@@ -4,6 +4,19 @@ import type { ReadonlyURLSearchParams } from 'next/navigation';
 import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEditor';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
+import {
+  HTTP_METHODS_WITH_BODY,
+  STATUS_CLIENT_ERROR_MAX,
+  STATUS_CLIENT_ERROR_MIN,
+  STATUS_INFORMATIONAL_MAX,
+  STATUS_INFORMATIONAL_MIN,
+  STATUS_REDIRECTION_MAX,
+  STATUS_REDIRECTION_MIN,
+  STATUS_SERVER_ERROR_MAX,
+  STATUS_SERVER_ERROR_MIN,
+  STATUS_SUCCESS_MAX,
+  STATUS_SUCCESS_MIN,
+} from './constants';
 
 export function formatJson(input: unknown, onError: (error: Error) => void): string {
   try {
@@ -65,26 +78,39 @@ export function searchParamsToHeaders(params: ReadonlyURLSearchParams): KeyValue
   return [...headers, { key: '', value: '' }];
 }
 
-export function encodeBase64(v: string): string {
-  return btoa(encodeURIComponent(v));
+export function encodeBase64(v: string, onError: (error: Error) => void): string {
+  try {
+    return btoa(encodeURIComponent(v));
+  } catch (error) {
+    onError(normalizeError(error));
+    return v;
+  }
 }
 
-export function decodeBase64(v: string): string {
-  return decodeURIComponent(atob(decodeURIComponent(v)));
+export function decodeBase64(v: string, onError: (error: Error) => void): string {
+  try {
+    return decodeURIComponent(atob(decodeURIComponent(v)));
+  } catch (error) {
+    onError(normalizeError(error));
+    return v;
+  }
 }
 
-export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormData): string {
+export function encodeRequestUrl(
+  { method, endpoint, headers, body }: RestFormData,
+  onError: (error: Error) => void,
+): string {
   let url = '';
 
   url += method;
   url += '/';
-  url += encodeBase64(endpoint);
+  url += body.type;
+  url += '/';
+  url += encodeBase64(endpoint, onError);
 
   if (body.value) {
     url += '/';
-    url += body.type;
-    url += '/';
-    url += encodeBase64(body.value);
+    url += encodeBase64(body.value, onError);
   }
 
   const sp = headersToSearchParams(headers);
@@ -99,20 +125,21 @@ export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormDa
 export function decodeRequestUrl(
   path: string[] | undefined,
   searchParams: ReadonlyURLSearchParams,
+  onError: (error: Error) => void,
 ): RestFormData | null {
   if (!path) {
     return null;
   }
 
-  const [method, endpoint, body, bodyType] = path;
+  const [method, bodyType, endpoint, body] = path;
 
   const headers = searchParamsToHeaders(searchParams);
 
   const formData = {
     method,
-    endpoint: decodeBase64(endpoint),
+    endpoint: decodeBase64(endpoint, onError),
     body: {
-      value: body ? decodeBase64(body) : '',
+      value: body ? decodeBase64(body, onError) : '',
       type: bodyType as BodyEditorRequestBody['type'],
     } as const,
     headers,
@@ -120,3 +147,22 @@ export function decodeRequestUrl(
 
   return formData;
 }
+
+export function methodHasBody(method: string): boolean {
+  return HTTP_METHODS_WITH_BODY.has(method);
+}
+
+export const isInformationalResponse = (status: number): boolean =>
+  status >= STATUS_INFORMATIONAL_MIN && status < STATUS_INFORMATIONAL_MAX;
+
+export const isSuccessResponse = (status: number): boolean =>
+  status >= STATUS_SUCCESS_MIN && status < STATUS_SUCCESS_MAX;
+
+export const isRedirectionResponse = (status: number): boolean =>
+  status >= STATUS_REDIRECTION_MIN && status < STATUS_REDIRECTION_MAX;
+
+export const isClientErrorResponse = (status: number): boolean =>
+  status >= STATUS_CLIENT_ERROR_MIN && status < STATUS_CLIENT_ERROR_MAX;
+
+export const isServerErrorResponse = (status: number): boolean =>
+  status >= STATUS_SERVER_ERROR_MIN && status < STATUS_SERVER_ERROR_MAX;
