@@ -9,7 +9,12 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import { decodeRequestUrl, encodeRequestUrl, formatJson, normalizeError } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
-import { formDataStore, responseBodyAtom, responseInformationAtom } from './atoms';
+import {
+  failedResponseAtom,
+  formDataStore,
+  responseBodyAtom,
+  responseInformationAtom,
+} from './atoms';
 import { BodyEditor } from './components/BodyEditor';
 import { CodeGeneration } from './components/CodeGeneration';
 import { ResponseInformation } from './components/ResponseInformation';
@@ -26,23 +31,21 @@ export const RestClient = () => {
 
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
+  const [failedResponse, setFailedResponse] = useAtom(failedResponseAtom);
   const [formDisabled, setFormDisabled] = useState(false);
-  const [responseOk, setResponseOk] = useState(true);
-  const [responseErrorMessage, setResponseErrorMessage] = useState('');
 
   useInitFormAtoms(decodeRequestUrl(params, searchParams));
 
   const handleFormSubmit = async (data: RestFormData) => {
     setFormDisabled(true);
+    setResponseBody('');
+    setFailedResponse({ ok: true, lastErrorMessage: '' });
 
     try {
       const url = encodeRequestUrl(data);
       router.push(`/rest-client/${url}`);
 
       const response = await sendRequest(data);
-
-      setResponseBody('');
-      setResponseErrorMessage('');
 
       setResponseInfo({
         time: response.requestDuration,
@@ -56,15 +59,13 @@ export const RestClient = () => {
         });
 
         setResponseBody(formattedBody);
-        setResponseOk(true);
+        setFailedResponse({ ok: true, lastErrorMessage: '' });
       } else {
-        setResponseErrorMessage(response.errorDetails ?? 'OH NO');
-        setResponseOk(false);
+        setFailedResponse({ ok: false, lastErrorMessage: response.errorDetails ?? '' });
       }
     } catch (err) {
       setResponseBody('');
-      setResponseErrorMessage(normalizeError(err).message);
-      setResponseOk(false);
+      setFailedResponse({ ok: false, lastErrorMessage: normalizeError(err).message });
     } finally {
       setFormDisabled(false);
     }
@@ -91,7 +92,7 @@ export const RestClient = () => {
               <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              {responseOk ? (
+              {failedResponse.ok ? (
                 <BodyEditor
                   value={responseBody}
                   theme={resolvedTheme}
@@ -99,7 +100,7 @@ export const RestClient = () => {
                   type="json"
                 />
               ) : (
-                <div>{responseErrorMessage}</div>
+                <div>{failedResponse.lastErrorMessage}</div>
               )}
             </TabsContent>
             <TabsContent value="code-snippet">

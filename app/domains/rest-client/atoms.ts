@@ -18,6 +18,11 @@ export const requestBodyAtom = atom<BodyEditorRequestBody>({
 
 export const responseBodyAtom = atom('');
 
+export const failedResponseAtom = atom<{ ok: boolean; lastErrorMessage: string }>({
+  ok: true,
+  lastErrorMessage: '',
+});
+
 export const responseInformationAtom = atom<ResponseInformationProps>({
   status: 0,
   size: 0,
