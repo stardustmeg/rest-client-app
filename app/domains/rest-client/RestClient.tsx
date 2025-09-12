@@ -55,7 +55,7 @@ export const RestClient = () => {
               <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              {failedResponse.ok ? (
+              {!processing && failedResponse.ok ? (
                 <BodyEditor
                   value={responseBody}
                   theme={resolvedTheme}
