@@ -40,13 +40,12 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
 
         const response = await sendRequest(data);
 
-        if (userId) {
-          await createHistoryItemMutation({
+        userId &&
+          createHistoryItemMutation({
             ...response,
             userId,
             body: { type: data.body.type, value: data.body.value },
           });
-        }
 
         setResponseInfo({
           time: response.requestDuration,

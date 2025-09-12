@@ -8,7 +8,7 @@ export async function proxySendRequest({
   endpoint,
   headers,
   body,
-}: RestFormData): Promise<ProxyResponse & { ok: boolean }> {
+}: RestFormData): Promise<ProxyResponse> {
   const requestStart = Date.now();
 
   const requestSize = calculateRequestSize({
