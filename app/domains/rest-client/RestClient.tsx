@@ -1,14 +1,11 @@
-/** biome-ignore-all lint/suspicious/noConsole: <shhhh> */
 'use client';
 
 import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
-import { Provider, useAtom } from 'jotai';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { Provider, useAtomValue } from 'jotai';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
-import { decodeRequestUrl, encodeRequestUrl, formatJson, normalizeError } from '@/app/lib/utils';
-import { sendRequest } from '@/app/server-actions/server-actions';
+import { decodeRequestUrl } from '@/app/lib/utils';
 import {
   failedResponseAtom,
   formDataStore,
@@ -18,66 +15,29 @@ import {
 import { BodyEditor } from './components/BodyEditor';
 import { CodeGeneration } from './components/CodeGeneration';
 import { ResponseInformation } from './components/ResponseInformation';
-import { RestForm, type RestFormData } from './components/RestForm';
+import { RestForm } from './components/RestForm';
 import { useInitFormAtoms } from './hooks/use-init-form-atoms';
+import { useSubmitRestForm } from './hooks/use-submit-rest-form';
 
 export const RestClient = () => {
-  const router = useRouter();
   const { params } = useParams<{ locale: string; params?: string[] }>();
   const searchParams = useSearchParams();
 
   const t = useTranslations('restClient.response');
   const { resolvedTheme } = useTheme();
 
-  const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
-  const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
-  const [failedResponse, setFailedResponse] = useAtom(failedResponseAtom);
-  const [formDisabled, setFormDisabled] = useState(false);
+  const responseInfo = useAtomValue(responseInformationAtom);
+  const responseBody = useAtomValue(responseBodyAtom);
+  const failedResponse = useAtomValue(failedResponseAtom);
 
   useInitFormAtoms(decodeRequestUrl(params, searchParams));
 
-  const handleFormSubmit = async (data: RestFormData) => {
-    setFormDisabled(true);
-    setResponseBody('');
-    setFailedResponse({ ok: true, lastErrorMessage: '' });
-
-    try {
-      const url = encodeRequestUrl(data);
-      router.push(`/rest-client/${url}`);
-
-      const response = await sendRequest(data);
-
-      setResponseInfo({
-        time: response.requestDuration,
-        status: response.responseStatusCode,
-        size: response.responseSize,
-      });
-
-      if (response.ok) {
-        const formattedBody = formatJson(response.body?.value, (e) => {
-          console.log(e.message);
-        });
-
-        setResponseBody(formattedBody);
-        setFailedResponse({ ok: true, lastErrorMessage: '' });
-      } else {
-        setFailedResponse({
-          ok: false,
-          lastErrorMessage: normalizeError(response.errorDetails).message,
-        });
-      }
-    } catch (err) {
-      setResponseBody('');
-      setFailedResponse({ ok: false, lastErrorMessage: normalizeError(err).message });
-    } finally {
-      setFormDisabled(false);
-    }
-  };
+  const { processing, handleSubmit } = useSubmitRestForm();
 
   return (
     <Provider store={formDataStore}>
       <Flex gap="3">
-        <RestForm disabled={formDisabled} onSubmit={handleFormSubmit} />
+        <RestForm disabled={processing} onSubmit={handleSubmit} />
         <Separator orientation="vertical" />
         <div className="w-full max-w-[48%]">
           <ResponseInformation
