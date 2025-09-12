@@ -140,5 +140,8 @@
       "time": "Время",
       "requestFailedTitle": "Ошибка запроса"
     }
+  },
+  "history": {
+    "noHistory": "История не найдена"
   }
 }

@@ -1,3 +1,5 @@
+import { HistoryList } from '../components/ui/HistoryList';
+
 export const HistoryAnAnalyticsPage = () => {
-  return <div>HistoryAnAnalyticsPage</div>;
+  return <HistoryList />;
 };

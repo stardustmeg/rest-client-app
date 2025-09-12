@@ -139,5 +139,8 @@
       "time": "時間",
       "requestFailedTitle": "リクエストに失敗しました"
     }
+  },
+  "history": {
+    "noHistory": "履歴が見つかりません"
   }
 }
