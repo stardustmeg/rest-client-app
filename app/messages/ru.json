@@ -137,7 +137,8 @@
       "tabTriggerCodeSnippet": "Пример кода",
       "status": "Статус",
       "size": "Размер",
-      "time": "Время"
+      "time": "Время",
+      "requestFailedTitle": "Ошибка запроса"
     }
   }
 }

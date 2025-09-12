@@ -136,7 +136,8 @@
       "tabTriggerCodeSnippet": "Code Snippet",
       "status": "Status",
       "size": "Size",
-      "time": "Time"
+      "time": "Time",
+      "requestFailedTitle": "Request failed"
     }
   }
 }

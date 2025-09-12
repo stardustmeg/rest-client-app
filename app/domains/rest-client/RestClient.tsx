@@ -1,58 +1,45 @@
-/** biome-ignore-all lint/suspicious/noConsole: <shhhh> */
 'use client';
 
-import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
-import { Provider, useAtom } from 'jotai';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { Box, Flex, Heading, Separator, Tabs, TabsContent } from '@chakra-ui/react';
+import { Provider, useAtomValue } from 'jotai';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { useResolveVariables } from '@/app/domains/variables/hooks/useResolveVariables';
-import { variablesAtom } from '@/app/domains/variables/store/variables-store';
-import { decodeRequestUrl, encodeRequestUrl, formatJson } from '@/app/lib/utils';
-import { sendRequest } from '@/app/server-actions/server-actions';
-import { formDataStore, responseBodyAtom, responseInformationAtom } from './atoms';
+import { useToast } from '@/app/hooks/use-toast';
+import { decodeRequestUrl } from '@/app/lib/utils';
+import {
+  failedResponseAtom,
+  formDataStore,
+  responseBodyAtom,
+  responseInformationAtom,
+} from './atoms';
 import { BodyEditor } from './components/BodyEditor';
 import { CodeGeneration } from './components/CodeGeneration';
 import { ResponseInformation } from './components/ResponseInformation';
-import { RestForm, type RestFormData } from './components/RestForm';
+import { RestForm } from './components/RestForm';
 import { useInitFormAtoms } from './hooks/use-init-form-atoms';
+import { useSubmitRestForm } from './hooks/use-submit-rest-form';
 
 export const RestClient = () => {
-  const router = useRouter();
   const { params } = useParams<{ locale: string; params?: string[] }>();
   const searchParams = useSearchParams();
-  const { resolveVariables } = useResolveVariables();
   const t = useTranslations('restClient.response');
   const { resolvedTheme } = useTheme();
-  const [variables] = useAtom(variablesAtom);
 
-  const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
-  const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
+  const { error } = useToast();
 
-  useInitFormAtoms(decodeRequestUrl(params, searchParams));
+  const responseInfo = useAtomValue(responseInformationAtom);
+  const responseBody = useAtomValue(responseBodyAtom);
+  const failedResponse = useAtomValue(failedResponseAtom);
 
-  const handleFormSubmit = (data: RestFormData) => {
-    const sss = resolveVariables(data);
-    console.log('after replacement', sss);
-    console.log('vars', variables);
-    const url = encodeRequestUrl(sss);
-    router.push(`/rest-client/${url}`);
+  useInitFormAtoms(decodeRequestUrl(params, searchParams, (e) => error(e.message)));
 
-    sendRequest(data).then((res) => {
-      setResponseInfo({ time: res.time, status: res.status, size: res.size ?? '' });
-
-      const formattedBody = formatJson(res.body, (e) => {
-        console.log(e.message);
-      });
-
-      setResponseBody(formattedBody);
-    });
-  };
+  const { processing, handleSubmit } = useSubmitRestForm();
 
   return (
     <Provider store={formDataStore}>
       <Flex gap="3">
-        <RestForm onSubmit={handleFormSubmit} />
+        <RestForm disabled={processing} onSubmit={handleSubmit} />
         <Separator orientation="vertical" />
         <div className="w-full max-w-[48%]">
           <ResponseInformation
@@ -70,7 +57,20 @@ export const RestClient = () => {
               <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              <BodyEditor value={responseBody} theme={resolvedTheme} readOnly={true} type="json" />
+              {!processing && failedResponse.ok && (
+                <BodyEditor
+                  value={responseBody}
+                  theme={resolvedTheme}
+                  readOnly={true}
+                  type="json"
+                />
+              )}
+              {!(processing || failedResponse.ok) && (
+                <Box background="crimson" padding="4" color="white">
+                  <Heading size="xl">{t('requestFailedTitle')}</Heading>
+                  <p>{failedResponse.lastErrorMessage}</p>
+                </Box>
+              )}
             </TabsContent>
             <TabsContent value="code-snippet">
               <CodeGeneration />

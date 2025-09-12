@@ -20,6 +20,7 @@ export interface BodyEditorProps {
   value?: string;
   title?: string;
   theme?: string;
+  disabled?: boolean;
 }
 
 export const BodyEditor = ({
@@ -32,6 +33,7 @@ export const BodyEditor = ({
   value,
   buttonFormatText,
   title,
+  disabled,
 }: BodyEditorProps) => {
   return (
     <div>
@@ -39,6 +41,7 @@ export const BodyEditor = ({
         {title && <p data-testid="body-editor-title">{title}</p>}
         {type === 'json' && !readOnly && (
           <Button
+            disabled={disabled}
             data-testid="body-editor-format-button"
             size="xs"
             variant="ghost"
@@ -52,7 +55,7 @@ export const BodyEditor = ({
         data-testid={dataTestId}
         language={type}
         height="70dvh"
-        options={{ readOnly }}
+        options={{ readOnly: readOnly || disabled }}
         value={value}
         theme={theme === 'dark' ? 'vs-dark' : 'light'}
         onChange={(v) => {

@@ -9,3 +9,15 @@ export interface GenerateCodeSnippetParams {
   language: string;
   variant: string;
 }
+
+export interface ProxyResponse {
+  requestMethod: string;
+  endpoint: string;
+  requestTimestamp: number;
+  requestDuration: number;
+  responseStatusCode: number;
+  requestSize: number;
+  responseSize: number;
+  body?: { type: string; value?: unknown };
+  errorDetails?: string;
+}
