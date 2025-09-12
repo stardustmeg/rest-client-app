@@ -28,13 +28,16 @@ export const ResponseInformation = ({
   return (
     <div data-testid="response-information" className="flex gap-3">
       <span data-testid="response-information-status">
-        {labelStatus ?? 'Status'}: <span className={getStatusColor(status)}>{status}</span>
+        {labelStatus ?? 'Status'}:{' '}
+        <span className={getStatusColor(status)}>{status !== 0 ? status : '-'}</span>
       </span>
       <span data-testid="response-information-size">
-        {labelSize ?? 'Size'}: <span className={getStatusColor(status)}>{size}</span>
+        {labelSize ?? 'Size'}:{' '}
+        <span className={getStatusColor(status)}>{size !== 0 ? size : '-'}</span>
       </span>
-      <span data-testid="response-information-time">
-        {labelTime ?? 'Time'}: <span className={getStatusColor(status)}>{time}</span>
+      <span className="text-gra" data-testid="response-information-time">
+        {labelTime ?? 'Time'}:{' '}
+        <span className={getStatusColor(status)}>{time !== 0 ? time : '-'}</span>
       </span>
     </div>
   );
@@ -61,5 +64,5 @@ const getStatusColor = (status: number): string => {
     return 'text-red-600';
   }
 
-  return 'text-gray-600';
+  return 'text-gray-400';
 };
