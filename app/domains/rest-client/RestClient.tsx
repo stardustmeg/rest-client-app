@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
+import { Box, Flex, Heading, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider, useAtomValue } from 'jotai';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -64,8 +64,9 @@ export const RestClient = () => {
                 />
               )}
               {!(processing || failedResponse.ok) && (
-                <Box background="red" padding="4" color="white">
-                  {failedResponse.lastErrorMessage}
+                <Box background="crimson" padding="4" color="white">
+                  <Heading size="xl">{t('requestFailedTitle')}</Heading>
+                  <p>{failedResponse.lastErrorMessage}</p>
                 </Box>
               )}
             </TabsContent>
