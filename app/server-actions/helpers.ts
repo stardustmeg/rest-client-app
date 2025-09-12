@@ -11,11 +11,18 @@ export async function proxySendRequest({
 }: RestFormData): Promise<ProxyResponse & { ok: boolean }> {
   const requestStart = Date.now();
 
+  const requestSize = calculateRequestSize({
+    headers,
+    body,
+  });
+
   try {
+    const uniqueHeaders = getUniqueRequestHeaders(headers);
+
     const response = await fetch(endpoint, {
       method,
       body: methodHasBody(method) ? body.value : undefined,
-      headers: getUniqueRequestHeaders(headers),
+      headers: uniqueHeaders,
     });
 
     const arrayBuffer = await response.clone().arrayBuffer();
@@ -32,7 +39,7 @@ export async function proxySendRequest({
       requestTimestamp: requestStart,
       requestDuration: Date.now() - requestStart,
       responseStatusCode: response.status,
-      requestSize: 0,
+      requestSize,
       responseSize: arrayBuffer.byteLength,
       body: { type: body.type, value: responseBody },
     };
@@ -44,10 +51,28 @@ export async function proxySendRequest({
       requestTimestamp: requestStart,
       requestDuration: Date.now() - requestStart,
       responseStatusCode: 0,
-      requestSize: 0,
+      requestSize,
       responseSize: 0,
       body: { type: body.type },
       errorDetails: normalizeError(error).message,
     };
   }
+}
+
+// TODO (ripetchor): Maybe calculate all form data
+function calculateRequestSize({ headers, body }: Pick<RestFormData, 'headers' | 'body'>): number {
+  const textEncoder = new TextEncoder();
+
+  let size = 0;
+
+  for (const { key, value } of headers) {
+    const header = `${key}: ${value}\r\n`;
+    size += textEncoder.encode(header).byteLength;
+  }
+
+  if (body.value) {
+    size += textEncoder.encode(body.value).byteLength;
+  }
+
+  return size;
 }
