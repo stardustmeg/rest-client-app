@@ -67,11 +67,11 @@ export function searchParamsToHeaders(params: ReadonlyURLSearchParams): KeyValue
 }
 
 export function encodeBase64(v: string): string {
-  return Buffer.from(v, 'utf-8').toString('base64');
+  return btoa(encodeURIComponent(v));
 }
 
 export function decodeBase64(v: string): string {
-  return Buffer.from(v, 'base64').toString('utf-8');
+  return decodeURIComponent(atob(decodeURIComponent(v)));
 }
 
 export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormData): string {
