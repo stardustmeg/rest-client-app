@@ -11,7 +11,6 @@ vi.mock('@/app/hooks/use-toast', () => ({
   useToast: () => ({ warning }),
 }));
 
-// Mock the Jotai store
 vi.mock('jotai', () => ({
   useAtom: vi.fn(),
 }));

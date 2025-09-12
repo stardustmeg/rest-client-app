@@ -10,7 +10,6 @@ const addVariable = vi.fn();
 const updateVariable = vi.fn();
 const deleteAllVariables = vi.fn();
 
-// Mock the Jotai store
 vi.mock('jotai', () => ({
   useAtom: vi.fn(),
 }));
@@ -62,7 +61,6 @@ describe('VariablesContent', () => {
       </TestProviders>,
     );
 
-    // The KeyValueEditor renders inputs with specific test IDs
     expect(screen.getByTestId('key-input-0')).toHaveValue('var1');
     expect(screen.getByTestId('value-input-0')).toHaveValue('123');
     expect(screen.getByTestId('key-input-1')).toHaveValue('var2');
