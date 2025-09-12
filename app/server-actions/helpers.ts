@@ -1,5 +1,5 @@
+import { MIME_TYPE } from '../constants';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
-import { MIME_TYPE } from '../lib/constants';
 import { getUniqueRequestHeaders, methodHasBody, normalizeError } from '../lib/utils';
 import type { ProxyResponse } from './types';
 

@@ -25,14 +25,3 @@ export const MIME_TYPE = {
 } as const;
 
 export const KILOBYTE = 1024;
-
-export const STATUS_INFORMATIONAL_MIN = 100;
-export const STATUS_INFORMATIONAL_MAX = 199;
-export const STATUS_SUCCESS_MIN = 200;
-export const STATUS_SUCCESS_MAX = 299;
-export const STATUS_REDIRECTION_MIN = 300;
-export const STATUS_REDIRECTION_MAX = 399;
-export const STATUS_CLIENT_ERROR_MIN = 400;
-export const STATUS_CLIENT_ERROR_MAX = 499;
-export const STATUS_SERVER_ERROR_MIN = 500;
-export const STATUS_SERVER_ERROR_MAX = 599;
