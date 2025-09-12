@@ -6,6 +6,8 @@ import { Provider, useAtom } from 'jotai';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
+import { useResolveVariables } from '@/app/domains/variables/hooks/useResolveVariables';
+import { variablesAtom } from '@/app/domains/variables/store/variables-store';
 import { decodeRequestUrl, encodeRequestUrl, formatJson } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { formDataStore, responseBodyAtom, responseInformationAtom } from './atoms';
@@ -19,9 +21,10 @@ export const RestClient = () => {
   const router = useRouter();
   const { params } = useParams<{ locale: string; params?: string[] }>();
   const searchParams = useSearchParams();
-
+  const { resolveVariables } = useResolveVariables();
   const t = useTranslations('restClient.response');
   const { resolvedTheme } = useTheme();
+  const [variables] = useAtom(variablesAtom);
 
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
@@ -29,7 +32,10 @@ export const RestClient = () => {
   useInitFormAtoms(decodeRequestUrl(params, searchParams));
 
   const handleFormSubmit = (data: RestFormData) => {
-    const url = encodeRequestUrl(data);
+    const sss = resolveVariables(data);
+    console.log('after replacement', sss);
+    console.log('vars', variables);
+    const url = encodeRequestUrl(sss);
     router.push(`/rest-client/${url}`);
 
     sendRequest(data).then((res) => {

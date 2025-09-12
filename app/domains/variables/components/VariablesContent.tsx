@@ -1,15 +1,16 @@
 import { Flex, IconButton, Separator, Skeleton, Text } from '@chakra-ui/react';
+import { useAtom } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { BsTrash } from 'react-icons/bs';
 import { type KeyValue, KeyValueEditor } from '@/app/domains/rest-client/components/KeyValueEditor';
-import { useVariablesContext } from '@/app/domains/variables/components/VariablesProvider';
+import { useVariablesActions, variablesAtom } from '@/app/domains/variables/store/variables-store';
 import { useAuth } from '@/app/hooks/use-auth';
 
 export const VariablesContent = () => {
   const { isLoading } = useAuth();
   const t = useTranslations('variables');
-  const { variables, addVariable, updateVariable, deleteVariable, deleteAllVariables } =
-    useVariablesContext();
+  const [variables] = useAtom(variablesAtom);
+  const { addVariable, updateVariable, deleteVariable, deleteAllVariables } = useVariablesActions();
 
   const keyValueItems: KeyValue[] = variables.map((v) => ({
     key: v.name.replace('{{', '').replace('}}', ''),
