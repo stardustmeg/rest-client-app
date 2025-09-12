@@ -1,5 +1,5 @@
 import { HistoryList } from '../components/ui/HistoryList';
 
-export const HistoryAnAnalyticsPage = () => {
+export const HistoryAndAnalyticsPage = () => {
   return <HistoryList />;
 };
