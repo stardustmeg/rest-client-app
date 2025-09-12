@@ -9,8 +9,7 @@ import type { RestFormData } from '../components/RestForm';
 
 interface UseSubmitRestFormReturn {
   processing: boolean;
-
-  handleSubmit(data: RestFormData): void;
+  handleSubmit(data: RestFormData): Promise<void>;
 }
 
 export function useSubmitRestForm(): UseSubmitRestFormReturn {
@@ -24,8 +23,8 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
 
   const { error } = useToast();
 
-  const handleSubmit = useCallback(
-    async (data: RestFormData) => {
+  const handleSubmit = useCallback<UseSubmitRestFormReturn['handleSubmit']>(
+    async (data) => {
       setProcessing(true);
       setResponseBody('');
       setFailedResponse({ ok: true, lastErrorMessage: '' });

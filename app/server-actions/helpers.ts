@@ -42,7 +42,7 @@ export async function proxySendRequest({
       requestSize,
       responseSize: arrayBuffer.byteLength,
       body: { type: body.type, value: responseBody },
-      errorDetails: response.statusText,
+      errorDetails: response.ok ? undefined : response.statusText,
     };
   } catch (error) {
     return {
