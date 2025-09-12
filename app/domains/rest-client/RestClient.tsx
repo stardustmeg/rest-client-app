@@ -7,7 +7,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
-import { decodeRequestUrl, encodeRequestUrl, formatJson } from '@/app/lib/utils';
+import { decodeRequestUrl, encodeRequestUrl, formatJson, normalizeError } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { formDataStore, responseBodyAtom, responseInformationAtom } from './atoms';
 import { BodyEditor } from './components/BodyEditor';
@@ -27,34 +27,47 @@ export const RestClient = () => {
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
   const [formDisabled, setFormDisabled] = useState(false);
+  const [responseOk, setResponseOk] = useState(true);
+  const [responseErrorMessage, setResponseErrorMessage] = useState('');
 
   useInitFormAtoms(decodeRequestUrl(params, searchParams));
 
-  const handleFormSubmit = (data: RestFormData) => {
-    const url = encodeRequestUrl(data);
-    router.push(`/rest-client/${url}`);
-
+  const handleFormSubmit = async (data: RestFormData) => {
     setFormDisabled(true);
 
-    sendRequest(data)
-      .then((response) => {
-        setResponseInfo({
-          time: response.requestDuration,
-          status: response.responseStatusCode,
-          size: response.responseSize,
-        });
+    try {
+      const url = encodeRequestUrl(data);
+      router.push(`/rest-client/${url}`);
 
-        if (!response.ok) {
-          return;
-        }
+      const response = await sendRequest(data);
 
+      setResponseBody('');
+      setResponseErrorMessage('');
+
+      setResponseInfo({
+        time: response.requestDuration,
+        status: response.responseStatusCode,
+        size: response.responseSize,
+      });
+
+      if (response.ok) {
         const formattedBody = formatJson(response.body?.value, (e) => {
           console.log(e.message);
         });
 
         setResponseBody(formattedBody);
-      })
-      .finally(() => setFormDisabled(false));
+        setResponseOk(true);
+      } else {
+        setResponseErrorMessage(response.errorDetails ?? 'OH NO');
+        setResponseOk(false);
+      }
+    } catch (err) {
+      setResponseBody('');
+      setResponseErrorMessage(normalizeError(err).message);
+      setResponseOk(false);
+    } finally {
+      setFormDisabled(false);
+    }
   };
 
   return (
@@ -78,7 +91,16 @@ export const RestClient = () => {
               <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              <BodyEditor value={responseBody} theme={resolvedTheme} readOnly={true} type="json" />
+              {responseOk ? (
+                <BodyEditor
+                  value={responseBody}
+                  theme={resolvedTheme}
+                  readOnly={true}
+                  type="json"
+                />
+              ) : (
+                <div>{responseErrorMessage}</div>
+              )}
             </TabsContent>
             <TabsContent value="code-snippet">
               <CodeGeneration />
