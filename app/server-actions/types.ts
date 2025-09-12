@@ -10,20 +10,14 @@ export interface GenerateCodeSnippetParams {
   variant: string;
 }
 
-export interface SuccessResponse {
-  ok: true;
+export interface ProxyResponse {
+  requestMethod: string;
+  endpoint: string;
+  requestTimestamp: number;
+  requestDuration: number;
+  responseStatusCode: number;
+  requestSize: number;
   responseSize: number;
-  time: number;
-  status: number;
-  statusText: string;
-  body: unknown;
-}
-
-export interface FailedResponse {
-  ok: false;
-  responseSize: number;
-  time: number;
-  status: number;
-  statusText?: string;
-  error: string;
+  body?: unknown;
+  errorDetails?: string;
 }

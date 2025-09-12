@@ -32,14 +32,18 @@ export const RestClient = () => {
     const url = encodeRequestUrl(data);
     router.push(`/rest-client/${url}`);
 
-    sendRequest(data).then((res) => {
-      setResponseInfo({ time: res.time, status: res.status, size: res.responseSize });
+    sendRequest(data).then((response) => {
+      setResponseInfo({
+        time: response.requestDuration,
+        status: response.responseStatusCode,
+        size: response.responseSize,
+      });
 
-      if (!res.ok) {
+      if (!response.ok) {
         return;
       }
 
-      const formattedBody = formatJson(res.body, (e) => {
+      const formattedBody = formatJson(response.body, (e) => {
         console.log(e.message);
       });
 
