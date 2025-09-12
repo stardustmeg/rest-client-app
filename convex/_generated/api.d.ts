@@ -15,7 +15,10 @@ import type {
 } from "convex/server";
 import type * as CustomProfile from "../CustomProfile.js";
 import type * as auth from "../auth.js";
+import type * as history from "../history.js";
 import type * as http from "../http.js";
+import type * as schemas_historySchema from "../schemas/historySchema.js";
+import type * as schemas_usersSchema from "../schemas/usersSchema.js";
 import type * as users from "../users.js";
 
 /**
@@ -29,7 +32,10 @@ import type * as users from "../users.js";
 declare const fullApi: ApiFromModules<{
   CustomProfile: typeof CustomProfile;
   auth: typeof auth;
+  history: typeof history;
   http: typeof http;
+  "schemas/historySchema": typeof schemas_historySchema;
+  "schemas/usersSchema": typeof schemas_usersSchema;
   users: typeof users;
 }>;
 export declare const api: FilterApi<
