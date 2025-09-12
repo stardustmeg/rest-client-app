@@ -61,7 +61,10 @@ export const RestClient = () => {
         setResponseBody(formattedBody);
         setFailedResponse({ ok: true, lastErrorMessage: '' });
       } else {
-        setFailedResponse({ ok: false, lastErrorMessage: response.errorDetails ?? '' });
+        setFailedResponse({
+          ok: false,
+          lastErrorMessage: normalizeError(response.errorDetails).message,
+        });
       }
     } catch (err) {
       setResponseBody('');
