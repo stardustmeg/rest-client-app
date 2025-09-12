@@ -1,6 +1,6 @@
 'use client';
 
-import { Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
+import { Box, Flex, Separator, Tabs, TabsContent } from '@chakra-ui/react';
 import { Provider, useAtomValue } from 'jotai';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -55,15 +55,18 @@ export const RestClient = () => {
               <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              {!processing && failedResponse.ok ? (
+              {!processing && failedResponse.ok && (
                 <BodyEditor
                   value={responseBody}
                   theme={resolvedTheme}
                   readOnly={true}
                   type="json"
                 />
-              ) : (
-                <div>{failedResponse.lastErrorMessage}</div>
+              )}
+              {!(processing || failedResponse.ok) && (
+                <Box background="red" padding="4" color="white">
+                  {failedResponse.lastErrorMessage}
+                </Box>
               )}
             </TabsContent>
             <TabsContent value="code-snippet">
