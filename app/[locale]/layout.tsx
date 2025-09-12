@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Header } from '@/app/components/Header';
-import { Footer } from '@/app/components/ui/Footer';
+import { Footer } from '@/app/components/Footer';
 import { type RoutingLocales, routing } from '@/i18n/routing';
 
 interface LocaleLayoutProps {
