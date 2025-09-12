@@ -13,11 +13,19 @@ export interface SelectProps {
   name: string;
   dataTestId?: string;
   value?: string;
+  disabled?: boolean;
 }
 
-export const Select = ({ options, onValueChange, name, dataTestId, value }: SelectProps) => {
+export const Select = ({
+  options,
+  onValueChange,
+  name,
+  dataTestId,
+  value,
+  disabled,
+}: SelectProps) => {
   return (
-    <NativeSelect.Root width="max-content">
+    <NativeSelect.Root width="max-content" disabled={disabled}>
       <NativeSelect.Field
         name={name}
         value={value}

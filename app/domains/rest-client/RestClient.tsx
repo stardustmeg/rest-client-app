@@ -6,6 +6,7 @@ import { Provider, useAtom } from 'jotai';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
+import { useState } from 'react';
 import { decodeRequestUrl, encodeRequestUrl, formatJson } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { formDataStore, responseBodyAtom, responseInformationAtom } from './atoms';
@@ -25,6 +26,7 @@ export const RestClient = () => {
 
   const [responseInfo, setResponseInfo] = useAtom(responseInformationAtom);
   const [responseBody, setResponseBody] = useAtom(responseBodyAtom);
+  const [formDisabled, setFormDisabled] = useState(false);
 
   useInitFormAtoms(decodeRequestUrl(params, searchParams));
 
@@ -32,29 +34,33 @@ export const RestClient = () => {
     const url = encodeRequestUrl(data);
     router.push(`/rest-client/${url}`);
 
-    sendRequest(data).then((response) => {
-      setResponseInfo({
-        time: response.requestDuration,
-        status: response.responseStatusCode,
-        size: response.responseSize,
-      });
+    setFormDisabled(true);
 
-      if (!response.ok) {
-        return;
-      }
+    sendRequest(data)
+      .then((response) => {
+        setResponseInfo({
+          time: response.requestDuration,
+          status: response.responseStatusCode,
+          size: response.responseSize,
+        });
 
-      const formattedBody = formatJson(response.body?.value, (e) => {
-        console.log(e.message);
-      });
+        if (!response.ok) {
+          return;
+        }
 
-      setResponseBody(formattedBody);
-    });
+        const formattedBody = formatJson(response.body?.value, (e) => {
+          console.log(e.message);
+        });
+
+        setResponseBody(formattedBody);
+      })
+      .finally(() => setFormDisabled(false));
   };
 
   return (
     <Provider store={formDataStore}>
       <Flex gap="3">
-        <RestForm onSubmit={handleFormSubmit} />
+        <RestForm disabled={formDisabled} onSubmit={handleFormSubmit} />
         <Separator orientation="vertical" />
         <div className="w-full max-w-[48%]">
           <ResponseInformation

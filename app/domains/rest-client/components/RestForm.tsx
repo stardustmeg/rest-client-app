@@ -27,10 +27,11 @@ export interface RestFormData {
 
 export interface RestFormProps {
   onSubmit(data: RestFormData): void;
+  disabled?: boolean;
 }
 
 // biome-ignore lint/complexity/noExcessiveLinesPerFunction: <shhhhhhhh>
-export const RestForm = ({ onSubmit }: RestFormProps) => {
+export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
   const t = useTranslations('restClient.form');
   const { resolvedTheme } = useTheme();
 
@@ -99,6 +100,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
           options={HTTP_METHOD_SELECT_OPTIONS}
           name="method"
           value={httpMethod}
+          disabled={disabled}
         />
         <Input
           data-testid="rest-form-endpoint-input"
@@ -106,15 +108,24 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
           placeholder={t('inputPlaceholderEndpoint')}
           onChange={handleEndpointChange}
           value={endpoint}
+          disabled={disabled}
         />
-        <Button data-testid="rest-form-submit-button" type="submit">
+        <Button
+          data-testid="rest-form-submit-button"
+          type="submit"
+          disabled={disabled || endpoint.trim().length === 0}
+        >
           {t('buttonSend')}
         </Button>
       </Flex>
       <Tabs.Root defaultValue="headers">
         <Tabs.List>
-          <Tabs.Trigger value="headers">{t('tabTriggerHeaders')}</Tabs.Trigger>
-          <Tabs.Trigger value="body">{t('tabTriggerBody')}</Tabs.Trigger>
+          <Tabs.Trigger disabled={disabled} value="headers">
+            {t('tabTriggerHeaders')}
+          </Tabs.Trigger>
+          <Tabs.Trigger disabled={disabled} value="body">
+            {t('tabTriggerBody')}
+          </Tabs.Trigger>
         </Tabs.List>
         <TabsContent value="headers">
           <KeyValueEditor
@@ -125,17 +136,23 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             addButtonText={t('buttonAddHeader')}
             placeholderKey={t('inputPlaceholderHeaderKey')}
             placeholderValue={t('inputPlaceholderHeaderValue')}
+            disabled={disabled}
           />
         </TabsContent>
         <TabsContent value="body">
           <Tabs.Root defaultValue={requestBody.type}>
             <Tabs.List>
-              <Tabs.Trigger value="json">{t('tabTriggerJson')}</Tabs.Trigger>
-              <Tabs.Trigger value="text">{t('tabTriggerText')}</Tabs.Trigger>
+              <Tabs.Trigger disabled={disabled} value="json">
+                {t('tabTriggerJson')}
+              </Tabs.Trigger>
+              <Tabs.Trigger disabled={disabled} value="text">
+                {t('tabTriggerText')}
+              </Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="json">
               <BodyEditor
                 theme={resolvedTheme}
+                disabled={disabled}
                 value={requestBody.type === 'json' ? requestBody.value : undefined}
                 dataTestId="rest-form-body-editor-json"
                 readOnly={false}
@@ -149,6 +166,7 @@ export const RestForm = ({ onSubmit }: RestFormProps) => {
             <TabsContent value="text">
               <BodyEditor
                 theme={resolvedTheme}
+                disabled={disabled}
                 value={requestBody.type === 'text' ? requestBody.value : undefined}
                 dataTestId="rest-form-body-editor-text"
                 readOnly={false}
