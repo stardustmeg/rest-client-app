@@ -78,26 +78,39 @@ export function searchParamsToHeaders(params: ReadonlyURLSearchParams): KeyValue
   return [...headers, { key: '', value: '' }];
 }
 
-export function encodeBase64(v: string): string {
-  return btoa(encodeURIComponent(v));
+export function encodeBase64(v: string, onError: (error: Error) => void): string {
+  try {
+    return btoa(encodeURIComponent(v));
+  } catch (error) {
+    onError(normalizeError(error));
+    return v;
+  }
 }
 
-export function decodeBase64(v: string): string {
-  return decodeURIComponent(atob(decodeURIComponent(v)));
+export function decodeBase64(v: string, onError: (error: Error) => void): string {
+  try {
+    return decodeURIComponent(atob(decodeURIComponent(v)));
+  } catch (error) {
+    onError(normalizeError(error));
+    return v;
+  }
 }
 
-export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormData): string {
+export function encodeRequestUrl(
+  { method, endpoint, headers, body }: RestFormData,
+  onError: (error: Error) => void,
+): string {
   let url = '';
 
   url += method;
   url += '/';
   url += body.type;
   url += '/';
-  url += encodeBase64(endpoint);
+  url += encodeBase64(endpoint, onError);
 
   if (body.value) {
     url += '/';
-    url += encodeBase64(body.value);
+    url += encodeBase64(body.value, onError);
   }
 
   const sp = headersToSearchParams(headers);
@@ -112,6 +125,7 @@ export function encodeRequestUrl({ method, endpoint, headers, body }: RestFormDa
 export function decodeRequestUrl(
   path: string[] | undefined,
   searchParams: ReadonlyURLSearchParams,
+  onError: (error: Error) => void,
 ): RestFormData | null {
   if (!path) {
     return null;
@@ -123,9 +137,9 @@ export function decodeRequestUrl(
 
   const formData = {
     method,
-    endpoint: decodeBase64(endpoint),
+    endpoint: decodeBase64(endpoint, onError),
     body: {
-      value: body ? decodeBase64(body) : '',
+      value: body ? decodeBase64(body, onError) : '',
       type: bodyType as BodyEditorRequestBody['type'],
     } as const,
     headers,

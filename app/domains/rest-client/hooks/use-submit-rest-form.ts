@@ -1,6 +1,7 @@
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl, formatJson, normalizeError } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { failedResponseAtom, responseBodyAtom, responseInformationAtom } from '../atoms';
@@ -21,6 +22,8 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
 
   const [processing, setProcessing] = useState(false);
 
+  const { error } = useToast();
+
   const handleSubmit = useCallback(
     async (data: RestFormData) => {
       setProcessing(true);
@@ -28,7 +31,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       setFailedResponse({ ok: true, lastErrorMessage: '' });
 
       try {
-        const url = encodeRequestUrl(data);
+        const url = encodeRequestUrl(data, (e) => error(e.message));
         push(`/rest-client/${url}`);
 
         const response = await sendRequest(data);
@@ -40,9 +43,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
         });
 
         if (response.ok) {
-          const formattedBody = formatJson(response.body?.value, (_e) => {
-            // console.log(e.message);
-          });
+          const formattedBody = formatJson(response.body?.value, (e) => error(e.message));
 
           setResponseBody(formattedBody);
           setFailedResponse({ ok: true, lastErrorMessage: '' });
@@ -53,13 +54,15 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
           });
         }
       } catch (err) {
+        const errorMessage = normalizeError(err).message;
         setResponseBody('');
-        setFailedResponse({ ok: false, lastErrorMessage: normalizeError(err).message });
+        setFailedResponse({ ok: false, lastErrorMessage: errorMessage });
+        error(errorMessage);
       } finally {
         setProcessing(false);
       }
     },
-    [push, setResponseInfo, setResponseBody, setFailedResponse],
+    [push, setResponseInfo, setResponseBody, setFailedResponse, error],
   );
 
   return { processing, handleSubmit };

@@ -5,6 +5,7 @@ import { Provider, useAtomValue } from 'jotai';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
+import { useToast } from '@/app/hooks/use-toast';
 import { decodeRequestUrl } from '@/app/lib/utils';
 import {
   failedResponseAtom,
@@ -26,11 +27,13 @@ export const RestClient = () => {
   const t = useTranslations('restClient.response');
   const { resolvedTheme } = useTheme();
 
+  const { error } = useToast();
+
   const responseInfo = useAtomValue(responseInformationAtom);
   const responseBody = useAtomValue(responseBodyAtom);
   const failedResponse = useAtomValue(failedResponseAtom);
 
-  useInitFormAtoms(decodeRequestUrl(params, searchParams));
+  useInitFormAtoms(decodeRequestUrl(params, searchParams, (e) => error(e.message)));
 
   const { processing, handleSubmit } = useSubmitRestForm();
 
