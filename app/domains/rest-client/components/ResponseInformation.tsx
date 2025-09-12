@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  isClientErrorResponse,
-  isInformationalResponse,
-  isRedirectionResponse,
-  isServerErrorResponse,
-  isSuccessResponse,
-} from '@/app/lib/utils';
+import { formatValue } from '@/app/utils';
 
 export interface ResponseInformationProps {
   status: number;
@@ -29,15 +23,13 @@ export const ResponseInformation = ({
     <div data-testid="response-information" className="flex gap-3">
       <span data-testid="response-information-status">
         {labelStatus ?? 'Status'}:{' '}
-        <span className={getStatusColor(status)}>{status !== 0 ? status : '-'}</span>
+        <span className={getStatusColor(status)}>{formatValue(status)}</span>
       </span>
       <span data-testid="response-information-size">
-        {labelSize ?? 'Size'}:{' '}
-        <span className={getStatusColor(status)}>{size !== 0 ? size : '-'}</span>
+        {labelSize ?? 'Size'}: <span className={getStatusColor(status)}>{formatValue(size)}</span>
       </span>
       <span className="text-gra" data-testid="response-information-time">
-        {labelTime ?? 'Time'}:{' '}
-        <span className={getStatusColor(status)}>{time !== 0 ? time : '-'}</span>
+        {labelTime ?? 'Time'}: <span className={getStatusColor(status)}>{formatValue(time)}</span>
       </span>
     </div>
   );
