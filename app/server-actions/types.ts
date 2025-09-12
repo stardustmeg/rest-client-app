@@ -18,6 +18,6 @@ export interface ProxyResponse {
   responseStatusCode: number;
   requestSize: number;
   responseSize: number;
-  body?: unknown;
+  body?: { type: string; value: unknown };
   errorDetails?: string;
 }

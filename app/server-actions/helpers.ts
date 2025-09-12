@@ -34,7 +34,7 @@ export async function proxySendRequest({
       responseStatusCode: response.status,
       requestSize: 0,
       responseSize: arrayBuffer.byteLength,
-      body: responseBody,
+      body: { type: body.type, value: responseBody },
     };
   } catch (error) {
     return {
