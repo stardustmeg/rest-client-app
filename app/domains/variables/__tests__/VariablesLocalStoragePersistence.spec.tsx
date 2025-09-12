@@ -1,12 +1,13 @@
 import { render } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
+import { VariablesLocalStoragePersistence } from '@/app/domains/variables/components/VariablesLocalStoragePersistence';
 import {
   useVariablesContext,
   VariablesProvider,
 } from '@/app/domains/variables/components/VariablesProvider';
-import { VariablesSaver } from '@/app/domains/variables/components/VariablesSaver';
 import { useAuth } from '@/app/hooks/use-auth';
+import { getFullKey } from '@/app/hooks/use-local-storage2';
 import { useToast } from '@/app/hooks/use-toast';
 
 vi.mock('@/app/hooks/use-auth');
@@ -35,7 +36,7 @@ describe('VariablesSaver', () => {
     const { container } = render(
       <TestProviders>
         <VariablesProvider>
-          <VariablesSaver />
+          <VariablesLocalStoragePersistence />
         </VariablesProvider>
       </TestProviders>,
     );
@@ -44,7 +45,7 @@ describe('VariablesSaver', () => {
 
   it('should load variables from localStorage on mount', () => {
     const savedVariables = [{ id: 'v1', value: '123' }];
-    localStorage.setItem('user-1:variables', JSON.stringify(savedVariables));
+    localStorage.setItem(getFullKey('user-1:variables'), JSON.stringify(savedVariables));
 
     (useAuth as Mock).mockReturnValue({ userId: 'user-1' });
     (useVariablesContext as Mock).mockReturnValue({
@@ -55,10 +56,11 @@ describe('VariablesSaver', () => {
     render(
       <TestProviders>
         <VariablesProvider>
-          <VariablesSaver />
+          <VariablesLocalStoragePersistence />
         </VariablesProvider>
       </TestProviders>,
     );
+
     expect(dispatch).toHaveBeenCalledWith({ type: 'SET', payload: savedVariables });
   });
 
@@ -72,11 +74,11 @@ describe('VariablesSaver', () => {
     render(
       <TestProviders>
         <VariablesProvider>
-          <VariablesSaver />
+          <VariablesLocalStoragePersistence />
         </VariablesProvider>
       </TestProviders>,
     );
-    const stored = JSON.parse(localStorage.getItem('user-1:variables') || '[]');
+    const stored = JSON.parse(localStorage.getItem(getFullKey('user-1:variables')) || '[]');
     expect(stored).toEqual([{ id: 'v2', value: 'abc' }]);
   });
 });
