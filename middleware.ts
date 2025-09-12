@@ -6,12 +6,8 @@ import { type RoutingLocales, routing } from '@/i18n/routing';
 
 const DAYS = 30;
 const MAX_COOKIE_LIFESPAN = 60 * 60 * 24 * DAYS;
-const AUTH_ROUTES = ['/:locale/sign-in(.*)', '/:locale/sign-up(.*)'];
-const PROTECTED_ROUTES = [
-  '/:locale/rest-client(.*)',
-  '/:locale/history-and-analytics(.*)',
-  '/:locale/variables(.*)',
-];
+const AUTH_ROUTES = ['/sign-in(.*)', '/sign-up(.*)'];
+const PROTECTED_ROUTES = ['/rest-client(.*)', '/history-and-analytics(.*)', '/variables(.*)'];
 
 const isAuthRoute = createRouteMatcher(AUTH_ROUTES);
 
