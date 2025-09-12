@@ -1,6 +1,7 @@
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import { useResolveVariables } from '@/app/domains/variables/hooks/useResolveVariables';
 import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl, formatJson, normalizeError } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
@@ -15,7 +16,7 @@ interface UseSubmitRestFormReturn {
 
 export function useSubmitRestForm(): UseSubmitRestFormReturn {
   const { push } = useRouter();
-
+  const { resolveVariables } = useResolveVariables();
   const setResponseInfo = useSetAtom(responseInformationAtom);
   const setResponseBody = useSetAtom(responseBodyAtom);
   const setFailedResponse = useSetAtom(failedResponseAtom);
@@ -31,7 +32,8 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       setFailedResponse({ ok: true, lastErrorMessage: '' });
 
       try {
-        const url = encodeRequestUrl(data, (e) => error(e.message));
+        const resolvedData = resolveVariables(data);
+        const url = encodeRequestUrl(resolvedData, (e) => error(e.message));
         push(`/rest-client/${url}`);
 
         const response = await sendRequest(data);
@@ -62,7 +64,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
         setProcessing(false);
       }
     },
-    [push, setResponseInfo, setResponseBody, setFailedResponse, error],
+    [push, setResponseInfo, setResponseBody, setFailedResponse, error, resolveVariables],
   );
 
   return { processing, handleSubmit };
