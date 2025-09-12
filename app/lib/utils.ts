@@ -26,7 +26,7 @@ export function formatJson(input: unknown, onError: (error: Error) => void): str
     return JSON.stringify(input, null, 4);
   } catch (e) {
     onError(normalizeError(e));
-    return String(input ?? '');
+    return JSON.stringify(input ?? '');
   }
 }
 
