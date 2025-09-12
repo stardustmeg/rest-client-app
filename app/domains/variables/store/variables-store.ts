@@ -1,8 +1,7 @@
-import { useSetAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
+import { atom, useSetAtom } from 'jotai';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
 
-export const variablesAtom = atomWithStorage<Variable[]>('variables', []);
+export const variablesAtom = atom<Variable[]>([]);
 
 export const useVariablesActions = () => {
   const setVariables = useSetAtom(variablesAtom);

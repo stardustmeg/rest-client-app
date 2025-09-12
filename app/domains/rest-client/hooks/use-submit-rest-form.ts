@@ -1,7 +1,7 @@
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import { useResolveVariables } from '@/app/domains/variables/hooks/useResolveVariables';
+import { useResolveVariables } from '@/app/domains/variables/hooks/use-resolve-variables';
 import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl, formatJson, normalizeError } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';

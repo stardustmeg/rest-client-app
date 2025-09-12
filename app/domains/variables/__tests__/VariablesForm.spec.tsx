@@ -5,7 +5,6 @@ import { VariablesForm } from '@/app/domains/variables/components/VariablesForm'
 import { useVariablesActions } from '@/app/domains/variables/store/variables-store';
 
 const warning = vi.fn();
-const addVariable = vi.fn();
 
 vi.mock('@/app/hooks/use-toast', () => ({
   useToast: () => ({ warning }),
@@ -21,6 +20,8 @@ vi.mock('@/app/domains/variables/store/variables-store', () => ({
 }));
 
 describe('VariablesForm', () => {
+  const addVariable = vi.fn();
+
   beforeEach(() => {
     vi.resetAllMocks();
     (useVariablesActions as Mock).mockReturnValue({

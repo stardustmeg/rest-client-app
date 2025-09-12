@@ -1,30 +1,30 @@
 'use client';
 
+import { useAtom } from 'jotai';
 import { useEffect, useLayoutEffect, useRef } from 'react';
+import { variablesAtom } from '@/app/domains/variables/store/variables-store';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useLocalStorage2 } from '@/app/hooks/use-local-storage2';
-import { useVariablesContext } from './VariablesProvider';
 
 export const VariablesLocalStoragePersistence = () => {
   const { userId } = useAuth();
-  const { variables, dispatch } = useVariablesContext();
-
+  const [variables, setVariables] = useAtom(variablesAtom);
   const [storedVariables, saveVariables] = useLocalStorage2<Variable[]>(`${userId}:variables`, []);
-
   const storedVariablesRef = useRef<Variable[]>(storedVariables ?? []);
+
   useLayoutEffect(() => {
     storedVariablesRef.current = storedVariables;
   });
 
   useEffect(() => {
-    if (storedVariablesRef.current && userId) {
-      dispatch({ type: 'SET', payload: storedVariablesRef.current });
+    if (storedVariablesRef.current && userId && storedVariablesRef.current.length > 0) {
+      setVariables(storedVariables);
     }
-  }, [dispatch, userId]);
+  }, [storedVariables, setVariables, userId]);
 
   useEffect(() => {
-    if (variables && userId) {
+    if (variables && userId && variables.length > 0) {
       saveVariables(variables);
     }
   }, [variables, saveVariables, userId]);
