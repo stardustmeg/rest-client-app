@@ -10,7 +10,7 @@ export const developersInfo = [
   {
     name: 'ripetchor',
     author: 'developers.ripetchor.author',
-    avatar: 'ripetchor-real-photo.jpg',
+    avatar: '/ripetchor-real-photo.jpg',
     role: 'developers.ripetchor.role',
     description: 'developers.ripetchor.description',
     github: 'https://github.com/ripetchor',
