@@ -63,7 +63,7 @@ describe('VariablesForm', () => {
 
   it('should show warning when variable name already exists', async () => {
     const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[{ id: 1, name: 'myVar', value: '123' }], vi.fn()]);
+    (useAtom as Mock).mockReturnValue([[{ id: 1, name: '{{myVar}}', value: '123' }], vi.fn()]);
     const { user } = renderWithUserEvent(
       <TestProviders>
         <VariablesForm />
