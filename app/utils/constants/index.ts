@@ -1,7 +1,6 @@
 export const STATUS_CLASS_DIVISOR = 100;
 
 export const STATUS_CLASS = {
-  error: 0,
   success: 2,
   redirect: 3,
   clientError: 4,

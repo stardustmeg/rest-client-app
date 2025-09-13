@@ -4,3 +4,5 @@ import type { api } from '../_generated/api';
 export type HistoryData = FunctionReturnType<typeof api.history.get>;
 
 export type HistoryDataItem = HistoryData[number];
+
+export type User = FunctionReturnType<typeof api.users.currentUser>;

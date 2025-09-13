@@ -5,12 +5,11 @@ interface FlagIconProps {
   country: RoutingLocales;
   size?: number;
   height?: number;
-  title?: string;
 }
 
 const FLAG_ASPECT_RATIO = 1.5;
 
-export const FlagIcon: React.FC<FlagIconProps> = ({ country, size = 20, height = 6, title }) => {
+export const FlagIcon: React.FC<FlagIconProps> = ({ country, size = 20, height = 6 }) => {
   switch (country) {
     case 'en':
       return (
@@ -21,7 +20,7 @@ export const FlagIcon: React.FC<FlagIconProps> = ({ country, size = 20, height =
           borderRadius="2px"
           display="inline-block"
         >
-          <title>{title}</title>
+          <title>English</title>
           <chakra.rect width="36" height="2" y="0" fill="#B22234" />
           <chakra.rect width="36" height="2" y="4" fill="#B22234" />
           <chakra.rect width="36" height="2" y="8" fill="#B22234" />
@@ -63,7 +62,7 @@ export const FlagIcon: React.FC<FlagIconProps> = ({ country, size = 20, height =
           borderRadius="2px"
           display="inline-block"
         >
-          <title>{title}</title>
+          <title>Русский</title>
           <chakra.rect width="36" height="8" y="0" fill="white" />
           <chakra.rect width="36" height="8" y="8" fill="#0052B4" />
           <chakra.rect width="36" height="8" y="16" fill="#D52B1E" />
@@ -79,7 +78,7 @@ export const FlagIcon: React.FC<FlagIconProps> = ({ country, size = 20, height =
           borderRadius="2px"
           display="inline-block"
         >
-          <title>{title}</title>
+          <title>日本語</title>
           <chakra.rect width="36" height="24" fill="white" />
           <chakra.circle cx="18" cy="12" r="7" fill="#D52B1E" />
         </chakra.svg>

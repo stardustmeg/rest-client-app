@@ -1,29 +1,32 @@
-import { For, Grid, GridItem } from '@chakra-ui/react';
-import { fetchQuery } from 'convex/nextjs';
-import { cookies } from 'next/headers';
-import { api } from '@/convex/_generated/api';
-import type { HistoryData } from '@/convex/types';
+import { For, Grid, GridItem, Heading, Highlight } from '@chakra-ui/react';
+import { getTranslations } from 'next-intl/server';
+import { getUserHistory } from '@/app/server-actions/server-actions';
 import { EmptyMessage } from './EmptyMessage';
 import { HistoryListItem } from './HistoryListItem';
 
 export const HistoryList = async () => {
   const traslationKey = 'history';
-  try {
-    // TBD: maybe rewrite all convex to server interaction
-    const cookieStore = await cookies();
-    const authToken = cookieStore.get('__convexAuthJWT')?.value;
+  const t = await getTranslations(traslationKey);
 
-    if (!authToken) {
-      return <EmptyMessage key={traslationKey} />;
-    }
+  const { data, user } = await getUserHistory();
+  const username = user?.username ?? '';
 
-    const data: HistoryData = await fetchQuery(
-      api.history.getUserHistory,
-      {},
-      { token: authToken },
-    );
-
-    return (
+  return (
+    <>
+      <Heading
+        size="3xl"
+        letterSpacing="tight"
+        m={4}
+        textAlign="center"
+        className="text-gray-600 dark:text-gray-400"
+      >
+        <Highlight
+          query={['freshest history', 'свежайшая история', '最新の履歴']}
+          styles={{ bg: 'cyan.subtle', color: 'cyan.fg' }}
+        >
+          {t('title', { username })}
+        </Highlight>
+      </Heading>
       <Grid
         templateColumns={{
           base: '1fr',
@@ -43,8 +46,6 @@ export const HistoryList = async () => {
         </For>
         {data.length === 0 && <EmptyMessage key={traslationKey} />}
       </Grid>
-    );
-  } catch {
-    return <EmptyMessage key={traslationKey} />;
-  }
+    </>
+  );
 };

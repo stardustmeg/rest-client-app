@@ -1,8 +1,12 @@
 'use server';
 
+import { fetchQuery } from 'convex/nextjs';
+import { cookies } from 'next/headers';
 import pcg from 'postman-code-generators';
 import sdk from 'postman-collection';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
+import { api } from '@/convex/_generated/api';
+import type { HistoryData, User } from '@/convex/types';
 import { proxySendRequest } from './helpers';
 import type { GenerateCodeSnippetParams } from './types';
 
@@ -40,4 +44,27 @@ export async function sendRequest({ method, endpoint, headers, body }: RestFormD
   const response = await proxySendRequest({ method, endpoint, headers, body });
 
   return response;
+}
+
+interface GetUserHistory {
+  data: HistoryData;
+  user: User | null;
+}
+
+export async function getUserHistory(): Promise<GetUserHistory> {
+  try {
+    const cookieStore = await cookies();
+    const authToken = cookieStore.get('__convexAuthJWT')?.value;
+
+    if (!authToken) {
+      return { data: [], user: null };
+    }
+
+    const data = await fetchQuery(api.history.getUserHistory, {}, { token: authToken });
+    const user = await fetchQuery(api.users.currentUser, {}, { token: authToken });
+
+    return { data, user };
+  } catch {
+    return { data: [], user: null };
+  }
 }
