@@ -1,46 +1,46 @@
-'use client';
-
 import { Badge } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
 import { BsBoxSeam, BsSpeedometer2 } from 'react-icons/bs';
 import { formatValue } from '@/app/utils';
 import { getDurationColor, getSizeColor, getStatusColor } from '@/app/utils/get-color';
 import { getStatusIcon } from '@/app/utils/get-icon';
+import type { MessagesKeysType } from '@/i18n/routing';
 
 export interface ResponseInformationProps {
   status: number;
   size: number;
   time: number;
-  labelStatus?: string;
-  labelSize?: string;
-  labelTime?: string;
+  labelsKey?: MessagesKeysType;
 }
 
 export const ResponseInformation = ({
-  size,
   status,
+  size,
   time,
-  labelStatus,
-  labelSize,
-  labelTime,
+  labelsKey,
 }: ResponseInformationProps) => {
+  const t = useTranslations(labelsKey ?? 'restClient.response');
   return (
-    <div data-testid="response-information" className="flex gap-3">
+    <div
+      data-testid="response-information"
+      className="flex flex-wrap justify-between gap-3 text-gray-500 text-sm"
+    >
       <span data-testid="response-information-status">
-        {labelStatus ?? 'Status'}:{' '}
+        {t('status')}:{' '}
         <Badge w={'max-content'} colorPalette={getStatusColor(status)}>
           {getStatusIcon(status)}
           {formatValue({ value: status, defaultValue: 0 })}
         </Badge>
       </span>
       <span data-testid="response-information-size">
-        {labelSize ?? 'Size'}:{' '}
+        {t('size')}:{' '}
         <Badge w={'max-content'} colorPalette={getSizeColor(size)}>
           <BsBoxSeam />
           {formatValue({ value: size, postfix: 'B', defaultValue: 0 })}
         </Badge>
       </span>
-      <span className="text-gra" data-testid="response-information-time">
-        {labelTime ?? 'Time'}:{' '}
+      <span data-testid="response-information-time">
+        {t('time')}:{' '}
         <Badge w={'max-content'} colorPalette={getDurationColor(time)}>
           <BsSpeedometer2 />
           {formatValue({ value: time, postfix: 'ms' })}
