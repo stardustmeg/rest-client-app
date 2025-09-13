@@ -141,6 +141,6 @@
     }
   },
   "history": {
-    "noHistory": "履歴が見つかりません"
+    "emptyMessage": "履歴が見つかりません"
   }
 }

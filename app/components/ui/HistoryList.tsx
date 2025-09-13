@@ -1,26 +1,20 @@
-import { EmptyState, For, Grid, GridItem } from '@chakra-ui/react';
+import { For, Grid, GridItem } from '@chakra-ui/react';
 import { fetchQuery } from 'convex/nextjs';
 import { cookies } from 'next/headers';
-import { getTranslations } from 'next-intl/server';
 import { api } from '@/convex/_generated/api';
 import type { HistoryData } from '@/convex/types';
+import { EmptyMessage } from './EmptyMessage';
 import { HistoryListItem } from './HistoryListItem';
 
 export const HistoryList = async () => {
-  const t = await getTranslations('history');
-
+  const traslationKey = 'history';
   try {
+    // TBD: maybe rewrite all convex to server interaction
     const cookieStore = await cookies();
     const authToken = cookieStore.get('__convexAuthJWT')?.value;
 
     if (!authToken) {
-      return (
-        <EmptyState.Root>
-          <EmptyState.Content>
-            <EmptyState.Title>{t('emptyMessage')}</EmptyState.Title>
-          </EmptyState.Content>
-        </EmptyState.Root>
-      );
+      return <EmptyMessage key={traslationKey} />;
     }
 
     const data: HistoryData = await fetchQuery(
@@ -46,23 +40,10 @@ export const HistoryList = async () => {
             </GridItem>
           )}
         </For>
-        {/* TBD: style later */}
-        {data.length === 0 && (
-          <EmptyState.Root>
-            <EmptyState.Content>
-              <EmptyState.Title>{t('emptyMessage')}</EmptyState.Title>
-            </EmptyState.Content>
-          </EmptyState.Root>
-        )}
+        {data.length === 0 && <EmptyMessage key={traslationKey} />}
       </Grid>
     );
   } catch {
-    return (
-      <EmptyState.Root>
-        <EmptyState.Content>
-          <EmptyState.Title>{t('emptyMessage')}</EmptyState.Title>
-        </EmptyState.Content>
-      </EmptyState.Root>
-    );
+    return <EmptyMessage key={traslationKey} />;
   }
 };

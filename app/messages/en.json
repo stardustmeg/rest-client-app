@@ -141,6 +141,6 @@
     }
   },
   "history": {
-    "noHistory": "No history found"
+    "emptyMessage": "No history found"
   }
 }
