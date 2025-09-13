@@ -28,12 +28,13 @@ export const VariablesForm = () => {
   });
 
   const handleAddVariable = (data: Omit<Variable, 'id'>) => {
-    if (variables.some((v) => v.name === data.name)) {
+    const name = `{{${data.name}}}`;
+    if (variables.some((v) => name === v.name)) {
       warning(tValidation('variableUniqueNameRequired'));
       return;
     }
 
-    addVariable({ name: `{{${data.name}}}`, value: data.value });
+    addVariable({ name, value: data.value });
     reset();
   };
 
