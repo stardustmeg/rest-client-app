@@ -138,6 +138,7 @@
   },
   "history": {
     "emptyMessage": "История не найдена",
-    "requestSize": "Размер запроса"
+    "requestSize": "Размер запроса",
+    "title": "Твоя свежайшая история здесь, {username}"
   }
 }

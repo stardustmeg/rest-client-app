@@ -137,6 +137,7 @@
   },
   "history": {
     "emptyMessage": "履歴が見つかりません",
-    "requestSize": "リクエストサイズ"
+    "requestSize": "リクエストサイズ",
+    "title": "あなたの最新の履歴はここです、{username}"
   }
 }

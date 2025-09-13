@@ -137,6 +137,7 @@
   },
   "history": {
     "emptyMessage": "No history found",
-    "requestSize": "Request Size"
+    "requestSize": "Request Size",
+    "title": "Your freshest history is here, {username}"
   }
 }
