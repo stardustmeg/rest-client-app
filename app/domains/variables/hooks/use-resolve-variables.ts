@@ -12,14 +12,14 @@ interface ReplaceInObjectProps {
 interface ReplacePlaceholdersProps {
   str: string;
   variablesMap: Record<PropertyKey, string>;
-  warningFn: (message: string) => void;
+  errorFn: (message: string) => void;
 }
 
 const PLACEHOLDER_REGEX = /\{\{([^}]+)\}\}/g;
 
 export const useResolveVariables = () => {
   const [variables] = useAtom(variablesAtom);
-  const { warning } = useToast();
+  const { error } = useToast();
   const variablesMap = variables.reduce(
     (acc, v) => {
       let key = String(v.name ?? '').trim();
@@ -38,12 +38,12 @@ export const useResolveVariables = () => {
       newData.endpoint = replaceInString({
         str: newData.endpoint,
         variablesMap,
-        warningFn: warning,
+        errorFn: error,
       });
 
       newData.headers = newData.headers.map((header) => ({
         ...header,
-        value: replaceInString({ str: header.value, variablesMap, warningFn: warning }),
+        value: replaceInString({ str: header.value, variablesMap, errorFn: error }),
       }));
 
       let bodyContent = newData.body.value;
@@ -52,16 +52,16 @@ export const useResolveVariables = () => {
         const parsedBody = JSON.parse(bodyContent);
         const resolvedBody = replaceInObject({
           data: parsedBody,
-          replaceFn: (str) => replaceInString({ str, variablesMap, warningFn: warning }),
+          replaceFn: (str) => replaceInString({ str, variablesMap, errorFn: error }),
         });
         bodyContent = JSON.stringify(resolvedBody);
       } catch {
-        bodyContent = replaceInString({ str: bodyContent, variablesMap, warningFn: warning });
+        bodyContent = replaceInString({ str: bodyContent, variablesMap, errorFn: error });
       }
       newData.body = { ...newData.body, value: bodyContent };
       return newData;
     },
-    [variablesMap, warning],
+    [variablesMap, error],
   );
 
   return { resolveVariables };
@@ -90,13 +90,14 @@ function replaceInObject({
   return data;
 }
 
-function replaceInString({ str, variablesMap, warningFn }: ReplacePlaceholdersProps): string {
-  return str.replace(PLACEHOLDER_REGEX, (match, varName: string) => {
+function replaceInString({ str, variablesMap, errorFn }: ReplacePlaceholdersProps): string {
+  return str.replace(PLACEHOLDER_REGEX, (_match, varName: string) => {
     const normalized = String(varName).trim();
     const value = variablesMap[normalized];
     if (value === undefined) {
-      warningFn(`Variable "${normalized}" is not defined`);
-      return match;
+      const errorMessage = `Variable "${normalized}" is not defined`;
+      errorFn(errorMessage);
+      throw new Error(errorMessage);
     }
     return value;
   });

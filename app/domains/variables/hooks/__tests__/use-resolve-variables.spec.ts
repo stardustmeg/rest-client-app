@@ -20,12 +20,12 @@ vi.mock('@/app/domains/variables/store/variables-store', () => ({
 
 // biome-ignore lint/complexity/noExcessiveLinesPerFunction: <explanation>
 describe('useResolveVariables', () => {
-  const mockWarning = vi.fn();
+  const mockError = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
     (useToast as Mock).mockReturnValue({
-      warning: mockWarning,
+      error: mockError,
     });
   });
 
@@ -237,7 +237,7 @@ describe('useResolveVariables', () => {
     expect(resolved.body.value).toBe('invalid json with resolvedValue');
   });
 
-  it('should warn about missing variables', async () => {
+  it('should throw error for missing variables', async () => {
     const { useAtom } = await import('jotai');
     (useAtom as Mock).mockReturnValue([
       [{ id: 1, name: '{{existingVar}}', value: 'value' }],
@@ -255,13 +255,13 @@ describe('useResolveVariables', () => {
       body: { type: 'json', value: '{}' },
     };
 
-    const resolved = result.current.resolveVariables(formData);
-
-    expect(resolved.endpoint).toBe('https://api.example.com/value/{{missingVar}}');
-    expect(mockWarning).toHaveBeenCalledWith('Variable "missingVar" is not defined');
+    expect(() => result.current.resolveVariables(formData)).toThrow(
+      'Variable "missingVar" is not defined',
+    );
+    expect(mockError).toHaveBeenCalledWith('Variable "missingVar" is not defined');
   });
 
-  it('should warn about missing variables in headers', async () => {
+  it('should throw error for missing variables in headers', async () => {
     const { useAtom } = await import('jotai');
     (useAtom as Mock).mockReturnValue([
       [{ id: 1, name: '{{existingVar}}', value: 'value' }],
@@ -282,16 +282,40 @@ describe('useResolveVariables', () => {
       body: { type: 'json', value: '{}' },
     };
 
-    const resolved = result.current.resolveVariables(formData);
-
-    expect(resolved.headers).toEqual([
-      { key: 'Authorization', value: 'Bearer value' },
-      { key: 'X-API-Key', value: '{{missingVar}}' },
-    ]);
-    expect(mockWarning).toHaveBeenCalledWith('Variable "missingVar" is not defined');
+    expect(() => result.current.resolveVariables(formData)).toThrow(
+      'Variable "missingVar" is not defined',
+    );
+    expect(mockError).toHaveBeenCalledWith('Variable "missingVar" is not defined');
   });
 
-  it('should handle empty variables array', async () => {
+  it('should throw error for missing variables in JSON body', async () => {
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([
+      [{ id: 1, name: '{{existingVar}}', value: 'value' }],
+      vi.fn(),
+    ]);
+
+    const { result } = renderHook(() => useResolveVariables(), {
+      wrapper: TestProviders,
+    });
+
+    const formData: RestFormData = {
+      method: 'POST',
+      endpoint: 'https://api.example.com/users',
+      headers: [],
+      body: {
+        type: 'json',
+        value: '{"name": "{{existingVar}}", "email": "{{missingVar}}"}',
+      },
+    };
+
+    expect(() => result.current.resolveVariables(formData)).toThrow(
+      'Variable "missingVar" is not defined',
+    );
+    expect(mockError).toHaveBeenCalledWith('Variable "missingVar" is not defined');
+  });
+
+  it('should throw error when variables array is empty', async () => {
     const { useAtom } = await import('jotai');
     (useAtom as Mock).mockReturnValue([[], vi.fn()]);
 
@@ -306,10 +330,10 @@ describe('useResolveVariables', () => {
       body: { type: 'json', value: '{}' },
     };
 
-    const resolved = result.current.resolveVariables(formData);
-
-    expect(resolved.endpoint).toBe('https://api.example.com/{{userId}}');
-    expect(mockWarning).toHaveBeenCalledWith('Variable "userId" is not defined');
+    expect(() => result.current.resolveVariables(formData)).toThrow(
+      'Variable "userId" is not defined',
+    );
+    expect(mockError).toHaveBeenCalledWith('Variable "userId" is not defined');
   });
 
   it('should handle variables with whitespace', async () => {

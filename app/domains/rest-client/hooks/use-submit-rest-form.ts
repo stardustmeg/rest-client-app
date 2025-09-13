@@ -35,9 +35,17 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       setProcessing(true);
       setResponseBody('');
       setFailedResponse({ ok: true, lastErrorMessage: '' });
+      let resolvedData: RestFormData;
 
       try {
-        const resolvedData = resolveVariables(data);
+        resolvedData = resolveVariables(data);
+      } catch {
+        setProcessing(false);
+
+        return;
+      }
+
+      try {
         const url = encodeRequestUrl(data, (e) => error(e.message));
         push(`/rest-client/${url}`);
 
