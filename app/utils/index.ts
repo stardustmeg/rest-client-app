@@ -3,7 +3,7 @@ export const formatValue = ({
   postfix,
   defaultValue,
 }: {
-  value: number;
+  value: number | string;
   postfix?: string;
   defaultValue?: string | number;
 }) => (value !== 0 ? `${value}${postfix ? ` ${postfix}` : ''}` : (defaultValue ?? '-'));

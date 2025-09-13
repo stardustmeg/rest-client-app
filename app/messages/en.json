@@ -141,6 +141,7 @@
     }
   },
   "history": {
-    "emptyMessage": "No history found"
+    "emptyMessage": "No history found",
+    "requestSize": "Request Size"
   }
 }

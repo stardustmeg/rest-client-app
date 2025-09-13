@@ -141,6 +141,7 @@
     }
   },
   "history": {
-    "emptyMessage": "履歴が見つかりません"
+    "emptyMessage": "履歴が見つかりません",
+    "requestSize": "リクエストサイズ"
   }
 }

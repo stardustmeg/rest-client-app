@@ -1,4 +1,5 @@
 import { Badge, Button, Card, Separator, Text } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
 import { BsChevronRight } from 'react-icons/bs';
 import { ResponseInformation } from '@/app/domains/rest-client/components/ResponseInformation';
 import { formatValue } from '@/app/utils';
@@ -19,18 +20,25 @@ export const HistoryListItem = ({
     requestDuration,
     requestSize,
     responseSize,
+    errorDetails,
   },
 }: HistoryListItemProps) => {
+  const t = useTranslations('history');
   return (
-    <Card.Root key={_id} variant="outline">
+    <Card.Root key={_id} variant="outline" h="full" color="gray.500">
       <Card.Header>
-        <Card.Title>{requestMethod}</Card.Title>
         <div className="flex justify-between gap-2">
-          <Text color="gray.500" fontStyle="italic" fontSize="sm">
+          <Card.Title>{requestMethod}</Card.Title>
+          <Text fontStyle="italic" fontSize="sm">
             {new Date(requestTimestamp).toLocaleString()}
           </Text>
-          <Badge w={'max-content'}>{formatValue({ value: requestSize, postfix: 'B' })}</Badge>
         </div>
+        <Text>
+          {t('requestSize')}:
+          <Badge w={'max-content'} ml={2}>
+            {formatValue({ value: requestSize, postfix: 'B', defaultValue: 0 })}
+          </Badge>
+        </Text>
         <Separator orientation="horizontal" />
         <ResponseInformation
           status={responseStatusCode}
@@ -39,12 +47,19 @@ export const HistoryListItem = ({
         />
         <Separator orientation="horizontal" />
       </Card.Header>
-      <Card.Body>
+      <Card.Body gap={2}>
         <Card.Description style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>
           {endpoint}
         </Card.Description>
+        {errorDetails && (
+          <Card.Description
+            color="red.700"
+            style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}
+          >
+            {errorDetails}
+          </Card.Description>
+        )}
       </Card.Body>
-      {/* TBD: fix link to rest-client */}
       <Card.Footer className="flex place-content-end">
         <Link href={`/rest-client/${endpoint}`}>
           <Button variant="ghost" size="sm">

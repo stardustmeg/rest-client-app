@@ -142,6 +142,7 @@
     }
   },
   "history": {
-    "emptyMessage": "История не найдена"
+    "emptyMessage": "История не найдена",
+    "requestSize": "Размер запроса"
   }
 }
