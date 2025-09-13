@@ -4,7 +4,7 @@ import type { RestFormData } from '@/app/domains/rest-client/components/RestForm
 import { variablesAtom } from '@/app/domains/variables/store/variables-store';
 import { useToast } from '@/app/hooks/use-toast';
 
-interface RepaceInObjectProps {
+interface ReplaceInObjectProps {
   data: unknown;
   replaceFn: (str: string) => string;
 }
@@ -32,54 +32,59 @@ export const useResolveVariables = () => {
     {} as Record<PropertyKey, string>,
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  const resolveVariables = useCallback((data: RestFormData): RestFormData => {
-    const newData = structuredClone(data);
-    newData.endpoint = replaceInString({
-      str: newData.endpoint,
-      variablesMap,
-      warningFn: warning,
-    });
-
-    newData.headers = newData.headers.map((header) => ({
-      ...header,
-      value: replaceInString({ str: header.value, variablesMap, warningFn: warning }),
-    }));
-
-    let bodyContent = newData.body.value;
-
-    try {
-      const parsedBody = JSON.parse(bodyContent as unknown as string);
-      const resolvedBody = repaceInObject({
-        data: parsedBody,
-        replaceFn: (str) => replaceInString({ str, variablesMap, warningFn: warning }),
+  const resolveVariables = useCallback(
+    (data: RestFormData): RestFormData => {
+      const newData = structuredClone(data);
+      newData.endpoint = replaceInString({
+        str: newData.endpoint,
+        variablesMap,
+        warningFn: warning,
       });
-      bodyContent = JSON.stringify(resolvedBody);
-    } catch {
-      bodyContent = replaceInString({ str: bodyContent, variablesMap, warningFn: warning });
-    }
-    newData.body = { ...newData.body, value: bodyContent };
-    return newData;
-  }, []);
+
+      newData.headers = newData.headers.map((header) => ({
+        ...header,
+        value: replaceInString({ str: header.value, variablesMap, warningFn: warning }),
+      }));
+
+      let bodyContent = newData.body.value;
+
+      try {
+        const parsedBody = JSON.parse(bodyContent as unknown as string);
+        const resolvedBody = replaceInObject({
+          data: parsedBody,
+          replaceFn: (str) => replaceInString({ str, variablesMap, warningFn: warning }),
+        });
+        bodyContent = JSON.stringify(resolvedBody);
+      } catch {
+        bodyContent = replaceInString({ str: bodyContent, variablesMap, warningFn: warning });
+      }
+      newData.body = { ...newData.body, value: bodyContent };
+      return newData;
+    },
+    [variablesMap, warning],
+  );
 
   return { resolveVariables };
 };
 
-function repaceInObject({
+function replaceInObject({
   data,
   replaceFn,
-}: RepaceInObjectProps): string | string[] | Record<PropertyKey, string> | unknown {
+}: ReplaceInObjectProps): string | string[] | Record<PropertyKey, string> | unknown {
   if (typeof data === 'string') {
     return replaceFn(data);
   }
 
   if (Array.isArray(data)) {
-    return data.map((item) => repaceInObject({ data: item, replaceFn }));
+    return data.map((item) => replaceInObject({ data: item, replaceFn }));
   }
 
   if (typeof data === 'object' && data !== null) {
     return Object.fromEntries(
-      Object.entries(data).map(([key, value]) => [key, repaceInObject({ data: value, replaceFn })]),
+      Object.entries(data).map(([key, value]) => [
+        key,
+        replaceInObject({ data: value, replaceFn }),
+      ]),
     );
   }
   return data;

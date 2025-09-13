@@ -35,7 +35,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
         const url = encodeRequestUrl(resolvedData, (e) => error(e.message));
         push(`/rest-client/${url}`);
 
-        const response = await sendRequest(data);
+        const response = await sendRequest(resolvedData);
 
         setResponseInfo({
           time: response.requestDuration,
