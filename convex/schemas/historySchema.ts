@@ -8,6 +8,12 @@ export const historySchema = {
   responseStatusCode: v.number(),
   requestTimestamp: v.number(),
   requestMethod: v.string(),
+  requestHeaders: v.array(
+    v.object({
+      key: v.string(),
+      value: v.string(),
+    }),
+  ),
   requestSize: v.number(),
   responseSize: v.number(),
   errorDetails: v.optional(v.string()),

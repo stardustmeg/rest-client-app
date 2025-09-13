@@ -38,6 +38,7 @@ const mockHistoryItem: HistoryDataItem = {
   },
   requestTimestamp: 1_640_995_200_000,
   requestMethod: 'GET',
+  requestHeaders: [],
   endpoint: '/api/test',
   responseStatusCode: 200,
   requestDuration: 150,
