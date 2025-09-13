@@ -139,5 +139,9 @@
       "time": "時間",
       "requestFailedTitle": "リクエストに失敗しました"
     }
+  },
+  "history": {
+    "emptyMessage": "履歴が見つかりません",
+    "requestSize": "リクエストサイズ"
   }
 }

@@ -5,7 +5,8 @@ import { useAtom, useStore } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import type { ChangeEvent, FormEvent } from 'react';
-import { Select } from '@/app/components/ui/Select';
+import { Select, type SelectOption } from '@/app/components/ui/Select';
+import { HTTP_METHOD } from '@/app/constants';
 import { useToast } from '@/app/hooks/use-toast';
 import { formatJson } from '@/app/lib/utils';
 import {
@@ -14,9 +15,13 @@ import {
   requestEndpointAtom,
   requestHeadersAtom,
 } from '../atoms';
-import { HTTP_METHOD_SELECT_OPTIONS } from '../constants';
 import { BodyEditor, type BodyEditorRequestBody } from './BodyEditor';
 import { type KeyValue, KeyValueEditor } from './KeyValueEditor';
+
+const HTTP_METHOD_SELECT_OPTIONS: SelectOption[] = Object.values(HTTP_METHOD).map((method) => ({
+  value: method,
+  label: method,
+}));
 
 export interface RestFormData {
   method: string;

@@ -139,5 +139,9 @@
       "time": "Time",
       "requestFailedTitle": "Request failed"
     }
+  },
+  "history": {
+    "emptyMessage": "No history found",
+    "requestSize": "Request Size"
   }
 }

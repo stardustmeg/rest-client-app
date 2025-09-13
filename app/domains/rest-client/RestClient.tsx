@@ -46,9 +46,6 @@ export const RestClient = () => {
             status={responseInfo.status}
             size={responseInfo.size}
             time={responseInfo.time}
-            labelStatus={t('status')}
-            labelSize={t('size')}
-            labelTime={t('time')}
           />
           {/* TODO (ripetchor): change to default response */}
           <Tabs.Root defaultValue="response" lazyMount>
