@@ -1,7 +1,7 @@
 import { atom, createStore } from 'jotai';
+import type { ResponseInformationProps } from '@/app/components/ui/ResponseInformation';
 import type { BodyEditorRequestBody } from './components/BodyEditor';
 import type { KeyValue } from './components/KeyValueEditor';
-import type { ResponseInformationProps } from './components/ResponseInformation';
 
 export const formDataStore = createStore();
 
