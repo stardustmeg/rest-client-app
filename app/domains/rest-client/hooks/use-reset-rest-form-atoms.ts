@@ -1,6 +1,8 @@
 import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import {
+  codeGenLanguageAtom,
+  codeGenVariantAtom,
   failedResponseAtom,
   formDataStore,
   httpRequestMethodAtom,
@@ -19,6 +21,8 @@ export function useResetRestFormAtoms() {
   const setResponseBody = useSetAtom(responseBodyAtom, { store: formDataStore });
   const setFailedResponse = useSetAtom(failedResponseAtom, { store: formDataStore });
   const setResponseInformation = useSetAtom(responseInformationAtom, { store: formDataStore });
+  const setCodeGenLanguage = useSetAtom(codeGenLanguageAtom, { store: formDataStore });
+  const setCodeGenVariant = useSetAtom(codeGenVariantAtom, { store: formDataStore });
 
   const resetAtoms = useCallback(() => {
     setRequestMethod('GET');
@@ -28,6 +32,8 @@ export function useResetRestFormAtoms() {
     setResponseBody('');
     setFailedResponse({ ok: true, lastErrorMessage: '' });
     setResponseInformation({ status: 0, size: 0, time: 0 });
+    setCodeGenLanguage('');
+    setCodeGenVariant('');
   }, [
     setRequestMethod,
     setRequestEndpoint,
@@ -36,6 +42,8 @@ export function useResetRestFormAtoms() {
     setResponseBody,
     setFailedResponse,
     setResponseInformation,
+    setCodeGenLanguage,
+    setCodeGenVariant,
   ]);
 
   return resetAtoms;

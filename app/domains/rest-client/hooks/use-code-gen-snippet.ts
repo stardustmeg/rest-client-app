@@ -5,6 +5,7 @@ import { generateCodeSnippet } from '@/app/server-actions/server-actions';
 import {
   codeGenLanguageAtom,
   codeGenVariantAtom,
+  formDataStore,
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
@@ -14,12 +15,12 @@ import {
 const DEBOUNCE_DELAY_MILLISECONDS = 300;
 
 export function useCodeGenSnippet() {
-  const method = useAtomValue(httpRequestMethodAtom);
-  const endpoint = useAtomValue(requestEndpointAtom);
-  const headers = useAtomValue(requestHeadersAtom);
-  const body = useAtomValue(requestBodyAtom);
-  const codeGenLanguage = useAtomValue(codeGenLanguageAtom);
-  const codeGenVariant = useAtomValue(codeGenVariantAtom);
+  const method = useAtomValue(httpRequestMethodAtom, { store: formDataStore });
+  const endpoint = useAtomValue(requestEndpointAtom, { store: formDataStore });
+  const headers = useAtomValue(requestHeadersAtom, { store: formDataStore });
+  const body = useAtomValue(requestBodyAtom, { store: formDataStore });
+  const codeGenLanguage = useAtomValue(codeGenLanguageAtom, { store: formDataStore });
+  const codeGenVariant = useAtomValue(codeGenVariantAtom, { store: formDataStore });
 
   const [snippet, setSnippet] = useState('');
 

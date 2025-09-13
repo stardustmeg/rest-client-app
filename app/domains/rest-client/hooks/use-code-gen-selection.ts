@@ -3,7 +3,7 @@ import type { CodeGenLanguage } from 'postman-code-generators';
 import { useCallback, useEffect, useState } from 'react';
 import type { SelectOption } from '@/app/components/ui/Select';
 import { getLanguageList } from '@/app/server-actions/server-actions';
-import { codeGenLanguageAtom, codeGenVariantAtom } from '../atoms';
+import { codeGenLanguageAtom, codeGenVariantAtom, formDataStore } from '../atoms';
 
 interface UseCodeGenSelectionReturn {
   languages: SelectOption[];
@@ -13,8 +13,8 @@ interface UseCodeGenSelectionReturn {
 }
 
 export function useCodeGenSelection(): UseCodeGenSelectionReturn {
-  const setLanguageAtom = useSetAtom(codeGenLanguageAtom);
-  const setVariantAtom = useSetAtom(codeGenVariantAtom);
+  const setLanguageAtom = useSetAtom(codeGenLanguageAtom, { store: formDataStore });
+  const setVariantAtom = useSetAtom(codeGenVariantAtom, { store: formDataStore });
 
   const [languageList, setLanguageList] = useState<CodeGenLanguage[]>([]);
   const [languages, setLanguages] = useState<SelectOption[]>([]);
