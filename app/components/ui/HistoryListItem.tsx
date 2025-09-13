@@ -61,6 +61,7 @@ export const HistoryListItem = ({
         )}
       </Card.Body>
       <Card.Footer className="flex place-content-end">
+        {/* TODO (ripetchor): just do it */}
         <Link href={`/rest-client/${endpoint}`}>
           <Button variant="ghost" size="sm">
             <BsChevronRight />

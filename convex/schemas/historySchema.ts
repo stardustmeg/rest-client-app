@@ -1,5 +1,6 @@
 import { v } from 'convex/values';
 
+// TODO (ripetchor): add requestHeaders and active tab
 export const historySchema = {
   ok: v.boolean(),
   userId: v.id('users'),
