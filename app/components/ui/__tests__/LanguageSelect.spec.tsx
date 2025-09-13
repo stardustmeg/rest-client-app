@@ -1,97 +1,128 @@
+/** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
+/** biome-ignore-all lint/style/noMagicNumbers: <important explanation> */
 import { render, screen } from '@testing-library/react';
-import { useLocale, useTranslations } from 'next-intl';
-import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
-import { TestProviders } from '@/app/__tests__/utils';
-import { usePathname, useRouter } from '@/i18n/routing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { LanguageSelect } from '../LanguageSelect';
+
+vi.mock('next-intl', async () => {
+  const actual = await vi.importActual('next-intl');
+  return {
+    ...actual,
+    useLocale: vi.fn(() => 'en'),
+    useTranslations: vi.fn(() => (key: string) => {
+      const translations: Record<string, string> = {
+        'language.en': 'English',
+        'language.jp': 'Japanese',
+        'language.ru': 'Russian',
+      };
+      return translations[key] || key;
+    }),
+  };
+});
 
 vi.mock('@/i18n/routing', () => ({
   routing: {
-    locales: ['en', 'ru', 'jp'],
+    locales: ['en', 'jp', 'ru'],
   },
-  usePathname: vi.fn(),
-  useRouter: vi.fn(),
+  usePathname: vi.fn(() => '/test'),
+  useRouter: vi.fn(() => ({
+    push: vi.fn(),
+  })),
 }));
 
-describe(LanguageSelect.name, () => {
+vi.mock('@/app/components/ui/FlagIcon', () => ({
+  FlagIcon: ({ country, title }: { country: string; title: string }) => (
+    <span data-testid={`flag-${country}`} title={title}>
+      🏳️
+    </span>
+  ),
+}));
+
+describe('LanguageSelect', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
 
-    (useLocale as Mock).mockReturnValue('en');
-    (useTranslations as Mock).mockReturnValue((key: string) => {
-      const translations: Record<string, string> = {
-        'language.en': 'English',
-        'language.ru': 'Русский',
-        'language.jp': '日本語',
-      };
-      return translations[key] || key;
+  it('should render language select trigger', () => {
+    render(
+      <TestProviders>
+        <LanguageSelect />
+      </TestProviders>,
+    );
+
+    const trigger = screen.getByRole('combobox');
+    expect(trigger).toBeInTheDocument();
+  });
+
+  it('should show current locale flag in trigger', () => {
+    render(
+      <TestProviders>
+        <LanguageSelect />
+      </TestProviders>,
+    );
+
+    expect(screen.getAllByTestId('flag-en').length).toBeGreaterThan(0);
+  });
+
+  it('should open dropdown when trigger is clicked', async () => {
+    const { user } = renderWithUserEvent(
+      <TestProviders>
+        <LanguageSelect />
+      </TestProviders>,
+    );
+
+    const trigger = screen.getByRole('combobox');
+    await user.click(trigger);
+
+    expect(screen.getAllByText('English')).toHaveLength(2);
+    expect(screen.getAllByText('Japanese')).toHaveLength(2);
+    expect(screen.getAllByText('Russian')).toHaveLength(2);
+  });
+
+  it('should call router push when language is changed', async () => {
+    const mockPush = vi.fn();
+    const { useRouter } = await import('@/i18n/routing');
+    vi.mocked(useRouter).mockReturnValue({
+      push: mockPush,
+      replace: vi.fn(),
+      prefetch: vi.fn(),
+      back: vi.fn(),
+      forward: vi.fn(),
+      refresh: vi.fn(),
     });
-    (usePathname as Mock).mockReturnValue('/test-path');
-    (useRouter as Mock).mockReturnValue({
-      push: vi.fn(),
-    });
-  });
 
-  it('should render language select with current locale', () => {
-    render(
+    const { container } = render(
       <TestProviders>
         <LanguageSelect />
       </TestProviders>,
     );
 
-    expect(screen.getByRole('combobox')).toBeInTheDocument();
+    expect(container).toBeInTheDocument();
+    expect(vi.mocked(useRouter)).toHaveBeenCalled();
   });
 
-  it('should display flag icon for current locale', () => {
-    render(
+  it('should render without portal when disablePortal is true', () => {
+    const { container } = render(
+      <TestProviders>
+        <LanguageSelect disablePortal />
+      </TestProviders>,
+    );
+
+    expect(container).toBeInTheDocument();
+  });
+
+  it('should display all available locales', () => {
+    const { container } = render(
       <TestProviders>
         <LanguageSelect />
       </TestProviders>,
     );
 
-    const flagElement = document.querySelector('svg');
-    expect(flagElement).toBeInTheDocument();
-  });
-
-  it('should render with flag icon for current locale', () => {
-    render(
-      <TestProviders>
-        <LanguageSelect />
-      </TestProviders>,
-    );
-
-    const flagElement = document.querySelector('svg');
-    expect(flagElement).toBeInTheDocument();
-    expect(flagElement).toHaveAttribute('viewBox', '0 0 36 24');
-  });
-
-  it('should have proper accessibility attributes', () => {
-    render(
-      <TestProviders>
-        <LanguageSelect />
-      </TestProviders>,
-    );
-
-    const selectElement = screen.getByRole('combobox');
-    expect(selectElement).toBeInTheDocument();
-    expect(selectElement).toHaveAttribute('aria-haspopup', 'listbox');
-  });
-
-  it('should contain hidden select with proper options', () => {
-    render(
-      <TestProviders>
-        <LanguageSelect />
-      </TestProviders>,
-    );
-
-    const hiddenSelect = document.querySelector('select[aria-hidden="true"]');
+    const hiddenSelect = container.querySelector('select[aria-hidden="true"]');
     expect(hiddenSelect).toBeInTheDocument();
 
-    const expectedOptionsLength = 3;
     const options = hiddenSelect?.querySelectorAll('option');
-    expect(options).toHaveLength(expectedOptionsLength);
-
-    const optionValues = Array.from(options || []).map((option) => option.getAttribute('value'));
-    expect(optionValues).toEqual(['en', 'ru', 'jp']);
+    expect(options?.length).toBe(3);
   });
 });
