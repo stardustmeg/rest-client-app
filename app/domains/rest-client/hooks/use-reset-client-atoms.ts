@@ -1,4 +1,4 @@
-import { useSetAtom } from 'jotai';
+import { useResetAtom } from 'jotai/react/utils';
 import { useCallback } from 'react';
 import {
   codeGenLanguageAtom,
@@ -14,36 +14,36 @@ import {
 } from '../atoms';
 
 export function useResetClientAtoms() {
-  const setRequestMethod = useSetAtom(httpRequestMethodAtom, { store: formDataStore });
-  const setRequestEndpoint = useSetAtom(requestEndpointAtom, { store: formDataStore });
-  const setRequestHeaders = useSetAtom(requestHeadersAtom, { store: formDataStore });
-  const setRequestBody = useSetAtom(requestBodyAtom, { store: formDataStore });
-  const setResponseBody = useSetAtom(responseBodyAtom, { store: formDataStore });
-  const setFailedResponse = useSetAtom(failedResponseAtom, { store: formDataStore });
-  const setResponseInformation = useSetAtom(responseInformationAtom, { store: formDataStore });
-  const setCodeGenLanguage = useSetAtom(codeGenLanguageAtom, { store: formDataStore });
-  const setCodeGenVariant = useSetAtom(codeGenVariantAtom, { store: formDataStore });
+  const resetRequestMethod = useResetAtom(httpRequestMethodAtom, { store: formDataStore });
+  const resetRequestEndpoint = useResetAtom(requestEndpointAtom, { store: formDataStore });
+  const resetRequestHeaders = useResetAtom(requestHeadersAtom, { store: formDataStore });
+  const resetRequestBody = useResetAtom(requestBodyAtom, { store: formDataStore });
+  const resetResponseBody = useResetAtom(responseBodyAtom, { store: formDataStore });
+  const resetFailedResponse = useResetAtom(failedResponseAtom, { store: formDataStore });
+  const resetResponseInformation = useResetAtom(responseInformationAtom, { store: formDataStore });
+  const resetCodeGenLanguage = useResetAtom(codeGenLanguageAtom, { store: formDataStore });
+  const resetCodeGenVariant = useResetAtom(codeGenVariantAtom, { store: formDataStore });
 
   const resetAtoms = useCallback(() => {
-    setRequestMethod('GET');
-    setRequestEndpoint('');
-    setRequestHeaders([]);
-    setRequestBody({ type: 'json', value: '' });
-    setResponseBody('');
-    setFailedResponse({ ok: true, lastErrorMessage: '' });
-    setResponseInformation({ status: 0, size: 0, time: 0 });
-    setCodeGenLanguage('');
-    setCodeGenVariant('');
+    resetRequestMethod();
+    resetRequestEndpoint();
+    resetRequestHeaders();
+    resetRequestBody();
+    resetResponseBody();
+    resetFailedResponse();
+    resetResponseInformation();
+    resetCodeGenLanguage();
+    resetCodeGenVariant();
   }, [
-    setRequestMethod,
-    setRequestEndpoint,
-    setRequestHeaders,
-    setRequestBody,
-    setResponseBody,
-    setFailedResponse,
-    setResponseInformation,
-    setCodeGenLanguage,
-    setCodeGenVariant,
+    resetRequestMethod,
+    resetRequestEndpoint,
+    resetRequestHeaders,
+    resetRequestBody,
+    resetResponseBody,
+    resetFailedResponse,
+    resetResponseInformation,
+    resetCodeGenLanguage,
+    resetCodeGenVariant,
   ]);
 
   return resetAtoms;
