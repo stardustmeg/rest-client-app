@@ -30,6 +30,7 @@ export const HistoryList = async () => {
           md: 'repeat(2, 1fr)',
           xl: 'repeat(3, 1fr)',
         }}
+        gridAutoRows="max-content"
         gap={4}
         p={4}
       >
