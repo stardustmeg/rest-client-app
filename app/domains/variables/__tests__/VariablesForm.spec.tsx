@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { VariablesForm } from '@/app/domains/variables/components/VariablesForm';
-import { useVariablesContext } from '@/app/domains/variables/components/VariablesProvider';
+import { useVariablesActions } from '@/app/domains/variables/store/variables-store';
 
 const warning = vi.fn();
 
@@ -10,18 +10,29 @@ vi.mock('@/app/hooks/use-toast', () => ({
   useToast: () => ({ warning }),
 }));
 
+vi.mock('jotai', () => ({
+  useAtom: vi.fn(),
+}));
+
+vi.mock('@/app/domains/variables/store/variables-store', () => ({
+  variablesAtom: 'mock-atom',
+  useVariablesActions: vi.fn(),
+}));
+
 describe('VariablesForm', () => {
   const addVariable = vi.fn();
 
   beforeEach(() => {
     vi.resetAllMocks();
-    (useVariablesContext as Mock).mockReturnValue({
+    (useVariablesActions as Mock).mockReturnValue({
       addVariable,
-      variables: [],
     });
   });
 
-  it('should render form fields and submit button', () => {
+  it('should render form fields and submit button', async () => {
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+
     renderWithUserEvent(
       <TestProviders>
         <VariablesForm />
@@ -34,6 +45,9 @@ describe('VariablesForm', () => {
   });
 
   it('should add variable when form is submitted with valid data', async () => {
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+
     const { user } = renderWithUserEvent(
       <TestProviders>
         <VariablesForm />
@@ -44,15 +58,12 @@ describe('VariablesForm', () => {
     await user.type(screen.getByPlaceholderText('value'), '123');
     await user.click(screen.getByTestId('add-variable'));
 
-    expect(addVariable).toHaveBeenCalledWith({ name: 'myVar', value: '123' });
+    expect(addVariable).toHaveBeenCalledWith({ name: '{{myVar}}', value: '123' });
   });
 
   it('should show warning when variable name already exists', async () => {
-    (useVariablesContext as Mock).mockReturnValue({
-      addVariable,
-      variables: [{ id: '1', name: 'myVar', value: '123' }],
-    });
-
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[{ id: 1, name: 'myVar', value: '123' }], vi.fn()]);
     const { user } = renderWithUserEvent(
       <TestProviders>
         <VariablesForm />
@@ -67,7 +78,10 @@ describe('VariablesForm', () => {
     expect(addVariable).not.toHaveBeenCalled();
   });
 
-  it('should disable submit button when form is invalid', () => {
+  it('should disable submit button when form is invalid', async () => {
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+
     renderWithUserEvent(
       <TestProviders>
         <VariablesForm />

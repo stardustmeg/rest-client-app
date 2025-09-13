@@ -2,6 +2,7 @@ import { useMutation } from 'convex/react';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import { useResolveVariables } from '@/app/domains/variables/hooks/use-resolve-variables';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl, formatJson, normalizeError } from '@/app/lib/utils';
@@ -17,6 +18,7 @@ interface UseSubmitRestFormReturn {
 
 export function useSubmitRestForm(): UseSubmitRestFormReturn {
   const { push } = useRouter();
+  const { resolveVariables } = useResolveVariables();
   const { userId } = useAuth();
   const createHistoryItemMutation = useMutation(api.history.createHistoryItem);
 
@@ -33,12 +35,21 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       setProcessing(true);
       setResponseBody('');
       setFailedResponse({ ok: true, lastErrorMessage: '' });
+      let resolvedData: RestFormData;
+
+      try {
+        resolvedData = resolveVariables(data);
+      } catch {
+        setProcessing(false);
+
+        return;
+      }
 
       try {
         const url = encodeRequestUrl(data, (e) => error(e.message));
         push(`/rest-client/${url}`);
 
-        const response = await sendRequest(data);
+        const response = await sendRequest(resolvedData);
 
         userId &&
           createHistoryItemMutation({
@@ -81,6 +92,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       error,
       createHistoryItemMutation,
       userId,
+      resolveVariables,
     ],
   );
 

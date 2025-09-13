@@ -2,80 +2,78 @@ import { screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { VariablesContent } from '@/app/domains/variables/components/VariablesContent';
-import {
-  useVariablesContext,
-  VariablesProvider,
-} from '@/app/domains/variables/components/VariablesProvider';
+import { useVariablesActions } from '@/app/domains/variables/store/variables-store';
 import { useAuth } from '@/app/hooks/use-auth';
 
 const deleteVariable = vi.fn();
 const addVariable = vi.fn();
 const updateVariable = vi.fn();
+const deleteAllVariables = vi.fn();
+
+vi.mock('jotai', () => ({
+  useAtom: vi.fn(),
+}));
+
+vi.mock('@/app/domains/variables/store/variables-store', () => ({
+  variablesAtom: 'mock-atom',
+  useVariablesActions: vi.fn(),
+}));
 
 // biome-ignore lint/complexity/noExcessiveLinesPerFunction: <jjj>
 describe('VariablesContent', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     (useAuth as Mock).mockReturnValue({ isLoading: false });
-  });
-
-  it('should render "noVariables" when list is empty', () => {
-    (useVariablesContext as Mock).mockReturnValue({
-      variables: [],
-      deleteVariable,
+    (useVariablesActions as Mock).mockReturnValue({
       addVariable,
       updateVariable,
+      deleteVariable,
+      deleteAllVariables,
     });
+  });
+
+  it('should render "noVariables" when list is empty', async () => {
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
 
     renderWithUserEvent(
       <TestProviders>
-        <VariablesProvider>
-          <VariablesContent />
-        </VariablesProvider>
+        <VariablesContent />
       </TestProviders>,
     );
 
     expect(screen.getByText('noVariables 🥲')).toBeInTheDocument();
   });
 
-  it('should render inputs for variables', () => {
-    (useVariablesContext as Mock).mockReturnValue({
-      variables: [
-        { id: 1, name: 'var1', value: '123' },
-        { id: 2, name: 'var2', value: '456' },
+  it('should render inputs for variables', async () => {
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([
+      [
+        { id: 1, name: '{{var1}}', value: '123' },
+        { id: 2, name: '{{var2}}', value: '456' },
       ],
-      deleteVariable,
-      addVariable,
-      updateVariable,
-    });
+      vi.fn(),
+    ]);
 
     renderWithUserEvent(
       <TestProviders>
-        <VariablesProvider>
-          <VariablesContent />
-        </VariablesProvider>
+        <VariablesContent />
       </TestProviders>,
     );
 
-    expect(screen.getByDisplayValue('var1')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('123')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('var2')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('456')).toBeInTheDocument();
+    expect(screen.getByTestId('key-input-0')).toHaveValue('var1');
+    expect(screen.getByTestId('value-input-0')).toHaveValue('123');
+    expect(screen.getByTestId('key-input-1')).toHaveValue('var2');
+    expect(screen.getByTestId('value-input-1')).toHaveValue('456');
   });
 
   it('should call deleteVariable when delete button is clicked', async () => {
-    (useVariablesContext as Mock).mockReturnValue({
-      variables: [{ id: 1, name: 'var1', value: '123' }],
-      deleteVariable,
-      addVariable,
-      updateVariable,
-    });
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[{ id: 1, name: '{{var1}}', value: '123' }], vi.fn()]);
 
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <VariablesProvider>
-          <VariablesContent />
-        </VariablesProvider>
+        <VariablesContent />
       </TestProviders>,
     );
 
@@ -86,65 +84,47 @@ describe('VariablesContent', () => {
   });
 
   it('should call updateVariable when input changes', async () => {
-    (useVariablesContext as Mock).mockReturnValue({
-      variables: [{ id: 1, name: 'var1', value: '123' }],
-      deleteVariable,
-      addVariable,
-      updateVariable,
-    });
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[{ id: 1, name: '{{var1}}', value: '123' }], vi.fn()]);
 
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <VariablesProvider>
-          <VariablesContent />
-        </VariablesProvider>
+        <VariablesContent />
       </TestProviders>,
     );
 
-    const keyInput = screen.getByDisplayValue('var1');
+    const keyInput = screen.getByTestId('key-input-0');
     await user.clear(keyInput);
     await user.type(keyInput, 'updated');
 
     expect(updateVariable).toHaveBeenCalled();
   });
 
-  it('should show skeleton when isLoading is true', () => {
+  it('should show skeleton when isLoading is true', async () => {
     (useAuth as Mock).mockReturnValue({ isLoading: true });
-    (useVariablesContext as Mock).mockReturnValue({
-      variables: [{ id: 1, name: 'var1', value: '123' }],
-      deleteVariable,
-      addVariable,
-      updateVariable,
-    });
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
 
     renderWithUserEvent(
       <TestProviders>
-        <VariablesProvider>
-          <VariablesContent />
-        </VariablesProvider>
+        <VariablesContent />
       </TestProviders>,
     );
 
-    expect(screen.getByDisplayValue('var1')).toBeInTheDocument();
+    expect(screen.getByText('noVariables 🥲')).toBeInTheDocument();
   });
 
   it('should call updateVariable when value input changes', async () => {
-    (useVariablesContext as Mock).mockReturnValue({
-      variables: [{ id: 1, name: 'var1', value: '123' }],
-      deleteVariable,
-      addVariable,
-      updateVariable,
-    });
+    const { useAtom } = await import('jotai');
+    (useAtom as Mock).mockReturnValue([[{ id: 1, name: '{{var1}}', value: '123' }], vi.fn()]);
 
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <VariablesProvider>
-          <VariablesContent />
-        </VariablesProvider>
+        <VariablesContent />
       </TestProviders>,
     );
 
-    const valueInput = screen.getByDisplayValue('123');
+    const valueInput = screen.getByTestId('value-input-0');
     await user.clear(valueInput);
     await user.type(valueInput, '456');
 

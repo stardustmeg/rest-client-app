@@ -23,7 +23,6 @@ import { useSubmitRestForm } from './hooks/use-submit-rest-form';
 export const RestClient = () => {
   const { params } = useParams<{ locale: string; params?: string[] }>();
   const searchParams = useSearchParams();
-
   const t = useTranslations('restClient.response');
   const { resolvedTheme } = useTheme();
 
