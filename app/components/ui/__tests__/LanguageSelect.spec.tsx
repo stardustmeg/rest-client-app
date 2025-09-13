@@ -76,8 +76,8 @@ describe('LanguageSelect', () => {
     await user.click(trigger);
 
     expect(screen.getAllByText('English')).toHaveLength(2);
-    expect(screen.getAllByText('Japanese')).toHaveLength(2);
-    expect(screen.getAllByText('Russian')).toHaveLength(2);
+    expect(screen.getAllByText('日本語')).toHaveLength(2);
+    expect(screen.getAllByText('Русский')).toHaveLength(2);
   });
 
   it('should call router push when language is changed', async () => {

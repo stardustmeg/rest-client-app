@@ -23,11 +23,6 @@
     "message": "何かがうまくいきませんでした！",
     "button-reset": "リセット"
   },
-  "language": {
-    "en": "英語",
-    "ru": "ロシア語",
-    "jp": "日本語"
-  },
   "validation": {
     "usernameRequired": "ユーザー名は空にできません",
     "usernameLetterRequired": "ユーザー名には少なくとも1つの文字を含める必要があります",
