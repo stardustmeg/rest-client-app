@@ -3,7 +3,7 @@
 import { Button, type ButtonProps, Flex, Skeleton } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 import { withAuthGuard } from '@/app/components/hoc/WithAuthGuard';
-import { useResetRestFormAtoms } from '@/app/domains/rest-client/hooks/use-reset-rest-form-atoms';
+import { useResetClientAtoms } from '@/app/domains/rest-client/hooks/use-reset-client-atoms';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
@@ -42,7 +42,7 @@ const UserButtons = ({ onAction, variant }: AuthButtonsProps) => {
   const tNotification = useTranslations('notifications');
   const { signOut } = useAuthActions();
   const { success } = useToast();
-  const resetAtoms = useResetRestFormAtoms();
+  const resetAtoms = useResetClientAtoms();
 
   const handleSignOut = () => {
     signOut().finally(() => {

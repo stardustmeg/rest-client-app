@@ -13,7 +13,7 @@ import {
   responseInformationAtom,
 } from '../atoms';
 
-export function useResetRestFormAtoms() {
+export function useResetClientAtoms() {
   const setRequestMethod = useSetAtom(httpRequestMethodAtom, { store: formDataStore });
   const setRequestEndpoint = useSetAtom(requestEndpointAtom, { store: formDataStore });
   const setRequestHeaders = useSetAtom(requestHeadersAtom, { store: formDataStore });
