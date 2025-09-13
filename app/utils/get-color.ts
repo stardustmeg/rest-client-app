@@ -14,7 +14,6 @@ export const getStatusColor = (status: number): string => {
       return 'orange';
     case STATUS_CLASS.clientError:
     case STATUS_CLASS.serverError:
-    case STATUS_CLASS.error:
       return 'red';
     default:
       return 'gray';
