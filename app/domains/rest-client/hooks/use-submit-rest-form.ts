@@ -32,7 +32,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
 
       try {
         const resolvedData = resolveVariables(data);
-        const url = encodeRequestUrl(resolvedData, (e) => error(e.message));
+        const url = encodeRequestUrl(data, (e) => error(e.message));
         push(`/rest-client/${url}`);
 
         const response = await sendRequest(resolvedData);

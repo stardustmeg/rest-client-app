@@ -49,7 +49,7 @@ export const useResolveVariables = () => {
       let bodyContent = newData.body.value;
 
       try {
-        const parsedBody = JSON.parse(bodyContent as unknown as string);
+        const parsedBody = JSON.parse(bodyContent);
         const resolvedBody = replaceInObject({
           data: parsedBody,
           replaceFn: (str) => replaceInString({ str, variablesMap, warningFn: warning }),
