@@ -40,7 +40,9 @@ export const HistoryListItem = ({
         <Separator orientation="horizontal" />
       </Card.Header>
       <Card.Body>
-        <Card.Description>{endpoint}</Card.Description>
+        <Card.Description style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>
+          {endpoint}
+        </Card.Description>
       </Card.Body>
       {/* TBD: fix link to rest-client */}
       <Card.Footer className="flex place-content-end">
