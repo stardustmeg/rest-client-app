@@ -1,22 +1,8 @@
-/** biome-ignore-all lint/suspicious/noConsole: <asdasdadsdasdas> */
-
 import type { ReadonlyURLSearchParams } from 'next/navigation';
 import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEditor';
+import { HTTP_METHODS_WITH_BODY } from '../constants';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
-import {
-  HTTP_METHODS_WITH_BODY,
-  STATUS_CLIENT_ERROR_MAX,
-  STATUS_CLIENT_ERROR_MIN,
-  STATUS_INFORMATIONAL_MAX,
-  STATUS_INFORMATIONAL_MIN,
-  STATUS_REDIRECTION_MAX,
-  STATUS_REDIRECTION_MIN,
-  STATUS_SERVER_ERROR_MAX,
-  STATUS_SERVER_ERROR_MIN,
-  STATUS_SUCCESS_MAX,
-  STATUS_SUCCESS_MIN,
-} from './constants';
 
 export function formatJson(input: unknown, onError: (error: Error) => void): string {
   try {
@@ -26,7 +12,7 @@ export function formatJson(input: unknown, onError: (error: Error) => void): str
     return JSON.stringify(input, null, 4);
   } catch (e) {
     onError(normalizeError(e));
-    return String(input ?? '');
+    return JSON.stringify(input ?? '');
   }
 }
 
@@ -151,18 +137,3 @@ export function decodeRequestUrl(
 export function methodHasBody(method: string): boolean {
   return HTTP_METHODS_WITH_BODY.has(method);
 }
-
-export const isInformationalResponse = (status: number): boolean =>
-  status >= STATUS_INFORMATIONAL_MIN && status < STATUS_INFORMATIONAL_MAX;
-
-export const isSuccessResponse = (status: number): boolean =>
-  status >= STATUS_SUCCESS_MIN && status < STATUS_SUCCESS_MAX;
-
-export const isRedirectionResponse = (status: number): boolean =>
-  status >= STATUS_REDIRECTION_MIN && status < STATUS_REDIRECTION_MAX;
-
-export const isClientErrorResponse = (status: number): boolean =>
-  status >= STATUS_CLIENT_ERROR_MIN && status < STATUS_CLIENT_ERROR_MAX;
-
-export const isServerErrorResponse = (status: number): boolean =>
-  status >= STATUS_SERVER_ERROR_MIN && status < STATUS_SERVER_ERROR_MAX;

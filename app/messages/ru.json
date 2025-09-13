@@ -140,5 +140,9 @@
       "time": "Время",
       "requestFailedTitle": "Ошибка запроса"
     }
+  },
+  "history": {
+    "emptyMessage": "История не найдена",
+    "requestSize": "Размер запроса"
   }
 }

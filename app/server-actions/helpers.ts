@@ -1,5 +1,5 @@
+import { MIME_TYPE } from '../constants';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
-import { MIME_TYPE } from '../lib/constants';
 import { getUniqueRequestHeaders, methodHasBody, normalizeError } from '../lib/utils';
 import type { ProxyResponse } from './types';
 
@@ -8,7 +8,7 @@ export async function proxySendRequest({
   endpoint,
   headers,
   body,
-}: RestFormData): Promise<ProxyResponse & { ok: boolean }> {
+}: RestFormData): Promise<ProxyResponse> {
   const requestStart = Date.now();
 
   const requestSize = calculateRequestSize({
