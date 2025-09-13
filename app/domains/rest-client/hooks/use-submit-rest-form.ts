@@ -8,7 +8,12 @@ import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl, formatJson, normalizeError } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { api } from '@/convex/_generated/api';
-import { failedResponseAtom, responseBodyAtom, responseInformationAtom } from '../atoms';
+import {
+  failedResponseAtom,
+  formDataStore,
+  responseBodyAtom,
+  responseInformationAtom,
+} from '../atoms';
 import type { RestFormData } from '../components/RestForm';
 
 interface UseSubmitRestFormReturn {
@@ -22,9 +27,9 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
   const { userId } = useAuth();
   const createHistoryItemMutation = useMutation(api.history.createHistoryItem);
 
-  const setResponseInfo = useSetAtom(responseInformationAtom);
-  const setResponseBody = useSetAtom(responseBodyAtom);
-  const setFailedResponse = useSetAtom(failedResponseAtom);
+  const setResponseInfo = useSetAtom(responseInformationAtom, { store: formDataStore });
+  const setResponseBody = useSetAtom(responseBodyAtom, { store: formDataStore });
+  const setFailedResponse = useSetAtom(failedResponseAtom, { store: formDataStore });
 
   const [processing, setProcessing] = useState(false);
 

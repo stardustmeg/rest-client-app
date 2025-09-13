@@ -28,9 +28,9 @@ export const RestClient = () => {
 
   const { error } = useToast();
 
-  const responseInfo = useAtomValue(responseInformationAtom);
-  const responseBody = useAtomValue(responseBodyAtom);
-  const failedResponse = useAtomValue(failedResponseAtom);
+  const responseInfo = useAtomValue(responseInformationAtom, { store: formDataStore });
+  const responseBody = useAtomValue(responseBodyAtom, { store: formDataStore });
+  const failedResponse = useAtomValue(failedResponseAtom, { store: formDataStore });
 
   useInitFormAtoms(decodeRequestUrl(params, searchParams, (e) => error(e.message)));
 
@@ -47,7 +47,6 @@ export const RestClient = () => {
             size={responseInfo.size}
             time={responseInfo.time}
           />
-          {/* TODO (ripetchor): change to default response */}
           <Tabs.Root defaultValue="response" lazyMount>
             <Tabs.List>
               <Tabs.Trigger value="response">{t('tabTriggerResponse')}</Tabs.Trigger>
