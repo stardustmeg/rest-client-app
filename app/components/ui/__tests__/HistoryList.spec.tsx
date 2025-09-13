@@ -9,13 +9,23 @@ vi.mock('convex/nextjs', () => ({
   fetchQuery: vi.fn(),
 }));
 
-vi.mock('next-intl/server', () => ({
-  getTranslations: vi.fn(() => (key: string) => {
-    const translations: Record<string, string> = {
-      noHistory: 'No history available',
-    };
-    return translations[key] || key;
-  }),
+vi.mock('next/headers', () => ({
+  cookies: vi.fn(() => ({
+    get: vi.fn((name: string) => {
+      if (name === '__convexAuthJWT') {
+        return { value: 'mock-jwt-token' };
+      }
+      return null;
+    }),
+  })),
+}));
+
+vi.mock('../EmptyMessage', () => ({
+  EmptyMessage: () => (
+    <div>
+      <h3>emptyMessage</h3>
+    </div>
+  ),
 }));
 
 vi.mock('../HistoryListItem', () => ({
@@ -73,7 +83,7 @@ describe('HistoryList', () => {
 
     render(<TestProviders>{HistoryListComponent}</TestProviders>);
 
-    expect(screen.getByText('No history available')).toBeInTheDocument();
+    expect(screen.getByText('emptyMessage')).toBeInTheDocument();
     expect(screen.queryByTestId('history-item')).not.toBeInTheDocument();
   });
 
@@ -87,5 +97,18 @@ describe('HistoryList', () => {
 
     expect(screen.getByText('GET')).toBeInTheDocument();
     expect(screen.getByText('POST')).toBeInTheDocument();
+  });
+
+  it('should render empty message when no auth token', async () => {
+    const { cookies } = await import('next/headers');
+    vi.mocked(cookies).mockReturnValue({
+      get: vi.fn(() => null),
+    } as any);
+
+    const HistoryListComponent = await HistoryList();
+
+    render(<TestProviders>{HistoryListComponent}</TestProviders>);
+
+    expect(screen.getByText('emptyMessage')).toBeInTheDocument();
   });
 });
