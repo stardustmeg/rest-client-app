@@ -1,18 +1,16 @@
 import { EmptyState } from '@chakra-ui/react';
-import { useTranslations } from 'next-intl';
-import type { MessagesKeysType } from '@/i18n/routing';
 
 interface EmptyMessageProps {
-  key: MessagesKeysType;
+  message: string;
+  children?: React.ReactNode;
 }
 
-// TBD: style later
-export const EmptyMessage = ({ key }: EmptyMessageProps) => {
-  const t = useTranslations(key);
+export const EmptyMessage = ({ message, children }: EmptyMessageProps) => {
   return (
     <EmptyState.Root>
       <EmptyState.Content>
-        <EmptyState.Title>{t('emptyMessage')}</EmptyState.Title>
+        <EmptyState.Title>{message}</EmptyState.Title>
+        {children}
       </EmptyState.Content>
     </EmptyState.Root>
   );
