@@ -8,11 +8,14 @@ import { codeGenLanguageAtom, codeGenVariantAtom, formDataStore } from '../atoms
 interface UseCodeGenSelectionReturn {
   languages: SelectOption[];
   variants: SelectOption[];
+  loadingList: boolean;
   setLanguage: (value: string) => void;
   setVariant: (value: string) => void;
 }
 
 export function useCodeGenSelection(): UseCodeGenSelectionReturn {
+  const [loadingList, setLoadingList] = useState(false);
+
   const setLanguageAtom = useSetAtom(codeGenLanguageAtom, { store: formDataStore });
   const setVariantAtom = useSetAtom(codeGenVariantAtom, { store: formDataStore });
 
@@ -36,20 +39,25 @@ export function useCodeGenSelection(): UseCodeGenSelectionReturn {
   );
 
   useEffect(() => {
-    getLanguageList().then((list) => {
-      setLanguageList(list);
-      setLanguages(getLanguageOptions(list));
-      const initialLang = list[0];
+    setLoadingList(true);
 
-      setVariants(getVariantOptions(initialLang));
-      setLanguageAtom(initialLang.key);
-      setVariantAtom(initialLang.variants[0].key);
-    });
+    getLanguageList()
+      .then((list) => {
+        setLanguageList(list);
+        setLanguages(getLanguageOptions(list));
+        const initialLang = list[0];
+
+        setVariants(getVariantOptions(initialLang));
+        setLanguageAtom(initialLang.key);
+        setVariantAtom(initialLang.variants[0].key);
+      })
+      .finally(() => setLoadingList(false));
   }, [setLanguageAtom, setVariantAtom]);
 
   return {
     languages,
     variants,
+    loadingList,
     setVariant: setVariantAtom,
     setLanguage,
   } as const;

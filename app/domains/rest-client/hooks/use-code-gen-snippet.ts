@@ -15,6 +15,8 @@ import {
 const DEBOUNCE_DELAY_MILLISECONDS = 300;
 
 export function useCodeGenSnippet() {
+  const [generatingSnippet, setGeneratingSnippet] = useState(false);
+
   const method = useAtomValue(httpRequestMethodAtom, { store: formDataStore });
   const endpoint = useAtomValue(requestEndpointAtom, { store: formDataStore });
   const headers = useAtomValue(requestHeadersAtom, { store: formDataStore });
@@ -29,6 +31,8 @@ export function useCodeGenSnippet() {
       return;
     }
 
+    setGeneratingSnippet(true);
+
     generateCodeSnippet({
       method,
       url: endpoint,
@@ -36,10 +40,12 @@ export function useCodeGenSnippet() {
       body,
       language: codeGenLanguage,
       variant: codeGenVariant,
-    }).then(setSnippet);
+    })
+      .then(setSnippet)
+      .finally(() => setGeneratingSnippet(false));
   }, [method, endpoint, headers, body, codeGenLanguage, codeGenVariant]);
 
   useDebouncedEffect(generateSnipped, DEBOUNCE_DELAY_MILLISECONDS);
 
-  return snippet;
+  return { snippet, generatingSnippet };
 }

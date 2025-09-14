@@ -2,14 +2,19 @@
 
 import { Clipboard, Flex, IconButton } from '@chakra-ui/react';
 import { Select } from '@/app/components/ui/Select';
+import { Spinner } from '@/app/components/ui/Spinner';
 import { useCodeGenSelection } from '../hooks/use-code-gen-selection';
 import { useCodeGenSnippet } from '../hooks/use-code-gen-snippet';
 import { useHighlightSyntax } from '../hooks/use-highlight-syntax';
 
 export const CodeGeneration = () => {
-  const { languages, variants, setLanguage, setVariant } = useCodeGenSelection();
-  const snippet = useCodeGenSnippet();
+  const { languages, variants, loadingList, setLanguage, setVariant } = useCodeGenSelection();
+  const { snippet, generatingSnippet } = useCodeGenSnippet();
   const highlightedCode = useHighlightSyntax(snippet);
+
+  if (loadingList) {
+    return <Spinner />;
+  }
 
   return (
     <div>
@@ -24,8 +29,12 @@ export const CodeGeneration = () => {
           </Clipboard.Trigger>
         </Clipboard.Root>
       </Flex>
-      {/** biome-ignore lint/security/noDangerouslySetInnerHtml: <yayayaya> */}
-      <div className="overflow-x-auto" dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+      {generatingSnippet ? (
+        <Spinner />
+      ) : (
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: <yayaya>
+        <div className="overflow-x-auto" dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+      )}
     </div>
   );
 };
