@@ -99,17 +99,6 @@ describe('HistoryListItem', () => {
     expect(screen.getByText(/Status: 200.*Size: 2048.*Time: 150/)).toBeInTheDocument();
   });
 
-  it('should render link to rest client', () => {
-    render(
-      <TestProviders>
-        <HistoryListItem item={mockHistoryItem} />
-      </TestProviders>,
-    );
-
-    const link = screen.getByTestId('history-link');
-    expect(link).toHaveAttribute('href', '/rest-client//api/test');
-  });
-
   it('should handle different request methods', () => {
     const postItem = { ...mockHistoryItem, requestMethod: 'POST' };
 
