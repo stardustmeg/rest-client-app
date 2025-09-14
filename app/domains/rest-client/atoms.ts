@@ -29,7 +29,3 @@ export const responseInformationAtom = atomWithReset<ResponseInformationProps>({
   size: 0,
   time: 0,
 });
-
-// export const codeGenLanguageAtom = atomWithReset('');
-
-// export const codeGenVariantAtom = atomWithReset('');
