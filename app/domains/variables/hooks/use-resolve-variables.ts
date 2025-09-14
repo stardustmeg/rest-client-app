@@ -1,5 +1,5 @@
-import { useAtom } from 'jotai';
-import { useCallback } from 'react';
+import { getDefaultStore, useAtom } from 'jotai';
+import { useCallback, useMemo } from 'react';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import { variablesAtom } from '@/app/domains/variables/store/variables-store';
 import { useToast } from '@/app/hooks/use-toast';
@@ -18,18 +18,23 @@ interface ReplacePlaceholdersProps {
 const PLACEHOLDER_REGEX = /\{\{([^}]+)\}\}/g;
 
 export const useResolveVariables = () => {
-  const [variables] = useAtom(variablesAtom);
+  const defaultStore = getDefaultStore();
+  const [variables] = useAtom(variablesAtom, { store: defaultStore });
   const { error } = useToast();
-  const variablesMap = variables.reduce(
-    (acc, v) => {
-      let key = String(v.name ?? '').trim();
-      if (key.startsWith('{{') && key.endsWith('}}')) {
-        key = key.slice(2, -2).trim();
-      }
-      if (key) acc[key] = v.value;
-      return acc;
-    },
-    {} as Record<PropertyKey, string>,
+  const variablesMap = useMemo(
+    () =>
+      variables.reduce(
+        (acc, v) => {
+          let key = String(v.name ?? '').trim();
+          if (key.startsWith('{{') && key.endsWith('}}')) {
+            key = key.slice(2, -2).trim();
+          }
+          if (key) acc[key] = v.value;
+          return acc;
+        },
+        {} as Record<PropertyKey, string>,
+      ),
+    [variables],
   );
 
   const resolveVariables = useCallback(

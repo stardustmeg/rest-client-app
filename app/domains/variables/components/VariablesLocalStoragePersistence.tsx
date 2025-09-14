@@ -18,13 +18,13 @@ export const VariablesLocalStoragePersistence = () => {
   });
 
   useEffect(() => {
-    if (storedVariablesRef.current && userId && storedVariablesRef.current.length > 0) {
-      setVariables(storedVariables);
+    if (storedVariablesRef.current && userId) {
+      setVariables(storedVariablesRef.current);
     }
-  }, [storedVariables, setVariables, userId]);
+  }, [userId, setVariables]);
 
   useEffect(() => {
-    if (variables && userId && variables.length > 0) {
+    if (variables && userId) {
       saveVariables(variables);
     }
   }, [variables, saveVariables, userId]);
