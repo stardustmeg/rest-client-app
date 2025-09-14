@@ -3,18 +3,20 @@ import { useCallback, useEffect, useState } from 'react';
 import type { SelectOption } from '@/app/components/ui/Select';
 import { getLanguageList } from '@/app/server-actions/server-actions';
 
-// interface UseCodeGenSelectionReturn {
-//   languages: SelectOption[];
-//   variants: SelectOption[];
-//   loadingList: boolean;
-//   setLanguage: (value: string) => void;
-//   setVariant: (value: string) => void;
-// }
+interface UseCodeGenSelectionReturn {
+  languages: SelectOption[];
+  variants: SelectOption[];
+  loadingList: boolean;
+  language: string;
+  variant: string;
+  setLanguage: (value: string) => void;
+  setVariant: (value: string) => void;
+}
 
-export function useCodeGenSelection() {
+export function useCodeGenSelection(): UseCodeGenSelectionReturn {
   const [loadingList, setLoadingList] = useState(false);
 
-  const [lang, setLang] = useState('csharp');
+  const [language, setLang] = useState('csharp');
   const [variant, setVariant] = useState('HttpClient');
 
   const [languageList, setLanguageList] = useState<CodeGenLanguage[]>([]);
@@ -57,7 +59,7 @@ export function useCodeGenSelection() {
   return {
     languages,
     variants,
-    lang,
+    language,
     variant,
     loadingList,
     setVariant,
