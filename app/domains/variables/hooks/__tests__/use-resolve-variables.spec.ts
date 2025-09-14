@@ -11,6 +11,7 @@ vi.mock('@/app/hooks/use-toast', () => ({
 
 vi.mock('jotai', () => ({
   useAtom: vi.fn(),
+  getDefaultStore: vi.fn(() => ({})),
 }));
 
 vi.mock('@/app/domains/variables/store/variables-store', () => ({
