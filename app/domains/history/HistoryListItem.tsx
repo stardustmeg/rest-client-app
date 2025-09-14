@@ -1,8 +1,8 @@
 import { Badge, Button, Card, Separator, Text } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 import { BsChevronRight } from 'react-icons/bs';
+import { ResponseInformation } from '@/app/components/ui/ResponseInformation';
 import type { BodyEditorContentType } from '@/app/domains/rest-client/components/BodyEditor';
-import { ResponseInformation } from '@/app/domains/rest-client/components/ResponseInformation';
 import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl } from '@/app/lib/utils';
 import { formatValue } from '@/app/utils';
@@ -61,8 +61,8 @@ export const HistoryListItem = ({
         </div>
         <Text>
           {t('requestSize')}:
-          <Badge w={'max-content'} ml={2}>
-            {formatValue({ value: requestSize, postfix: 'B', defaultValue: 0 })}
+          <Badge w={'max-content'} ml={1}>
+            {formatValue({ value: requestSize, postfix: 'B' })}
           </Badge>
         </Text>
         <Separator orientation="horizontal" />

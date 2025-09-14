@@ -9,7 +9,6 @@ export const getStatusIcon = (status: number) => {
       return <BsArrowRight />;
     case STATUS_CLASS.clientError:
     case STATUS_CLASS.serverError:
-    case STATUS_CLASS.error:
       return <BsXCircle />;
     default:
       return <BsQuestionCircle />;

@@ -23,25 +23,25 @@ export const ResponseInformation = ({
   return (
     <div
       data-testid="response-information"
-      className="flex flex-wrap justify-between gap-3 text-gray-500 text-sm"
+      className="flex flex-wrap justify-between gap-2 text-gray-500 text-sm"
     >
       <span data-testid="response-information-status">
         {`${t('status')}:`}
-        <Badge w={'max-content'} ml={2} colorPalette={getStatusColor(status)}>
+        <Badge w={'max-content'} ml={1} colorPalette={getStatusColor(status)}>
           {getStatusIcon(status)}
-          {formatValue({ value: status, defaultValue: 0 })}
+          {formatValue({ value: status })}
         </Badge>
       </span>
       <span data-testid="response-information-size">
         {`${t('size')}:`}
-        <Badge w={'max-content'} ml={2} colorPalette={getSizeColor(size)}>
+        <Badge w={'max-content'} ml={1} colorPalette={getSizeColor(size)}>
           <BsBoxSeam />
-          {formatValue({ value: size, postfix: 'B', defaultValue: 0 })}
+          {formatValue({ value: size, postfix: 'B' })}
         </Badge>
       </span>
       <span data-testid="response-information-time">
         {`${t('time')}:`}
-        <Badge w={'max-content'} ml={2} colorPalette={getDurationColor(time)}>
+        <Badge w={'max-content'} ml={1} colorPalette={getDurationColor(time)}>
           <BsSpeedometer2 />
           {formatValue({ value: time, postfix: 'ms' })}
         </Badge>

@@ -23,11 +23,6 @@
     "message": "Something went wrong!",
     "button-reset": "Reset"
   },
-  "language": {
-    "en": "English",
-    "ru": "Russian",
-    "jp": "Japanese"
-  },
   "validation": {
     "usernameRequired": "Username cannot be empty",
     "usernameLetterRequired": "Username must contain at least one letter",
@@ -141,7 +136,9 @@
     }
   },
   "history": {
-    "emptyMessage": "No history found",
-    "requestSize": "Request Size"
+    "emptyMessage": "Looks like you haven't tried our REST Client yet, {username}",
+    "emptyLink": "Make your first request here",
+    "requestSize": "Request Size",
+    "title": "Your freshest history is here, {username}"
   }
 }

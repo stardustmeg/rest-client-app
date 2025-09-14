@@ -11,7 +11,7 @@ describe(FlagIcon.name, () => {
       </TestProviders>,
     );
 
-    const flagElement = screen.getByTitle('').closest('svg');
+    const flagElement = screen.getByTitle('English').closest('svg');
     expect(flagElement).toBeInTheDocument();
     expect(flagElement).toHaveAttribute('viewBox', '0 0 36 24');
   });
@@ -23,7 +23,7 @@ describe(FlagIcon.name, () => {
       </TestProviders>,
     );
 
-    const flagElement = screen.getByTitle('').closest('svg');
+    const flagElement = screen.getByTitle('Русский').closest('svg');
     expect(flagElement).toBeInTheDocument();
     expect(flagElement).toHaveAttribute('viewBox', '0 0 36 24');
   });
@@ -35,19 +35,19 @@ describe(FlagIcon.name, () => {
       </TestProviders>,
     );
 
-    const flagElement = screen.getByTitle('').closest('svg');
+    const flagElement = screen.getByTitle('日本語').closest('svg');
     expect(flagElement).toBeInTheDocument();
     expect(flagElement).toHaveAttribute('viewBox', '0 0 36 24');
   });
 
-  it('should render with custom title', () => {
+  it('should render with title "English"', () => {
     render(
       <TestProviders>
-        <FlagIcon country="en" title="United States" />
+        <FlagIcon country="en" />
       </TestProviders>,
     );
 
-    expect(screen.getByTitle('United States')).toBeInTheDocument();
+    expect(screen.getByTitle('English')).toBeInTheDocument();
   });
 
   it('should apply custom size and height', () => {
@@ -57,7 +57,7 @@ describe(FlagIcon.name, () => {
       </TestProviders>,
     );
 
-    const flagElement = screen.getByTitle('').closest('svg');
+    const flagElement = screen.getByTitle('English').closest('svg');
     expect(flagElement).toBeInTheDocument();
     expect(flagElement).toHaveStyle({ width: '45px', height: 'var(--chakra-sizes-10)' });
   });
@@ -80,7 +80,7 @@ describe(FlagIcon.name, () => {
       </TestProviders>,
     );
 
-    const flagElement = screen.getByTitle('').closest('svg');
+    const flagElement = screen.getByTitle('English').closest('svg');
     expect(flagElement).toHaveStyle({ width: '30px', height: 'var(--chakra-sizes-6)' });
   });
 });

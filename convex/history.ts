@@ -32,6 +32,7 @@ export const getUserHistory = query({
     return await ctx.db
       .query('history')
       .withIndex('userId', (q) => q.eq('userId', userId))
+      .order('desc')
       .collect();
   },
 });

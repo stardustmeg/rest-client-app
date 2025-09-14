@@ -8,9 +8,9 @@ import type { Id } from '@/convex/_generated/dataModel';
 import type { HistoryDataItem } from '@/convex/types';
 import { HistoryListItem } from '../HistoryListItem';
 
-vi.mock('@/app/domains/rest-client/components/ResponseInformation', () => ({
+vi.mock('@/app/components/ui/ResponseInformation', () => ({
   ResponseInformation: ({ status, size, time }: any) => (
-    <div data-testid="response-info">
+    <div data-testid="response-information">
       Status: {status}, Size: {size}, Time: {time}
     </div>
   ),
@@ -96,7 +96,7 @@ describe('HistoryListItem', () => {
       </TestProviders>,
     );
 
-    expect(screen.getByTestId('response-info')).toBeInTheDocument();
+    expect(screen.getByTestId('response-information')).toBeInTheDocument();
     expect(screen.getByText(/Status: 200.*Size: 2048.*Time: 150/)).toBeInTheDocument();
   });
 

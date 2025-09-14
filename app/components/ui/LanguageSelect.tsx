@@ -8,7 +8,7 @@ import {
   Select,
   useSelectContext,
 } from '@chakra-ui/react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { FlagIcon } from '@/app/components/ui/FlagIcon';
 import { type RoutingLocales, routing, usePathname, useRouter } from '@/i18n/routing';
 
@@ -22,13 +22,25 @@ const SelectTrigger = () => {
   );
 };
 
+const getLanguageLabel = (locale: RoutingLocales) => {
+  switch (locale) {
+    case 'en':
+      return 'English';
+    case 'ru':
+      return 'Русский';
+    case 'jp':
+      return '日本語';
+    default:
+      return '';
+  }
+};
+
 const languageItems = () => {
-  const t = useTranslations();
   return createListCollection({
     items: routing.locales.map((locale) => ({
-      label: t(`language.${locale}`),
+      label: getLanguageLabel(locale),
       value: locale,
-      icon: <FlagIcon country={locale} title={t(`language.${locale}`)} />,
+      icon: <FlagIcon country={locale} />,
     })),
   });
 };

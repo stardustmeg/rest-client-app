@@ -5,6 +5,7 @@ import { getDefaultStore, Provider, useAtomValue } from 'jotai';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
+import { ResponseInformation } from '@/app/components/ui/ResponseInformation';
 import { useToast } from '@/app/hooks/use-toast';
 import { decodeRequestUrl } from '@/app/lib/utils';
 import {
@@ -15,7 +16,6 @@ import {
 } from './atoms';
 import { BodyEditor } from './components/BodyEditor';
 import { CodeGeneration } from './components/CodeGeneration';
-import { ResponseInformation } from './components/ResponseInformation';
 import { RestForm } from './components/RestForm';
 import { useInitFormAtoms } from './hooks/use-init-form-atoms';
 import { useSubmitRestForm } from './hooks/use-submit-rest-form';
