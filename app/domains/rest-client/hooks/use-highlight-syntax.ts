@@ -1,9 +1,6 @@
-import { useAtomValue } from 'jotai';
 import { useTheme } from 'next-themes';
 import { useLayoutEffect, useState } from 'react';
 import { type BundledLanguage, createHighlighter } from 'shiki';
-
-import { codeGenLanguageAtom, formDataStore } from '../atoms';
 
 const highlighter = await createHighlighter({
   themes: ['github-dark', 'github-light'],
@@ -45,9 +42,8 @@ function highlightSyntax(code: string, language: string, currentTheme: string): 
   return highlighter.codeToHtml(code, { lang, theme });
 }
 
-export function useHighlightSyntax(code: string): string {
+export function useHighlightSyntax(language: string, code: string): string {
   const { resolvedTheme } = useTheme();
-  const language = useAtomValue(codeGenLanguageAtom, { store: formDataStore });
 
   const [highlightedCode, setHighlightedCode] = useState('');
 

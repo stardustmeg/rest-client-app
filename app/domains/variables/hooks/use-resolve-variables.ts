@@ -2,7 +2,6 @@ import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import { variablesAtom } from '@/app/domains/variables/store/variables-store';
-import { useToast } from '@/app/hooks/use-toast';
 
 interface ReplaceInObjectProps {
   data: unknown;
@@ -12,14 +11,13 @@ interface ReplaceInObjectProps {
 interface ReplacePlaceholdersProps {
   str: string;
   variablesMap: Record<PropertyKey, string>;
-  errorFn: (message: string) => void;
 }
 
 const PLACEHOLDER_REGEX = /\{\{([^}]+)\}\}/g;
 
 export const useResolveVariables = () => {
   const [variables] = useAtom(variablesAtom);
-  const { error } = useToast();
+  // const { error } = useToast();
   const variablesMap = variables.reduce(
     (acc, v) => {
       let key = String(v.name ?? '').trim();
@@ -38,12 +36,11 @@ export const useResolveVariables = () => {
       newData.endpoint = replaceInString({
         str: newData.endpoint,
         variablesMap,
-        errorFn: error,
       });
 
       newData.headers = newData.headers.map((header) => ({
         ...header,
-        value: replaceInString({ str: header.value, variablesMap, errorFn: error }),
+        value: replaceInString({ str: header.value, variablesMap }),
       }));
 
       let bodyContent = newData.body.value;
@@ -52,16 +49,16 @@ export const useResolveVariables = () => {
         const parsedBody = JSON.parse(bodyContent);
         const resolvedBody = replaceInObject({
           data: parsedBody,
-          replaceFn: (str) => replaceInString({ str, variablesMap, errorFn: error }),
+          replaceFn: (str) => replaceInString({ str, variablesMap }),
         });
         bodyContent = JSON.stringify(resolvedBody);
       } catch {
-        bodyContent = replaceInString({ str: bodyContent, variablesMap, errorFn: error });
+        bodyContent = replaceInString({ str: bodyContent, variablesMap });
       }
       newData.body = { ...newData.body, value: bodyContent };
       return newData;
     },
-    [variablesMap, error],
+    [variablesMap],
   );
 
   return { resolveVariables };
@@ -90,13 +87,13 @@ function replaceInObject({
   return data;
 }
 
-function replaceInString({ str, variablesMap, errorFn }: ReplacePlaceholdersProps): string {
+function replaceInString({ str, variablesMap }: ReplacePlaceholdersProps): string {
   return str.replace(PLACEHOLDER_REGEX, (_match, varName: string) => {
     const normalized = String(varName).trim();
     const value = variablesMap[normalized];
     if (value === undefined) {
       const errorMessage = `Variable "${normalized}" is not defined`;
-      errorFn(errorMessage);
+
       throw new Error(errorMessage);
     }
     return value;

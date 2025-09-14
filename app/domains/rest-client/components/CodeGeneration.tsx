@@ -8,9 +8,10 @@ import { useCodeGenSnippet } from '../hooks/use-code-gen-snippet';
 import { useHighlightSyntax } from '../hooks/use-highlight-syntax';
 
 export const CodeGeneration = () => {
-  const { languages, variants, loadingList, setLanguage, setVariant } = useCodeGenSelection();
-  const { snippet, generatingSnippet } = useCodeGenSnippet();
-  const highlightedCode = useHighlightSyntax(snippet);
+  const { languages, variants, loadingList, setLanguage, setVariant, lang, variant } =
+    useCodeGenSelection();
+  const { snippet, generatingSnippet } = useCodeGenSnippet(lang, variant);
+  const highlightedCode = useHighlightSyntax(lang, snippet);
 
   if (loadingList) {
     return <Spinner />;
