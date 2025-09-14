@@ -10,7 +10,7 @@ import { useHighlightSyntax } from '../hooks/use-highlight-syntax';
 export const CodeGeneration = () => {
   const { languages, variants, loadingList, setLanguage, setVariant, lang, variant } =
     useCodeGenSelection();
-  const { snippet, generatingSnippet } = useCodeGenSnippet(lang, variant);
+  const { snippet, generatingSnippet, genError } = useCodeGenSnippet(lang, variant);
   const highlightedCode = useHighlightSyntax(lang, snippet);
 
   if (loadingList) {
@@ -20,11 +20,16 @@ export const CodeGeneration = () => {
   return (
     <div>
       <Flex gap="3" marginBottom="5" alignItems="center">
-        <Select options={languages} name="language" onValueChange={setLanguage} />
-        <Select options={variants} name="variant" onValueChange={setVariant} />
+        <Select
+          disabled={genError}
+          options={languages}
+          name="language"
+          onValueChange={setLanguage}
+        />
+        <Select disabled={genError} options={variants} name="variant" onValueChange={setVariant} />
         <Clipboard.Root value={snippet}>
-          <Clipboard.Trigger asChild>
-            <IconButton variant="surface" size="xs">
+          <Clipboard.Trigger asChild disabled={genError}>
+            <IconButton variant="surface" size="xs" disabled={genError}>
               <Clipboard.Indicator />
             </IconButton>
           </Clipboard.Trigger>

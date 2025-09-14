@@ -17,6 +17,7 @@ import type { RestFormData } from '../components/RestForm';
 
 export function useCodeGenSnippet(language: string, variant: string) {
   const [generatingSnippet, setGeneratingSnippet] = useState(false);
+  const [genError, setGenError] = useState(false);
 
   const { resolveVariables } = useResolveVariables();
 
@@ -30,6 +31,7 @@ export function useCodeGenSnippet(language: string, variant: string) {
   const [snippet, setSnippet] = useState('');
 
   useEffect(() => {
+    setGenError(false);
     setGeneratingSnippet(true);
 
     let resData: RestFormData;
@@ -41,6 +43,7 @@ export function useCodeGenSnippet(language: string, variant: string) {
         error(normalizeError(e).message);
       });
       setGeneratingSnippet(false);
+      setGenError(true);
       return;
     }
 
@@ -53,8 +56,9 @@ export function useCodeGenSnippet(language: string, variant: string) {
       variant,
     })
       .then(setSnippet)
+      .catch(() => setGenError(true))
       .finally(() => setGeneratingSnippet(false));
   }, [language, variant, body, endpoint, headers, method, resolveVariables, error]);
 
-  return { snippet, generatingSnippet };
+  return { snippet, generatingSnippet, genError };
 }
