@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Flex, Heading, Separator, Tabs, TabsContent } from '@chakra-ui/react';
-import { Provider, useAtomValue } from 'jotai';
+import { getDefaultStore, Provider, useAtomValue } from 'jotai';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
@@ -78,7 +78,9 @@ export const RestClient = () => {
               )}
             </TabsContent>
             <TabsContent value="code-snippet">
-              <CodeGeneration />
+              <Provider store={getDefaultStore()}>
+                <CodeGeneration />
+              </Provider>
             </TabsContent>
           </Tabs.Root>
         </div>

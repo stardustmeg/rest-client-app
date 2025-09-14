@@ -46,7 +46,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
         resolvedData = resolveVariables(data);
       } catch {
         setProcessing(false);
-
+        error('from submit');
         return;
       }
 
