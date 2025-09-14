@@ -136,8 +136,9 @@
     }
   },
   "history": {
-    "emptyMessage": "履歴が見つかりません",
+    "emptyMessage": "RESTクライアントをまだ試していないようです, {username}さん",
+    "emptyLink": "ここで最初のリクエストを作成してください",
     "requestSize": "リクエストサイズ",
-    "title": "あなたの最新の履歴はここです、{username}"
+    "title": "あなたの最新の履歴はここです、{username}さん"
   }
 }

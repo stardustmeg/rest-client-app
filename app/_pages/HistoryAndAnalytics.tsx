@@ -1,5 +1,5 @@
-import { HistoryList } from '../components/ui/HistoryList';
-import { PageWrapper } from '../components/ui/PageWrapper';
+import { PageWrapper } from '@/app/components/ui/PageWrapper';
+import { HistoryList } from '@/app/domains/history/HistoryList';
 
 export const HistoryAndAnalyticsPage = () => {
   return (
