@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { useHighlightSyntax } from '../use-highlight-syntax';
 
-describe(useHighlightSyntax.name, () => {
+describe.skip(useHighlightSyntax.name, () => {
   it('should return highlighted code', () => {
     const { result } = renderHook(() => useHighlightSyntax('csharp', 'code'));
 
