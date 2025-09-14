@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
 /** biome-ignore-all lint/suspicious/noExplicitAny: test mocks */
+
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
@@ -97,6 +98,20 @@ describe('HistoryListItem', () => {
 
     expect(screen.getByTestId('response-info')).toBeInTheDocument();
     expect(screen.getByText(/Status: 200.*Size: 2048.*Time: 150/)).toBeInTheDocument();
+  });
+
+  it('should render link to rest client', () => {
+    render(
+      <TestProviders>
+        <HistoryListItem item={mockHistoryItem} />
+      </TestProviders>,
+    );
+
+    const link = screen.getByTestId('history-link');
+    expect(link).toHaveAttribute(
+      'href',
+      '/rest-client/GET/test-type/JTJGYXBpJTJGdGVzdA==/dGVzdC12YWx1ZQ==',
+    );
   });
 
   it('should handle different request methods', () => {
