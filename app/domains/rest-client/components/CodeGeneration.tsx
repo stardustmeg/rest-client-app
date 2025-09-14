@@ -21,15 +21,22 @@ export const CodeGeneration = () => {
     <div>
       <Flex gap="3" marginBottom="5" alignItems="center">
         <Select
-          disabled={genError}
+          disabled={genError || generatingSnippet}
           options={languages}
           name="language"
           onValueChange={setLanguage}
+          value={language}
         />
-        <Select disabled={genError} options={variants} name="variant" onValueChange={setVariant} />
+        <Select
+          disabled={genError || generatingSnippet}
+          options={variants}
+          name="variant"
+          onValueChange={setVariant}
+          value={variant}
+        />
         <Clipboard.Root value={snippet}>
-          <Clipboard.Trigger asChild disabled={genError}>
-            <IconButton variant="surface" size="xs" disabled={genError}>
+          <Clipboard.Trigger asChild disabled={genError || generatingSnippet}>
+            <IconButton variant="surface" size="xs" disabled={genError || generatingSnippet}>
               <Clipboard.Indicator />
             </IconButton>
           </Clipboard.Trigger>

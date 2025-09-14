@@ -1,5 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
+import { useDebouncedCallback } from '@/app/hooks/use-debounced-callback';
 import { useToast } from '@/app/hooks/use-toast';
 import { normalizeError } from '@/app/lib/utils';
 import { generateCodeSnippet } from '@/app/server-actions/server-actions';
@@ -13,14 +14,14 @@ import {
 } from '../atoms';
 import type { RestFormData } from '../components/RestForm';
 
-// const _DEBOUNCE_DELAY_MILLISECONDS = 300;
+const DEBOUNCE_DELAY_MILLISECONDS = 300;
 
 export function useCodeGenSnippet(language: string, variant: string) {
   const [generatingSnippet, setGeneratingSnippet] = useState(false);
   const [genError, setGenError] = useState(false);
+  const [snippet, setSnippet] = useState('');
 
   const { resolveVariables } = useResolveVariables();
-
   const { error } = useToast();
 
   const method = useAtomValue(httpRequestMethodAtom, { store: formDataStore });
@@ -28,37 +29,57 @@ export function useCodeGenSnippet(language: string, variant: string) {
   const headers = useAtomValue(requestHeadersAtom, { store: formDataStore });
   const body = useAtomValue(requestBodyAtom, { store: formDataStore });
 
-  const [snippet, setSnippet] = useState('');
+  const debouncedGenerate = useDebouncedCallback(
+    async (data: RestFormData, l: string, v: string) => {
+      setGenError(false);
+      setGeneratingSnippet(true);
+
+      try {
+        const code = await generateCodeSnippet({
+          method: data.method,
+          url: data.endpoint,
+          headers: data.headers,
+          body: data.body,
+          language: l,
+          variant: v,
+        });
+
+        setSnippet(code);
+      } catch (e) {
+        setGenError(true);
+        error(normalizeError(e).message);
+      } finally {
+        setGeneratingSnippet(false);
+      }
+    },
+    DEBOUNCE_DELAY_MILLISECONDS,
+  );
 
   useEffect(() => {
-    setGenError(false);
-    setGeneratingSnippet(true);
-
-    let resData: RestFormData;
+    let resolvedData: RestFormData;
 
     try {
-      resData = resolveVariables({ method, endpoint, headers, body });
+      resolvedData = resolveVariables({ method, endpoint, headers, body });
     } catch (e) {
       queueMicrotask(() => {
         error(normalizeError(e).message);
       });
-      setGeneratingSnippet(false);
       setGenError(true);
       return;
     }
 
-    generateCodeSnippet({
-      method: resData.method,
-      url: resData.endpoint,
-      headers: resData.headers,
-      body: resData.body,
-      language,
-      variant,
-    })
-      .then(setSnippet)
-      .catch(() => setGenError(true))
-      .finally(() => setGeneratingSnippet(false));
-  }, [language, variant, body, endpoint, headers, method, resolveVariables, error]);
+    debouncedGenerate(resolvedData, language, variant);
+  }, [
+    method,
+    endpoint,
+    headers,
+    body,
+    resolveVariables,
+    error,
+    debouncedGenerate,
+    language,
+    variant,
+  ]);
 
   return { snippet, generatingSnippet, genError };
 }
