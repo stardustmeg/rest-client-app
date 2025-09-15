@@ -16,7 +16,6 @@ import type { RestFormData } from '../components/RestForm';
 const DEBOUNCE_DELAY_MILLISECONDS = 300;
 
 export function useCodeGenSnippet(language: string, variant: string) {
-  const [generatingSnippet, setGeneratingSnippet] = useState(false);
   const [genError, setGenError] = useState(false);
   const [snippet, setSnippet] = useState('');
 
@@ -31,7 +30,6 @@ export function useCodeGenSnippet(language: string, variant: string) {
   const debouncedGenerate = useDebouncedCallback(
     async (data: RestFormData, l: string, v: string) => {
       setGenError(false);
-      setGeneratingSnippet(true);
 
       try {
         const code = await generateCodeSnippet({
@@ -47,8 +45,6 @@ export function useCodeGenSnippet(language: string, variant: string) {
       } catch (e) {
         setGenError(true);
         error(e);
-      } finally {
-        setGeneratingSnippet(false);
       }
     },
     DEBOUNCE_DELAY_MILLISECONDS,
@@ -60,7 +56,7 @@ export function useCodeGenSnippet(language: string, variant: string) {
     try {
       resolvedData = resolveVariables({ method, endpoint, headers, body });
     } catch (e) {
-      queueMicrotask(() => error(e));
+      error(e);
       setGenError(true);
       return;
     }
@@ -78,5 +74,5 @@ export function useCodeGenSnippet(language: string, variant: string) {
     variant,
   ]);
 
-  return { snippet, generatingSnippet, genError };
+  return { snippet, genError };
 }
