@@ -46,7 +46,10 @@ export const CodeGeneration = () => {
           language: languageConfig.language,
           variant: languageConfig.variant,
         }),
-      ).catch((e) => errorToast(e));
+      ).catch((e) => {
+        errorToast(e);
+        return '';
+      });
       setSnippet(code ?? '');
     });
   }, [method, endpoint, headers, body, languageConfig, errorToast, resolveVariables]);
