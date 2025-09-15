@@ -31,18 +31,19 @@ vi.mock('@/i18n/routing', () => ({
 const mockHistoryItem: HistoryDataItem = {
   ok: true,
   userId: 'test-id' as Id<'users'>,
+  requestDuration: 150,
+  responseStatusCode: 200,
+  requestTimestamp: 1_640_995_200_000,
+  requestMethod: 'GET',
+  errorDetails: null,
   _id: 'test-id' as Id<'history'>,
   _creationTime: 1_640_995_200_000,
-  body: {
+  requestBody: {
     value: 'test-value',
     type: 'test-type',
   },
-  requestTimestamp: 1_640_995_200_000,
-  requestMethod: 'GET',
   requestHeaders: [],
   endpoint: '/api/test',
-  responseStatusCode: 200,
-  requestDuration: 150,
   requestSize: 1024,
   responseSize: 2048,
 };
