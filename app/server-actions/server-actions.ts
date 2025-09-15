@@ -13,6 +13,7 @@ import { formatJson } from '../lib/utils';
 import type { OnErrorCallback } from '../types';
 import { proxySendRequest } from './helpers';
 import type { GenerateCodeSnippetParams, GetUserHistory, ProxyResponse } from './types';
+import { convexAuthNextjsToken } from '@convex-dev/auth/nextjs/server';
 
 export async function getLanguageList() {
   return await pcg.getLanguageList();
@@ -75,7 +76,8 @@ export async function sendRequest(
 export async function getUserHistory(): Promise<GetUserHistory> {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get('__convexAuthJWT')?.value;
+    const token = await convexAuthNextjsToken();
+    // const token = cookieStore.get('__convexAuthJWT')?.value;
     console.log('token', token);
     console.log('cookieStore', cookieStore);
 
