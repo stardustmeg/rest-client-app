@@ -43,9 +43,9 @@ export const RestClient = () => {
         <Separator orientation="vertical" />
         <div className="w-full max-w-[48%]">
           <ResponseInformation
-            status={responseInfo.status}
-            size={responseInfo.size}
-            time={responseInfo.time}
+            status={responseStatusCode}
+            size={responseSize}
+            duration={requestDuration}
           />
           <Tabs.Root defaultValue="response" lazyMount>
             <Tabs.List>

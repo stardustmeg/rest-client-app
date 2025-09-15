@@ -28,7 +28,7 @@ export async function proxySendRequest({
     const arrayBuffer = await response.clone().arrayBuffer();
 
     const contentType = response.headers.get('content-type');
-    const responseBody = contentType?.includes(MIME_TYPE.JSON)
+    const responseBodyValue = contentType?.includes(MIME_TYPE.JSON)
       ? await response.json()
       : await response.text();
 
@@ -42,8 +42,8 @@ export async function proxySendRequest({
       responseStatusCode: response.status,
       requestSize,
       responseSize: arrayBuffer.byteLength,
-      body: { type: body.type, value: responseBody },
-      errorDetails: response.ok ? undefined : response.statusText,
+      responseBody: { type: body.type, value: responseBodyValue },
+      errorDetails: response.ok ? null : response.statusText,
     };
   } catch (error) {
     return {
@@ -56,7 +56,7 @@ export async function proxySendRequest({
       responseStatusCode: 0,
       requestSize,
       responseSize: 0,
-      body: { type: body.type },
+      responseBody: { type: body.type },
       errorDetails: normalizeError(error).message,
     };
   }

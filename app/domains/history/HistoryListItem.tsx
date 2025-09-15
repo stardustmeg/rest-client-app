@@ -25,7 +25,7 @@ export const HistoryListItem = ({
     responseSize,
     requestHeaders,
     errorDetails,
-    body,
+    requestBody,
   },
 }: HistoryListItemProps) => {
   const { error } = useToast();
@@ -36,8 +36,8 @@ export const HistoryListItem = ({
         endpoint,
         headers: requestHeaders,
         body: {
-          type: body.type as BodyEditorContentType,
-          value: body.value ?? '',
+          type: requestBody.type as BodyEditorContentType,
+          value: requestBody.value ?? '',
         },
         method: requestMethod,
       },
@@ -69,7 +69,7 @@ export const HistoryListItem = ({
         <ResponseInformation
           status={responseStatusCode}
           size={responseSize}
-          time={requestDuration}
+          duration={requestDuration}
         />
         <Separator orientation="horizontal" />
       </Card.Header>
