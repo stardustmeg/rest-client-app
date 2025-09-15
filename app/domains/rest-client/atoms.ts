@@ -1,8 +1,8 @@
 import { createStore } from 'jotai';
 import { atomWithReset } from 'jotai/utils';
-import type { ResponseInformationProps } from '@/app/components/ui/ResponseInformation';
 import type { BodyEditorRequestBody } from './components/BodyEditor';
 import type { KeyValue } from './components/KeyValueEditor';
+import type { ResponseInfoAtom } from './hooks/types';
 
 export const formDataStore = createStore();
 
@@ -17,15 +17,11 @@ export const requestBodyAtom = atomWithReset<BodyEditorRequestBody>({
   value: '',
 });
 
-export const responseBodyAtom = atomWithReset('');
-
-export const failedResponseAtom = atomWithReset<{ ok: boolean; lastErrorMessage: string }>({
+export const responseInfoAtom = atomWithReset<ResponseInfoAtom>({
   ok: true,
-  lastErrorMessage: '',
-});
-
-export const responseInformationAtom = atomWithReset<ResponseInformationProps>({
-  status: 0,
-  size: 0,
-  time: 0,
+  responseStatusCode: 0,
+  responseSize: 0,
+  requestDuration: 0,
+  responseBody: '',
+  errorDetails: null,
 });

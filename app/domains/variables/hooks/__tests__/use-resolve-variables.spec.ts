@@ -13,7 +13,7 @@ vi.mock('@/app/domains/variables/store/variables-store', () => ({
   useVariablesActions: vi.fn(),
 }));
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <explanation>
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <sss>
 describe('useResolveVariables', () => {
   beforeEach(() => {
     vi.clearAllMocks();
