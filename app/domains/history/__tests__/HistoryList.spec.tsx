@@ -9,15 +9,8 @@ vi.mock('convex/nextjs', () => ({
   fetchQuery: vi.fn(),
 }));
 
-vi.mock('next/headers', () => ({
-  cookies: vi.fn(() => ({
-    get: vi.fn((name: string) => {
-      if (name === '__convexAuthJWT') {
-        return { value: 'mock-jwt-token' };
-      }
-      return null;
-    }),
-  })),
+vi.mock('@convex-dev/auth/nextjs/server', () => ({
+  convexAuthNextjsToken: vi.fn(() => Promise.resolve('mock-jwt-token')),
 }));
 
 vi.mock('../EmptyMessage', () => ({
@@ -100,10 +93,8 @@ describe('HistoryList', () => {
   });
 
   it('should render empty message when no auth token', async () => {
-    const { cookies } = await import('next/headers');
-    vi.mocked(cookies).mockReturnValue({
-      get: vi.fn(() => null),
-    } as any);
+    const { convexAuthNextjsToken } = await import('@convex-dev/auth/nextjs/server');
+    vi.mocked(convexAuthNextjsToken).mockResolvedValue(undefined);
 
     const HistoryListComponent = await HistoryList();
 
