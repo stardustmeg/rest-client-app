@@ -29,7 +29,7 @@ export const RestClient = () => {
 
   const { error } = useToast();
 
-  const { responseStatusCode, responseSize, requestDuration, responseBody, ok, errorDetails } =
+  const { responseSize, requestDuration, responseBody, responseStatusCode, errorDetails } =
     useAtomValue(responseInfoAtom, { store: formDataStore });
 
   useInitFormAtoms(decodeRequestUrl(params, searchParams, (e) => error(e)));
@@ -53,7 +53,7 @@ export const RestClient = () => {
               <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
             </Tabs.List>
             <TabsContent value="response">
-              {!isLoading && ok && (
+              {!(isLoading || errorDetails) && (
                 <BodyEditor
                   value={responseBody}
                   theme={resolvedTheme}
@@ -61,7 +61,7 @@ export const RestClient = () => {
                   type="json"
                 />
               )}
-              {!(isLoading || ok) && (
+              {!isLoading && errorDetails && (
                 <Box background="crimson" padding="4" color="white">
                   <Heading size="xl">{t('requestFailedTitle')}</Heading>
                   <p>{errorDetails ?? 'Unknown error'}</p>

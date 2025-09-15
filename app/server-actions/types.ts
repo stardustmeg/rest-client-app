@@ -12,7 +12,6 @@ export interface GenerateCodeSnippetParams {
 }
 
 export interface ProxyResponse {
-  ok: boolean;
   requestMethod: string;
   endpoint: string;
   requestHeaders: KeyValue[];

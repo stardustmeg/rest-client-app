@@ -33,7 +33,6 @@ export async function proxySendRequest({
       : await response.text();
 
     return {
-      ok: response.ok,
       requestMethod: method,
       endpoint,
       requestHeaders: headers,
@@ -47,7 +46,6 @@ export async function proxySendRequest({
     };
   } catch (error) {
     return {
-      ok: false,
       requestMethod: method,
       endpoint,
       requestHeaders: headers,

@@ -3,6 +3,5 @@ export interface ResponseInfoAtom {
   responseSize: number;
   requestDuration: number;
   responseBody: string;
-  ok: boolean;
   errorDetails: string | null;
 }

@@ -29,7 +29,6 @@ vi.mock('@/i18n/routing', () => ({
 }));
 
 const mockHistoryItem: HistoryDataItem = {
-  ok: true,
   userId: 'test-id' as Id<'users'>,
   requestDuration: 150,
   responseStatusCode: 200,

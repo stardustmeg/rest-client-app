@@ -18,7 +18,6 @@ export const requestBodyAtom = atomWithReset<BodyEditorRequestBody>({
 });
 
 export const responseInfoAtom = atomWithReset<ResponseInfoAtom>({
-  ok: true,
   responseStatusCode: 0,
   responseSize: 0,
   requestDuration: 0,
