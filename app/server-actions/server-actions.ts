@@ -1,8 +1,7 @@
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use server';
 
+import { convexAuthNextjsToken } from '@convex-dev/auth/nextjs/server';
 import { fetchMutation, fetchQuery } from 'convex/nextjs';
-import { cookies } from 'next/headers';
 import pcg from 'postman-code-generators';
 import sdk from 'postman-collection';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
@@ -13,7 +12,6 @@ import { formatJson } from '../lib/utils';
 import type { OnErrorCallback } from '../types';
 import { proxySendRequest } from './helpers';
 import type { GenerateCodeSnippetParams, GetUserHistory, ProxyResponse } from './types';
-import { convexAuthNextjsToken } from '@convex-dev/auth/nextjs/server';
 
 export async function getLanguageList() {
   return await pcg.getLanguageList();
@@ -75,12 +73,7 @@ export async function sendRequest(
 
 export async function getUserHistory(): Promise<GetUserHistory> {
   try {
-    const cookieStore = await cookies();
     const token = await convexAuthNextjsToken();
-    // const token = cookieStore.get('__convexAuthJWT')?.value;
-    console.log('token', token);
-    console.log('cookieStore', cookieStore);
-
     if (!token) {
       return { data: [], user: null };
     }
@@ -88,8 +81,6 @@ export async function getUserHistory(): Promise<GetUserHistory> {
     const data = await fetchQuery(api.history.getUserHistory, {}, { token });
     const user = await fetchQuery(api.users.currentUser, {}, { token });
 
-    console.log('data', data);
-    console.log('user', user);
     return { data, user };
   } catch {
     return { data: [], user: null };
