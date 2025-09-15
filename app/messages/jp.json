@@ -132,7 +132,8 @@
       "status": "ステータス",
       "size": "サイズ",
       "time": "時間",
-      "requestFailedTitle": "リクエストに失敗しました"
+      "requestFailedTitle": "リクエストに失敗しました",
+      "userNotAuthenticated": "ユーザーが認証されていません"
     }
   },
   "history": {

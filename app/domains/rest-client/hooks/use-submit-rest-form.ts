@@ -37,9 +37,11 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
 
   const handleSubmit = useCallback<UseSubmitRestFormReturn['handleSubmit']>(
     async (data) => {
-      setProcessing(true);
-      setResponseBody('');
-      setFailedResponse({ ok: true, lastErrorMessage: '' });
+      if (!userId) {
+        error(t('userNotAuthenticated'));
+        return;
+      }
+
       let resolvedData: RestFormData;
 
       try {

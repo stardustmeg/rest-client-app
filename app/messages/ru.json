@@ -133,7 +133,8 @@
       "status": "Статус",
       "size": "Размер",
       "time": "Время",
-      "requestFailedTitle": "Ошибка запроса"
+      "requestFailedTitle": "Ошибка запроса",
+      "userNotAuthenticated": "Пользователь не авторизован"
     }
   },
   "history": {
