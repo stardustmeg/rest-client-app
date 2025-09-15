@@ -1,4 +1,6 @@
+'use client';
 import { Badge, Button, Card, Separator, Text } from '@chakra-ui/react';
+import { useResetAtom } from 'jotai/utils';
 import { useTranslations } from 'next-intl';
 import { BsChevronRight } from 'react-icons/bs';
 import { ResponseInformation } from '@/app/components/ui/ResponseInformation';
@@ -8,6 +10,7 @@ import { encodeRequestUrl } from '@/app/lib/utils';
 import { formatValue } from '@/app/utils';
 import type { HistoryDataItem } from '@/convex/types';
 import { Link } from '@/i18n/routing';
+import { formDataStore, responseInfoAtom } from '../rest-client/atoms';
 
 interface HistoryListItemProps {
   item: HistoryDataItem;
@@ -30,7 +33,10 @@ export const HistoryListItem = ({
 }: HistoryListItemProps) => {
   const { error } = useToast();
 
+  const resetResponseInfo = useResetAtom(responseInfoAtom, { store: formDataStore });
+
   const getRestClientUrl = () => {
+    resetResponseInfo();
     const url = encodeRequestUrl(
       {
         endpoint,
@@ -41,9 +47,7 @@ export const HistoryListItem = ({
         },
         method: requestMethod,
       },
-      (e) => {
-        error(e.message);
-      },
+      (e) => error(e),
     );
 
     return `/rest-client/${url}`;

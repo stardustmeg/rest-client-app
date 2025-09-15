@@ -7,13 +7,11 @@ import sdk from 'postman-collection';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import { api } from '@/convex/_generated/api';
 import type { Id } from '@/convex/_generated/dataModel';
-import type { HistoryData, User } from '@/convex/types';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
-import { formatJson, normalizeError } from '../lib/utils';
+import { formatJson } from '../lib/utils';
+import type { OnErrorCallback } from '../types';
 import { proxySendRequest } from './helpers';
-import type { GenerateCodeSnippetParams, ProxyResponse } from './types';
-
-type OnErrorCallback = (error: Error) => void;
+import type { GenerateCodeSnippetParams, GetUserHistory, ProxyResponse } from './types';
 
 export async function getLanguageList() {
   return await pcg.getLanguageList();
@@ -67,15 +65,10 @@ export async function sendRequest(
 
   const data = {
     ...response,
-    responseBody: formatJson(response.responseBody, (e) => onError(normalizeError(e))),
+    responseBody: formatJson(response.responseBody, (e) => onError(e)),
   };
 
   return data;
-}
-
-interface GetUserHistory {
-  data: HistoryData;
-  user: User | null;
 }
 
 export async function getUserHistory(): Promise<GetUserHistory> {

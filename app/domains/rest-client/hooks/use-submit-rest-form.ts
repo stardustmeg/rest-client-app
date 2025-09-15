@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import { useResolveVariables } from '@/app/domains/variables/hooks/use-resolve-variables';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useToast } from '@/app/hooks/use-toast';
-import { encodeRequestUrl, normalizeError } from '@/app/lib/utils';
+import { encodeRequestUrl } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { formDataStore, responseInfoAtom } from '../atoms';
 import type { RestFormData } from '../components/RestForm';
@@ -37,14 +37,14 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       try {
         resolvedData = resolveVariables(data);
       } catch (e) {
-        error(normalizeError(e).message);
+        error(e);
         return;
       }
 
-      const url = encodeRequestUrl(data, (e) => error(e.message));
+      const url = encodeRequestUrl(data, (e) => error(e));
       push(`/rest-client/${url}`);
 
-      const response = await sendRequest(resolvedData, userId, (e) => error(e.message));
+      const response = await sendRequest(resolvedData, userId, (e) => error(e));
       setResponseInfo(response);
     },
     [push, setResponseInfo, error, userId, resolveVariables, t],

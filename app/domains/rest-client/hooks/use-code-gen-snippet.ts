@@ -2,7 +2,6 @@ import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from '@/app/hooks/use-debounced-callback';
 import { useToast } from '@/app/hooks/use-toast';
-import { normalizeError } from '@/app/lib/utils';
 import { generateCodeSnippet } from '@/app/server-actions/server-actions';
 import { useResolveVariables } from '../../variables/hooks/use-resolve-variables';
 import {
@@ -47,7 +46,7 @@ export function useCodeGenSnippet(language: string, variant: string) {
         setSnippet(code);
       } catch (e) {
         setGenError(true);
-        error(normalizeError(e).message);
+        error(e);
       } finally {
         setGeneratingSnippet(false);
       }
@@ -61,9 +60,7 @@ export function useCodeGenSnippet(language: string, variant: string) {
     try {
       resolvedData = resolveVariables({ method, endpoint, headers, body });
     } catch (e) {
-      queueMicrotask(() => {
-        error(normalizeError(e).message);
-      });
+      queueMicrotask(() => error(e));
       setGenError(true);
       return;
     }

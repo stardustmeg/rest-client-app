@@ -32,7 +32,7 @@ export const RestClient = () => {
   const { responseStatusCode, responseSize, requestDuration, responseBody, ok, errorDetails } =
     useAtomValue(responseInfoAtom, { store: formDataStore });
 
-  useInitFormAtoms(decodeRequestUrl(params, searchParams, (e) => error(e.message)));
+  useInitFormAtoms(decodeRequestUrl(params, searchParams, (e) => error(e)));
 
   const handleSubmitRestForm = (data: RestFormData) => startTransition(() => handleSubmit(data));
 

@@ -1,3 +1,4 @@
+import type { HistoryData, User } from '@/convex/types';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
 import type { KeyValue } from '../domains/rest-client/components/KeyValueEditor';
 
@@ -22,4 +23,9 @@ export interface ProxyResponse {
   responseSize: number;
   responseBody?: { type: string; value?: unknown };
   errorDetails: string | null;
+}
+
+export interface GetUserHistory {
+  data: HistoryData;
+  user: User | null;
 }
