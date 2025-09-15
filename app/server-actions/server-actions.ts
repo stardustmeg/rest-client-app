@@ -19,7 +19,7 @@ export async function getLanguageList() {
 
 export async function generateCodeSnippet({
   method,
-  url,
+  endpoint,
   headers,
   body,
   language,
@@ -28,7 +28,7 @@ export async function generateCodeSnippet({
   const request = new sdk.Request({
     method,
     body: new sdk.RequestBody({ mode: 'raw', raw: body.value }),
-    url,
+    url: endpoint,
     header: headers,
   });
 

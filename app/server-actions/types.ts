@@ -4,7 +4,7 @@ import type { KeyValue } from '../domains/rest-client/components/KeyValueEditor'
 
 export interface GenerateCodeSnippetParams {
   method: string;
-  url: string;
+  endpoint: string;
   headers: KeyValue[];
   body: BodyEditorRequestBody;
   language: string;
