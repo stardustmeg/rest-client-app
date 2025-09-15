@@ -13,7 +13,7 @@ import { useToast } from '@/app/hooks/use-toast';
 export const VariablesForm = () => {
   const t = useTranslations('variables');
   const tValidation = useTranslations('validation');
-  const { warning } = useToast();
+  const { warningToast } = useToast();
   const [variables] = useAtom(variablesAtom);
   const { addVariable } = useVariablesActions();
   const {
@@ -30,7 +30,7 @@ export const VariablesForm = () => {
   const handleAddVariable = (data: Omit<Variable, 'id'>) => {
     const name = `{{${data.name}}}`;
     if (variables.some((v) => name === v.name)) {
-      warning(tValidation('variableUniqueNameRequired'));
+      warningToast(tValidation('variableUniqueNameRequired'));
       return;
     }
 

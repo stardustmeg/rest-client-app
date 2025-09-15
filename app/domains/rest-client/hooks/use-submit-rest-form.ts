@@ -23,12 +23,12 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
 
   const setResponseInfo = useSetAtom(responseInfoAtom, { store: formDataStore });
 
-  const { error } = useToast();
+  const { errorToast } = useToast();
 
   const handleSubmit = useCallback<UseSubmitRestFormReturn['handleSubmit']>(
     async (data) => {
       if (!userId) {
-        error(t('userNotAuthenticated'));
+        errorToast(t('userNotAuthenticated'));
         return;
       }
 
@@ -37,17 +37,17 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       try {
         resolvedData = resolveVariables(data);
       } catch (e) {
-        error(e);
+        errorToast(e);
         return;
       }
 
-      const url = encodeRequestUrl(data, (e) => error(e));
+      const url = encodeRequestUrl(data, (e) => errorToast(e));
       push(`/rest-client/${url}`);
 
-      const response = await sendRequest(resolvedData, userId, (e) => error(e));
+      const response = await sendRequest(resolvedData, userId, (e) => errorToast(e));
       setResponseInfo(response);
     },
-    [push, setResponseInfo, error, userId, resolveVariables, t],
+    [push, setResponseInfo, errorToast, userId, resolveVariables, t],
   );
 
   return { handleSubmit };

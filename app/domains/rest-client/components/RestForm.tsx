@@ -41,7 +41,7 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
   const t = useTranslations('restClient.form');
   const { resolvedTheme } = useTheme();
 
-  const { error } = useToast();
+  const { errorToast } = useToast();
 
   const store = useStore({ store: formDataStore });
 
@@ -80,7 +80,7 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
   };
 
   const handleFormatJson = () => {
-    const formatted = formatJson(requestBody.value, () => error(t('formatFailed')));
+    const formatted = formatJson(requestBody.value, () => errorToast(t('formatFailed')));
     setRequestBody({ type: 'json', value: formatted });
   };
 

@@ -31,7 +31,7 @@ export const HistoryListItem = ({
     requestBody,
   },
 }: HistoryListItemProps) => {
-  const { error } = useToast();
+  const { errorToast } = useToast();
 
   const resetResponseInfo = useResetAtom(responseInfoAtom, { store: formDataStore });
 
@@ -47,7 +47,7 @@ export const HistoryListItem = ({
         },
         method: requestMethod,
       },
-      (e) => error(e),
+      (e) => errorToast(e),
     );
 
     return `/rest-client/${url}`;
