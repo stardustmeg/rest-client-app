@@ -4,10 +4,10 @@ import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
 import { VariablesForm } from '@/app/domains/variables/components/VariablesForm';
 import { useVariablesActions } from '@/app/domains/variables/store/variables-store';
 
-const warning = vi.fn();
+const warningToast = vi.fn();
 
 vi.mock('@/app/hooks/use-toast', () => ({
-  useToast: () => ({ warning }),
+  useToast: () => ({ warningToast }),
 }));
 
 vi.mock('jotai', () => ({
@@ -74,7 +74,7 @@ describe('VariablesForm', () => {
     await user.type(screen.getByPlaceholderText('value'), '456');
     await user.click(screen.getByTestId('add-variable'));
 
-    expect(warning).toHaveBeenCalledWith('variableUniqueNameRequired');
+    expect(warningToast).toHaveBeenCalledWith('variableUniqueNameRequired');
     expect(addVariable).not.toHaveBeenCalled();
   });
 
