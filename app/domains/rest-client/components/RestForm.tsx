@@ -10,6 +10,7 @@ import { HTTP_METHOD } from '@/app/constants';
 import { useToast } from '@/app/hooks/use-toast';
 import { formatJson } from '@/app/lib/utils';
 import {
+  formDataStore,
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
@@ -42,12 +43,12 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
 
   const { error } = useToast();
 
-  const store = useStore();
+  const store = useStore({ store: formDataStore });
 
-  const [endpoint, setEndpoint] = useAtom(requestEndpointAtom);
-  const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom);
-  const [requestBody, setRequestBody] = useAtom(requestBodyAtom);
-  const [headers, setHeaders] = useAtom(requestHeadersAtom);
+  const [endpoint, setEndpoint] = useAtom(requestEndpointAtom, { store: formDataStore });
+  const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom, { store: formDataStore });
+  const [requestBody, setRequestBody] = useAtom(requestBodyAtom, { store: formDataStore });
+  const [headers, setHeaders] = useAtom(requestHeadersAtom, { store: formDataStore });
 
   const handleHeadersChange = (key: keyof KeyValue, value: string, index: number) => {
     const newHeaders = [...headers];

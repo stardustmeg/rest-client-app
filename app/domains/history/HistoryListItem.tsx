@@ -2,6 +2,9 @@ import { Badge, Button, Card, Separator, Text } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 import { BsChevronRight } from 'react-icons/bs';
 import { ResponseInformation } from '@/app/components/ui/ResponseInformation';
+import type { BodyEditorContentType } from '@/app/domains/rest-client/components/BodyEditor';
+import { useToast } from '@/app/hooks/use-toast';
+import { encodeRequestUrl } from '@/app/lib/utils';
 import { formatValue } from '@/app/utils';
 import type { HistoryDataItem } from '@/convex/types';
 import { Link } from '@/i18n/routing';
@@ -20,9 +23,32 @@ export const HistoryListItem = ({
     requestDuration,
     requestSize,
     responseSize,
+    requestHeaders,
     errorDetails,
+    body,
   },
 }: HistoryListItemProps) => {
+  const { error } = useToast();
+
+  const getRestClientUrl = () => {
+    const url = encodeRequestUrl(
+      {
+        endpoint,
+        headers: requestHeaders,
+        body: {
+          type: body.type as BodyEditorContentType,
+          value: body.value ?? '',
+        },
+        method: requestMethod,
+      },
+      (e) => {
+        error(e.message);
+      },
+    );
+
+    return `/rest-client/${url}`;
+  };
+
   const t = useTranslations('history');
   return (
     <Card.Root key={_id} variant="outline" h="full" color="gray.500">
@@ -61,7 +87,7 @@ export const HistoryListItem = ({
         )}
       </Card.Body>
       <Card.Footer className="flex place-content-end">
-        <Link href={`/rest-client/${endpoint}`}>
+        <Link href={getRestClientUrl()}>
           <Button variant="ghost" size="sm">
             <BsChevronRight />
           </Button>

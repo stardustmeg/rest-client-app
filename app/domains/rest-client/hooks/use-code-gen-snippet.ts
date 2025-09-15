@@ -1,44 +1,85 @@
 import { useAtomValue } from 'jotai';
-import { useCallback, useState } from 'react';
-import { useDebouncedEffect } from '@/app/hooks/use-debounced-effect';
+import { useEffect, useState } from 'react';
+import { useDebouncedCallback } from '@/app/hooks/use-debounced-callback';
+import { useToast } from '@/app/hooks/use-toast';
+import { normalizeError } from '@/app/lib/utils';
 import { generateCodeSnippet } from '@/app/server-actions/server-actions';
+import { useResolveVariables } from '../../variables/hooks/use-resolve-variables';
 import {
-  codeGenLanguageAtom,
-  codeGenVariantAtom,
+  formDataStore,
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
   requestHeadersAtom,
 } from '../atoms';
+import type { RestFormData } from '../components/RestForm';
 
 const DEBOUNCE_DELAY_MILLISECONDS = 300;
 
-export function useCodeGenSnippet() {
-  const method = useAtomValue(httpRequestMethodAtom);
-  const endpoint = useAtomValue(requestEndpointAtom);
-  const headers = useAtomValue(requestHeadersAtom);
-  const body = useAtomValue(requestBodyAtom);
-  const codeGenLanguage = useAtomValue(codeGenLanguageAtom);
-  const codeGenVariant = useAtomValue(codeGenVariantAtom);
-
+export function useCodeGenSnippet(language: string, variant: string) {
+  const [generatingSnippet, setGeneratingSnippet] = useState(false);
+  const [genError, setGenError] = useState(false);
   const [snippet, setSnippet] = useState('');
 
-  const generateSnipped = useCallback(() => {
-    if (!(codeGenLanguage && codeGenVariant)) {
+  const { resolveVariables } = useResolveVariables();
+  const { error } = useToast();
+
+  const method = useAtomValue(httpRequestMethodAtom, { store: formDataStore });
+  const endpoint = useAtomValue(requestEndpointAtom, { store: formDataStore });
+  const headers = useAtomValue(requestHeadersAtom, { store: formDataStore });
+  const body = useAtomValue(requestBodyAtom, { store: formDataStore });
+
+  const debouncedGenerate = useDebouncedCallback(
+    async (data: RestFormData, l: string, v: string) => {
+      setGenError(false);
+      setGeneratingSnippet(true);
+
+      try {
+        const code = await generateCodeSnippet({
+          method: data.method,
+          url: data.endpoint,
+          headers: data.headers,
+          body: data.body,
+          language: l,
+          variant: v,
+        });
+
+        setSnippet(code);
+      } catch (e) {
+        setGenError(true);
+        error(normalizeError(e).message);
+      } finally {
+        setGeneratingSnippet(false);
+      }
+    },
+    DEBOUNCE_DELAY_MILLISECONDS,
+  );
+
+  useEffect(() => {
+    let resolvedData: RestFormData;
+
+    try {
+      resolvedData = resolveVariables({ method, endpoint, headers, body });
+    } catch (e) {
+      queueMicrotask(() => {
+        error(normalizeError(e).message);
+      });
+      setGenError(true);
       return;
     }
 
-    generateCodeSnippet({
-      method,
-      url: endpoint,
-      headers,
-      body,
-      language: codeGenLanguage,
-      variant: codeGenVariant,
-    }).then(setSnippet);
-  }, [method, endpoint, headers, body, codeGenLanguage, codeGenVariant]);
+    debouncedGenerate(resolvedData, language, variant);
+  }, [
+    method,
+    endpoint,
+    headers,
+    body,
+    resolveVariables,
+    error,
+    debouncedGenerate,
+    language,
+    variant,
+  ]);
 
-  useDebouncedEffect(generateSnipped, DEBOUNCE_DELAY_MILLISECONDS);
-
-  return snippet;
+  return { snippet, generatingSnippet, genError };
 }

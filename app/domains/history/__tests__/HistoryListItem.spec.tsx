@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
 /** biome-ignore-all lint/suspicious/noExplicitAny: test mocks */
+
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
@@ -38,6 +39,7 @@ const mockHistoryItem: HistoryDataItem = {
   },
   requestTimestamp: 1_640_995_200_000,
   requestMethod: 'GET',
+  requestHeaders: [],
   endpoint: '/api/test',
   responseStatusCode: 200,
   requestDuration: 150,
@@ -106,7 +108,10 @@ describe('HistoryListItem', () => {
     );
 
     const link = screen.getByTestId('history-link');
-    expect(link).toHaveAttribute('href', '/rest-client//api/test');
+    expect(link).toHaveAttribute(
+      'href',
+      '/rest-client/GET/test-type/JTJGYXBpJTJGdGVzdA==/dGVzdC12YWx1ZQ==',
+    );
   });
 
   it('should handle different request methods', () => {

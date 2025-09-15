@@ -14,6 +14,7 @@ export interface ProxyResponse {
   ok: boolean;
   requestMethod: string;
   endpoint: string;
+  requestHeaders: KeyValue[];
   requestTimestamp: number;
   requestDuration: number;
   responseStatusCode: number;
