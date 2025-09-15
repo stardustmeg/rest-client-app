@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
 'use server';
 
 import { fetchMutation, fetchQuery } from 'convex/nextjs';
@@ -75,6 +76,8 @@ export async function getUserHistory(): Promise<GetUserHistory> {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('__convexAuthJWT')?.value;
+    console.log('token', token);
+    console.log('cookieStore', cookieStore);
 
     if (!token) {
       return { data: [], user: null };
@@ -83,6 +86,8 @@ export async function getUserHistory(): Promise<GetUserHistory> {
     const data = await fetchQuery(api.history.getUserHistory, {}, { token });
     const user = await fetchQuery(api.users.currentUser, {}, { token });
 
+    console.log('data', data);
+    console.log('user', user);
     return { data, user };
   } catch {
     return { data: [], user: null };
