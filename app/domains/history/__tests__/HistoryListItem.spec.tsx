@@ -9,9 +9,9 @@ import type { HistoryDataItem } from '@/convex/types';
 import { HistoryListItem } from '../HistoryListItem';
 
 vi.mock('@/app/components/ui/ResponseInformation', () => ({
-  ResponseInformation: ({ status, size, time }: any) => (
+  ResponseInformation: ({ status, size, duration }: any) => (
     <div data-testid="response-information">
-      Status: {status}, Size: {size}, Time: {time}
+      Status: {status}, Size: {size}, Time: {duration}
     </div>
   ),
 }));
