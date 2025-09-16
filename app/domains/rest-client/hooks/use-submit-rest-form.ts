@@ -10,9 +10,10 @@ import { encodeRequestUrl } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { responseInfoAtom } from '../atoms';
 import type { RestFormData } from '../components/RestForm';
+import { extractFormData } from './helpers';
 
 interface UseSubmitRestFormReturn {
-  handleSubmit(data: RestFormData): Promise<void>;
+  handleSubmit(previousState: unknown, formData: FormData): Promise<void>;
 }
 
 export function useSubmitRestForm(): UseSubmitRestFormReturn {
@@ -27,11 +28,13 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
   const { errorToast } = useToast();
 
   const handleSubmit = useCallback<UseSubmitRestFormReturn['handleSubmit']>(
-    async (data) => {
+    async (_previousState, formData) => {
       if (!userId) {
         errorToast(t('userNotAuthenticated'));
         return;
       }
+
+      const data = extractFormData(formData);
 
       let resolvedData: RestFormData;
 

@@ -1,10 +1,10 @@
 'use client';
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
-import { getDefaultStore, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { Select, type SelectOption } from '@/app/components/ui/Select';
 import { HTTP_METHOD } from '@/app/constants';
 import { useToast } from '@/app/hooks/use-toast';
@@ -31,7 +31,7 @@ export interface RestFormData {
 }
 
 export interface RestFormProps {
-  onSubmit(data: RestFormData): void;
+  onSubmit(formData: FormData): void;
   disabled?: boolean;
 }
 
@@ -41,8 +41,6 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
   const { resolvedTheme } = useTheme();
 
   const { errorToast } = useToast();
-
-  const store = getDefaultStore();
 
   const [endpoint, setEndpoint] = useAtom(requestEndpointAtom);
   const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom);
@@ -83,21 +81,8 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
     setRequestBody({ type: 'json', value: formatted });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = {
-      method: store.get(httpRequestMethodAtom),
-      endpoint: store.get(requestEndpointAtom),
-      headers: store.get(requestHeadersAtom),
-      body: store.get(requestBodyAtom),
-    };
-
-    onSubmit(formData);
-  };
-
   return (
-    <form data-testid="rest-form" onSubmit={handleSubmit} className="w-full">
+    <form data-testid="rest-form" className="w-full" action={onSubmit}>
       <Flex gap="1">
         <Select
           dataTestId="rest-form-method-select"
@@ -123,6 +108,9 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
           {t('buttonSend')}
         </Button>
       </Flex>
+
+      <input type="hidden" name="bodyType" value={requestBody.type} />
+      <input type="hidden" name="bodyValue" value={requestBody.value} />
       <Tabs.Root defaultValue="headers">
         <Tabs.List>
           <Tabs.Trigger disabled={disabled} value="headers">
