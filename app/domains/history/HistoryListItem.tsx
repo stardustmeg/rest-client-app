@@ -3,7 +3,9 @@ import { Badge, Button, Card, Separator, Text } from '@chakra-ui/react';
 import { useResetAtom } from 'jotai/utils';
 import { useTranslations } from 'next-intl';
 import { BsChevronRight } from 'react-icons/bs';
+import { routes } from '@/app/[locale]/routes';
 import { ResponseInformation } from '@/app/components/ui/ResponseInformation';
+import { Tooltip } from '@/app/components/ui/Tooltip';
 import type { BodyEditorContentType } from '@/app/domains/rest-client/components/BodyEditor';
 import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl } from '@/app/lib/utils';
@@ -50,7 +52,7 @@ export const HistoryListItem = ({
       (e) => errorToast(e),
     );
 
-    return `/rest-client/${url}`;
+    return `${routes.restClient.path}/${url}`;
   };
 
   const t = useTranslations('history');
@@ -91,11 +93,13 @@ export const HistoryListItem = ({
         )}
       </Card.Body>
       <Card.Footer className="flex place-content-end">
-        <Link href={getRestClientUrl()}>
-          <Button variant="ghost" size="sm">
-            <BsChevronRight />
-          </Button>
-        </Link>
+        <Tooltip content={`${window.location.origin}${getRestClientUrl()}`}>
+          <Link href={getRestClientUrl()}>
+            <Button variant="ghost" size="sm">
+              <BsChevronRight />
+            </Button>
+          </Link>
+        </Tooltip>
       </Card.Footer>
     </Card.Root>
   );
