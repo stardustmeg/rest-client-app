@@ -16,6 +16,19 @@ import {
 import { CodeGenLanguageContext } from '../contexts/code-gen-language-context';
 import { useHighlightSyntax } from '../hooks/use-highlight-syntax';
 
+const DEBOUNCE_TIME = 1000;
+
+let timer: ReturnType<typeof setTimeout> | null = null;
+
+export const debounce = (fn: () => void) => {
+  return () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(fn, DEBOUNCE_TIME);
+  };
+};
+
 export const CodeGeneration = () => {
   const languageList = use(CodeGenLanguageContext);
   const selectedLanguage = useRef(languageList[0]);
@@ -40,23 +53,25 @@ export const CodeGeneration = () => {
 
   useEffect(() => {
     const requestId = ++latestRequestId.current;
-    startTransition(async () => {
-      const code = await Promise.try(() =>
-        generateCodeSnippet({
-          ...resolveVariables({ method, endpoint, headers, body }),
-          language: languageConfig.language,
-          variant: languageConfig.variant,
-        }),
-      ).catch((e) => {
-        errorToast(e);
-        return '';
-      });
+    startTransition(() => {
+      let code: string;
 
-      if (requestId === latestRequestId.current) {
-        startTransition(() => {
-          setSnippet(code ?? '');
+      debounce(async () => {
+        code = await Promise.try(() =>
+          generateCodeSnippet({
+            ...resolveVariables({ method, endpoint, headers, body }),
+            language: languageConfig.language,
+            variant: languageConfig.variant,
+          }),
+        ).catch((e) => {
+          errorToast(e);
+          return '';
         });
-      }
+
+        if (requestId === latestRequestId.current) {
+          setSnippet(code ?? '');
+        }
+      })();
     });
   }, [method, endpoint, headers, body, languageConfig, errorToast, resolveVariables]);
 
