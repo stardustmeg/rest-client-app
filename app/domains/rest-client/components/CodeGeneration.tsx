@@ -19,6 +19,7 @@ import { useHighlightSyntax } from '../hooks/use-highlight-syntax';
 export const CodeGeneration = () => {
   const languageList = use(CodeGenLanguageContext);
   const selectedLanguage = useRef(languageList[0]);
+  const latestRequestId = useRef(0);
 
   const [isLoading, startTransition] = useTransition();
 
@@ -38,6 +39,7 @@ export const CodeGeneration = () => {
   const { resolveVariables } = useResolveVariables();
 
   useEffect(() => {
+    const requestId = ++latestRequestId.current;
     startTransition(async () => {
       const code = await Promise.try(() =>
         generateCodeSnippet({
@@ -49,7 +51,12 @@ export const CodeGeneration = () => {
         errorToast(e);
         return '';
       });
-      setSnippet(code ?? '');
+
+      if (requestId === latestRequestId.current) {
+        startTransition(() => {
+          setSnippet(code ?? '');
+        });
+      }
     });
   }, [method, endpoint, headers, body, languageConfig, errorToast, resolveVariables]);
 
@@ -75,15 +82,15 @@ export const CodeGeneration = () => {
           disabled={isLoading}
           options={languages}
           name="language"
-          onValueChange={(value) => handleLanguageChange({ language: value })}
+          onValueChange={(language) => handleLanguageChange({ language })}
           value={languageConfig.language}
         />
         <Select
           disabled={isLoading}
           options={variants}
           name="variant"
-          onValueChange={(value) =>
-            handleLanguageChange({ variant: value, language: selectedLanguage.current.key })
+          onValueChange={(variant) =>
+            handleLanguageChange({ variant, language: selectedLanguage.current.key })
           }
           value={languageConfig.variant}
         />
