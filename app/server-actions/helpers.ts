@@ -36,6 +36,7 @@ export async function proxySendRequest({
       ok: response.ok,
       requestMethod: method,
       endpoint,
+      requestHeaders: headers,
       requestTimestamp: requestStart,
       requestDuration: Date.now() - requestStart,
       responseStatusCode: response.status,
@@ -49,6 +50,7 @@ export async function proxySendRequest({
       ok: false,
       requestMethod: method,
       endpoint,
+      requestHeaders: headers,
       requestTimestamp: requestStart,
       requestDuration: Date.now() - requestStart,
       responseStatusCode: 0,
@@ -60,7 +62,6 @@ export async function proxySendRequest({
   }
 }
 
-// TODO (ripetchor): Maybe calculate all form data
 function calculateRequestSize({ headers, body }: Pick<RestFormData, 'headers' | 'body'>): number {
   const textEncoder = new TextEncoder();
 

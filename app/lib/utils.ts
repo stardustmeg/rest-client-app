@@ -3,8 +3,9 @@ import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEdit
 import { HTTP_METHODS_WITH_BODY } from '../constants';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
+import type { OnErrorCallback } from './types';
 
-export function formatJson(input: unknown, onError: (error: Error) => void): string {
+export function formatJson(input: unknown, onError: OnErrorCallback): string {
   try {
     if (isString(input)) {
       return JSON.stringify(JSON.parse(input), null, 4);
@@ -64,7 +65,7 @@ export function searchParamsToHeaders(params: ReadonlyURLSearchParams): KeyValue
   return [...headers, { key: '', value: '' }];
 }
 
-export function encodeBase64(v: string, onError: (error: Error) => void): string {
+export function encodeBase64(v: string, onError: OnErrorCallback): string {
   try {
     return btoa(encodeURIComponent(v));
   } catch (error) {
@@ -73,7 +74,7 @@ export function encodeBase64(v: string, onError: (error: Error) => void): string
   }
 }
 
-export function decodeBase64(v: string, onError: (error: Error) => void): string {
+export function decodeBase64(v: string, onError: OnErrorCallback): string {
   try {
     return decodeURIComponent(atob(decodeURIComponent(v)));
   } catch (error) {
@@ -84,7 +85,7 @@ export function decodeBase64(v: string, onError: (error: Error) => void): string
 
 export function encodeRequestUrl(
   { method, endpoint, headers, body }: RestFormData,
-  onError: (error: Error) => void,
+  onError: OnErrorCallback,
 ): string {
   let url = '';
 
@@ -111,7 +112,7 @@ export function encodeRequestUrl(
 export function decodeRequestUrl(
   path: string[] | undefined,
   searchParams: ReadonlyURLSearchParams,
-  onError: (error: Error) => void,
+  onError: OnErrorCallback,
 ): RestFormData | null {
   if (!path) {
     return null;

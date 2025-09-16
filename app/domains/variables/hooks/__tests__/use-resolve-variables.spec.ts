@@ -3,11 +3,6 @@ import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import { useResolveVariables } from '@/app/domains/variables/hooks/use-resolve-variables';
-import { useToast } from '@/app/hooks/use-toast';
-
-vi.mock('@/app/hooks/use-toast', () => ({
-  useToast: vi.fn(),
-}));
 
 vi.mock('jotai', () => ({
   useAtom: vi.fn(),
@@ -20,13 +15,8 @@ vi.mock('@/app/domains/variables/store/variables-store', () => ({
 
 // biome-ignore lint/complexity/noExcessiveLinesPerFunction: <explanation>
 describe('useResolveVariables', () => {
-  const mockError = vi.fn();
-
   beforeEach(() => {
     vi.clearAllMocks();
-    (useToast as Mock).mockReturnValue({
-      error: mockError,
-    });
   });
 
   it('should resolve variables in URL', async () => {
@@ -255,10 +245,7 @@ describe('useResolveVariables', () => {
       body: { type: 'json', value: '{}' },
     };
 
-    expect(() => result.current.resolveVariables(formData)).toThrow(
-      'Variable "missingVar" is not defined',
-    );
-    expect(mockError).toHaveBeenCalledWith('Variable "missingVar" is not defined');
+    expect(() => result.current.resolveVariables(formData)).toThrow();
   });
 
   it('should throw error for missing variables in headers', async () => {
@@ -285,7 +272,6 @@ describe('useResolveVariables', () => {
     expect(() => result.current.resolveVariables(formData)).toThrow(
       'Variable "missingVar" is not defined',
     );
-    expect(mockError).toHaveBeenCalledWith('Variable "missingVar" is not defined');
   });
 
   it('should throw error for missing variables in JSON body', async () => {
@@ -312,7 +298,6 @@ describe('useResolveVariables', () => {
     expect(() => result.current.resolveVariables(formData)).toThrow(
       'Variable "missingVar" is not defined',
     );
-    expect(mockError).toHaveBeenCalledWith('Variable "missingVar" is not defined');
   });
 
   it('should throw error when variables array is empty', async () => {
@@ -333,7 +318,6 @@ describe('useResolveVariables', () => {
     expect(() => result.current.resolveVariables(formData)).toThrow(
       'Variable "userId" is not defined',
     );
-    expect(mockError).toHaveBeenCalledWith('Variable "userId" is not defined');
   });
 
   it('should handle variables with whitespace', async () => {

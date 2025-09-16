@@ -1,20 +1,23 @@
-import { useSetAtom } from 'jotai';
 import type { CodeGenLanguage } from 'postman-code-generators';
 import { useCallback, useEffect, useState } from 'react';
 import type { SelectOption } from '@/app/components/ui/Select';
 import { getLanguageList } from '@/app/server-actions/server-actions';
-import { codeGenLanguageAtom, codeGenVariantAtom } from '../atoms';
 
 interface UseCodeGenSelectionReturn {
   languages: SelectOption[];
   variants: SelectOption[];
+  loadingList: boolean;
+  language: string;
+  variant: string;
   setLanguage: (value: string) => void;
   setVariant: (value: string) => void;
 }
 
 export function useCodeGenSelection(): UseCodeGenSelectionReturn {
-  const setLanguageAtom = useSetAtom(codeGenLanguageAtom);
-  const setVariantAtom = useSetAtom(codeGenVariantAtom);
+  const [loadingList, setLoadingList] = useState(false);
+
+  const [language, setLang] = useState('csharp');
+  const [variant, setVariant] = useState('HttpClient');
 
   const [languageList, setLanguageList] = useState<CodeGenLanguage[]>([]);
   const [languages, setLanguages] = useState<SelectOption[]>([]);
@@ -29,28 +32,37 @@ export function useCodeGenSelection(): UseCodeGenSelectionReturn {
       }
 
       setVariants(getVariantOptions(selectedLang));
-      setLanguageAtom(key);
-      setVariantAtom(selectedLang.variants[0].key);
+
+      setLang(key);
+      setVariant(selectedLang.variants[0].key);
     },
-    [languageList, setVariantAtom, setLanguageAtom],
+    [languageList],
   );
 
   useEffect(() => {
-    getLanguageList().then((list) => {
-      setLanguageList(list);
-      setLanguages(getLanguageOptions(list));
-      const initialLang = list[0];
+    setLoadingList(true);
 
-      setVariants(getVariantOptions(initialLang));
-      setLanguageAtom(initialLang.key);
-      setVariantAtom(initialLang.variants[0].key);
-    });
-  }, [setLanguageAtom, setVariantAtom]);
+    getLanguageList()
+      .then((list) => {
+        setLanguageList(list);
+        setLanguages(getLanguageOptions(list));
+        const initialLang = list[0];
+
+        setVariants(getVariantOptions(initialLang));
+
+        setLang(initialLang.key);
+        setVariant(initialLang.variants[0].key);
+      })
+      .finally(() => setLoadingList(false));
+  }, []);
 
   return {
     languages,
     variants,
-    setVariant: setVariantAtom,
+    language,
+    variant,
+    loadingList,
+    setVariant,
     setLanguage,
   } as const;
 }
