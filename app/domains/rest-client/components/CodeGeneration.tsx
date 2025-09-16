@@ -16,7 +16,7 @@ import {
 import { CodeGenLanguageContext } from '../contexts/code-gen-language-context';
 import { useHighlightSyntax } from '../hooks/use-highlight-syntax';
 
-const DEBOUNCE_TIME = 1000;
+const DEBOUNCE_TIME = 300;
 
 let timer: ReturnType<typeof setTimeout> | null = null;
 
@@ -53,11 +53,9 @@ export const CodeGeneration = () => {
 
   useEffect(() => {
     const requestId = ++latestRequestId.current;
-    startTransition(() => {
-      let code: string;
-
-      debounce(async () => {
-        code = await Promise.try(() =>
+    debounce(() => {
+      startTransition(async () => {
+        const code = await Promise.try(() =>
           generateCodeSnippet({
             ...resolveVariables({ method, endpoint, headers, body }),
             language: languageConfig.language,
@@ -69,10 +67,12 @@ export const CodeGeneration = () => {
         });
 
         if (requestId === latestRequestId.current) {
-          setSnippet(code ?? '');
+          startTransition(() => {
+            setSnippet(code ?? '');
+          });
         }
-      })();
-    });
+      });
+    })();
   }, [method, endpoint, headers, body, languageConfig, errorToast, resolveVariables]);
 
   const highlightedCode = useHighlightSyntax(languageConfig.language, snippet);
