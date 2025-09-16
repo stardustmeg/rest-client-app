@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
-import { useAtom, useStore } from 'jotai';
+import { getDefaultStore, useAtom } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import type { ChangeEvent, FormEvent } from 'react';
@@ -10,7 +10,6 @@ import { HTTP_METHOD } from '@/app/constants';
 import { useToast } from '@/app/hooks/use-toast';
 import { formatJson } from '@/app/lib/utils';
 import {
-  formDataStore,
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
@@ -43,12 +42,12 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
 
   const { errorToast } = useToast();
 
-  const store = useStore({ store: formDataStore });
+  const store = getDefaultStore();
 
-  const [endpoint, setEndpoint] = useAtom(requestEndpointAtom, { store: formDataStore });
-  const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom, { store: formDataStore });
-  const [requestBody, setRequestBody] = useAtom(requestBodyAtom, { store: formDataStore });
-  const [headers, setHeaders] = useAtom(requestHeadersAtom, { store: formDataStore });
+  const [endpoint, setEndpoint] = useAtom(requestEndpointAtom);
+  const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom);
+  const [requestBody, setRequestBody] = useAtom(requestBodyAtom);
+  const [headers, setHeaders] = useAtom(requestHeadersAtom);
 
   const handleHeadersChange = (key: keyof KeyValue, value: string, index: number) => {
     const newHeaders = [...headers];

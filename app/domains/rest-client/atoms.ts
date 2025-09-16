@@ -1,10 +1,7 @@
-import { createStore } from 'jotai';
 import { atomWithReset } from 'jotai/utils';
 import type { BodyEditorRequestBody } from './components/BodyEditor';
 import type { KeyValue } from './components/KeyValueEditor';
 import type { ResponseInfoAtom } from './hooks/types';
-
-export const formDataStore = createStore();
 
 export const httpRequestMethodAtom = atomWithReset('GET');
 

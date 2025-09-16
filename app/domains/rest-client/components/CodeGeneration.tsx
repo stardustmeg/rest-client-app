@@ -8,7 +8,6 @@ import { useToast } from '@/app/hooks/use-toast';
 import { generateCodeSnippet } from '@/app/server-actions/server-actions';
 import { useResolveVariables } from '../../variables/hooks/use-resolve-variables';
 import {
-  formDataStore,
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
@@ -31,10 +30,10 @@ export const CodeGeneration = () => {
     variant: selectedLanguage.current.selectedVariant,
   });
 
-  const method = useAtomValue(httpRequestMethodAtom, { store: formDataStore });
-  const endpoint = useAtomValue(requestEndpointAtom, { store: formDataStore });
-  const headers = useAtomValue(requestHeadersAtom, { store: formDataStore });
-  const body = useAtomValue(requestBodyAtom, { store: formDataStore });
+  const method = useAtomValue(httpRequestMethodAtom);
+  const endpoint = useAtomValue(requestEndpointAtom);
+  const headers = useAtomValue(requestHeadersAtom);
+  const body = useAtomValue(requestBodyAtom);
 
   const { resolveVariables } = useResolveVariables();
 

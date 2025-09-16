@@ -12,7 +12,7 @@ import { encodeRequestUrl } from '@/app/lib/utils';
 import { formatValue } from '@/app/utils';
 import type { HistoryDataItem } from '@/convex/types';
 import { Link } from '@/i18n/routing';
-import { formDataStore, responseInfoAtom } from '../rest-client/atoms';
+import { responseInfoAtom } from '../rest-client/atoms';
 
 interface HistoryListItemProps {
   item: HistoryDataItem;
@@ -35,7 +35,8 @@ export const HistoryListItem = ({
 }: HistoryListItemProps) => {
   const { errorToast } = useToast();
 
-  const resetResponseInfo = useResetAtom(responseInfoAtom, { store: formDataStore });
+  const resetResponseInfo = useResetAtom(responseInfoAtom);
+  resetResponseInfo();
 
   const getRestClientUrl = () => {
     resetResponseInfo();

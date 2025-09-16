@@ -2,12 +2,13 @@ import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useCallback } from 'react';
+import { routes } from '@/app/[locale]/routes';
 import { useResolveVariables } from '@/app/domains/variables/hooks/use-resolve-variables';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
-import { formDataStore, responseInfoAtom } from '../atoms';
+import { responseInfoAtom } from '../atoms';
 import type { RestFormData } from '../components/RestForm';
 
 interface UseSubmitRestFormReturn {
@@ -21,7 +22,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
   const { resolveVariables } = useResolveVariables();
   const { userId } = useAuth();
 
-  const setResponseInfo = useSetAtom(responseInfoAtom, { store: formDataStore });
+  const setResponseInfo = useSetAtom(responseInfoAtom);
 
   const { errorToast } = useToast();
 
@@ -42,7 +43,7 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       }
 
       const url = encodeRequestUrl(data, (e) => errorToast(e));
-      push(`/rest-client/${url}`);
+      push(`${routes.restClient.path}/${url}`);
 
       const response = await sendRequest(resolvedData, userId, (e) => errorToast(e));
       setResponseInfo(response);

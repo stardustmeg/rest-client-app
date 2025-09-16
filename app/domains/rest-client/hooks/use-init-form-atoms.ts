@@ -1,7 +1,6 @@
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import {
-  formDataStore,
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
@@ -11,10 +10,10 @@ import type { RestFormData } from '../components/RestForm';
 import { useResetClientAtoms } from './use-reset-client-atoms';
 
 export function useInitFormAtoms(formData: RestFormData | null) {
-  const setRequestMethod = useSetAtom(httpRequestMethodAtom, { store: formDataStore });
-  const setRequestEndpoint = useSetAtom(requestEndpointAtom, { store: formDataStore });
-  const setHeaders = useSetAtom(requestHeadersAtom, { store: formDataStore });
-  const setBody = useSetAtom(requestBodyAtom, { store: formDataStore });
+  const setRequestMethod = useSetAtom(httpRequestMethodAtom);
+  const setRequestEndpoint = useSetAtom(requestEndpointAtom);
+  const setHeaders = useSetAtom(requestHeadersAtom);
+  const setBody = useSetAtom(requestBodyAtom);
 
   const resetAtoms = useResetClientAtoms();
 
