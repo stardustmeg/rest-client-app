@@ -3,8 +3,8 @@ import { Box, HStack, Portal, VStack } from '@chakra-ui/react';
 import { ColorModeSelector } from '@/app/components/ui/ColorModeSelector';
 import { ColorSchemeSelector } from '@/app/components/ui/ColorSchemeSelector';
 import { LanguageSelect } from '@/app/components/ui/LanguageSelect';
-import { Navigation } from '@/app/components/ui/Navigation';
-import { AuthButtons } from '@/app/domains/auth/ui/NavigationButtons';
+import { Suka } from '@/app/components/ui/suka';
+import { DisplayContext } from '@/app/domains/auth/types/nav-config';
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -44,7 +44,7 @@ export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => {
       >
         <VStack align="stretch" gap={6} h="full" p={4}>
           <VStack align="stretch" gap={4} paddingTop={6}>
-            <Navigation direction={isOpen ? 'vertical' : 'horizontal'} />
+            <Suka context={DisplayContext.burgerMenu} variant="ghost" size="lg" px="2" />
           </VStack>
 
           <VStack align="stretch" gap={3} mt="auto">
@@ -53,9 +53,6 @@ export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => {
               <ColorModeSelector />
               <LanguageSelect disablePortal />
             </HStack>
-            <VStack gap="2" align="stretch">
-              <AuthButtons variant="outline" onAction={onClose} />
-            </VStack>
           </VStack>
         </VStack>
       </Box>

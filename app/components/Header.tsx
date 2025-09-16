@@ -6,9 +6,8 @@ import { BurgerButton } from '@/app/components/ui/BurgerButton';
 import { BurgerMenu } from '@/app/components/ui/BurgerMenu';
 import { ColorModeSelector } from '@/app/components/ui/ColorModeSelector';
 import { ColorSchemeSelector } from '@/app/components/ui/ColorSchemeSelector';
+import { HeaderNavigationButtons } from '@/app/components/ui/HeaderNavigationButtons';
 import { LanguageSelect } from '@/app/components/ui/LanguageSelect';
-import { Navigation } from '@/app/components/ui/Navigation';
-import { AuthButtons } from '@/app/domains/auth/ui/NavigationButtons';
 
 const SCROLL_THRESHOLD = 10;
 const FADE_IN_ANIMATION_DURATION = 600;
@@ -73,7 +72,7 @@ export const Header = () => {
     >
       <VStack className="gap-2 px-4 py-3">
         <HStack className="mx-auto w-full max-w-7xl justify-between">
-          {!isMobile && <Navigation />}
+          {!isMobile && <HeaderNavigationButtons />}
 
           <HStack align="center" gap={1}>
             {!isMobile && (
@@ -81,9 +80,6 @@ export const Header = () => {
                 <ColorSchemeSelector />
                 <ColorModeSelector />
                 <LanguageSelect />
-                <HStack gap="2" w="full">
-                  <AuthButtons variant="outline" />
-                </HStack>
               </>
             )}
           </HStack>

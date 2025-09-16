@@ -3,14 +3,14 @@ import { AboutCourseBlock } from '@/app/components/ui/AboutCourseBlock';
 import { AboutDevelopersBlock } from '@/app/components/ui/AboutDevelopersBlock';
 import { AboutProjectBlock } from '@/app/components/ui/AboutProjectBlock';
 import { MainHeading } from '@/app/components/ui/MainHeading';
-import { NavigationButtons } from '@/app/domains/auth/ui/NavigationButtons';
+import { MainNavigationButtons } from '@/app/components/ui/MainNavigationButtons';
 
 export const MainPage = () => (
   <Flex as="main" minH="100vh" align="center" justify="center" px="6" py="12">
     <Container maxW="5xl" centerContent>
       <VStack gap="16" textAlign="center" w="full">
         <MainHeading />
-        <NavigationButtons />
+        <MainNavigationButtons />
         <AboutProjectBlock />
         <AboutDevelopersBlock />
         <AboutCourseBlock />
