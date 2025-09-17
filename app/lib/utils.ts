@@ -1,4 +1,3 @@
-import type { ReadonlyURLSearchParams } from 'next/navigation';
 import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEditor';
 import { HTTP_METHODS_WITH_BODY } from '../constants';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
@@ -56,7 +55,7 @@ export function headersToSearchParams(pairs: KeyValue[]): URLSearchParams {
   return sp;
 }
 
-export function searchParamsToHeaders(params: ReadonlyURLSearchParams): KeyValue[] {
+export function searchParamsToHeaders(params: URLSearchParams): KeyValue[] {
   if (params.size === 0) {
     return [];
   }
@@ -111,7 +110,7 @@ export function encodeRequestUrl(
 
 export function decodeRequestUrl(
   path: string[] | undefined,
-  searchParams: ReadonlyURLSearchParams,
+  searchParams: URLSearchParams,
   onError: OnErrorCallback,
 ): RestFormData | null {
   if (!path) {
