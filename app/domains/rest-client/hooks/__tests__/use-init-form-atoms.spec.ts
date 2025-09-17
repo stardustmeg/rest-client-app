@@ -13,7 +13,7 @@ vi.mock('../use-reset-client-atoms.ts', () => ({
   useResetClientAtoms: vi.fn(),
 }));
 
-describe('useInitFormAtoms', () => {
+describe(useInitFormAtoms.name, () => {
   let setMethod: ReturnType<typeof vi.fn>;
   let setEndpoint: ReturnType<typeof vi.fn>;
   let setHeaders: ReturnType<typeof vi.fn>;
