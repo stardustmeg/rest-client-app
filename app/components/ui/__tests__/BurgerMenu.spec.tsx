@@ -13,8 +13,8 @@ vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
     onClick,
   }: {
     items: any[];
-    onAction: (action: string) => void;
-    onClick: () => void;
+    onAction?: (action: string) => void;
+    onClick?: () => void;
   }) => (
     <div data-testid="nav-buttons">
       {items.map((item) => (
@@ -23,10 +23,12 @@ vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
           type="button"
           data-testid={`nav-button-${item.id}`}
           onClick={() => {
-            if (item.action) {
+            if (item.action && onAction) {
               onAction(item.action);
             }
-            onClick();
+            if (onClick) {
+              onClick();
+            }
           }}
         >
           {item.title}
@@ -71,6 +73,7 @@ describe('BurgerMenu', () => {
       );
 
       expect(screen.queryByTestId('nav-buttons')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('color-mode-selector')).not.toBeInTheDocument();
     });
 
     it('should render all components when open', () => {
@@ -80,7 +83,7 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      expect(screen.getByTestId('nav-buttons')).toBeInTheDocument();
+      expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
       expect(screen.getByTestId('color-mode-selector')).toBeInTheDocument();
       expect(screen.getByTestId('color-scheme-selector')).toBeInTheDocument();
       expect(screen.getByTestId('language-select')).toBeInTheDocument();
@@ -110,7 +113,7 @@ describe('BurgerMenu', () => {
       );
 
       expect(container.querySelector('[data-testid="nav-buttons"]')).toBeNull();
-      expect(screen.getByTestId('nav-buttons')).toBeInTheDocument();
+      expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
     });
   });
 
@@ -129,7 +132,7 @@ describe('BurgerMenu', () => {
         await user.click(backdrop as Element);
         expect(mockOnClose).toHaveBeenCalledTimes(1);
       } else {
-        expect(screen.getByTestId('nav-buttons')).toBeInTheDocument();
+        expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
       }
     });
 
@@ -187,7 +190,7 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      expect(screen.getByTestId('nav-buttons')).toBeInTheDocument();
+      expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
       expect(screen.getByTestId('color-mode-selector')).toBeInTheDocument();
       expect(screen.getByTestId('color-scheme-selector')).toBeInTheDocument();
       expect(screen.getByTestId('language-select')).toBeInTheDocument();
@@ -200,8 +203,8 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      const navButtons = screen.getByTestId('nav-buttons');
-      expect(navButtons).toBeInTheDocument();
+      const navButtons = screen.getAllByTestId('nav-buttons');
+      expect(navButtons).toHaveLength(2);
 
       const colorMode = screen.getByTestId('color-mode-selector');
       const colorScheme = screen.getByTestId('color-scheme-selector');
@@ -219,7 +222,7 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      const EXPECTED_NAV_ITEMS_COUNT = 7; // main, signIn, signUp, restClient, history, variables, signOut
+      const EXPECTED_NAV_ITEMS_COUNT = 7;
       const navButtons = screen.getAllByTestId(/nav-button-/);
       expect(navButtons).toHaveLength(EXPECTED_NAV_ITEMS_COUNT);
     });
