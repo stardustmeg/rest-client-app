@@ -8,9 +8,14 @@ import { ColorModeSelector } from '@/app/components/ui/ColorModeSelector';
 import { ColorSchemeSelector } from '@/app/components/ui/ColorSchemeSelector';
 import { HeaderNavigationButtons } from '@/app/components/ui/HeaderNavigationButtons';
 import { LanguageSelect } from '@/app/components/ui/LanguageSelect';
+import { useSignOutAction } from '@/app/domains/auth/hooks/use-signout-action';
+import { NavButtons } from '@/app/domains/auth/ui/nav-items/NavButtons';
+import { doSignOut } from '@/data/navLinksInfo';
 
 const SCROLL_THRESHOLD = 10;
 const FADE_IN_ANIMATION_DURATION = 600;
+
+const headerMenuItems = [doSignOut];
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,6 +23,7 @@ export const Header = () => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
 
   const isMobile = useBreakpointValue({ base: true, md: false }, { ssr: false });
+  const handleNavButtonsAction = useSignOutAction();
 
   useEffect(() => {
     let animationFrameId: number | null = null;
@@ -80,6 +86,7 @@ export const Header = () => {
                 <ColorSchemeSelector />
                 <ColorModeSelector />
                 <LanguageSelect />
+                <NavButtons items={headerMenuItems} onAction={handleNavButtonsAction} />
               </>
             )}
           </HStack>
