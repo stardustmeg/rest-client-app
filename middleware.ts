@@ -2,7 +2,7 @@ import { convexAuthNextjsMiddleware, createRouteMatcher } from '@convex-dev/auth
 import { NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { routes } from '@/app/[locale]/routes';
-import { type RoutingLocales, routing } from '@/i18n/routing';
+import { routing } from '@/i18n/routing';
 
 const DAYS = 30;
 const MAX_COOKIE_LIFESPAN = 60 * 60 * 24 * DAYS;
@@ -13,15 +13,8 @@ const isAuthRoute = createRouteMatcher(AUTH_ROUTES);
 
 const isProtectedRoute = createRouteMatcher(PROTECTED_ROUTES);
 
-function getLocaleFromPath(pathname: string): string | null {
-  const segments = pathname.split('/');
-  const possibleLocale = segments[1];
-  return routing.locales.includes(possibleLocale as RoutingLocales) ? possibleLocale : null;
-}
-
 function createRedirectUrl(request: Request, path: string, returnTo?: string): URL {
-  const locale = getLocaleFromPath(request.url) || routing.defaultLocale;
-  const redirectUrl = new URL(`/${locale}${path}`, request.url);
+  const redirectUrl = new URL(path, request.url);
 
   if (returnTo) {
     redirectUrl.searchParams.set('returnTo', returnTo);
