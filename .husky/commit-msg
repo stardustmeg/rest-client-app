@@ -8,7 +8,7 @@ ENDCOLOR="\e[0m"
 
 validate_commit_message() {
   echo -e "${BASIC_CYAN}🐶 Validating commit message${ENDCOLOR}"
-  bunx --no -- commitlint --edit "${1}"
+  npx --no -- commitlint --edit "${1}"
   if [[ $? -ne 0 ]]; then
     echo -e "${BASIC_RED}❌ Commit message validation failed!${ENDCOLOR}"
     echo -e "${BASIC_YELLOW}⚠️ Please update your commit message to follow the required conventions.${ENDCOLOR}"

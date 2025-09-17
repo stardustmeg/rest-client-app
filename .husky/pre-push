@@ -19,7 +19,7 @@ run_branch_name_validation () {
 
 run_tests () {
   echo -e "${BASIC_CYAN}🧪 Running tests${ENDCOLOR}"
-  bun run test
+  npm run test
   if [[ $? -ne 0 ]]
   then
     echo -e "${BASIC_RED}❌ Tests failed.${ENDCOLOR}"
