@@ -4,6 +4,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
+import type { NavConfigItem } from '@/app/domains/auth/ui/nav-items/types';
 import { Header } from '../Header';
 
 vi.mock('@/app/components/ui/BurgerButton', () => ({
@@ -42,7 +43,13 @@ vi.mock('@/app/components/ui/LanguageSelect', () => ({
 }));
 
 vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
-  NavButtons: ({ items, onAction }: { items: any[]; onAction: (action: string) => void }) => (
+  NavButtons: ({
+    items,
+    onAction,
+  }: {
+    items: NavConfigItem[];
+    onAction: (action: string) => void;
+  }) => (
     <div data-testid="auth-buttons">
       {items.map((item) => (
         <button

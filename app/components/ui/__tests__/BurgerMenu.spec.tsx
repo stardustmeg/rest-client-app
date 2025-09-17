@@ -4,6 +4,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
+import type { NavConfigItem } from '@/app/domains/auth/ui/nav-items/types';
 import { BurgerMenu } from '../BurgerMenu';
 
 vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
@@ -12,7 +13,7 @@ vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
     onAction,
     onClick,
   }: {
-    items: any[];
+    items: NavConfigItem[];
     onAction?: (action: string) => void;
     onClick?: () => void;
   }) => (

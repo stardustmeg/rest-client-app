@@ -1,13 +1,13 @@
 /** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
-/** biome-ignore-all lint/suspicious/noExplicitAny: test mocks */
 /** biome-ignore-all lint/style/noMagicNumbers: test constants */
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
+import type { NavConfigItem } from '@/app/domains/auth/ui/nav-items/types';
 import { HeaderNavigationButtons } from '../HeaderNavigationButtons';
 
 vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
-  NavButtons: ({ items }: { items: any[] }) => (
+  NavButtons: ({ items }: { items: NavConfigItem[] }) => (
     <div data-testid="nav-buttons">
       {items.map((item) => (
         <button key={item.id} type="button" data-testid={`nav-button-${item.id}`}>
