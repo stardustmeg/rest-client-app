@@ -7,7 +7,7 @@ describe(ResponseInformation.name, () => {
   it('should render', () => {
     render(
       <TestProviders>
-        <ResponseInformation status={200} size={100} time={100} />
+        <ResponseInformation status={200} size={100} duration={100} />
       </TestProviders>,
     );
 

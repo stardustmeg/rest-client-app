@@ -12,7 +12,7 @@ import { useAuthActions } from '@/app/hooks/use-auth-actions';
 import { useToast } from '@/app/hooks/use-toast';
 
 export const SignUpForm = () => {
-  const { success, error } = useToast();
+  const { successToast, errorToast } = useToast();
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
   const tValidation = useTranslations('validation');
@@ -32,8 +32,8 @@ export const SignUpForm = () => {
 
   const handleSignUp = (data: SignUpFormType) =>
     signUp(data)
-      .then(() => success(tNotification('signUpSuccess')))
-      .catch(() => error(tNotification('authError')));
+      .then(() => successToast(tNotification('signUpSuccess')))
+      .catch(() => errorToast(tNotification('authError')));
 
   return (
     <form onSubmit={handleSubmit(handleSignUp)}>

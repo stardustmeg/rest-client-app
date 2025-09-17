@@ -1,13 +1,13 @@
-import { Badge, Button, Card, Separator, Text } from '@chakra-ui/react';
+import { Badge, Card, Separator, Text } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
-import { BsChevronRight } from 'react-icons/bs';
+import { routes } from '@/app/[locale]/routes';
 import { ResponseInformation } from '@/app/components/ui/ResponseInformation';
 import type { BodyEditorContentType } from '@/app/domains/rest-client/components/BodyEditor';
 import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl } from '@/app/lib/utils';
 import { formatValue } from '@/app/utils';
 import type { HistoryDataItem } from '@/convex/types';
-import { Link } from '@/i18n/routing';
+import { HistoryRedirectLink } from './HistoryRedirectLink';
 
 interface HistoryListItemProps {
   item: HistoryDataItem;
@@ -25,10 +25,10 @@ export const HistoryListItem = ({
     responseSize,
     requestHeaders,
     errorDetails,
-    body,
+    requestBody,
   },
 }: HistoryListItemProps) => {
-  const { error } = useToast();
+  const { errorToast } = useToast();
 
   const getRestClientUrl = () => {
     const url = encodeRequestUrl(
@@ -36,17 +36,15 @@ export const HistoryListItem = ({
         endpoint,
         headers: requestHeaders,
         body: {
-          type: body.type as BodyEditorContentType,
-          value: body.value ?? '',
+          type: requestBody.type as BodyEditorContentType,
+          value: requestBody.value ?? '',
         },
         method: requestMethod,
       },
-      (e) => {
-        error(e.message);
-      },
+      (e) => errorToast(e),
     );
 
-    return `/rest-client/${url}`;
+    return `${routes.restClient.path}/${url}`;
   };
 
   const t = useTranslations('history');
@@ -69,7 +67,7 @@ export const HistoryListItem = ({
         <ResponseInformation
           status={responseStatusCode}
           size={responseSize}
-          time={requestDuration}
+          duration={requestDuration}
         />
         <Separator orientation="horizontal" />
       </Card.Header>
@@ -87,11 +85,7 @@ export const HistoryListItem = ({
         )}
       </Card.Body>
       <Card.Footer className="flex place-content-end">
-        <Link href={getRestClientUrl()}>
-          <Button variant="ghost" size="sm">
-            <BsChevronRight />
-          </Button>
-        </Link>
+        <HistoryRedirectLink redirectLink={getRestClientUrl()} />
       </Card.Footer>
     </Card.Root>
   );

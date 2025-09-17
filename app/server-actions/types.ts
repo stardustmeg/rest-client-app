@@ -1,9 +1,10 @@
+import type { HistoryData, User } from '@/convex/types';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
 import type { KeyValue } from '../domains/rest-client/components/KeyValueEditor';
 
 export interface GenerateCodeSnippetParams {
   method: string;
-  url: string;
+  endpoint: string;
   headers: KeyValue[];
   body: BodyEditorRequestBody;
   language: string;
@@ -11,7 +12,6 @@ export interface GenerateCodeSnippetParams {
 }
 
 export interface ProxyResponse {
-  ok: boolean;
   requestMethod: string;
   endpoint: string;
   requestHeaders: KeyValue[];
@@ -20,6 +20,11 @@ export interface ProxyResponse {
   responseStatusCode: number;
   requestSize: number;
   responseSize: number;
-  body?: { type: string; value?: unknown };
-  errorDetails?: string;
+  responseBody?: { type: string; value?: unknown };
+  errorDetails: string | null;
+}
+
+export interface GetUserHistory {
+  data: HistoryData;
+  user: User | null;
 }

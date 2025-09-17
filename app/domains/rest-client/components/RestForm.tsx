@@ -1,16 +1,15 @@
 'use client';
 
 import { Button, Flex, Input, Tabs, TabsContent } from '@chakra-ui/react';
-import { useAtom, useStore } from 'jotai';
+import { useAtom } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { Select, type SelectOption } from '@/app/components/ui/Select';
 import { HTTP_METHOD } from '@/app/constants';
 import { useToast } from '@/app/hooks/use-toast';
 import { formatJson } from '@/app/lib/utils';
 import {
-  formDataStore,
   httpRequestMethodAtom,
   requestBodyAtom,
   requestEndpointAtom,
@@ -32,7 +31,7 @@ export interface RestFormData {
 }
 
 export interface RestFormProps {
-  onSubmit(data: RestFormData): void;
+  onSubmit(formData: FormData): void;
   disabled?: boolean;
 }
 
@@ -41,14 +40,12 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
   const t = useTranslations('restClient.form');
   const { resolvedTheme } = useTheme();
 
-  const { error } = useToast();
+  const { errorToast } = useToast();
 
-  const store = useStore({ store: formDataStore });
-
-  const [endpoint, setEndpoint] = useAtom(requestEndpointAtom, { store: formDataStore });
-  const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom, { store: formDataStore });
-  const [requestBody, setRequestBody] = useAtom(requestBodyAtom, { store: formDataStore });
-  const [headers, setHeaders] = useAtom(requestHeadersAtom, { store: formDataStore });
+  const [endpoint, setEndpoint] = useAtom(requestEndpointAtom);
+  const [httpMethod, setHttpMethod] = useAtom(httpRequestMethodAtom);
+  const [requestBody, setRequestBody] = useAtom(requestBodyAtom);
+  const [headers, setHeaders] = useAtom(requestHeadersAtom);
 
   const handleHeadersChange = (key: keyof KeyValue, value: string, index: number) => {
     const newHeaders = [...headers];
@@ -80,25 +77,12 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
   };
 
   const handleFormatJson = () => {
-    const formatted = formatJson(requestBody.value, () => error(t('formatFailed')));
+    const formatted = formatJson(requestBody.value, () => errorToast(t('formatFailed')));
     setRequestBody({ type: 'json', value: formatted });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = {
-      method: store.get(httpRequestMethodAtom),
-      endpoint: store.get(requestEndpointAtom),
-      headers: store.get(requestHeadersAtom),
-      body: store.get(requestBodyAtom),
-    };
-
-    onSubmit(formData);
-  };
-
   return (
-    <form data-testid="rest-form" onSubmit={handleSubmit} className="w-full">
+    <form data-testid="rest-form" className="w-full" action={onSubmit}>
       <Flex gap="1">
         <Select
           dataTestId="rest-form-method-select"
@@ -124,6 +108,9 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
           {t('buttonSend')}
         </Button>
       </Flex>
+
+      <input type="hidden" name="bodyType" value={requestBody.type} />
+      <input type="hidden" name="bodyValue" value={requestBody.value} />
       <Tabs.Root defaultValue="headers">
         <Tabs.List>
           <Tabs.Trigger disabled={disabled} value="headers">

@@ -3,7 +3,7 @@ import type { KeyValue } from '@/app/domains/rest-client/components/KeyValueEdit
 import { HTTP_METHODS_WITH_BODY } from '../constants';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
 import type { RestFormData } from '../domains/rest-client/components/RestForm';
-import type { OnErrorCallback } from './types';
+import type { OnErrorCallback } from '../types';
 
 export function formatJson(input: unknown, onError: OnErrorCallback): string {
   try {
@@ -12,7 +12,7 @@ export function formatJson(input: unknown, onError: OnErrorCallback): string {
     }
     return JSON.stringify(input, null, 4);
   } catch (e) {
-    onError(normalizeError(e));
+    onError(e);
     return JSON.stringify(input ?? '');
   }
 }
@@ -69,7 +69,7 @@ export function encodeBase64(v: string, onError: OnErrorCallback): string {
   try {
     return btoa(encodeURIComponent(v));
   } catch (error) {
-    onError(normalizeError(error));
+    onError(error);
     return v;
   }
 }
@@ -78,7 +78,7 @@ export function decodeBase64(v: string, onError: OnErrorCallback): string {
   try {
     return decodeURIComponent(atob(decodeURIComponent(v)));
   } catch (error) {
-    onError(normalizeError(error));
+    onError(error);
     return v;
   }
 }

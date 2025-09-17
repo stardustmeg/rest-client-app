@@ -1,14 +1,17 @@
 'use server';
 
-import { fetchQuery } from 'convex/nextjs';
-import { cookies } from 'next/headers';
+import { convexAuthNextjsToken } from '@convex-dev/auth/nextjs/server';
+import { fetchMutation, fetchQuery } from 'convex/nextjs';
 import pcg from 'postman-code-generators';
 import sdk from 'postman-collection';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import { api } from '@/convex/_generated/api';
-import type { HistoryData, User } from '@/convex/types';
+import type { Id } from '@/convex/_generated/dataModel';
+import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
+import { formatJson } from '../lib/utils';
+import type { OnErrorCallback } from '../types';
 import { proxySendRequest } from './helpers';
-import type { GenerateCodeSnippetParams } from './types';
+import type { GenerateCodeSnippetParams, GetUserHistory, ProxyResponse } from './types';
 
 export async function getLanguageList() {
   return await pcg.getLanguageList();
@@ -16,7 +19,7 @@ export async function getLanguageList() {
 
 export async function generateCodeSnippet({
   method,
-  url,
+  endpoint,
   headers,
   body,
   language,
@@ -25,7 +28,7 @@ export async function generateCodeSnippet({
   const request = new sdk.Request({
     method,
     body: new sdk.RequestBody({ mode: 'raw', raw: body.value }),
-    url,
+    url: endpoint,
     header: headers,
   });
 
@@ -40,28 +43,43 @@ export async function generateCodeSnippet({
   });
 }
 
-export async function sendRequest({ method, endpoint, headers, body }: RestFormData) {
+const saveHistoryItem = (
+  { responseBody, ...response }: ProxyResponse,
+  userId: Id<'users'>,
+  { type, value }: BodyEditorRequestBody,
+) =>
+  fetchMutation(api.history.createHistoryItem, {
+    ...response,
+    userId,
+    requestBody: { type, value },
+  });
+
+export async function sendRequest(
+  { method, endpoint, headers, body }: RestFormData,
+  userId: Id<'users'>,
+  onError: OnErrorCallback,
+) {
   const response = await proxySendRequest({ method, endpoint, headers, body });
 
-  return response;
-}
+  await saveHistoryItem(response, userId, body);
 
-interface GetUserHistory {
-  data: HistoryData;
-  user: User | null;
+  const data = {
+    ...response,
+    responseBody: formatJson(response.responseBody?.value, (e) => onError(e)),
+  };
+
+  return data;
 }
 
 export async function getUserHistory(): Promise<GetUserHistory> {
   try {
-    const cookieStore = await cookies();
-    const authToken = cookieStore.get('__convexAuthJWT')?.value;
-
-    if (!authToken) {
+    const token = await convexAuthNextjsToken();
+    if (!token) {
       return { data: [], user: null };
     }
 
-    const data = await fetchQuery(api.history.getUserHistory, {}, { token: authToken });
-    const user = await fetchQuery(api.users.currentUser, {}, { token: authToken });
+    const data = await fetchQuery(api.history.getUserHistory, {}, { token });
+    const user = await fetchQuery(api.users.currentUser, {}, { token });
 
     return { data, user };
   } catch {

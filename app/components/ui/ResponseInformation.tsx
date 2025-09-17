@@ -9,14 +9,14 @@ import type { MessagesKeysType } from '@/i18n/routing';
 export interface ResponseInformationProps {
   status: number;
   size: number;
-  time: number;
+  duration: number;
   labelsKey?: MessagesKeysType;
 }
 
 export const ResponseInformation = ({
   status,
   size,
-  time,
+  duration,
   labelsKey,
 }: ResponseInformationProps) => {
   const t = useTranslations(labelsKey ?? 'restClient.response');
@@ -41,9 +41,9 @@ export const ResponseInformation = ({
       </span>
       <span data-testid="response-information-time">
         {`${t('time')}:`}
-        <Badge w={'max-content'} ml={1} colorPalette={getDurationColor(time)}>
+        <Badge w={'max-content'} ml={1} colorPalette={getDurationColor(duration)}>
           <BsSpeedometer2 />
-          {formatValue({ value: time, postfix: 'ms' })}
+          {formatValue({ value: duration, postfix: 'ms' })}
         </Badge>
       </span>
     </div>
