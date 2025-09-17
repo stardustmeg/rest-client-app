@@ -26,7 +26,7 @@ vi.mock('@/app/components/ui/BurgerMenu', () => ({
 }));
 
 vi.mock('@/app/components/ui/HeaderNavigationButtons', () => ({
-  Navigation: () => <nav data-testid="navigation">Navigation</nav>,
+  HeaderNavigationButtons: () => <nav data-testid="navigation">Navigation</nav>,
 }));
 
 vi.mock('@/app/components/ui/ColorModeSelector', () => ({
@@ -41,8 +41,25 @@ vi.mock('@/app/components/ui/LanguageSelect', () => ({
   LanguageSelect: () => <div data-testid="language-select">Language</div>,
 }));
 
-vi.mock('@/app/domains/auth/ui/MainNavigationButtons', () => ({
-  AuthButtons: () => <div data-testid="auth-buttons">Auth</div>,
+vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
+  NavButtons: ({ items, onAction }: { items: any[]; onAction: (action: string) => void }) => (
+    <div data-testid="auth-buttons">
+      {items.map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          data-testid={`auth-button-${item.id}`}
+          onClick={() => item.action && onAction(item.action)}
+        >
+          {item.title}
+        </button>
+      ))}
+    </div>
+  ),
+}));
+
+vi.mock('@/app/domains/auth/hooks/use-signout-action', () => ({
+  useSignOutAction: () => vi.fn(),
 }));
 
 vi.mock('@chakra-ui/react', async () => {
@@ -64,7 +81,7 @@ Object.defineProperty(window, 'scrollTo', {
   value: mockScrollTo,
 });
 
-describe.skip('Header', () => {
+describe('Header', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     window.scrollY = 0;
