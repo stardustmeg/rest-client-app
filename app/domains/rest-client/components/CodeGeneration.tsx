@@ -20,7 +20,7 @@ const DEBOUNCE_TIME = 300;
 
 let timer: ReturnType<typeof setTimeout> | null = null;
 
-export const debounce = (fn: () => void) => {
+const debounce = (fn: () => void) => {
   return () => {
     if (timer) {
       clearTimeout(timer);
@@ -32,7 +32,6 @@ export const debounce = (fn: () => void) => {
 export const CodeGeneration = () => {
   const languageList = use(CodeGenLanguageContext);
   const selectedLanguage = useRef(languageList[0]);
-  const latestRequestId = useRef(0);
 
   const [isLoading, startTransition] = useTransition();
 
@@ -52,7 +51,6 @@ export const CodeGeneration = () => {
   const { resolveVariables } = useResolveVariables();
 
   useEffect(() => {
-    const requestId = ++latestRequestId.current;
     debounce(() => {
       startTransition(async () => {
         const code = await Promise.try(() =>
@@ -66,22 +64,20 @@ export const CodeGeneration = () => {
           return '';
         });
 
-        if (requestId === latestRequestId.current) {
-          startTransition(() => {
-            setSnippet(code ?? '');
-          });
-        }
+        startTransition(() => {
+          setSnippet(code);
+        });
       });
     })();
   }, [method, endpoint, headers, body, languageConfig, errorToast, resolveVariables]);
 
   const highlightedCode = useHighlightSyntax(languageConfig.language, snippet);
 
-  const languages = languageList.map((lang) => ({ value: lang.key, label: lang.label }));
+  const languages = languageList.map(({ key, label }) => ({ value: key, label }));
   const variants = selectedLanguage.current.variants.map((v) => ({ value: v, label: v })) ?? [];
 
   const handleLanguageChange = ({ language, variant }: { language: string; variant?: string }) => {
-    selectedLanguage.current = languageList.find((l) => l.key === language) ?? languageList[0];
+    selectedLanguage.current = languageList.find(({ key }) => key === language) ?? languageList[0];
     selectedLanguage.current.selectedVariant = variant ?? selectedLanguage.current.selectedVariant;
 
     setLanguageConfig({
