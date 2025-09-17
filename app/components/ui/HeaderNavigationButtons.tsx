@@ -22,7 +22,7 @@ const headerMenuItems: NavConfigItem[] = [
 export const HeaderNavigationButtons = () => (
   <nav>
     <Flex gap="1" align="center" justify="start" direction="row" wrap="wrap">
-      <NavButtons items={headerMenuItems} variant="ghost" size="sm" px="2" />
+      <NavButtons items={headerMenuItems} variant="ghost" size="sm" px="1" />
     </Flex>
   </nav>
 );

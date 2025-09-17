@@ -28,8 +28,9 @@ const burgerMenuItems: NavConfigItem[] = [
   toRestClient,
   toHistoryAndAnalytics,
   toVariables,
-  doSignOut,
 ];
+
+const burgerMenuItemSignOut = [doSignOut];
 
 export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => {
   const handleNavButtonsAction = useSignOutAction();
@@ -65,9 +66,8 @@ export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => {
               <NavButtons
                 items={burgerMenuItems}
                 variant="ghost"
-                size="lg"
-                px="2"
-                onAction={handleNavButtonsAction}
+                size="sm"
+                px="1"
                 onClick={onClose}
               />
             </VStack>
@@ -78,6 +78,14 @@ export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => {
                 <ColorModeSelector />
                 <LanguageSelect disablePortal />
               </HStack>
+              <NavButtons
+                items={burgerMenuItemSignOut}
+                variant="solid"
+                size="sm"
+                px="1"
+                onAction={handleNavButtonsAction}
+                onClick={onClose}
+              />
             </VStack>
           </VStack>
         </Box>

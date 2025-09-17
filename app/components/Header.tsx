@@ -86,7 +86,12 @@ export const Header = () => {
                 <ColorSchemeSelector />
                 <ColorModeSelector />
                 <LanguageSelect />
-                <NavButtons items={headerMenuItems} onAction={handleNavButtonsAction} />
+                <NavButtons
+                  items={headerMenuItems}
+                  size="sm"
+                  px="1"
+                  onAction={handleNavButtonsAction}
+                />
               </>
             )}
           </HStack>
