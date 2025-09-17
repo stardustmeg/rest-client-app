@@ -28,7 +28,7 @@ export const handlers = [
 
   http.post('https://jsonplaceholder.typicode.com/posts', async ({ request }) => {
     const body = await request.json();
-    return HttpResponse.json({ id: Date.now(), body }, { status: 201 });
+    return HttpResponse.json({ body }, { status: 201 });
   }),
 
   http.put('https://jsonplaceholder.typicode.com/posts/:id', async ({ params, request }) => {

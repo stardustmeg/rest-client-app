@@ -60,7 +60,10 @@ export async function proxySendRequest({
   }
 }
 
-function calculateRequestSize({ headers, body }: Pick<RestFormData, 'headers' | 'body'>): number {
+export function calculateRequestSize({
+  headers,
+  body,
+}: Pick<RestFormData, 'headers' | 'body'>): number {
   const textEncoder = new TextEncoder();
 
   let size = 0;
