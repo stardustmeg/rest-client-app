@@ -7,7 +7,7 @@ describe(ErrorBoundaryFallback.name, () => {
   it('should render', () => {
     render(
       <TestProviders>
-        <ErrorBoundaryFallback error={new Error('test error')} reset={vi.fn()} />
+        <ErrorBoundaryFallback reset={vi.fn()} />
       </TestProviders>,
     );
 
@@ -23,7 +23,7 @@ describe(ErrorBoundaryFallback.name, () => {
 
     const { user } = renderWithUserEvent(
       <TestProviders>
-        <ErrorBoundaryFallback error={new Error('test error')} reset={mockReset} />
+        <ErrorBoundaryFallback reset={mockReset} />
       </TestProviders>,
     );
 
