@@ -42,6 +42,7 @@ describe(useInitFormAtoms.name, () => {
 
   it('calls resetAtoms when formData is null', () => {
     renderHook(() => useInitFormAtoms(null));
+
     expect(resetAtoms).toHaveBeenCalledTimes(1);
     expect(setMethod).not.toHaveBeenCalled();
     expect(setEndpoint).not.toHaveBeenCalled();

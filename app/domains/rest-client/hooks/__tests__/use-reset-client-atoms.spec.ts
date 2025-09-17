@@ -35,9 +35,11 @@ describe(useResetClientAtoms.name, () => {
 
   it('calls all reset functions', () => {
     const { result } = renderHook(() => useResetClientAtoms());
+
     act(() => {
       result.current();
     });
+
     expect(resetMethod).toHaveBeenCalledTimes(1);
     expect(resetEndpoint).toHaveBeenCalledTimes(1);
     expect(resetHeaders).toHaveBeenCalledTimes(1);
