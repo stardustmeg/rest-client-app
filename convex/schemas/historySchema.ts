@@ -1,7 +1,6 @@
 import { v } from 'convex/values';
 
 export const historySchema = {
-  ok: v.boolean(),
   userId: v.id('users'),
   requestDuration: v.number(),
   responseStatusCode: v.number(),
@@ -15,9 +14,9 @@ export const historySchema = {
   ),
   requestSize: v.number(),
   responseSize: v.number(),
-  errorDetails: v.optional(v.string()),
+  errorDetails: v.union(v.string(), v.null()),
   endpoint: v.string(),
-  body: v.object({
+  requestBody: v.object({
     value: v.optional(v.string()),
     type: v.optional(v.string()),
   }),

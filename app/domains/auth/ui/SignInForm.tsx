@@ -13,7 +13,7 @@ import { useToast } from '@/app/hooks/use-toast';
 import { Link } from '@/i18n/routing';
 
 export const SignInForm = () => {
-  const { success, error } = useToast();
+  const { successToast, errorToast } = useToast();
 
   const t = useTranslations('form');
   const tNotification = useTranslations('notifications');
@@ -34,8 +34,8 @@ export const SignInForm = () => {
 
   const handleSignIn = (data: SignInFormType) =>
     signIn(data)
-      .then(() => success(tNotification('signInSuccess')))
-      .catch(() => error(tNotification('authError')));
+      .then(() => successToast(tNotification('signInSuccess')))
+      .catch(() => errorToast(tNotification('authError')));
 
   return (
     <form onSubmit={handleSubmit(handleSignIn)}>

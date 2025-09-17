@@ -40,11 +40,11 @@ const UserButtons = ({ onAction, variant }: AuthButtonsProps) => {
   const t = useTranslations('navigation');
   const tNotification = useTranslations('notifications');
   const { signOut } = useAuthActions();
-  const { success } = useToast();
+  const { successToast } = useToast();
 
   const handleSignOut = () => {
     signOut().finally(() => {
-      success(tNotification('signOutSuccess'));
+      successToast(tNotification('signOutSuccess'));
       onAction?.();
     });
   };

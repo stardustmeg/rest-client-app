@@ -17,17 +17,17 @@ describe(useToast.name, () => {
   it('should return all toast methods', () => {
     const { result } = renderHook(() => useToast());
 
-    expect(result.current.success).toBeDefined();
-    expect(result.current.error).toBeDefined();
-    expect(result.current.warning).toBeDefined();
-    expect(result.current.info).toBeDefined();
+    expect(result.current.successToast).toBeDefined();
+    expect(result.current.errorToast).toBeDefined();
+    expect(result.current.warningToast).toBeDefined();
+    expect(result.current.infoToast).toBeDefined();
   });
 
   it('should call toaster.create with success type and default duration', () => {
     const { result } = renderHook(() => useToast());
     const message = 'Success message';
 
-    result.current.success(message);
+    result.current.successToast(message);
 
     expect(mockToasterCreate).toHaveBeenCalledWith({
       title: message,
@@ -41,7 +41,7 @@ describe(useToast.name, () => {
     const { result } = renderHook(() => useToast());
     const message = 'Error message';
 
-    result.current.error(message);
+    result.current.errorToast(message);
 
     expect(mockToasterCreate).toHaveBeenCalledWith({
       title: message,
@@ -55,7 +55,7 @@ describe(useToast.name, () => {
     const { result } = renderHook(() => useToast());
     const message = 'Warning message';
 
-    result.current.warning(message);
+    result.current.warningToast(message);
 
     expect(mockToasterCreate).toHaveBeenCalledWith({
       title: message,
@@ -69,7 +69,7 @@ describe(useToast.name, () => {
     const { result } = renderHook(() => useToast());
     const message = 'Info message';
 
-    result.current.info(message);
+    result.current.infoToast(message);
 
     expect(mockToasterCreate).toHaveBeenCalledWith({
       title: message,
@@ -84,7 +84,7 @@ describe(useToast.name, () => {
     const message = 'Custom duration message';
     const customDuration = 5000;
 
-    result.current.success(message, customDuration);
+    result.current.successToast(message, customDuration);
 
     expect(mockToasterCreate).toHaveBeenCalledWith({
       title: message,

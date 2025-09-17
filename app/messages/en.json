@@ -132,7 +132,8 @@
       "status": "Status",
       "size": "Size",
       "time": "Time",
-      "requestFailedTitle": "Request failed"
+      "requestFailedTitle": "Request failed",
+      "userNotAuthenticated": "User not authenticated"
     }
   },
   "history": {

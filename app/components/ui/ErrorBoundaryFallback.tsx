@@ -8,7 +8,6 @@ const DOG_MEME_GIF_URL =
   'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeml3dW44ZXlkazFsZzFiaHluemlidXJqbHFxbmxmYjYweHg4azF3dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z5xk7fGO5FjjTElnpT/giphy.gif';
 
 export interface ErrorBoundaryFallbackProps {
-  error: Error & { digest?: string };
   reset: () => void;
 }
 
@@ -40,6 +39,7 @@ export const ErrorBoundaryFallback = ({ reset }: ErrorBoundaryFallbackProps) => 
         alt="Dog Meme"
         width={400}
         height={400}
+        priority
       />
     </div>
   );

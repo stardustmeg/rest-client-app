@@ -58,11 +58,13 @@ describe(RestForm.name, () => {
     await user.type(screen.getByTestId('rest-form-body-editor-json'), '{{"key": "value"}');
 
     await user.click(screen.getByTestId('rest-form-submit-button'));
-    expect(onSubmit).toHaveBeenCalledWith({
-      method: 'POST',
-      endpoint: '/test',
-      headers: [],
-      body: { type: 'json', value: '{"key": "value"}' },
-    });
+
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    const formData = onSubmit.mock.calls[0][0] as FormData;
+
+    expect(formData.get('method')).toBe('POST');
+    expect(formData.get('endpoint')).toBe('/test');
+    expect(formData.get('bodyType')).toBe('json');
+    expect(formData.get('bodyValue')).toBe('{"key": "value"}');
   });
 });

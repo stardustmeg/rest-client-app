@@ -61,12 +61,12 @@ describe('NavigationButtons', () => {
 
 describe('AuthButtons', () => {
   const signOut = vi.fn().mockResolvedValue({});
-  const success = vi.fn();
+  const successToast = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
     (useAuthActions as Mock).mockReturnValue({ signOut });
-    (useToast as Mock).mockReturnValue({ success });
+    (useToast as Mock).mockReturnValue({ successToast });
   });
 
   it('should render Sign In and Sign Up when unauthenticated', () => {
@@ -123,7 +123,7 @@ describe('AuthButtons', () => {
 
     await waitFor(() => {
       expect(signOut).toHaveBeenCalledTimes(1);
-      expect(success).toHaveBeenCalledWith('signOutSuccess');
+      expect(successToast).toHaveBeenCalledWith('signOutSuccess');
       expect(onAction).toHaveBeenCalledTimes(1);
     });
   });

@@ -68,10 +68,7 @@ export const useResolveVariables = () => {
   return { resolveVariables };
 };
 
-function replaceInObject({
-  data,
-  replaceFn,
-}: ReplaceInObjectProps): string | string[] | Record<PropertyKey, string> | unknown {
+function replaceInObject({ data, replaceFn }: ReplaceInObjectProps): unknown {
   if (typeof data === 'string') {
     return replaceFn(data);
   }

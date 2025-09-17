@@ -11,7 +11,10 @@ vi.mock('react-hook-form', () => ({
 
 vi.mock('@/app/hooks/use-toast', () => ({
   useToast: vi.fn().mockReturnValue({
-    success: vi.fn(),
+    successToast: vi.fn(),
+    errorToast: vi.fn(),
+    warningToast: vi.fn(),
+    infoToast: vi.fn(),
   }),
 }));
 
@@ -35,7 +38,7 @@ vi.mock('@hookform/resolvers/zod', () => ({
 export const mockUseForm = useForm as Mock;
 export const mockUseTranslations = useTranslations as Mock;
 export const mockUseToast = useToast as Mock;
-export const mockSuccess = mockUseToast().success;
+export const mockSuccess = mockUseToast().successToast;
 
 export const setupFormMocks = () => {
   const mockRegister = vi.fn();
