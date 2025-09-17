@@ -1,18 +1,13 @@
-'use client';
-import { Badge, Button, Card, Separator, Text } from '@chakra-ui/react';
-import { useResetAtom } from 'jotai/utils';
+import { Badge, Card, Separator, Text } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
-import { BsChevronRight } from 'react-icons/bs';
 import { routes } from '@/app/[locale]/routes';
 import { ResponseInformation } from '@/app/components/ui/ResponseInformation';
-import { Tooltip } from '@/app/components/ui/Tooltip';
 import type { BodyEditorContentType } from '@/app/domains/rest-client/components/BodyEditor';
 import { useToast } from '@/app/hooks/use-toast';
 import { encodeRequestUrl } from '@/app/lib/utils';
 import { formatValue } from '@/app/utils';
 import type { HistoryDataItem } from '@/convex/types';
-import { Link } from '@/i18n/routing';
-import { responseInfoAtom } from '../rest-client/atoms';
+import { HistoryRedirectLink } from './HistoryRedirectLink';
 
 interface HistoryListItemProps {
   item: HistoryDataItem;
@@ -35,11 +30,7 @@ export const HistoryListItem = ({
 }: HistoryListItemProps) => {
   const { errorToast } = useToast();
 
-  const resetResponseInfo = useResetAtom(responseInfoAtom);
-  resetResponseInfo();
-
   const getRestClientUrl = () => {
-    resetResponseInfo();
     const url = encodeRequestUrl(
       {
         endpoint,
@@ -94,13 +85,7 @@ export const HistoryListItem = ({
         )}
       </Card.Body>
       <Card.Footer className="flex place-content-end">
-        <Tooltip content={`${window.location.origin}${getRestClientUrl()}`}>
-          <Link href={getRestClientUrl()}>
-            <Button variant="ghost" size="sm">
-              <BsChevronRight />
-            </Button>
-          </Link>
-        </Tooltip>
+        <HistoryRedirectLink redirectLink={getRestClientUrl()} />
       </Card.Footer>
     </Card.Root>
   );
