@@ -82,7 +82,7 @@ describe('useLocalStorage', () => {
     });
 
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      'no_no_no_mister_fish_8c0a1a24-b273-4b98-91c6-c7d623fc53f1_test-key',
+      'no_no_no_mister_fish_test-key',
       JSON.stringify('updated-value'),
     );
     expect(window.dispatchEvent).toHaveBeenCalledWith(expect.any(StorageEvent));
@@ -99,7 +99,7 @@ describe('useLocalStorage', () => {
     });
 
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      'no_no_no_mister_fish_8c0a1a24-b273-4b98-91c6-c7d623fc53f1_test-key',
+      'no_no_no_mister_fish_test-key',
       JSON.stringify([1, 2, 3, 4]),
     );
   });
@@ -173,7 +173,7 @@ describe('useLocalStorage', () => {
     act(() => {
       window.dispatchEvent(
         new StorageEvent('storage', {
-          key: 'no_no_no_mister_fish_8c0a1a24-b273-4b98-91c6-c7d623fc53f1_test-key',
+          key: 'no_no_no_mister_fish_test-key',
         }),
       );
     });

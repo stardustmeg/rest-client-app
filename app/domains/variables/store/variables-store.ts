@@ -1,8 +1,10 @@
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
+import { useAuth } from '@/app/hooks/use-auth';
 import { useLocalStorage } from '@/app/hooks/use-local-storage';
 
 export const useVariablesActions = () => {
-  const [_, setVariables] = useLocalStorage<Variable[]>('variables', []);
+  const { userId } = useAuth();
+  const [_, setVariables] = useLocalStorage<Variable[]>(`variables_${userId}`, []);
 
   const addVariable = (value: Variable) => {
     setVariables((prev) => {

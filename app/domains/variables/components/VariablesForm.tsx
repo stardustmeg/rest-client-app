@@ -8,14 +8,16 @@ import { FormField } from '@/app/components/ui/FormField';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
 import { useVariablesActions } from '@/app/domains/variables/store/variables-store';
 import { type Variable, variablesSchema } from '@/app/domains/variables/types/variables-schema';
+import { useAuth } from '@/app/hooks/use-auth';
 import { useLocalStorage } from '@/app/hooks/use-local-storage';
 import { useToast } from '@/app/hooks/use-toast';
 
 export const VariablesForm = () => {
+  const { userId } = useAuth();
   const t = useTranslations('variables');
   const tValidation = useTranslations('validation');
   const { warningToast } = useToast();
-  const [variables] = useLocalStorage<Variable[]>('variables', []);
+  const [variables] = useLocalStorage<Variable[]>(`variables_${userId}`, []);
   const { addVariable } = useVariablesActions();
   const {
     handleSubmit,

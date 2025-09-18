@@ -8,9 +8,9 @@ import { useLocalStorage } from '@/app/hooks/use-local-storage';
 import type { Variable } from '../types/variables-schema';
 
 export const VariablesContent = () => {
-  const { isLoading } = useAuth();
+  const { isLoading, userId } = useAuth();
   const t = useTranslations('variables');
-  const [variables] = useLocalStorage<Variable[]>('variables', []);
+  const [variables] = useLocalStorage<Variable[]>(`variables_${userId}`, []);
   const { addVariable, updateVariable, deleteVariable, deleteAllVariables } = useVariablesActions();
 
   const keyValueItems: KeyValue[] = variables.map((v) => ({

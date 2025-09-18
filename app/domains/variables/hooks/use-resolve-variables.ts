@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
+import { useAuth } from '@/app/hooks/use-auth';
 import { useLocalStorage } from '@/app/hooks/use-local-storage';
 import type { Variable } from '../types/variables-schema';
 
@@ -16,7 +17,8 @@ interface ReplacePlaceholdersProps {
 const PLACEHOLDER_REGEX = /\{\{([^}]+)\}\}/g;
 
 export const useResolveVariables = () => {
-  const [variables] = useLocalStorage<Variable[]>('variables', []);
+  const { userId } = useAuth();
+  const [variables] = useLocalStorage<Variable[]>(`variables_${userId}`, []);
 
   const variablesMap = useMemo(
     () =>

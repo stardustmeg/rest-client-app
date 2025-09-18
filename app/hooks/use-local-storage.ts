@@ -1,6 +1,6 @@
 import { useCallback, useRef, useSyncExternalStore } from 'react';
 
-const LS_PREFIX = 'no_no_no_mister_fish_8c0a1a24-b273-4b98-91c6-c7d623fc53f1';
+const LS_PREFIX = 'no_no_no_mister_fish';
 
 export const getFullKey = (key: string): string => `${LS_PREFIX}_${key}`;
 
