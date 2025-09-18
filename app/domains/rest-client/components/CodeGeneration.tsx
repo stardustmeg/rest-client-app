@@ -64,9 +64,7 @@ export const CodeGeneration = () => {
           return '';
         });
 
-        startTransition(() => {
-          setSnippet(code);
-        });
+        startTransition(() => setSnippet(code));
       });
     })();
   }, [method, endpoint, headers, body, languageConfig, errorToast, resolveVariables]);
