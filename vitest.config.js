@@ -21,6 +21,8 @@ export default defineConfig({
         '**/*.config.*',
         '**/*.d.ts',
         '**/types/**',
+        'app/_pages/**',
+        'app/\\[locale\\]/**',
       ],
       extension: ['.ts', '.tsx'],
       reporter: ['text', 'lcov'],

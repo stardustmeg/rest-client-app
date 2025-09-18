@@ -17,7 +17,8 @@
       "!.github",
       "!favicon.ico",
       "!**/*.md",
-      "!**/*.yml"
+      "!**/*.yml",
+      "vitest.config.js"
     ]
   },
   "formatter": {
