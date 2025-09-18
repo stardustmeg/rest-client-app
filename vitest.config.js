@@ -6,6 +6,7 @@ export default defineConfig({
   server: { open: true },
   plugins: [tsconfigPaths(), react()],
   test: {
+    server: { deps: { inline: ['convex-test'] } },
     exclude: ['node_modules', 'dist', '.next'],
     globals: true,
     environment: 'jsdom',
