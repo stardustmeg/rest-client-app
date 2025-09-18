@@ -4,8 +4,6 @@ import { api } from '../_generated/api';
 import type { Id } from '../_generated/dataModel';
 import schema from '../schema';
 
-let testUserId: Id<'users'>;
-
 const mockItem1 = {
   requestBody: { type: 'jeson', value: '' },
   requestDuration: 200,
@@ -33,6 +31,8 @@ const mockItem2 = {
 };
 
 describe('getUserHistory', () => {
+  let testUserId: Id<'users'>;
+
   it('returns correct history items', async () => {
     const t = convexTest(schema);
 
@@ -99,5 +99,23 @@ describe('getUserHistory', () => {
 
     expect(hB).toHaveLength(1);
     expect(hB[0]).toEqual(expect.objectContaining(mockItem2));
+  });
+});
+
+describe('createHistoryItem', () => {
+  it('successfully creates a history item', async () => {
+    const t = convexTest(schema);
+
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert('users', { username: 'test', email: 'test' });
+    });
+
+    const historyItemId = await t.mutation(api.history.createHistoryItem, { ...mockItem1, userId });
+
+    const created = await t.run(async (ctx) => {
+      return await ctx.db.get(historyItemId);
+    });
+
+    expect(created).toMatchObject(mockItem1);
   });
 });
