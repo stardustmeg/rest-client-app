@@ -33,7 +33,7 @@ const mockItem2 = {
 };
 
 describe('getUserHistory', () => {
-  it('', async () => {
+  it('returns correct history items', async () => {
     const t = convexTest(schema);
 
     await t.run(async (ctx) => {
