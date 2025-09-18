@@ -27,7 +27,7 @@ export const VariablesForm = () => {
     resolver: zodResolver(variablesSchema),
   });
 
-  const handleAddVariable = (data: Omit<Variable, 'id'>) => {
+  const handleAddVariable = (data: Variable) => {
     const name = `{{${data.name}}}`;
     if (variables.some((v) => name === v.name)) {
       warningToast(tValidation('variableUniqueNameRequired'));

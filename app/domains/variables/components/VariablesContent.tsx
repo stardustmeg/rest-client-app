@@ -21,7 +21,7 @@ export const VariablesContent = () => {
     const variable = variables[index];
     if (!variable) return;
 
-    updateVariable(variable.id, {
+    updateVariable(index, {
       ...variable,
       name: field === 'key' ? value : variable.name,
       value: field === 'value' ? value : variable.value,
@@ -52,7 +52,7 @@ export const VariablesContent = () => {
           <KeyValueEditor
             items={keyValueItems}
             onChange={handleChange}
-            onDelete={(index) => deleteVariable(variables[index].id)}
+            onDelete={(index) => deleteVariable(index)}
             onAdd={() => addVariable({ name: '', value: '' })}
             addButtonText={t('addVariable')}
             placeholderKey={t('name')}

@@ -10,6 +10,4 @@ export const variablesSchema = z.object({
   value: z.string().min(1, { error: variablesErrorKeys.valueRequired }),
 });
 
-export type Variable = z.infer<typeof variablesSchema> & {
-  id: number;
-};
+export type Variable = z.infer<typeof variablesSchema>;
