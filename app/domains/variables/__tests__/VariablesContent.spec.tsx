@@ -10,12 +10,11 @@ const addVariable = vi.fn();
 const updateVariable = vi.fn();
 const deleteAllVariables = vi.fn();
 
-vi.mock('jotai', () => ({
-  useAtom: vi.fn(),
+vi.mock('@/app/hooks/use-local-storage', () => ({
+  useLocalStorage: vi.fn(),
 }));
 
 vi.mock('@/app/domains/variables/store/variables-store', () => ({
-  variablesAtom: 'mock-atom',
   useVariablesActions: vi.fn(),
 }));
 
@@ -33,8 +32,8 @@ describe('VariablesContent', () => {
   });
 
   it('should render "noVariables" when list is empty', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([[], vi.fn()]);
 
     renderWithUserEvent(
       <TestProviders>
@@ -46,8 +45,8 @@ describe('VariablesContent', () => {
   });
 
   it('should render inputs for variables', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [
         { id: 1, name: '{{var1}}', value: '123' },
         { id: 2, name: '{{var2}}', value: '456' },
@@ -68,8 +67,11 @@ describe('VariablesContent', () => {
   });
 
   it('should call deleteVariable when delete button is clicked', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[{ id: 1, name: '{{var1}}', value: '123' }], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
+      [{ id: 1, name: '{{var1}}', value: '123' }],
+      vi.fn(),
+    ]);
 
     const { user } = renderWithUserEvent(
       <TestProviders>
@@ -80,12 +82,15 @@ describe('VariablesContent', () => {
     const deleteBtn = screen.getByTestId('delete-button-0');
     await user.click(deleteBtn);
 
-    expect(deleteVariable).toHaveBeenCalledWith(1);
+    expect(deleteVariable).toHaveBeenCalledWith(0);
   });
 
   it('should call updateVariable when input changes', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[{ id: 1, name: '{{var1}}', value: '123' }], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
+      [{ id: 1, name: '{{var1}}', value: '123' }],
+      vi.fn(),
+    ]);
 
     const { user } = renderWithUserEvent(
       <TestProviders>
@@ -102,8 +107,8 @@ describe('VariablesContent', () => {
 
   it('should show skeleton when isLoading is true', async () => {
     (useAuth as Mock).mockReturnValue({ isLoading: true });
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([[], vi.fn()]);
 
     renderWithUserEvent(
       <TestProviders>
@@ -115,8 +120,11 @@ describe('VariablesContent', () => {
   });
 
   it('should call updateVariable when value input changes', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[{ id: 1, name: '{{var1}}', value: '123' }], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
+      [{ id: 1, name: '{{var1}}', value: '123' }],
+      vi.fn(),
+    ]);
 
     const { user } = renderWithUserEvent(
       <TestProviders>

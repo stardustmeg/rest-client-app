@@ -4,13 +4,8 @@ import { TestProviders } from '@/app/__tests__/utils';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import { useResolveVariables } from '@/app/domains/variables/hooks/use-resolve-variables';
 
-vi.mock('jotai', () => ({
-  useAtom: vi.fn(),
-}));
-
-vi.mock('@/app/domains/variables/store/variables-store', () => ({
-  variablesAtom: 'mock-atom',
-  useVariablesActions: vi.fn(),
+vi.mock('@/app/hooks/use-local-storage', () => ({
+  useLocalStorage: vi.fn(),
 }));
 
 // biome-ignore lint/complexity/noExcessiveLinesPerFunction: <sss>
@@ -20,8 +15,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should resolve variables in URL', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [
         { id: 1, name: '{{userId}}', value: '123' },
         { id: 2, name: '{{postId}}', value: '456' },
@@ -46,8 +41,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should resolve variables in headers', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [
         { id: 1, name: '{{token}}', value: 'abc123' },
         { id: 2, name: '{{contentType}}', value: 'application/json' },
@@ -78,8 +73,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should resolve variables in JSON body', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [
         { id: 1, name: '{{userName}}', value: 'John Doe' },
         { id: 2, name: '{{userAge}}', value: '30' },
@@ -108,8 +103,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should resolve variables in nested JSON objects', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [
         { id: 1, name: '{{userName}}', value: 'John Doe' },
         { id: 2, name: '{{userAge}}', value: '30' },
@@ -142,8 +137,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should resolve variables in JSON arrays', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [
         { id: 1, name: '{{user1}}', value: 'Alice' },
         { id: 2, name: '{{user2}}', value: 'Bob' },
@@ -173,8 +168,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should resolve variables in text body', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [
         { id: 1, name: '{{userName}}', value: 'John' },
         { id: 2, name: '{{orderId}}', value: '12345' },
@@ -202,8 +197,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should handle invalid JSON gracefully', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [{ id: 1, name: '{{variable}}', value: 'resolvedValue' }],
       vi.fn(),
     ]);
@@ -228,8 +223,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should throw error for missing variables', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [{ id: 1, name: '{{existingVar}}', value: 'value' }],
       vi.fn(),
     ]);
@@ -249,8 +244,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should throw error for missing variables in headers', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [{ id: 1, name: '{{existingVar}}', value: 'value' }],
       vi.fn(),
     ]);
@@ -275,8 +270,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should throw error for missing variables in JSON body', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [{ id: 1, name: '{{existingVar}}', value: 'value' }],
       vi.fn(),
     ]);
@@ -301,8 +296,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should throw error when variables array is empty', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([[], vi.fn()]);
 
     const { result } = renderHook(() => useResolveVariables(), {
       wrapper: TestProviders,
@@ -321,8 +316,8 @@ describe('useResolveVariables', () => {
   });
 
   it('should handle variables with whitespace', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
       [
         { id: 1, name: '{{  userId  }}', value: '123' },
         { id: 2, name: '{{userName}}', value: 'John' },
