@@ -5,7 +5,7 @@ export const toMain = {
   id: 'mainToMain',
   title: routes.main.translationKey,
   route: routes.main.path,
-  policy: 'public',
+  policy: 'authenticated',
 } satisfies NavConfigItem;
 
 export const toSignIn = {

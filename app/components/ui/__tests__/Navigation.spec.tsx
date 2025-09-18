@@ -47,9 +47,6 @@ describe('HeaderNavigationButtons', () => {
       </TestProviders>,
     );
 
-    expect(screen.getByTestId('nav-button-mainToMain')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-button-signIn')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-button-signUp')).toBeInTheDocument();
     expect(screen.getByTestId('nav-button-restClient')).toBeInTheDocument();
     expect(screen.getByTestId('nav-button-historyAndAnalytics')).toBeInTheDocument();
     expect(screen.getByTestId('nav-button-variables')).toBeInTheDocument();
@@ -62,7 +59,7 @@ describe('HeaderNavigationButtons', () => {
       </TestProviders>,
     );
 
-    const EXPECTED_HEADER_ITEMS_COUNT = 6;
+    const EXPECTED_HEADER_ITEMS_COUNT = 3;
     const buttons = screen.getAllByTestId(/nav-button-/);
     expect(buttons).toHaveLength(EXPECTED_HEADER_ITEMS_COUNT);
   });
@@ -74,9 +71,6 @@ describe('HeaderNavigationButtons', () => {
       </TestProviders>,
     );
 
-    expect(screen.getByText('main')).toBeInTheDocument();
-    expect(screen.getByText('signIn')).toBeInTheDocument();
-    expect(screen.getByText('signUp')).toBeInTheDocument();
     expect(screen.getByText('restClient')).toBeInTheDocument();
     expect(screen.getByText('historyAndAnalytics')).toBeInTheDocument();
     expect(screen.getByText('variables')).toBeInTheDocument();

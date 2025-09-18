@@ -10,12 +10,12 @@ import { HeaderNavigationButtons } from '@/app/components/ui/HeaderNavigationBut
 import { LanguageSelect } from '@/app/components/ui/LanguageSelect';
 import { useSignOutAction } from '@/app/domains/auth/hooks/use-signout-action';
 import { NavButtons } from '@/app/domains/auth/ui/nav-items/NavButtons';
-import { doSignOut } from '@/data/navLinksInfo';
+import { doSignOut, toMain, toSignIn, toSignUp } from '@/data/navLinksInfo';
 
 const SCROLL_THRESHOLD = 10;
 const FADE_IN_ANIMATION_DURATION = 600;
 
-const headerMenuItems = [doSignOut];
+const headerMenuItems = [toMain, doSignOut, toSignIn, toSignUp];
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
