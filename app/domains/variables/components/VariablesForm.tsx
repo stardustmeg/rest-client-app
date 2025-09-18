@@ -1,20 +1,21 @@
+'use client';
 import { Flex, Heading, IconButton, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAtom } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { BsPlusLg } from 'react-icons/bs';
 import { FormField } from '@/app/components/ui/FormField';
 import { getValidationError } from '@/app/domains/auth/get-validation-error';
-import { useVariablesActions, variablesAtom } from '@/app/domains/variables/store/variables-store';
+import { useVariablesActions } from '@/app/domains/variables/store/variables-store';
 import { type Variable, variablesSchema } from '@/app/domains/variables/types/variables-schema';
+import { useLocalStorage } from '@/app/hooks/use-local-storage';
 import { useToast } from '@/app/hooks/use-toast';
 
 export const VariablesForm = () => {
   const t = useTranslations('variables');
   const tValidation = useTranslations('validation');
   const { warningToast } = useToast();
-  const [variables] = useAtom(variablesAtom);
+  const [variables] = useLocalStorage<Variable[]>('variables', []);
   const { addVariable } = useVariablesActions();
   const {
     handleSubmit,

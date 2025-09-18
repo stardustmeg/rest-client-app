@@ -1,7 +1,7 @@
-import { useAtom } from 'jotai';
 import { useCallback, useMemo } from 'react';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
-import { variablesAtom } from '@/app/domains/variables/store/variables-store';
+import { useLocalStorage } from '@/app/hooks/use-local-storage';
+import type { Variable } from '../types/variables-schema';
 
 interface ReplaceInObjectProps {
   data: unknown;
@@ -16,7 +16,7 @@ interface ReplacePlaceholdersProps {
 const PLACEHOLDER_REGEX = /\{\{([^}]+)\}\}/g;
 
 export const useResolveVariables = () => {
-  const [variables] = useAtom(variablesAtom);
+  const [variables] = useLocalStorage<Variable[]>('variables', []);
 
   const variablesMap = useMemo(
     () =>

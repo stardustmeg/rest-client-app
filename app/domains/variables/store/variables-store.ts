@@ -1,10 +1,8 @@
-import { atom, useSetAtom } from 'jotai';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
-
-export const variablesAtom = atom<Variable[]>([]);
+import { useLocalStorage } from '@/app/hooks/use-local-storage';
 
 export const useVariablesActions = () => {
-  const setVariables = useSetAtom(variablesAtom);
+  const [_, setVariables] = useLocalStorage<Variable[]>('variables', []);
 
   const addVariable = (value: Variable) => {
     setVariables((prev) => {
