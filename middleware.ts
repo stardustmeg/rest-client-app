@@ -1,13 +1,19 @@
 import { convexAuthNextjsMiddleware, createRouteMatcher } from '@convex-dev/auth/nextjs/server';
-import { NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { routes } from '@/app/[locale]/routes';
 import { type RoutingLocales, routing } from '@/i18n/routing';
 
-const DAYS = 30;
-const MAX_COOKIE_LIFESPAN = 60 * 60 * 24 * DAYS;
-const AUTH_ROUTES = ['/sign-in(.*)', '/sign-up(.*)'];
-const PROTECTED_ROUTES = ['/rest-client(.*)', '/history-and-analytics(.*)', '/variables(.*)'];
+const AUTH_ROUTES = routing.locales.flatMap((locale) => [
+  `/${locale}/sign-in(.*)`,
+  `/${locale}/sign-up(.*)`,
+]);
+
+const PROTECTED_ROUTES = routing.locales.flatMap((locale) => [
+  `/${locale}/rest-client(.*)`,
+  `/${locale}/history-and-analytics(.*)`,
+  `/${locale}/variables(.*)`,
+]);
 
 const isAuthRoute = createRouteMatcher(AUTH_ROUTES);
 
@@ -19,8 +25,8 @@ function getLocaleFromPath(pathname: string): string | null {
   return routing.locales.includes(possibleLocale as RoutingLocales) ? possibleLocale : null;
 }
 
-function createRedirectUrl(request: Request, path: string, returnTo?: string): URL {
-  const locale = getLocaleFromPath(request.url) || routing.defaultLocale;
+function createRedirectUrl(request: NextRequest, path: string, returnTo?: string): URL {
+  const locale = getLocaleFromPath(request.nextUrl.pathname) || routing.defaultLocale;
   const redirectUrl = new URL(`/${locale}${path}`, request.url);
 
   if (returnTo) {
@@ -32,26 +38,21 @@ function createRedirectUrl(request: Request, path: string, returnTo?: string): U
 
 const handleI18nRouting = createMiddleware(routing);
 
-export default convexAuthNextjsMiddleware(
-  async (request, { convexAuth }) => {
-    const isAuthenticated = await convexAuth.isAuthenticated();
+export default convexAuthNextjsMiddleware(async (request: NextRequest, { convexAuth }) => {
+  const isAuthenticated = await convexAuth.isAuthenticated();
 
-    if (isAuthRoute(request) && isAuthenticated) {
-      const redirectUrl = createRedirectUrl(request, routes.main.path);
-      return NextResponse.redirect(redirectUrl);
-    }
+  if (isAuthRoute(request) && isAuthenticated) {
+    const redirectUrl = createRedirectUrl(request, routes.main.path);
+    return NextResponse.redirect(redirectUrl);
+  }
 
-    if (isProtectedRoute(request) && !isAuthenticated) {
-      const redirectUrl = createRedirectUrl(request, routes.signIn.path, request.nextUrl.pathname);
-      return NextResponse.redirect(redirectUrl);
-    }
+  if (isProtectedRoute(request) && !isAuthenticated) {
+    const redirectUrl = createRedirectUrl(request, routes.signIn.path, request.nextUrl.pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
 
-    return handleI18nRouting(request);
-  },
-  {
-    cookieConfig: { maxAge: MAX_COOKIE_LIFESPAN },
-  },
-);
+  return handleI18nRouting(request);
+});
 
 export const config = {
   matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],

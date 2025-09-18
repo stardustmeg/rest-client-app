@@ -6,7 +6,6 @@ import type messages from '@/app/messages/en.json';
 export const routing = defineRouting({
   locales: ['en', 'ru', 'jp'],
   defaultLocale: 'en',
-  localePrefix: 'never',
 });
 
 export type MessagesType = typeof messages;
