@@ -13,7 +13,7 @@ vi.mock('@/app/hooks/use-auth-actions', () => ({
 
 vi.mock('@/app/hooks/use-toast', () => ({
   useToast: () => ({
-    success: mockSuccessToast,
+    successToast: mockSuccessToast,
   }),
 }));
 

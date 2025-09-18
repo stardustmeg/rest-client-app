@@ -7,13 +7,14 @@ import type { WithRequired } from '@/types/types';
 
 export const useSignOutAction = () => {
   const { signOut } = useAuthActions();
-  const { success } = useToast();
+  const { successToast } = useToast();
   const tNotification = useTranslations('notifications');
 
   return useCallback<WithRequired<NavButtonsProps, 'onAction'>['onAction']>(
     (action) => {
-      action === 'signOut' && signOut().finally(() => success(tNotification('signOutSuccess')));
+      action === 'signOut' &&
+        signOut().finally(() => successToast(tNotification('signOutSuccess')));
     },
-    [signOut, success, tNotification],
+    [signOut, successToast, tNotification],
   );
 };
