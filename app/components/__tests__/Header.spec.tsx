@@ -4,6 +4,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
+import type { NavConfigItem } from '@/app/domains/auth/ui/nav-items/types';
 import { Header } from '../Header';
 
 vi.mock('@/app/components/ui/BurgerButton', () => ({
@@ -25,8 +26,8 @@ vi.mock('@/app/components/ui/BurgerMenu', () => ({
     ) : null,
 }));
 
-vi.mock('@/app/components/ui/Navigation', () => ({
-  Navigation: () => <nav data-testid="navigation">Navigation</nav>,
+vi.mock('@/app/components/ui/HeaderNavigationButtons', () => ({
+  HeaderNavigationButtons: () => <nav data-testid="navigation">Navigation</nav>,
 }));
 
 vi.mock('@/app/components/ui/ColorModeSelector', () => ({
@@ -41,8 +42,31 @@ vi.mock('@/app/components/ui/LanguageSelect', () => ({
   LanguageSelect: () => <div data-testid="language-select">Language</div>,
 }));
 
-vi.mock('@/app/domains/auth/ui/NavigationButtons', () => ({
-  AuthButtons: () => <div data-testid="auth-buttons">Auth</div>,
+vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
+  NavButtons: ({
+    items,
+    onAction,
+  }: {
+    items: NavConfigItem[];
+    onAction: (action: string) => void;
+  }) => (
+    <div data-testid="auth-buttons">
+      {items.map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          data-testid={`auth-button-${item.id}`}
+          onClick={() => item.action && onAction(item.action)}
+        >
+          {item.title}
+        </button>
+      ))}
+    </div>
+  ),
+}));
+
+vi.mock('@/app/domains/auth/hooks/use-signout-action', () => ({
+  useSignOutAction: () => vi.fn(),
 }));
 
 vi.mock('@chakra-ui/react', async () => {
