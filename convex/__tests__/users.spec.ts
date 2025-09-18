@@ -1,35 +1,39 @@
-import { getAuthUserId } from '@convex-dev/auth/server';
 import { convexTest } from 'convex-test';
-import { describe, expect, it, type Mock, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { api } from '../_generated/api';
+import type { Id } from '../_generated/dataModel';
 import schema from '../schema';
 
-vi.mock(import('@convex-dev/auth/server'), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    getAuthUserId: vi.fn(),
-  };
-});
+let testUserId: Id<'users'>;
 
 describe('currentUser', () => {
-  it('returns null', async () => {
+  it('returns null if not authenticated', async () => {
     const t = convexTest(schema);
 
-    (getAuthUserId as Mock).mockResolvedValueOnce(null);
-
     const user = await t.query(api.users.currentUser);
+
     expect(user).toBeNull();
   });
 
-  it('creates and returns user', async () => {
-    const t = convexTest();
+  it('returns the user if authenticated', async () => {
+    const t = convexTest(schema);
 
-    const user = await t.run(async (ctx) => {
-      await ctx.db.insert('users', { login: 'login', password: 'password' });
-      return await ctx.db.query('users').first();
+    await t.run(async (ctx) => {
+      testUserId = await ctx.db.insert('users', { username: 'login', email: 'email' });
     });
 
-    expect(user).toEqual(expect.objectContaining({ login: 'login', password: 'password' }));
+    const asUser = t.withIdentity({ subject: testUserId });
+    const user = await asUser.query(api.users.currentUser);
+
+    expect(user).toEqual(expect.objectContaining({ username: 'login', email: 'email' }));
+  });
+
+  it('returns null if authenticated but user does not exist', async () => {
+    const t = convexTest(schema);
+
+    const asUser = t.withIdentity({ subject: 'a' });
+    const user = await asUser.query(api.users.currentUser);
+
+    expect(user).toBeNull();
   });
 });
