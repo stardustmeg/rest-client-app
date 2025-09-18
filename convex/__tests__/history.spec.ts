@@ -48,11 +48,56 @@ describe('getUserHistory', () => {
 
     const asTestUser = t.withIdentity({ subject: testUserId });
 
-    const h = await asTestUser.query(api.history.get);
+    const h = await asTestUser.query(api.history.getUserHistory);
 
     expect(h).toHaveLength(2);
 
-    expect(h[0]).toEqual(expect.objectContaining(mockItem1));
-    expect(h[1]).toEqual(expect.objectContaining(mockItem2));
+    expect(h[0]).toEqual(expect.objectContaining(mockItem2));
+    expect(h[1]).toEqual(expect.objectContaining(mockItem1));
+  });
+
+  it('returns empty array if user has no history', async () => {
+    const t = convexTest(schema);
+
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert('users', { username: 'b', email: 'b' });
+    });
+
+    const asTestUser = t.withIdentity({ subject: userId });
+    const h = await asTestUser.query(api.history.getUserHistory);
+
+    expect(h).toEqual([]);
+  });
+
+  it('throws if user is not authenticated', async () => {
+    const t = convexTest(schema);
+
+    await expect(t.query(api.history.getUserHistory)).rejects.toThrowError(
+      'User not authenticated',
+    );
+  });
+
+  it('does not return history of other users', async () => {
+    const t = convexTest(schema);
+
+    const [userA, userB] = await t.run(async (ctx) => {
+      const a = await ctx.db.insert('users', { username: 'a', email: 'a' });
+      const b = await ctx.db.insert('users', { username: 'b', email: 'b' });
+      await ctx.db.insert('history', { ...mockItem1, userId: a });
+      await ctx.db.insert('history', { ...mockItem2, userId: b });
+      return [a, b];
+    });
+
+    const asUserA = t.withIdentity({ subject: userA });
+    const hA = await asUserA.query(api.history.getUserHistory);
+
+    expect(hA).toHaveLength(1);
+    expect(hA[0]).toEqual(expect.objectContaining(mockItem1));
+
+    const asUserB = t.withIdentity({ subject: userB });
+    const hB = await asUserB.query(api.history.getUserHistory);
+
+    expect(hB).toHaveLength(1);
+    expect(hB[0]).toEqual(expect.objectContaining(mockItem2));
   });
 });
