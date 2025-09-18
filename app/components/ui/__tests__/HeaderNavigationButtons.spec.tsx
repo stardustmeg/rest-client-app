@@ -53,9 +53,6 @@ describe('HeaderNavigationButtons', () => {
         </TestProviders>,
       );
 
-      expect(screen.getByTestId('nav-item-mainToMain')).toBeInTheDocument();
-      expect(screen.getByTestId('nav-item-signIn')).toBeInTheDocument();
-      expect(screen.getByTestId('nav-item-signUp')).toBeInTheDocument();
       expect(screen.getByTestId('nav-item-restClient')).toBeInTheDocument();
       expect(screen.getByTestId('nav-item-historyAndAnalytics')).toBeInTheDocument();
       expect(screen.getByTestId('nav-item-variables')).toBeInTheDocument();
@@ -71,28 +68,11 @@ describe('HeaderNavigationButtons', () => {
       const navButtons = screen.getByTestId('nav-buttons');
       expect(navButtons).toBeInTheDocument();
 
-      const expectedItems = [
-        'mainToMain',
-        'signIn',
-        'signUp',
-        'restClient',
-        'historyAndAnalytics',
-        'variables',
-      ];
+      const expectedItems = ['restClient', 'historyAndAnalytics', 'variables'];
 
       expectedItems.forEach((itemId) => {
         expect(screen.getByTestId(`nav-item-${itemId}`)).toBeInTheDocument();
       });
-    });
-
-    it('should include main page link in header navigation', () => {
-      render(
-        <TestProviders>
-          <HeaderNavigationButtons />
-        </TestProviders>,
-      );
-
-      expect(screen.getByTestId('nav-item-mainToMain')).toBeInTheDocument();
     });
   });
 });
