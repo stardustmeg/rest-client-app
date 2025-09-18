@@ -18,7 +18,6 @@ export interface NavButtonsProps extends ButtonProps {
 
 export const NavButtons = ({ items, onAction, ...props }: NavButtonsProps) => {
   const t = useTranslations('navigation');
-
   const handleAction =
     (action: NavItemAction): MouseEventHandler<HTMLButtonElement> =>
     (e) => {
