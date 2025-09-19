@@ -12,3 +12,5 @@ declare module '@chakra-ui/react' {
     setColorScheme: (colorScheme: ColorScheme) => void;
   }
 }
+
+export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };

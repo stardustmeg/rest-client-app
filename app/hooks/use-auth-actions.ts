@@ -4,7 +4,7 @@ import { useAuthActions as useConvexAuthActions } from '@convex-dev/auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { routes } from '@/app/[locale]/routes';
-import type { SignInFormType, SignUpFormType } from '@/app/domains/auth/form-schemas';
+import type { SignInFormType, SignUpFormType } from '@/app/domains/auth/types/form-schemas';
 import { useRouter } from '@/i18n/routing';
 
 export function useAuthActions() {

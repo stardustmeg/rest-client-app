@@ -4,12 +4,37 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
+import type { NavConfigItem } from '@/app/domains/auth/ui/nav-items/types';
 import { BurgerMenu } from '../BurgerMenu';
 
-vi.mock('@/app/components/ui/Navigation', () => ({
-  Navigation: ({ direction }: { direction: string }) => (
-    <div data-testid="navigation" data-direction={direction}>
-      Navigation
+vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
+  NavButtons: ({
+    items,
+    onAction,
+    onClick,
+  }: {
+    items: NavConfigItem[];
+    onAction?: (action: string) => void;
+    onClick?: () => void;
+  }) => (
+    <div data-testid="nav-buttons">
+      {items.map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          data-testid={`nav-button-${item.id}`}
+          onClick={() => {
+            if (item.action && onAction) {
+              onAction(item.action);
+            }
+            if (onClick) {
+              onClick();
+            }
+          }}
+        >
+          {item.title}
+        </button>
+      ))}
     </div>
   ),
 }));
@@ -26,12 +51,8 @@ vi.mock('@/app/components/ui/LanguageSelect', () => ({
   LanguageSelect: () => <div data-testid="language-select">Language</div>,
 }));
 
-vi.mock('@/app/domains/auth/ui/NavigationButtons', () => ({
-  AuthButtons: ({ onAction }: { onAction: () => void }) => (
-    <button type="button" data-testid="auth-buttons" onClick={onAction}>
-      Auth
-    </button>
-  ),
+vi.mock('@/app/domains/auth/hooks/use-signout-action', () => ({
+  useSignOutAction: () => vi.fn(),
 }));
 
 describe('BurgerMenu', () => {
@@ -52,7 +73,8 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      expect(screen.queryByTestId('navigation')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('nav-buttons')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('color-mode-selector')).not.toBeInTheDocument();
     });
 
     it('should render all components when open', () => {
@@ -62,22 +84,26 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      expect(screen.getByTestId('navigation')).toBeInTheDocument();
+      expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
       expect(screen.getByTestId('color-mode-selector')).toBeInTheDocument();
       expect(screen.getByTestId('color-scheme-selector')).toBeInTheDocument();
       expect(screen.getByTestId('language-select')).toBeInTheDocument();
-      expect(screen.getByTestId('auth-buttons')).toBeInTheDocument();
     });
 
-    it('should pass vertical direction to Navigation when open', () => {
+    it('should render navigation buttons for burger menu items', () => {
       render(
         <TestProviders>
           <BurgerMenu {...defaultProps} />
         </TestProviders>,
       );
 
-      const navigation = screen.getByTestId('navigation');
-      expect(navigation).toHaveAttribute('data-direction', 'vertical');
+      expect(screen.getByTestId('nav-button-mainToMain')).toBeInTheDocument();
+      expect(screen.getByTestId('nav-button-signIn')).toBeInTheDocument();
+      expect(screen.getByTestId('nav-button-signUp')).toBeInTheDocument();
+      expect(screen.getByTestId('nav-button-restClient')).toBeInTheDocument();
+      expect(screen.getByTestId('nav-button-historyAndAnalytics')).toBeInTheDocument();
+      expect(screen.getByTestId('nav-button-variables')).toBeInTheDocument();
+      expect(screen.getByTestId('nav-button-signOut')).toBeInTheDocument();
     });
 
     it('should render within Portal', () => {
@@ -87,8 +113,8 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      expect(container.querySelector('[data-testid="navigation"]')).toBeNull();
-      expect(screen.getByTestId('navigation')).toBeInTheDocument();
+      expect(container.querySelector('[data-testid="nav-buttons"]')).toBeNull();
+      expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
     });
   });
 
@@ -107,11 +133,11 @@ describe('BurgerMenu', () => {
         await user.click(backdrop as Element);
         expect(mockOnClose).toHaveBeenCalledTimes(1);
       } else {
-        expect(screen.getByTestId('navigation')).toBeInTheDocument();
+        expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
       }
     });
 
-    it('should call onClose when auth buttons trigger action', async () => {
+    it('should call onClose when navigation buttons are clicked', async () => {
       const mockOnClose = vi.fn();
       const { user } = renderWithUserEvent(
         <TestProviders>
@@ -119,8 +145,22 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      const authButton = screen.getByTestId('auth-buttons');
-      await user.click(authButton);
+      const navButton = screen.getByTestId('nav-button-mainToMain');
+      await user.click(navButton);
+
+      expect(mockOnClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call onClose when sign out button is clicked', async () => {
+      const mockOnClose = vi.fn();
+      const { user } = renderWithUserEvent(
+        <TestProviders>
+          <BurgerMenu {...defaultProps} onClose={mockOnClose} />
+        </TestProviders>,
+      );
+
+      const signOutButton = screen.getByTestId('nav-button-signOut');
+      await user.click(signOutButton);
 
       expect(mockOnClose).toHaveBeenCalledTimes(1);
     });
@@ -133,11 +173,11 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      const authButton = screen.getByTestId('auth-buttons');
+      const navButton = screen.getByTestId('nav-button-mainToMain');
 
-      await user.click(authButton);
-      await user.click(authButton);
-      await user.click(authButton);
+      await user.click(navButton);
+      await user.click(navButton);
+      await user.click(navButton);
 
       expect(mockOnClose).toHaveBeenCalledTimes(3);
     });
@@ -151,8 +191,10 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      expect(screen.getByTestId('navigation')).toBeInTheDocument();
-      expect(screen.getByTestId('auth-buttons')).toBeInTheDocument();
+      expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
+      expect(screen.getByTestId('color-mode-selector')).toBeInTheDocument();
+      expect(screen.getByTestId('color-scheme-selector')).toBeInTheDocument();
+      expect(screen.getByTestId('language-select')).toBeInTheDocument();
     });
 
     it('should have proper menu structure', () => {
@@ -162,18 +204,28 @@ describe('BurgerMenu', () => {
         </TestProviders>,
       );
 
-      const navigation = screen.getByTestId('navigation');
-      expect(navigation).toBeInTheDocument();
+      const navButtons = screen.getAllByTestId('nav-buttons');
+      expect(navButtons).toHaveLength(2);
 
       const colorMode = screen.getByTestId('color-mode-selector');
       const colorScheme = screen.getByTestId('color-scheme-selector');
       const language = screen.getByTestId('language-select');
-      const auth = screen.getByTestId('auth-buttons');
 
       expect(colorMode).toBeInTheDocument();
       expect(colorScheme).toBeInTheDocument();
       expect(language).toBeInTheDocument();
-      expect(auth).toBeInTheDocument();
+    });
+
+    it('should render correct number of navigation items', () => {
+      render(
+        <TestProviders>
+          <BurgerMenu {...defaultProps} />
+        </TestProviders>,
+      );
+
+      const EXPECTED_NAV_ITEMS_COUNT = 7;
+      const navButtons = screen.getAllByTestId(/nav-button-/);
+      expect(navButtons).toHaveLength(EXPECTED_NAV_ITEMS_COUNT);
     });
   });
 });

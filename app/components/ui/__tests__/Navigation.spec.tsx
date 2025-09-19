@@ -1,57 +1,28 @@
 /** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
-/** biome-ignore-all lint/suspicious/noExplicitAny: test mocks */
 /** biome-ignore-all lint/style/noMagicNumbers: test constants */
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
-import { Navigation } from '../Navigation';
+import type { NavConfigItem } from '@/app/domains/auth/ui/nav-items/types';
+import { HeaderNavigationButtons } from '../HeaderNavigationButtons';
 
-vi.mock('@/app/components/ui/NavigationLink', () => ({
-  NavigationLink: ({ route, direction }: { route: any; direction: string }) => (
-    <div data-testid={`nav-link-${route.translationKey}`} data-direction={direction}>
-      {route.translationKey}
+vi.mock('@/app/domains/auth/ui/nav-items/NavButtons', () => ({
+  NavButtons: ({ items }: { items: NavConfigItem[] }) => (
+    <div data-testid="nav-buttons">
+      {items.map((item) => (
+        <button key={item.id} type="button" data-testid={`nav-button-${item.id}`}>
+          {item.title}
+        </button>
+      ))}
     </div>
   ),
 }));
 
-vi.mock('@/app/[locale]/routes', () => ({
-  routes: {
-    main: {
-      path: '/',
-      translationKey: 'main',
-    },
-    restClient: {
-      path: '/rest-client',
-      translationKey: 'rest-client',
-    },
-    variables: {
-      path: '/variables',
-      translationKey: 'variables',
-    },
-    history: {
-      path: '/history-and-analytics',
-      translationKey: 'history',
-    },
-    signIn: {
-      path: '/sign-in',
-      translationKey: 'signIn',
-    },
-    signUp: {
-      path: '/sign-up',
-      translationKey: 'signUp',
-    },
-    notFound: {
-      path: '/404',
-      translationKey: 'notFound',
-    },
-  },
-}));
-
-describe('Navigation', () => {
+describe('HeaderNavigationButtons', () => {
   it('should render navigation element', () => {
     render(
       <TestProviders>
-        <Navigation />
+        <HeaderNavigationButtons />
       </TestProviders>,
     );
 
@@ -59,79 +30,49 @@ describe('Navigation', () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it('should render main navigation links', () => {
+  it('should render NavButtons component', () => {
     render(
       <TestProviders>
-        <Navigation />
+        <HeaderNavigationButtons />
       </TestProviders>,
     );
 
-    expect(screen.getByTestId('nav-link-main')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-link-rest-client')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-link-variables')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-link-history')).toBeInTheDocument();
+    expect(screen.getByTestId('nav-buttons')).toBeInTheDocument();
   });
 
-  it('should not render auth or notFound links', () => {
+  it('should render header navigation items', () => {
     render(
       <TestProviders>
-        <Navigation />
+        <HeaderNavigationButtons />
       </TestProviders>,
     );
 
-    expect(screen.queryByTestId('nav-link-signIn')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('nav-link-signUp')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('nav-link-notFound')).not.toBeInTheDocument();
+    expect(screen.getByTestId('nav-button-restClient')).toBeInTheDocument();
+    expect(screen.getByTestId('nav-button-historyAndAnalytics')).toBeInTheDocument();
+    expect(screen.getByTestId('nav-button-variables')).toBeInTheDocument();
   });
 
-  it('should render horizontal layout by default', () => {
+  it('should render correct number of header navigation items', () => {
     render(
       <TestProviders>
-        <Navigation />
+        <HeaderNavigationButtons />
       </TestProviders>,
     );
 
-    const links = screen.getAllByTestId(/nav-link-/);
-    links.forEach((link) => {
-      expect(link).toHaveAttribute('data-direction', 'horizontal');
-    });
+    const EXPECTED_HEADER_ITEMS_COUNT = 3;
+    const buttons = screen.getAllByTestId(/nav-button-/);
+    expect(buttons).toHaveLength(EXPECTED_HEADER_ITEMS_COUNT);
   });
 
-  it('should render vertical layout when specified', () => {
+  it('should render navigation items with correct titles', () => {
     render(
       <TestProviders>
-        <Navigation direction="vertical" />
+        <HeaderNavigationButtons />
       </TestProviders>,
     );
 
-    const links = screen.getAllByTestId(/nav-link-/);
-    links.forEach((link) => {
-      expect(link).toHaveAttribute('data-direction', 'vertical');
-    });
-  });
-
-  it('should render correct number of main routes', () => {
-    render(
-      <TestProviders>
-        <Navigation />
-      </TestProviders>,
-    );
-
-    const EXPECTED_MAIN_ROUTES_COUNT = 4;
-    const links = screen.getAllByTestId(/nav-link-/);
-    expect(links).toHaveLength(EXPECTED_MAIN_ROUTES_COUNT);
-  });
-
-  it('should pass route objects to NavigationLink', () => {
-    render(
-      <TestProviders>
-        <Navigation />
-      </TestProviders>,
-    );
-
-    expect(screen.getByText('main')).toBeInTheDocument();
-    expect(screen.getByText('rest-client')).toBeInTheDocument();
+    expect(screen.getByText('restClient')).toBeInTheDocument();
+    expect(screen.getByText('historyAndAnalytics')).toBeInTheDocument();
     expect(screen.getByText('variables')).toBeInTheDocument();
-    expect(screen.getByText('history')).toBeInTheDocument();
   });
 });
