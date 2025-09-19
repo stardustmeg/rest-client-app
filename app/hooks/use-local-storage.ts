@@ -24,12 +24,9 @@ export const useLocalStorage = <T>(key: string, initialValue: T): [T, SetValue<T
   );
 
   const getSnapshot = () => {
-    const value = localStorage.getItem(fullKey);
-    if (!value) {
-      return initialValue;
-    }
-    if (JSON.stringify(lastLocalStorageValue.current) !== value) {
-      lastLocalStorageValue.current = JSON.parse(value);
+    const savedValue = localStorage.getItem(fullKey);
+    if (savedValue && JSON.stringify(lastLocalStorageValue.current) !== savedValue) {
+      lastLocalStorageValue.current = JSON.parse(savedValue);
     }
     return lastLocalStorageValue.current;
   };
