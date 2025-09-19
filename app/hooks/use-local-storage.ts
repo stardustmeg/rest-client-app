@@ -13,14 +13,14 @@ export const useLocalStorage = <T>(key: string, initialValue: T): [T, SetValue<T
   const subscribe = useCallback(
     (callback: () => void) => {
       const handleStorageEvent = (event: StorageEvent) => {
-        if (event.key === getFullKey(key)) {
+        if (event.key === fullKey) {
           callback();
         }
       };
       window.addEventListener('storage', handleStorageEvent);
       return () => window.removeEventListener('storage', handleStorageEvent);
     },
-    [key],
+    [fullKey],
   );
 
   const getSnapshot = () => {
@@ -35,14 +35,17 @@ export const useLocalStorage = <T>(key: string, initialValue: T): [T, SetValue<T
 
   const value = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  const setValue: SetValue<T> = (v) => {
-    const newValue =
-      typeof v === 'function' ? (v as (prev: T) => T)(lastLocalStorageValue.current) : v;
-    const valueToStore = JSON.stringify(newValue);
-    localStorage.setItem(fullKey, valueToStore);
-    lastLocalStorageValue.current = newValue;
-    window.dispatchEvent(new StorageEvent('storage', { key: fullKey }));
-  };
+  const setValue: SetValue<T> = useCallback(
+    (v) => {
+      const newValue =
+        typeof v === 'function' ? (v as (prev: T) => T)(lastLocalStorageValue.current) : v;
+      const valueToStore = JSON.stringify(newValue);
+      localStorage.setItem(fullKey, valueToStore);
+      lastLocalStorageValue.current = newValue;
+      window.dispatchEvent(new StorageEvent('storage', { key: fullKey }));
+    },
+    [fullKey],
+  );
 
   return [value, setValue];
 };
