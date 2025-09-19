@@ -1,15 +1,16 @@
 import { Flex, IconButton, Separator, Skeleton, Text } from '@chakra-ui/react';
-import { useAtom } from 'jotai';
 import { useTranslations } from 'next-intl';
 import { BsTrash } from 'react-icons/bs';
 import { type KeyValue, KeyValueEditor } from '@/app/domains/rest-client/components/KeyValueEditor';
-import { useVariablesActions, variablesAtom } from '@/app/domains/variables/store/variables-store';
+import { useVariablesActions } from '@/app/domains/variables/store/variables-store';
 import { useAuth } from '@/app/hooks/use-auth';
+import { useLocalStorage } from '@/app/hooks/use-local-storage';
+import type { Variable } from '../types/variables-schema';
 
 export const VariablesContent = () => {
-  const { isLoading } = useAuth();
+  const { isLoading, userId } = useAuth();
   const t = useTranslations('variables');
-  const [variables] = useAtom(variablesAtom);
+  const [variables] = useLocalStorage<Variable[]>(`variables_${userId}`, []);
   const { addVariable, updateVariable, deleteVariable, deleteAllVariables } = useVariablesActions();
 
   const keyValueItems: KeyValue[] = variables.map((v) => ({
@@ -21,7 +22,7 @@ export const VariablesContent = () => {
     const variable = variables[index];
     if (!variable) return;
 
-    updateVariable(variable.id, {
+    updateVariable(index, {
       ...variable,
       name: field === 'key' ? value : variable.name,
       value: field === 'value' ? value : variable.value,
@@ -52,7 +53,7 @@ export const VariablesContent = () => {
           <KeyValueEditor
             items={keyValueItems}
             onChange={handleChange}
-            onDelete={(index) => deleteVariable(variables[index].id)}
+            onDelete={(index) => deleteVariable(index)}
             onAdd={() => addVariable({ name: '', value: '' })}
             addButtonText={t('addVariable')}
             placeholderKey={t('name')}
