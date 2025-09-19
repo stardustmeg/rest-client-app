@@ -1,27 +1,25 @@
-import { atom, useSetAtom } from 'jotai';
 import type { Variable } from '@/app/domains/variables/types/variables-schema';
-
-export const variablesAtom = atom<Variable[]>([]);
+import { useAuth } from '@/app/hooks/use-auth';
+import { useLocalStorage } from '@/app/hooks/use-local-storage';
 
 export const useVariablesActions = () => {
-  const setVariables = useSetAtom(variablesAtom);
+  const { userId } = useAuth();
+  const [_, setVariables] = useLocalStorage<Variable[]>(`variables_${userId}`, []);
 
-  const addVariable = (value: Omit<Variable, 'id'>) => {
+  const addVariable = (value: Variable) => {
     setVariables((prev) => {
-      const maxId = prev.length > 0 ? Math.max(...prev.map((v) => v.id)) : 0;
-      const newId = maxId + 1;
-      return [...prev, { ...value, id: newId }];
+      return [...prev, value];
     });
   };
 
-  const updateVariable = (id: number, updated: Partial<Omit<Variable, 'id'>>) => {
+  const updateVariable = (idx: number, updated: Partial<Variable>) => {
     setVariables((prev) =>
-      prev.map((variable) => (variable.id === id ? { ...variable, ...updated } : variable)),
+      prev.map((variable, i) => (i === idx ? { ...variable, ...updated } : variable)),
     );
   };
 
-  const deleteVariable = (id: number) => {
-    setVariables((prev) => prev.filter((variable) => variable.id !== id));
+  const deleteVariable = (idx: number) => {
+    setVariables((prev) => prev.filter((_v, i) => i !== idx));
   };
 
   const deleteAllVariables = () => {

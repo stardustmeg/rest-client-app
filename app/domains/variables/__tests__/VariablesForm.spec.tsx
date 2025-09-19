@@ -10,12 +10,11 @@ vi.mock('@/app/hooks/use-toast', () => ({
   useToast: () => ({ warningToast }),
 }));
 
-vi.mock('jotai', () => ({
-  useAtom: vi.fn(),
+vi.mock('@/app/hooks/use-local-storage', () => ({
+  useLocalStorage: vi.fn(),
 }));
 
 vi.mock('@/app/domains/variables/store/variables-store', () => ({
-  variablesAtom: 'mock-atom',
   useVariablesActions: vi.fn(),
 }));
 
@@ -30,8 +29,8 @@ describe('VariablesForm', () => {
   });
 
   it('should render form fields and submit button', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([[], vi.fn()]);
 
     renderWithUserEvent(
       <TestProviders>
@@ -45,8 +44,8 @@ describe('VariablesForm', () => {
   });
 
   it('should add variable when form is submitted with valid data', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([[], vi.fn()]);
 
     const { user } = renderWithUserEvent(
       <TestProviders>
@@ -62,8 +61,11 @@ describe('VariablesForm', () => {
   });
 
   it('should show warning when variable name already exists', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[{ id: 1, name: '{{myVar}}', value: '123' }], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([
+      [{ id: 1, name: '{{myVar}}', value: '123' }],
+      vi.fn(),
+    ]);
     const { user } = renderWithUserEvent(
       <TestProviders>
         <VariablesForm />
@@ -79,8 +81,8 @@ describe('VariablesForm', () => {
   });
 
   it('should disable submit button when form is invalid', async () => {
-    const { useAtom } = await import('jotai');
-    (useAtom as Mock).mockReturnValue([[], vi.fn()]);
+    const { useLocalStorage } = await import('@/app/hooks/use-local-storage');
+    (useLocalStorage as Mock).mockReturnValue([[], vi.fn()]);
 
     renderWithUserEvent(
       <TestProviders>
