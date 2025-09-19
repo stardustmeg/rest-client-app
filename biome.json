@@ -7,7 +7,7 @@
     "defaultBranch": "develop"
   },
   "files": {
-    "ignoreUnknown": false,
+    "ignoreUnknown": true,
     "includes": [
       "**",
       "!.husky",
@@ -17,7 +17,8 @@
       "!.github",
       "!favicon.ico",
       "!**/*.md",
-      "!**/*.yml"
+      "!**/*.yml",
+      "vitest.config.js"
     ]
   },
   "formatter": {

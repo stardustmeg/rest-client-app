@@ -6,6 +6,7 @@ export default defineConfig({
   server: { open: true },
   plugins: [tsconfigPaths(), react()],
   test: {
+    server: { deps: { inline: ['convex-test'] } },
     exclude: ['node_modules', 'dist', '.next'],
     globals: true,
     environment: 'jsdom',
@@ -21,6 +22,8 @@ export default defineConfig({
         '**/*.config.*',
         '**/*.d.ts',
         '**/types/**',
+        'app/_pages/**',
+        'app/\\[locale\\]/**',
       ],
       extension: ['.ts', '.tsx'],
       reporter: ['text', 'lcov'],
