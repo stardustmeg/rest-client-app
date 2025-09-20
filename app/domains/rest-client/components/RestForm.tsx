@@ -82,7 +82,7 @@ export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
 
   return (
     <form data-testid="rest-form" className="w-full" action={onSubmit}>
-      <Flex gap="1">
+      <Flex gap="1" className="flex-col md:flex-row">
         <Select
           dataTestId="rest-form-method-select"
           onValueChange={handleMethodChange}

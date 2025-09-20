@@ -112,7 +112,10 @@ export const CodeGeneration = () => {
         </Clipboard.Root>
       </Flex>
 
-      <div className="overflow-x-auto" dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+      <div
+        className="overflow-x-auto break-all"
+        dangerouslySetInnerHTML={{ __html: highlightedCode }}
+      />
     </div>
   );
 };
