@@ -1,8 +1,10 @@
+/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <tests> */
 import { describe, expect, it, vi } from 'vitest';
 import {
   decodeBase64,
   decodeRequestUrl,
   encodeBase64,
+  encodeRequestUrl,
   formatJson,
   getUniqueRequestHeaders,
   headersToSearchParams,
@@ -407,6 +409,141 @@ describe(decodeRequestUrl.name, () => {
 
     expect(result?.body.value).toBe(invalidBody);
     expect(onError).toHaveBeenCalled();
+  });
+});
+
+describe(encodeRequestUrl.name, () => {
+  it('encodes basic GET request without body or headers', () => {
+    const onError = vi.fn();
+    const data = {
+      method: 'GET',
+      endpoint: '/api/users',
+      headers: [],
+      body: { type: 'json' as const, value: '' },
+    };
+
+    const result = encodeRequestUrl(data, onError);
+
+    expect(result).toBe('GET/json/JTJGYXBpJTJGdXNlcnM=');
+    expect(onError).not.toHaveBeenCalled();
+  });
+
+  it('encodes POST request with JSON body', () => {
+    const onError = vi.fn();
+    const data = {
+      method: 'POST',
+      endpoint: 'https://api.example.com/users',
+      headers: [],
+      body: { type: 'json' as const, value: '{"name": "John"}' },
+    };
+
+    const result = encodeRequestUrl(data, onError);
+
+    expect(result).toBe(
+      'POST/json/aHR0cHMlM0ElMkYlMkZhcGkuZXhhbXBsZS5jb20lMkZ1c2Vycw==/JTdCJTIybmFtZSUyMiUzQSUyMCUyMkpvaG4lMjIlN0Q=',
+    );
+    expect(onError).not.toHaveBeenCalled();
+  });
+
+  it('encodes request with headers as query parameters', () => {
+    const onError = vi.fn();
+    const data = {
+      method: 'GET',
+      endpoint: '/api/data',
+      headers: [
+        { key: 'Authorization', value: 'Bearer token123' },
+        { key: 'Content-Type', value: 'application/json' },
+      ],
+      body: { type: 'json' as const, value: '' },
+    };
+
+    const result = encodeRequestUrl(data, onError);
+
+    expect(result).toBe(
+      'GET/json/JTJGYXBpJTJGZGF0YQ==?authorization=Bearer+token123&content-type=application%2Fjson',
+    );
+    expect(onError).not.toHaveBeenCalled();
+  });
+
+  it('handles empty headers array', () => {
+    const onError = vi.fn();
+    const data = {
+      method: 'GET',
+      endpoint: '/test',
+      headers: [],
+      body: { type: 'json' as const, value: '' },
+    };
+
+    const result = encodeRequestUrl(data, onError);
+
+    expect(result).toBe('GET/json/JTJGdGVzdA==');
+    expect(onError).not.toHaveBeenCalled();
+  });
+
+  it('uses text body type correctly', () => {
+    const onError = vi.fn();
+    const data = {
+      method: 'PUT',
+      endpoint: '/api/update',
+      headers: [],
+      body: { type: 'text' as const, value: 'plain text content' },
+    };
+
+    const result = encodeRequestUrl(data, onError);
+
+    expect(result).toBe('PUT/text/JTJGYXBpJTJGdXBkYXRl/cGxhaW4lMjB0ZXh0JTIwY29udGVudA==');
+    expect(onError).not.toHaveBeenCalled();
+  });
+
+  it('calls onError when endpoint encoding fails', () => {
+    const onError = vi.fn();
+    const originalBtoa = globalThis.btoa;
+
+    globalThis.btoa = () => {
+      throw new Error('Encoding failed');
+    };
+
+    const data = {
+      method: 'GET',
+      endpoint: '/test',
+      headers: [],
+      body: { type: 'json' as const, value: '' },
+    };
+
+    const result = encodeRequestUrl(data, onError);
+
+    expect(onError).toHaveBeenCalled();
+    expect(result).toBe('GET/json//test');
+
+    globalThis.btoa = originalBtoa;
+  });
+
+  it('calls onError when body encoding fails', () => {
+    const onError = vi.fn();
+    let callCount = 0;
+    const originalBtoa = globalThis.btoa;
+
+    globalThis.btoa = (str: string) => {
+      callCount++;
+      if (callCount === 2) {
+        throw new Error('Body encoding failed');
+      }
+      return originalBtoa(str);
+    };
+
+    const data = {
+      method: 'POST',
+      endpoint: '/api/test',
+      headers: [],
+      body: { type: 'json' as const, value: '{"data": "test"}' },
+    };
+
+    const result = encodeRequestUrl(data, onError);
+
+    expect(onError).toHaveBeenCalled();
+    expect(result).toBe('POST/json/JTJGYXBpJTJGdGVzdA==/{"data": "test"}');
+
+    globalThis.btoa = originalBtoa;
   });
 });
 

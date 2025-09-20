@@ -102,6 +102,71 @@ describe('getUserHistory', () => {
   });
 });
 
+describe('get', () => {
+  it('returns all history items', async () => {
+    const t = convexTest(schema);
+
+    await t.run(async (ctx) => {
+      const userId = await ctx.db.insert('users', { username: 'test', email: 'test' });
+      await ctx.db.insert('history', { ...mockItem1, userId });
+      await ctx.db.insert('history', { ...mockItem2, userId });
+    });
+
+    const allHistory = await t.query(api.history.get);
+
+    expect(allHistory).toHaveLength(2);
+    expect(allHistory).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining(mockItem1),
+        expect.objectContaining(mockItem2),
+      ]),
+    );
+  });
+
+  it('returns empty array when no history items exist', async () => {
+    const t = convexTest(schema);
+
+    const allHistory = await t.query(api.history.get);
+
+    expect(allHistory).toEqual([]);
+  });
+});
+
+describe('getByUserId', () => {
+  it('returns history items for specific user', async () => {
+    const t = convexTest(schema);
+
+    const [userA, userB] = await t.run(async (ctx) => {
+      const a = await ctx.db.insert('users', { username: 'a', email: 'a' });
+      const b = await ctx.db.insert('users', { username: 'b', email: 'b' });
+      await ctx.db.insert('history', { ...mockItem1, userId: a });
+      await ctx.db.insert('history', { ...mockItem2, userId: b });
+      return [a, b];
+    });
+
+    const historyA = await t.query(api.history.getByUserId, { userId: userA });
+    const historyB = await t.query(api.history.getByUserId, { userId: userB });
+
+    expect(historyA).toHaveLength(1);
+    expect(historyA[0]).toEqual(expect.objectContaining(mockItem1));
+
+    expect(historyB).toHaveLength(1);
+    expect(historyB[0]).toEqual(expect.objectContaining(mockItem2));
+  });
+
+  it('returns empty array when user has no history', async () => {
+    const t = convexTest(schema);
+
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert('users', { username: 'test', email: 'test' });
+    });
+
+    const history = await t.query(api.history.getByUserId, { userId });
+
+    expect(history).toEqual([]);
+  });
+});
+
 describe('createHistoryItem', () => {
   it('successfully creates a history item', async () => {
     const t = convexTest(schema);
