@@ -11,7 +11,6 @@ export interface ErrorBoundaryFallbackProps {
   reset: () => void;
 }
 
-// TODO (ripetchor): May need to be update styles and add some buttons
 export const ErrorBoundaryFallback = ({ reset }: ErrorBoundaryFallbackProps) => {
   const t = useTranslations('error-boundary-fallback');
 

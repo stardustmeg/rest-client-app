@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/nursery/noUnnecessaryConditions: <are you schewpid?> */
 import {
   DURATION_THRESHOLDS,
   SIZE_THRESHOLDS,

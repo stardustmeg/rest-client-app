@@ -28,7 +28,7 @@ export const RestClient = () => {
 
   const { responseSize, requestDuration, responseBody, responseStatusCode, errorDetails } =
     useAtomValue(responseInfoAtom);
-  useInitFormAtoms(decodeRequestUrl(params, searchParams, (e) => errorToast(e)));
+  useInitFormAtoms(decodeRequestUrl(params, searchParams, errorToast));
 
   return (
     <Flex gap="3">

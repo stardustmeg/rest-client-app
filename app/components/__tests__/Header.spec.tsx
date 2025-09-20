@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
-/** biome-ignore-all lint/style/noMagicNumbers: test constants */
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: test file structure */
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';

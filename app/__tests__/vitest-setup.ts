@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/suspicious/noEmptyBlockStatements: false positive */
-/** biome-ignore-all lint/style/useNamingConvention: <because> */
 import '@testing-library/jest-dom';
 
 import { afterAll, afterEach, beforeAll, vi } from 'vitest';
@@ -129,9 +127,9 @@ vi.mock('@/app/domains/auth/get-validation-error', async (importOriginal) => {
 });
 
 global.ResizeObserver = class ResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
 };
 
 beforeAll(() => server.listen());

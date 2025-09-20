@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: false positive */
-
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { type Mock, vi } from 'vitest';

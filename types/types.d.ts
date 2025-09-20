@@ -1,9 +1,9 @@
-import type { MessagesType, RoutingLocales } from '@/i18n/routing'
+import type { MessagesType, RoutingLocales } from '@/i18n/routing';
 
 declare module 'next-intl' {
   interface AppConfig {
-    Messages: MessagesType
-    Locale: RoutingLocales
+    Messages: MessagesType;
+    Locale: RoutingLocales;
   }
 }
 

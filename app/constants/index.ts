@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: <no> */
 export const HTTP_METHOD = {
   GET: 'GET',
   HEAD: 'HEAD',

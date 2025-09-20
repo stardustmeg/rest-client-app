@@ -8,7 +8,6 @@ vi.mock('@/app/hooks/use-local-storage', () => ({
   useLocalStorage: vi.fn(),
 }));
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <sss>
 describe('useResolveVariables', () => {
   beforeEach(() => {
     vi.clearAllMocks();

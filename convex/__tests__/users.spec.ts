@@ -37,3 +37,35 @@ describe('currentUser', () => {
     expect(user).toBeNull();
   });
 });
+
+describe('get', () => {
+  it('returns all users', async () => {
+    const t = convexTest(schema);
+
+    await t.run(async (ctx) => {
+      await ctx.db.insert('users', { username: 'user1', email: 'user1@test.com' });
+      await ctx.db.insert('users', { username: 'user2', email: 'user2@test.com' });
+      await ctx.db.insert('users', { username: 'user3', email: 'user3@test.com' });
+    });
+
+    const allUsers = await t.query(api.users.get);
+    const EXPECTED_USERS_COUNT = 3;
+
+    expect(allUsers).toHaveLength(EXPECTED_USERS_COUNT);
+    expect(allUsers).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ username: 'user1', email: 'user1@test.com' }),
+        expect.objectContaining({ username: 'user2', email: 'user2@test.com' }),
+        expect.objectContaining({ username: 'user3', email: 'user3@test.com' }),
+      ]),
+    );
+  });
+
+  it('returns empty array when no users exist', async () => {
+    const t = convexTest(schema);
+
+    const allUsers = await t.query(api.users.get);
+
+    expect(allUsers).toEqual([]);
+  });
+});

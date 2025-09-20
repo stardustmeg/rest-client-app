@@ -41,7 +41,7 @@ export const HistoryListItem = ({
         },
         method: requestMethod,
       },
-      (e) => errorToast(e),
+      errorToast,
     );
 
     return `${routes.restClient.path}/${url}`;

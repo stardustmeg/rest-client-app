@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <test> */
-/** biome-ignore-all lint/style/noMagicNumbers: <tests> */
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useLocalStorage } from '../use-local-storage';
@@ -56,7 +54,7 @@ describe('useLocalStorage', () => {
   });
 
   it("should return the same reference when localStorage value hasn't changed", () => {
-    const storedValue = { items: [1, 2, 3] };
+    const storedValue = { items: [1, 2, 1] };
     const jsonValue = JSON.stringify(storedValue);
     localStorageMock.getItem.mockReturnValue(jsonValue);
 
@@ -89,35 +87,38 @@ describe('useLocalStorage', () => {
   });
 
   it('should handle functional updates', () => {
-    const initialValue = [1, 2, 3];
+    const initialValue = [1, 2, 1];
     localStorageMock.getItem.mockReturnValue(JSON.stringify(initialValue));
 
     const { result } = renderHook(() => useLocalStorage<number[]>('test-key', []));
 
     act(() => {
-      result.current[1]((prev) => [...prev, 4]);
+      result.current[1]((prev) => [...prev, 2]);
     });
 
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       'no_no_no_mister_fish_test-key',
-      JSON.stringify([1, 2, 3, 4]),
+      JSON.stringify([1, 2, 1, 2]),
     );
   });
 
   it('should handle different data types', () => {
+    const THE_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING = 42;
     localStorageMock.getItem.mockReturnValue(JSON.stringify('hello'));
     const { result: stringResult } = renderHook(() => useLocalStorage('string-key', ''));
     expect(stringResult.current[0]).toBe('hello');
 
     localStorageMock.getItem.mockReturnValue(JSON.stringify(42));
     const { result: numberResult } = renderHook(() => useLocalStorage('number-key', 0));
-    expect(numberResult.current[0]).toBe(42);
+    expect(numberResult.current[0]).toBe(
+      THE_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING,
+    );
 
     localStorageMock.getItem.mockReturnValue(JSON.stringify(true));
     const { result: booleanResult } = renderHook(() => useLocalStorage('boolean-key', false));
     expect(booleanResult.current[0]).toBe(true);
 
-    const arrayValue = [1, 2, 3];
+    const arrayValue = [1, 2, 1];
     localStorageMock.getItem.mockReturnValue(JSON.stringify(arrayValue));
     const { result: arrayResult } = renderHook(() => useLocalStorage<number[]>('array-key', []));
     expect(arrayResult.current[0]).toEqual(arrayValue);

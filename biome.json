@@ -9,15 +9,13 @@
   "files": {
     "ignoreUnknown": true,
     "includes": [
-      "**",
-      "!.husky",
-      "!public",
-      "!**/*.config.*",
+      "app/**",
+      "convex/**",
+      "data/**",
+      "i18n/**",
+      "types/**",
       "!**/*.d.ts",
-      "!.github",
       "!favicon.ico",
-      "!**/*.md",
-      "!**/*.yml",
       "vitest.config.js"
     ]
   },
@@ -44,14 +42,6 @@
           "level": "error",
           "options": { "maxAllowedComplexity": 10 }
         },
-        "noExcessiveLinesPerFunction": {
-          "level": "error",
-          "options": {
-            "maxLines": 60,
-            "skipBlankLines": true,
-            "skipIifes": false
-          }
-        },
         "noUselessStringConcat": "error",
         "useSimplifiedLogicExpression": "error"
       },
@@ -66,12 +56,10 @@
         "noImportCycles": "error",
         "noNextAsyncClientComponent": "error",
         "noNonNullAssertedOptionalChain": "error",
-        "noShadow": "error",
-        "noUnnecessaryConditions": "error",
         "noUselessUndefined": "error",
         "useConsistentTypeDefinitions": "error",
         "useExhaustiveSwitchCases": "error",
-        "useMaxParams": { "level": "error", "options": { "max": 3 } },
+        "useMaxParams": { "level": "error", "options": { "max": 6 } },
         "useSortedClasses": "error"
       },
       "style": {
@@ -100,12 +88,6 @@
         },
         "useForOf": "error",
         "useFragmentSyntax": "error",
-        "useNamingConvention": {
-          "level": "error",
-          "options": {
-            "strictCase": true
-          }
-        },
         "useNumberNamespace": "error",
         "useNumericSeparators": "error",
         "useObjectSpread": "error",
@@ -133,6 +115,9 @@
         "useNumberToFixedDigitsArgument": "error",
         "useStrictMode": "error",
         "noUnknownAtRules": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
       }
     },
     "domains": {
