@@ -61,7 +61,11 @@ export async function sendRequest(
 ) {
   const response = await proxySendRequest({ method, endpoint, headers, body });
 
-  await saveHistoryItem(response, userId, body);
+  try {
+    await saveHistoryItem(response, userId, body);
+  } catch (error) {
+    onError(error);
+  }
 
   const data = {
     ...response,
