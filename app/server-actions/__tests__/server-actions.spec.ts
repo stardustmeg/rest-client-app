@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: <test> */
-/** biome-ignore-all lint/nursery/useMaxParams: <tests> */
 import { beforeAll, beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import type { Id } from '@/convex/_generated/dataModel';

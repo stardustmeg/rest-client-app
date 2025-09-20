@@ -37,19 +37,17 @@ declare module 'postman-code-generators' {
 
   function getLanguageList(): CodeGenLanguage[];
 
-
   function getOptions(
     language: string,
     variant: string,
-    callback: (error: Error | null, options?: CodeGenOption[]) => void
+    callback: (error: Error | null, options?: CodeGenOption[]) => void,
   ): void;
-
 
   function convert(
     language: string,
     variant: string,
     request: Request,
     options: Record<string, unknown>,
-    callback: (error: Error | null, snippet?: string) => void
+    callback: (error: Error | null, snippet?: string) => void,
   ): void;
 }

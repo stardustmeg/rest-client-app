@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
-
 import { render, screen } from '@testing-library/react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { describe, expect, it, vi } from 'vitest';

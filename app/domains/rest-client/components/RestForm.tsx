@@ -35,7 +35,6 @@ export interface RestFormProps {
   disabled?: boolean;
 }
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <shhhhhhhh>
 export const RestForm = ({ onSubmit, disabled }: RestFormProps) => {
   const t = useTranslations('restClient.form');
   const { resolvedTheme } = useTheme();

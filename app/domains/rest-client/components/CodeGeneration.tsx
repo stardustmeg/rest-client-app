@@ -112,7 +112,6 @@ export const CodeGeneration = () => {
         </Clipboard.Root>
       </Flex>
 
-      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: <yayaya> */}
       <div className="overflow-x-auto" dangerouslySetInnerHTML={{ __html: highlightedCode }} />
     </div>
   );

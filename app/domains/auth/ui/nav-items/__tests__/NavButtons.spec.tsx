@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: test file structure */
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

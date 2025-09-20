@@ -18,7 +18,6 @@ vi.mock('@/app/domains/variables/store/variables-store', () => ({
   useVariablesActions: vi.fn(),
 }));
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <jjj>
 describe('VariablesContent', () => {
   beforeEach(() => {
     vi.resetAllMocks();

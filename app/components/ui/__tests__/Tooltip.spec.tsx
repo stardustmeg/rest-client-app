@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: false positive */
-
 import type { TooltipContentProps } from '@chakra-ui/react';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';

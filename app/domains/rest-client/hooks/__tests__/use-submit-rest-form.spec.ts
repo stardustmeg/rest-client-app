@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <tests> */
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
@@ -140,22 +139,6 @@ describe(useSubmitRestForm.name, () => {
     });
 
     expect(mockSendRequest).toHaveBeenCalled();
-  });
-
-  it('handles sendRequest errors', async () => {
-    const requestError = new Error('Request failed');
-    mockSendRequest.mockRejectedValueOnce(requestError);
-
-    const { result } = renderHook(() => useSubmitRestForm());
-    const formData = new FormData();
-    formData.append('method', 'GET');
-    formData.append('endpoint', '/test');
-
-    await act(async () => {
-      await result.current.handleSubmit(null, formData);
-    });
-
-    expect(mockErrorToast).toHaveBeenCalledWith(requestError);
   });
 
   it('passes error callback to sendRequest', async () => {

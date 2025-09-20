@@ -1,10 +1,7 @@
-/** biome-ignore-all lint/style/noMagicNumbers: <shh> */
-
 import { describe, expect, it } from 'vitest';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import { calculateRequestSize, proxySendRequest } from '../helpers';
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: <shh>
 describe(proxySendRequest.name, () => {
   const headers = [{ key: 'Content-Type', value: 'application/json' }];
 
@@ -18,7 +15,8 @@ describe(proxySendRequest.name, () => {
 
     const result = await proxySendRequest(request);
 
-    expect(result.responseStatusCode).toBe(200);
+    const EXPECTED_STATUS_CODE = 200;
+    expect(result.responseStatusCode).toBe(EXPECTED_STATUS_CODE);
     expect(Array.isArray(result.responseBody?.value)).toBe(true);
   });
 
@@ -32,7 +30,8 @@ describe(proxySendRequest.name, () => {
 
     const result = await proxySendRequest(request);
 
-    expect(result.responseStatusCode).toBe(200);
+    const EXPECTED_STATUS_CODE = 200;
+    expect(result.responseStatusCode).toBe(EXPECTED_STATUS_CODE);
     expect(result.responseBody?.value).toMatchObject({
       id: 2,
       title: 'mocked title 2',
@@ -52,7 +51,8 @@ describe(proxySendRequest.name, () => {
 
     const result = await proxySendRequest(request);
 
-    expect(result.responseStatusCode).toBe(201);
+    const EXPECTED_STATUS_CODE = 201;
+    expect(result.responseStatusCode).toBe(EXPECTED_STATUS_CODE);
     expect(result.responseBody?.value).toMatchObject({
       body: { title: 'foo', userId: 1 },
     });
@@ -70,7 +70,8 @@ describe(proxySendRequest.name, () => {
 
     const result = await proxySendRequest(request);
 
-    expect(result.responseStatusCode).toBe(200);
+    const EXPECTED_STATUS_CODE = 200;
+    expect(result.responseStatusCode).toBe(EXPECTED_STATUS_CODE);
     expect(result.responseBody?.value).toMatchObject({
       id: 1,
       body: payload,
@@ -89,7 +90,8 @@ describe(proxySendRequest.name, () => {
 
     const result = await proxySendRequest(request);
 
-    expect(result.responseStatusCode).toBe(200);
+    const EXPECTED_STATUS_CODE = 200;
+    expect(result.responseStatusCode).toBe(EXPECTED_STATUS_CODE);
     expect(result.responseBody?.value).toMatchObject({
       id: 1,
       body: payload,
@@ -106,7 +108,8 @@ describe(proxySendRequest.name, () => {
 
     const result = await proxySendRequest(request);
 
-    expect(result.responseStatusCode).toBe(200);
+    const EXPECTED_STATUS_CODE = 200;
+    expect(result.responseStatusCode).toBe(EXPECTED_STATUS_CODE);
     expect(result.responseBody?.value).toMatchObject({
       message: 'Post 1 deleted',
     });

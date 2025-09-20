@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: test file structure */
-/** biome-ignore-all lint/style/noMagicNumbers: test file structure */
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
@@ -120,7 +117,8 @@ describe('MainNavigationButtons', () => {
       );
 
       const buttons = screen.getAllByRole('button');
-      expect(buttons).toHaveLength(5);
+      const EXPECTED_BUTTONS_COUNT = 5;
+      expect(buttons).toHaveLength(EXPECTED_BUTTONS_COUNT);
     });
 
     it('should have proper test ids for all navigation items', () => {

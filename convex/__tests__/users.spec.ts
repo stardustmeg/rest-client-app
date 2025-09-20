@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/style/noMagicNumbers: <tests> */
 import { convexTest } from 'convex-test';
 import { describe, expect, it } from 'vitest';
 import { api } from '../_generated/api';
@@ -50,8 +49,9 @@ describe('get', () => {
     });
 
     const allUsers = await t.query(api.users.get);
+    const EXPECTED_USERS_COUNT = 3;
 
-    expect(allUsers).toHaveLength(3);
+    expect(allUsers).toHaveLength(EXPECTED_USERS_COUNT);
     expect(allUsers).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ username: 'user1', email: 'user1@test.com' }),

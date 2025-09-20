@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
-/** biome-ignore-all lint/suspicious/noExplicitAny: test mocks */
-
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
@@ -9,7 +6,15 @@ import type { HistoryDataItem } from '@/convex/types';
 import { HistoryListItem } from '../HistoryListItem';
 
 vi.mock('@/app/components/ui/ResponseInformation', () => ({
-  ResponseInformation: ({ status, size, duration }: any) => (
+  ResponseInformation: ({
+    status,
+    size,
+    duration,
+  }: {
+    status: number;
+    size: number;
+    duration: number;
+  }) => (
     <div data-testid="response-information">
       Status: {status}, Size: {size}, Time: {duration}
     </div>
@@ -97,7 +102,7 @@ describe('HistoryListItem', () => {
     );
 
     expect(screen.getByTestId('response-information')).toBeInTheDocument();
-    expect(screen.getByText(/Status: 200.*Size: 2048.*Time: 150/)).toBeInTheDocument();
+    expect(screen.getByText(/Status: 200.*Size: 2048.*Time: 150/i)).toBeInTheDocument();
   });
 
   it('should render link to rest client', () => {

@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <shhhhhhhhhhh> */
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';

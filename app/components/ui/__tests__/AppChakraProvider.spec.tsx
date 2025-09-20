@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: <test> */
-/** biome-ignore-all lint/suspicious/useAwait: <test> */
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <test> */
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { AppChakraProvider } from '../AppChakraProvider';
@@ -50,7 +47,7 @@ describe(AppChakraProvider.name, () => {
     ));
   });
 
-  it('renders children within providers', async () => {
+  it('renders children within providers', () => {
     const testContent = 'Test content';
 
     render(
@@ -133,7 +130,7 @@ describe(AppChakraProvider.name, () => {
     );
   });
 
-  it('renders ClientOnly wrapper for hydration safety', async () => {
+  it('renders ClientOnly wrapper for hydration safety', () => {
     render(
       <AppChakraProvider>
         <div>Test content</div>

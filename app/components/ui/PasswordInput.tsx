@@ -17,7 +17,6 @@ export interface PasswordInputProps extends InputProps, PasswordVisibilityProps 
 }
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
-  // biome-ignore lint/nursery/noShadow: <фффффф>
   function PasswordInput(props, ref) {
     const {
       rootProps,
@@ -60,7 +59,6 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 );
 
 const VisibilityTrigger = forwardRef<HTMLButtonElement, ButtonProps>(
-  // biome-ignore lint/nursery/noShadow: <фффффф>
   function VisibilityTrigger(props, ref) {
     return (
       <IconButton

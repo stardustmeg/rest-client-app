@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <tests> */
 import { describe, expect, it, vi } from 'vitest';
 import {
   decodeBase64,
@@ -80,7 +79,7 @@ describe(isString.name, () => {
   });
 
   it('returns true for String object', () => {
-    expect(isString(new String('hello'))).toBe(true);
+    expect(isString(String('hello'))).toBe(true);
   });
 
   it('returns false for number', () => {

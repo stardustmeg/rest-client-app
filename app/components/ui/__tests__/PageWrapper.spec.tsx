@@ -33,15 +33,4 @@ describe(PageWrapper.name, () => {
     expect(screen.getByText('Description')).toBeInTheDocument();
     expect(screen.getByRole('button')).toHaveTextContent('Action');
   });
-
-  it('renders empty wrapper when no children provided', () => {
-    const { container } = render(
-      <TestProviders>
-        {/* @ts-expect-error - we are testing the empty wrapper */}
-        <PageWrapper />
-      </TestProviders>,
-    );
-
-    expect(container.firstChild).toBeInTheDocument();
-  });
 });

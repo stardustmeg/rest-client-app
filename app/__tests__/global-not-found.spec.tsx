@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: <test> */
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import GlobalNotFound from '../global-not-found';

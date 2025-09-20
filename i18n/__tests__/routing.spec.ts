@@ -1,15 +1,15 @@
-/** biome-ignore-all lint/style/noMagicNumbers: <tests> */
 import { describe, expect, it } from 'vitest';
 import { Link, redirect, routing, usePathname, useRouter } from '../routing';
 
 describe('routing configuration', () => {
   describe('routing.locales', () => {
+    const expectedLocales = ['en', 'ru', 'jp'] as const;
     it('includes all expected locales', () => {
-      expect(routing.locales).toEqual(['en', 'ru', 'jp']);
+      expect(routing.locales).toEqual(expectedLocales);
     });
 
     it('has correct number of locales', () => {
-      expect(routing.locales).toHaveLength(3);
+      expect(routing.locales).toHaveLength(expectedLocales.length);
     });
   });
 
@@ -26,7 +26,7 @@ describe('routing configuration', () => {
 
 describe('Type definitions', () => {
   it('RoutingLocales type includes all locales', () => {
-    const locales: (typeof routing.locales)[number][] = ['en', 'ru', 'jp'];
+    const locales: (typeof routing.locales)[number][] = ['en', 'ru', 'jp'] as const;
 
     locales.forEach((locale) => {
       expect(routing.locales).toContain(locale);
@@ -76,10 +76,11 @@ describe('Integration with next-intl', () => {
   });
 
   it('locales array contains valid locale strings', () => {
+    const MAX_LENGTH = 3;
     routing.locales.forEach((locale) => {
       expect(typeof locale).toBe('string');
       expect(locale.length).toBeGreaterThan(0);
-      expect(locale.length).toBeLessThanOrEqual(3);
+      expect(locale.length).toBeLessThanOrEqual(MAX_LENGTH);
     });
   });
 
@@ -89,8 +90,9 @@ describe('Integration with next-intl', () => {
   });
 
   it('routing configuration maintains consistent structure', () => {
+    const MAX_LENGTH = 3;
     expect(routing.locales).toBeInstanceOf(Array);
-    expect(routing.locales).toHaveLength(3);
+    expect(routing.locales).toHaveLength(MAX_LENGTH);
     expect(typeof routing.defaultLocale).toBe('string');
 
     const uniqueLocales = [...new Set(routing.locales)];

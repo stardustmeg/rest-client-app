@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: mock components use kebab-case for data attributes */
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: test file structure */
-/** biome-ignore-all lint/style/noMagicNumbers: test constants */
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
@@ -130,7 +127,7 @@ describe('BurgerMenu', () => {
       const backdrop = document.body.querySelector('[style*="position: fixed"]');
 
       if (backdrop) {
-        await user.click(backdrop as Element);
+        await user.click(backdrop);
         expect(mockOnClose).toHaveBeenCalledTimes(1);
       } else {
         expect(screen.getAllByTestId('nav-buttons')).toHaveLength(2);
@@ -174,12 +171,13 @@ describe('BurgerMenu', () => {
       );
 
       const navButton = screen.getByTestId('nav-button-mainToMain');
+      const EXPECTED_CLOSE_CALLS_COUNT = 3;
 
       await user.click(navButton);
       await user.click(navButton);
       await user.click(navButton);
 
-      expect(mockOnClose).toHaveBeenCalledTimes(3);
+      expect(mockOnClose).toHaveBeenCalledTimes(EXPECTED_CLOSE_CALLS_COUNT);
     });
   });
 

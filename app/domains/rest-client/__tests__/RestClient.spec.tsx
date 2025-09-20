@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: <test> */
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <tests> */
-
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';

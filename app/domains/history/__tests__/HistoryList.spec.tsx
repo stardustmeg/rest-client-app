@@ -1,8 +1,7 @@
-/** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
-/** biome-ignore-all lint/suspicious/noExplicitAny: test mocks */
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TestProviders } from '@/app/__tests__/utils';
+import type { HistoryDataItem } from '@/convex/types';
 import { HistoryList } from '../HistoryList';
 
 vi.mock('convex/nextjs', () => ({
@@ -22,7 +21,7 @@ vi.mock('../EmptyMessage', () => ({
 }));
 
 vi.mock('../HistoryListItem', () => ({
-  HistoryListItem: ({ item }: { item: any }) => (
+  HistoryListItem: ({ item }: { item: HistoryDataItem }) => (
     <div data-testid="history-item">{item.requestMethod}</div>
   ),
 }));

@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/style/useNamingConvention: test mocks use kebab-case */
-/** biome-ignore-all lint/style/noMagicNumbers: <important explanation> */
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithUserEvent, TestProviders } from '@/app/__tests__/utils';
@@ -123,6 +121,7 @@ describe('LanguageSelect', () => {
     expect(hiddenSelect).toBeInTheDocument();
 
     const options = hiddenSelect?.querySelectorAll('option');
-    expect(options?.length).toBe(3);
+    const EXPECTED_OPTIONS_COUNT = 3;
+    expect(options?.length).toBe(EXPECTED_OPTIONS_COUNT);
   });
 });

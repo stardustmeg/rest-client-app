@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: <tests> */
 import { describe, expect, it } from 'vitest';
 import { extractFormData } from '../helpers';
 
