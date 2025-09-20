@@ -45,10 +45,10 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
         return;
       }
 
-      const url = encodeRequestUrl(data, (e) => errorToast(e));
+      const url = encodeRequestUrl(data, errorToast);
       push(`${routes.restClient.path}/${url}`);
 
-      const response = await sendRequest(resolvedData, userId, (e) => errorToast(e));
+      const response = await sendRequest(resolvedData, userId, errorToast);
       setResponseInfo(response);
     },
     [push, setResponseInfo, errorToast, userId, resolveVariables, t],

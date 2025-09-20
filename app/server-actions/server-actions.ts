@@ -65,7 +65,7 @@ export async function sendRequest(
 
   const data = {
     ...response,
-    responseBody: formatJson(response.responseBody?.value, (e) => onError(e)),
+    responseBody: formatJson(response.responseBody?.value, onError),
   };
 
   return data;
