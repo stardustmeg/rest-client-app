@@ -18,6 +18,7 @@ import { useSubmitRestForm } from './hooks/use-submit-rest-form';
 
 export const RestClient = () => {
   const t = useTranslations('restClient.response');
+  const tError = useTranslations('error');
   const { params } = useParams<{ locale: string; params?: string[] }>();
   const searchParams = useSearchParams();
   const { errorToast } = useToast();
@@ -52,7 +53,7 @@ export const RestClient = () => {
             {!isPending && errorDetails && (
               <Box background="crimson" padding="4" color="white">
                 <Heading size="xl">{t('requestFailedTitle')}</Heading>
-                <p>{errorDetails ?? 'Unknown error'}</p>
+                <p>{errorDetails ?? tError('unknownError')}</p>
               </Box>
             )}
           </TabsContent>
