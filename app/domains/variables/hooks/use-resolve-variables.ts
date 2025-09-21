@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { useCallback, useMemo } from 'react';
 import type { RestFormData } from '@/app/domains/rest-client/components/RestForm';
 import { useAuth } from '@/app/hooks/use-auth';
@@ -12,6 +13,7 @@ interface ReplaceInObjectProps {
 interface ReplacePlaceholdersProps {
   str: string;
   variablesMap: Record<PropertyKey, string>;
+  translateError(v: string): string;
 }
 
 const PLACEHOLDER_REGEX = /\{\{([^}]+)\}\}/g;
@@ -19,6 +21,9 @@ const PLACEHOLDER_REGEX = /\{\{([^}]+)\}\}/g;
 export const useResolveVariables = () => {
   const { userId } = useAuth();
   const [variables] = useLocalStorage<Variable[]>(`variables_${userId}`, []);
+  const t = useTranslations('variables');
+
+  const translateError = useCallback((v: string) => t('undefinedVariable', { var: v }), [t]);
 
   const variablesMap = useMemo(
     () =>
@@ -42,11 +47,16 @@ export const useResolveVariables = () => {
       newData.endpoint = replaceInString({
         str: newData.endpoint,
         variablesMap,
+        translateError,
       });
 
       newData.headers = newData.headers.map((header) => ({
         ...header,
-        value: replaceInString({ str: header.value, variablesMap }),
+        value: replaceInString({
+          str: header.value,
+          variablesMap,
+          translateError,
+        }),
       }));
 
       let bodyContent = newData.body.value;
@@ -55,16 +65,20 @@ export const useResolveVariables = () => {
         const parsedBody = JSON.parse(bodyContent);
         const resolvedBody = replaceInObject({
           data: parsedBody,
-          replaceFn: (str) => replaceInString({ str, variablesMap }),
+          replaceFn: (str) => replaceInString({ str, variablesMap, translateError }),
         });
         bodyContent = JSON.stringify(resolvedBody);
       } catch {
-        bodyContent = replaceInString({ str: bodyContent, variablesMap });
+        bodyContent = replaceInString({
+          str: bodyContent,
+          variablesMap,
+          translateError,
+        });
       }
       newData.body = { ...newData.body, value: bodyContent };
       return newData;
     },
-    [variablesMap],
+    [variablesMap, translateError],
   );
 
   return { resolveVariables };
@@ -90,12 +104,12 @@ function replaceInObject({ data, replaceFn }: ReplaceInObjectProps): unknown {
   return data;
 }
 
-function replaceInString({ str, variablesMap }: ReplacePlaceholdersProps): string {
+function replaceInString({ str, variablesMap, translateError }: ReplacePlaceholdersProps): string {
   return str.replace(PLACEHOLDER_REGEX, (_match, varName: string) => {
     const normalized = String(varName).trim();
     const value = variablesMap[normalized];
     if (value === undefined) {
-      const errorMessage = `Variable "${normalized}" is not defined`;
+      const errorMessage = translateError(normalized);
 
       throw new Error(errorMessage);
     }

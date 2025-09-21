@@ -18,6 +18,7 @@ import { useSubmitRestForm } from './hooks/use-submit-rest-form';
 
 export const RestClient = () => {
   const t = useTranslations('restClient.response');
+  const tError = useTranslations('error');
   const tTitle = useTranslations('navigation');
 
   const { params } = useParams<{ locale: string; params?: string[] }>();
@@ -34,6 +35,7 @@ export const RestClient = () => {
 
   return (
     <>
+      {' '}
       <Heading
         as="h1"
         size="3xl"
@@ -45,7 +47,7 @@ export const RestClient = () => {
       >
         {tTitle('restClient')}
       </Heading>
-      <Flex p={4} gap="3" className="flex-col md:flex-row" mt={4}>
+      <Flex gap="3" className="flex-col md:flex-row" mt={4}>
         <RestForm disabled={isPending} onSubmit={submitAction} />
         <Separator orientation="vertical" />
         <div className="w-full md:max-w-[48%]">
@@ -71,7 +73,7 @@ export const RestClient = () => {
               {!isPending && errorDetails && (
                 <Box background="crimson" padding="4" color="white">
                   <Heading size="xl">{t('requestFailedTitle')}</Heading>
-                  <p>{errorDetails ?? 'Unknown error'}</p>
+                  <p>{errorDetails ?? tError('unknownError')}</p>
                 </Box>
               )}
             </TabsContent>
