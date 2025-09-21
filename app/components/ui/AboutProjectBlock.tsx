@@ -30,7 +30,7 @@ export const AboutProjectBlock = () => {
           shadow="md"
           backdropFilter="blur(50px)"
         >
-          <Heading as="h3" size="md" mb="3" fontWeight="semibold">
+          <Heading as="h2" size="md" mb="3" fontWeight="semibold">
             {t(item.title)}
           </Heading>
           <Text fontSize="md" opacity="0.8">

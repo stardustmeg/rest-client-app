@@ -50,7 +50,7 @@ export const Footer = () => {
             </Link>
           </HStack>
 
-          <Text className="text-gray-500 text-sm dark:text-gray-500">© 2025</Text>
+          <Text className="text-gray-600 text-sm dark:text-gray-200">© 2025</Text>
         </HStack>
       </VStack>
     </footer>
