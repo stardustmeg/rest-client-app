@@ -7,6 +7,14 @@ export const createAppTheme = (scheme: string) => {
         colorPalette: scheme,
       },
     },
+    theme: {
+      tokens: {
+        fonts: {
+          heading: { value: `'Noto Sans JP', var(--font-geist-sans), sans-serif` },
+          body: { value: `'Noto Sans JP', var(--font-geist-sans), sans-serif` },
+        },
+      },
+    },
   });
 
   return createSystem(defaultConfig, config);
