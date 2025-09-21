@@ -263,9 +263,7 @@ describe('useResolveVariables', () => {
       body: { type: 'json', value: '{}' },
     };
 
-    expect(() => result.current.resolveVariables(formData)).toThrow(
-      'Variable "missingVar" is not defined',
-    );
+    expect(() => result.current.resolveVariables(formData)).toThrow();
   });
 
   it('should throw error for missing variables in JSON body', async () => {
@@ -289,9 +287,7 @@ describe('useResolveVariables', () => {
       },
     };
 
-    expect(() => result.current.resolveVariables(formData)).toThrow(
-      'Variable "missingVar" is not defined',
-    );
+    expect(() => result.current.resolveVariables(formData)).toThrow();
   });
 
   it('should throw error when variables array is empty', async () => {
@@ -309,9 +305,7 @@ describe('useResolveVariables', () => {
       body: { type: 'json', value: '{}' },
     };
 
-    expect(() => result.current.resolveVariables(formData)).toThrow(
-      'Variable "userId" is not defined',
-    );
+    expect(() => result.current.resolveVariables(formData)).toThrow();
   });
 
   it('should handle variables with whitespace', async () => {

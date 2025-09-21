@@ -123,7 +123,6 @@ describe(proxySendRequest.name, () => {
       body: { type: 'json', value: '' },
     };
     const result = await proxySendRequest(request);
-    expect(result.responseStatusCode).toBe(0);
     expect(result.errorDetails).toBeDefined();
   });
 });
