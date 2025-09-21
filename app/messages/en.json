@@ -108,7 +108,8 @@
     "value": "Value",
     "addVariable": "Add Variable",
     "noVariables": "No variables yet",
-    "sensitiveData": "Use variables to reuse values and protect sensitive data "
+    "sensitiveData": "Use variables to reuse values and protect sensitive data ",
+    "undefinedVariable": "Variable {var} is not defined"
   },
   "restClient": {
     "form": {
@@ -141,5 +142,8 @@
     "emptyLink": "Make your first request here",
     "requestSize": "Request Size",
     "title": "Your freshest history is here, {username}"
+  },
+  "error": {
+    "unknownError": "Unknown error"
   }
 }

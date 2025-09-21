@@ -108,7 +108,8 @@
     "value": "値",
     "addVariable": "変数を追加",
     "noVariables": "まだ変数がありません",
-    "sensitiveData": "変数を使用して値を再利用し、機密データを保護します。"
+    "sensitiveData": "変数を使用して値を再利用し、機密データを保護します。",
+    "undefinedVariable": "変数{var}は定義されていません"
   },
   "restClient": {
     "form": {
@@ -141,5 +142,6 @@
     "emptyLink": "ここで最初のリクエストを作成してください",
     "requestSize": "リクエストサイズ",
     "title": "あなたの最新の履歴はここです、{username}さん"
-  }
+  },
+  "error": { "unknownError": "不明なエラー" }
 }
