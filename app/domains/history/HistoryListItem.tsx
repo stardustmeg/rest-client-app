@@ -49,7 +49,7 @@ export const HistoryListItem = ({
 
   const t = useTranslations('history');
   return (
-    <Card.Root key={_id} variant="outline" h="full" color="gray.500">
+    <Card.Root key={_id} variant="outline" h="full" className="text-gray-600 dark:text-gray-200">
       <Card.Header>
         <div className="flex justify-between gap-2">
           <Card.Title>{requestMethod}</Card.Title>
@@ -77,7 +77,7 @@ export const HistoryListItem = ({
         </Card.Description>
         {errorDetails && (
           <Card.Description
-            color="red.700"
+            color="red.500"
             style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}
           >
             {errorDetails}

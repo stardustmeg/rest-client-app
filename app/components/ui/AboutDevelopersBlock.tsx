@@ -19,10 +19,10 @@ export const AboutDevelopersBlock = () => {
         >
           <VStack gap="4">
             <Avatar.Root size="xl">
-              <Avatar.Fallback name={t(author)} />
               <Avatar.Image src={avatar} />
+              <Avatar.Fallback name={t(author)} />
             </Avatar.Root>
-            <Heading as="h3" size="xl" color="pink.600">
+            <Heading as="h3" size="xl" color="pink.500">
               {t(author)}
             </Heading>
             <Text fontWeight="semibold" color="teal.500">

@@ -1,10 +1,11 @@
 import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
 import type { Metadata } from 'next';
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
 import { ConvexClientProvider } from '@/app/ConvexClientProvider';
 import { AppChakraProvider } from '@/app/components/ui/AppChakraProvider';
 import { Toaster } from '@/app/components/ui/Toaster';
+
 import '@/app/main.css';
 
 const geistSans: NextFontWithVariable = Geist({
@@ -15,6 +16,11 @@ const geistSans: NextFontWithVariable = Geist({
 const geistMono: NextFontWithVariable = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+});
+
+const notoSansJP = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
 });
 
 export const metadata: Metadata = {
@@ -43,7 +49,9 @@ const RootLayout = (props: { children: React.ReactNode }) => {
   return (
     <ConvexAuthNextjsServerProvider>
       <html suppressHydrationWarning lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body
+          className={`${notoSansJP.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
           <ConvexClientProvider>
             <AppChakraProvider>
               {children}

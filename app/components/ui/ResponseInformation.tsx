@@ -23,7 +23,7 @@ export const ResponseInformation = ({
   return (
     <div
       data-testid="response-information"
-      className="flex flex-wrap justify-between gap-2 text-gray-500 text-sm"
+      className="flex flex-wrap justify-between gap-2 text-gray-600 text-sm dark:text-gray-200"
     >
       <span data-testid="response-information-status">
         {`${t('status')}:`}

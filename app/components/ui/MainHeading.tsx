@@ -10,7 +10,15 @@ export const MainHeading = () => {
   return (
     <Skeleton h="10" loading={isLoading}>
       <Box>
-        <Heading as="h1" size="2xl" fontWeight="extrabold" letterSpacing="tight">
+        <Heading
+          as="h1"
+          size="3xl"
+          m={4}
+          textAlign="center"
+          fontWeight="extrabold"
+          letterSpacing="tight"
+          className="text-gray-600 dark:text-gray-400"
+        >
           {isAuthenticated ? t('authenticatedTitle', { username: username ?? 'User' }) : t('title')}
         </Heading>
       </Box>

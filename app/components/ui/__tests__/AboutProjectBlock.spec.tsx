@@ -18,12 +18,12 @@ describe('AboutProjectBlock', () => {
     expect(html).toContain('features.organize.description');
   });
 
-  it('renders headings and text elements correctly', async () => {
-    const element = await AboutProjectBlock();
+  it('renders headings and text elements correctly', () => {
+    const element = AboutProjectBlock();
     const html = renderToStaticMarkup(<TestProviders>{element}</TestProviders>);
-    expect(html).toMatch(/<h3.*>features\.api\.title<\/h3>/);
-    expect(html).toMatch(/<h3.*>features\.history\.title<\/h3>/);
-    expect(html).toMatch(/<h3.*>features\.organize\.title<\/h3>/);
+    expect(html).toMatch(/<h2.*>features\.api\.title<\/h2>/);
+    expect(html).toMatch(/<h2.*>features\.history\.title<\/h2>/);
+    expect(html).toMatch(/<h2.*>features\.organize\.title<\/h2>/);
     expect(html).toContain('features.api.description');
     expect(html).toContain('features.history.description');
     expect(html).toContain('features.organize.description');
