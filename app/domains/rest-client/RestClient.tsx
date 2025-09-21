@@ -31,10 +31,10 @@ export const RestClient = () => {
   useInitFormAtoms(decodeRequestUrl(params, searchParams, errorToast));
 
   return (
-    <Flex gap="3">
+    <Flex gap="3" className="flex-col md:flex-row" mt={4}>
       <RestForm disabled={isPending} onSubmit={submitAction} />
       <Separator orientation="vertical" />
-      <div className="w-full max-w-[48%]">
+      <div className="w-full md:max-w-[48%]">
         <ResponseInformation
           status={responseStatusCode}
           size={responseSize}
