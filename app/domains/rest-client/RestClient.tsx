@@ -18,6 +18,8 @@ import { useSubmitRestForm } from './hooks/use-submit-rest-form';
 
 export const RestClient = () => {
   const t = useTranslations('restClient.response');
+  const tTitle = useTranslations('navigation');
+
   const { params } = useParams<{ locale: string; params?: string[] }>();
   const searchParams = useSearchParams();
   const { errorToast } = useToast();
@@ -31,36 +33,54 @@ export const RestClient = () => {
   useInitFormAtoms(decodeRequestUrl(params, searchParams, errorToast));
 
   return (
-    <Flex gap="3" className="flex-col md:flex-row" mt={4}>
-      <RestForm disabled={isPending} onSubmit={submitAction} />
-      <Separator orientation="vertical" />
-      <div className="w-full md:max-w-[48%]">
-        <ResponseInformation
-          status={responseStatusCode}
-          size={responseSize}
-          duration={requestDuration}
-        />
-        <Tabs.Root defaultValue="response" lazyMount>
-          <Tabs.List>
-            <Tabs.Trigger value="response">{t('tabTriggerResponse')}</Tabs.Trigger>
-            <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
-          </Tabs.List>
-          <TabsContent value="response">
-            {!(isPending || errorDetails) && (
-              <BodyEditor value={responseBody} theme={resolvedTheme} readOnly={true} type="json" />
-            )}
-            {!isPending && errorDetails && (
-              <Box background="crimson" padding="4" color="white">
-                <Heading size="xl">{t('requestFailedTitle')}</Heading>
-                <p>{errorDetails ?? 'Unknown error'}</p>
-              </Box>
-            )}
-          </TabsContent>
-          <TabsContent value="code-snippet">
-            <CodeGeneration />
-          </TabsContent>
-        </Tabs.Root>
-      </div>
-    </Flex>
+    <>
+      <Heading
+        as="h1"
+        size="3xl"
+        m={4}
+        textAlign="center"
+        fontWeight="extrabold"
+        letterSpacing="tight"
+        className="text-gray-600 dark:text-gray-400"
+      >
+        {tTitle('restClient')}
+      </Heading>
+      <Flex p={4} gap="3" className="flex-col md:flex-row" mt={4}>
+        <RestForm disabled={isPending} onSubmit={submitAction} />
+        <Separator orientation="vertical" />
+        <div className="w-full md:max-w-[48%]">
+          <ResponseInformation
+            status={responseStatusCode}
+            size={responseSize}
+            duration={requestDuration}
+          />
+          <Tabs.Root defaultValue="response" lazyMount>
+            <Tabs.List>
+              <Tabs.Trigger value="response">{t('tabTriggerResponse')}</Tabs.Trigger>
+              <Tabs.Trigger value="code-snippet">{t('tabTriggerCodeSnippet')}</Tabs.Trigger>
+            </Tabs.List>
+            <TabsContent value="response">
+              {!(isPending || errorDetails) && (
+                <BodyEditor
+                  value={responseBody}
+                  theme={resolvedTheme}
+                  readOnly={true}
+                  type="json"
+                />
+              )}
+              {!isPending && errorDetails && (
+                <Box background="crimson" padding="4" color="white">
+                  <Heading size="xl">{t('requestFailedTitle')}</Heading>
+                  <p>{errorDetails ?? 'Unknown error'}</p>
+                </Box>
+              )}
+            </TabsContent>
+            <TabsContent value="code-snippet">
+              <CodeGeneration />
+            </TabsContent>
+          </Tabs.Root>
+        </div>
+      </Flex>
+    </>
   );
 };

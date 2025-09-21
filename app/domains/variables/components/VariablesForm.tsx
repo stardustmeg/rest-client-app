@@ -43,7 +43,15 @@ export const VariablesForm = () => {
 
   return (
     <form onSubmit={handleSubmit(handleAddVariable)}>
-      <Heading size="2xl" textAlign="center" as="h2">
+      <Heading
+        as="h1"
+        size="3xl"
+        m={4}
+        textAlign="center"
+        fontWeight="extrabold"
+        letterSpacing="tight"
+        className="text-gray-600 dark:text-gray-400"
+      >
         {t('title')}
       </Heading>
       <Text pb="6" fontSize="xs" textAlign="center">
