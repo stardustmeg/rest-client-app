@@ -35,7 +35,6 @@ export const RestClient = () => {
 
   return (
     <>
-      {' '}
       <Heading
         as="h1"
         size="3xl"

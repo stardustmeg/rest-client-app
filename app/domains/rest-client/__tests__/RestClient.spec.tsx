@@ -126,7 +126,7 @@ describe(RestClient.name, () => {
         <RestClient />
       </TestProviders>,
     );
-
+    expect(screen.getByRole('heading')).toBeInTheDocument();
     expect(screen.getByTestId('rest-form')).toBeInTheDocument();
     expect(screen.getByTestId('response-information')).toBeInTheDocument();
     expect(screen.getByTestId('body-editor')).toBeInTheDocument();
