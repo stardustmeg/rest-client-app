@@ -140,8 +140,7 @@ describe(sendRequest.name, () => {
       body: { type: 'json', value: '' },
     };
 
-    const onError = vi.fn();
-    const result = await sendRequest(formData as RestFormData, 'user-123' as Id<'users'>, onError);
+    await sendRequest(formData as RestFormData, 'user-123' as Id<'users'>);
 
     expect(mockProxySendRequest).toHaveBeenCalledWith(formData);
     expect(mockFetchMutation).toHaveBeenCalledWith(
@@ -151,8 +150,6 @@ describe(sendRequest.name, () => {
         requestBody: { type: 'json', value: '' },
       }),
     );
-    expect(result.responseBody).toBe('formatted json');
-    expect(onError).not.toHaveBeenCalled();
   });
 
   it('handles proxy request errors', async () => {
@@ -165,38 +162,9 @@ describe(sendRequest.name, () => {
       body: { type: 'json', value: '' },
     };
 
-    const onError = vi.fn();
-
-    await expect(
-      sendRequest(formData as RestFormData, 'user-123' as Id<'users'>, onError),
-    ).rejects.toThrow('Network error');
-  });
-
-  it('handles history save errors gracefully', async () => {
-    const mockResponse = {
-      responseBody: { value: '{"success": true}' },
-      statusCode: 200,
-      responseSize: '1.2 KB',
-      requestDuration: '150ms',
-    };
-
-    mockProxySendRequest.mockResolvedValue(mockResponse);
-    mockFetchMutation.mockRejectedValue(new Error('History save failed'));
-
-    const formData = {
-      method: 'GET',
-      endpoint: '/api/test',
-      headers: [],
-      body: { type: 'json', value: '' },
-    };
-
-    const onError = vi.fn();
-
-    const result = await sendRequest(formData as RestFormData, 'user-123' as Id<'users'>, onError);
-
-    expect(result.responseBody).toBe('formatted json');
-    expect(mockFetchMutation).toHaveBeenCalled();
-    expect(onError).toHaveBeenCalledWith(new Error('History save failed'));
+    await expect(sendRequest(formData as RestFormData, 'user-123' as Id<'users'>)).rejects.toThrow(
+      'Network error',
+    );
   });
 });
 

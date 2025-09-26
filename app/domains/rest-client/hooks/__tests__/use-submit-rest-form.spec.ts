@@ -99,7 +99,6 @@ describe(useSubmitRestForm.name, () => {
         endpoint: 'https://api.example.com/test',
       }),
       'user-123',
-      expect.any(Function),
     );
   });
 
@@ -139,24 +138,5 @@ describe(useSubmitRestForm.name, () => {
     });
 
     expect(mockSendRequest).toHaveBeenCalled();
-  });
-
-  it('passes error callback to sendRequest', async () => {
-    const { result } = renderHook(() => useSubmitRestForm());
-    const formData = new FormData();
-    formData.append('method', 'GET');
-    formData.append('endpoint', '/test');
-
-    await act(async () => {
-      await result.current.handleSubmit(null, formData);
-    });
-
-    const sendRequestCall = mockSendRequest.mock.calls[0];
-    const errorCallback = sendRequestCall[2];
-
-    expect(typeof errorCallback).toBe('function');
-
-    errorCallback('test error');
-    expect(mockErrorToast).toHaveBeenCalledWith('test error');
   });
 });
