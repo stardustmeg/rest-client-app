@@ -8,8 +8,6 @@ import type { RestFormData } from '@/app/domains/rest-client/components/RestForm
 import { api } from '@/convex/_generated/api';
 import type { Id } from '@/convex/_generated/dataModel';
 import type { BodyEditorRequestBody } from '../domains/rest-client/components/BodyEditor';
-import { formatJson } from '../lib/utils';
-import type { OnErrorCallback } from '../types';
 import { proxySendRequest } from './helpers';
 import type { GenerateCodeSnippetParams, GetUserHistory, ProxyResponse } from './types';
 
@@ -57,22 +55,11 @@ const saveHistoryItem = (
 export async function sendRequest(
   { method, endpoint, headers, body }: RestFormData,
   userId: Id<'users'>,
-  onError: OnErrorCallback,
 ) {
   const response = await proxySendRequest({ method, endpoint, headers, body });
+  await saveHistoryItem(response, userId, body);
 
-  try {
-    await saveHistoryItem(response, userId, body);
-  } catch (error) {
-    onError(error);
-  }
-
-  const data = {
-    ...response,
-    responseBody: formatJson(response.responseBody?.value, onError),
-  };
-
-  return data;
+  return response;
 }
 
 export async function getUserHistory(): Promise<GetUserHistory> {

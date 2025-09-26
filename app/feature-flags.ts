@@ -6,8 +6,6 @@ const FEATURE_FLAGS = {
   signInForm: true,
   restClient: true,
   variables: true,
-  redirectZdorovogoCheloveka: false,
-  redirectPoT3: true,
 } as const;
 
 export const enabled = (feature: FeatureFlag) => FEATURE_FLAGS[feature];

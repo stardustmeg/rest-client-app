@@ -6,7 +6,7 @@ import { routes } from '@/app/[locale]/routes';
 import { useResolveVariables } from '@/app/domains/variables/hooks/use-resolve-variables';
 import { useAuth } from '@/app/hooks/use-auth';
 import { useToast } from '@/app/hooks/use-toast';
-import { encodeRequestUrl } from '@/app/lib/utils';
+import { encodeRequestUrl, formatJson } from '@/app/lib/utils';
 import { sendRequest } from '@/app/server-actions/server-actions';
 import { responseInfoAtom } from '../atoms';
 import type { RestFormData } from '../components/RestForm';
@@ -48,8 +48,14 @@ export function useSubmitRestForm(): UseSubmitRestFormReturn {
       const url = encodeRequestUrl(data, errorToast);
       push(`${routes.restClient.path}/${url}`);
 
-      const response = await sendRequest(resolvedData, userId, errorToast);
-      setResponseInfo(response);
+      const response = await sendRequest(resolvedData, userId);
+
+      const responseData = {
+        ...response,
+        responseBody: formatJson(response.responseBody?.value, errorToast),
+      };
+
+      setResponseInfo(responseData);
     },
     [push, setResponseInfo, errorToast, userId, resolveVariables, t],
   );
