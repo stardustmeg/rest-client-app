@@ -1,0 +1,75 @@
+import { z } from 'zod';
+
+const MIN_PASSWORD_LENGTH = 8;
+const MAX_PASSWORD_LENGTH = 20;
+const SPECIAL_CHARACTERS = '!@#$%^&?*';
+const SPECIAL_CHARACTERS_REGEX = new RegExp(`[${SPECIAL_CHARACTERS}]`);
+
+const emailErrorKeys = {
+  required: 'emailRequired',
+  noWhitespace: 'emailNoWhitespace',
+  mustContainAt: 'emailMustContainAt',
+  mustContainDomain: 'emailMustContainDomain',
+} as const;
+
+const passwordErrorKeys = {
+  minLength: 'passwordMinLength',
+  maxLength: 'passwordMaxLength',
+  uppercaseRequired: 'passwordUppercaseRequired',
+  lowercaseRequired: 'passwordLowercaseRequired',
+  digitRequired: 'passwordDigitRequired',
+  specialCharRequired: 'passwordSpecialCharRequired',
+  noWhitespace: 'passwordNoWhitespace',
+} as const;
+
+const usernameErrorKeys = {
+  minLength: 'usernameRequired',
+  letterRequired: 'usernameLetterRequired',
+} as const;
+
+const confirmPasswordErrorKeys = {
+  required: 'confirmPasswordRequired',
+  dontMatch: 'passwordsDontMatch',
+} as const;
+
+const emailSchema = z
+  .string()
+  .min(1, { error: emailErrorKeys.required })
+  .regex(/^\S+$/, { error: emailErrorKeys.noWhitespace })
+  .regex(/(?=.*@)/, { error: emailErrorKeys.mustContainAt })
+  .regex(/^[^@]+@[^@]+\.[^@]+$/, { error: emailErrorKeys.mustContainDomain });
+
+const passwordSchema = z
+  .string()
+  .min(MIN_PASSWORD_LENGTH, { error: passwordErrorKeys.minLength })
+  .max(MAX_PASSWORD_LENGTH, { error: passwordErrorKeys.maxLength })
+  .refine((password) => /\p{Lu}/u.test(password), { error: passwordErrorKeys.uppercaseRequired })
+  .refine((password) => /\p{Ll}/u.test(password), { error: passwordErrorKeys.lowercaseRequired })
+  .refine((password) => /\p{N}/u.test(password), { error: passwordErrorKeys.digitRequired })
+  .refine((password) => SPECIAL_CHARACTERS_REGEX.test(password), {
+    error: passwordErrorKeys.specialCharRequired,
+  })
+  .refine((password) => !/\s/.test(password), { error: passwordErrorKeys.noWhitespace });
+
+const usernameSchema = z
+  .string()
+  .min(1, { error: usernameErrorKeys.minLength })
+  .refine((username) => /\p{L}/u.test(username), { error: usernameErrorKeys.letterRequired });
+
+export const signInFormSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
+
+export const signUpFormSchema = signInFormSchema
+  .extend({
+    username: usernameSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: confirmPasswordErrorKeys.dontMatch,
+    path: ['confirmPassword'],
+  });
+
+export type SignInFormType = z.infer<typeof signInFormSchema>;
+export type SignUpFormType = z.infer<typeof signUpFormSchema>;

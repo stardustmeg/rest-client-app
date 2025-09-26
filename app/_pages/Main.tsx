@@ -1,0 +1,20 @@
+import { Container, Flex, VStack } from '@chakra-ui/react';
+import { AboutCourseBlock } from '@/app/components/ui/AboutCourseBlock';
+import { AboutDevelopersBlock } from '@/app/components/ui/AboutDevelopersBlock';
+import { AboutProjectBlock } from '@/app/components/ui/AboutProjectBlock';
+import { MainHeading } from '@/app/components/ui/MainHeading';
+import { MainNavigationButtons } from '@/app/components/ui/MainNavigationButtons';
+
+export const MainPage = () => (
+  <Flex as="main" minH="100vh" align="center" justify="center" px="6" py="12">
+    <Container maxW="5xl" centerContent>
+      <VStack gap="16" textAlign="center" w="full">
+        <MainHeading />
+        <MainNavigationButtons />
+        <AboutProjectBlock />
+        <AboutDevelopersBlock />
+        <AboutCourseBlock />
+      </VStack>
+    </Container>
+  </Flex>
+);

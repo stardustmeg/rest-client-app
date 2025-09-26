@@ -1,0 +1,147 @@
+{
+  "main": {
+    "hello": "こんにちは"
+  },
+  "global-not-found": {
+    "title": "ページが見つかりません",
+    "link": "ホーム",
+    "description": "申し訳ございませんが、お探しのページは見つかりませんでした。移動または削除された可能性があります。"
+  },
+  "form": {
+    "username": "ユーザー名",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワード確認",
+    "signInTitle": "承認フォーム",
+    "signUpTitle": "登録フォーム",
+    "submit": "送信",
+    "noAccount": "アカウントをお持ちでない場合",
+    "signUpHere": "こちらでサインアップ"
+  },
+  "error-boundary-fallback": {
+    "title": "おっとっと！",
+    "message": "何かがうまくいきませんでした！",
+    "button-reset": "リセット"
+  },
+  "validation": {
+    "usernameRequired": "ユーザー名は空にできません",
+    "usernameLetterRequired": "ユーザー名には少なくとも1つの文字を含める必要があります",
+    "emailRequired": "メールアドレスは必須です",
+    "emailNoWhitespace": "メールアドレスに空白文字を含めることはできません",
+    "emailMustContainAt": "メールアドレスには「@」記号を含める必要があります",
+    "emailMustContainDomain": "メールアドレスにはドメイン名（例: example.com）を含める必要があります",
+    "passwordMinLength": "パスワードは8文字以上である必要があります",
+    "passwordMaxLength": "パスワードは20文字以内である必要があります",
+    "passwordSpecialCharRequired": "パスワードには少なくとも1つの特殊文字（例: !@#$%^&?*）を含める必要があります",
+    "passwordUppercaseRequired": "パスワードには少なくとも1つの大文字を含める必要があります",
+    "passwordLowercaseRequired": "パスワードには少なくとも1つの小文字を含める必要があります",
+    "passwordDigitRequired": "パスワードには少なくとも1つの数字（0-9）を含める必要があります",
+    "passwordNoWhitespace": "パスワードに空白文字を含めることはできません",
+    "confirmPasswordRequired": "パスワードを確認してください",
+    "passwordsDontMatch": "パスワードが一致しません",
+    "variableNameRequired": "名前は必須です",
+    "variableValueRequired": "値は必須です",
+    "variableUniqueNameRequired": "変数名は一意である必要があります"
+  },
+  "notifications": {
+    "signInSuccess": "おかえりなさい！アカウントに正常にサインインしました",
+    "signUpSuccess": "ようこそ！アカウントが正常に作成されました",
+    "authError": "認証エラー! 認証情報を確認して再度お試しください",
+    "networkError": "接続エラー! インターネット接続を確認して再度お試しください",
+    "serverError": "サーバーエラー! 問題が発生しました。後ほど再度お試しください",
+    "signOutSuccess": "サインアウトしました"
+  },
+  "navigation": {
+    "main": "メイン",
+    "signIn": "サインイン",
+    "signUp": "サインアップ",
+    "restClient": "RESTクライアント",
+    "historyAndAnalytics": "履歴と分析",
+    "variables": "変数",
+    "notFound": "404 - 見つかりません",
+    "signOut": "サインアウト"
+  },
+  "main-page": {
+    "title": "REST Clientへようこそ！",
+    "authenticatedTitle": "おかえりなさい、{username}さん！ 👋",
+    "signIn": "サインイン",
+    "signUp": "サインアップ",
+    "features": {
+      "api": {
+        "title": "APIのテスト",
+        "description": "リクエストを送信し、クリーンなインターフェースでレスポンスを表示します。"
+      },
+      "history": {
+        "title": "履歴の保存",
+        "description": "将来の参照のためにAPI呼び出しを記録します。"
+      },
+      "organize": {
+        "title": "整理",
+        "description": "リクエストをプロジェクトやコレクションにグループ化します。"
+      }
+    },
+    "developers": {
+      "stardustmeg": {
+        "author": "stardustmeg",
+        "role": "チームリーダー、開発者",
+        "description": "こんにちは！私はメグです。フロントエンドは趣味から熱中になりました。他人のコードレビューを楽しみ、バグに苦しむ — これが最高の経験です。"
+      },
+      "ripetchor": {
+        "author": "ripetchor",
+        "role": "開発者",
+        "description": "こんにちは！自分をボロディンスキー・ブレッドだと思っています。現在はウェブ開発を学んでおり、HTML、CSS、JS、TS に注力しています。"
+      },
+      "zagorky": {
+        "author": "zagorky",
+        "role": "開発者",
+        "description": "こんにちは。私はコードをリリースしてすぐに嫌いになる開発者です。動くには動くけど…もう一度書き直したらどうだろう？"
+      }
+    },
+    "course": {
+      "description": "このプロジェクトはReactコースの一環として開発されました",
+      "school": "Rolling Scopes School"
+    }
+  },
+  "variables": {
+    "title": "変数",
+    "name": "名前",
+    "value": "値",
+    "addVariable": "変数を追加",
+    "noVariables": "まだ変数がありません",
+    "sensitiveData": "変数を使用して値を再利用し、機密データを保護します。",
+    "undefinedVariable": "変数{var}は定義されていません"
+  },
+  "restClient": {
+    "form": {
+      "inputPlaceholderEndpoint": "エンドポイント",
+      "buttonSend": "送信",
+      "tabTriggerHeaders": "ヘッダー",
+      "tabTriggerBody": "ボディ",
+      "inputPlaceholderHeaderKey": "キー",
+      "inputPlaceholderHeaderValue": "値",
+      "buttonAddHeader": "ヘッダーを追加",
+      "tabTriggerJson": "JSON",
+      "tabTriggerText": "テキスト",
+      "tabBodyTitleJson": "JSONコンテンツ",
+      "tabBodyTitleText": "テキストコンテンツ",
+      "buttonFormat": "整形",
+      "formatFailed": "JSON の整形に失敗しました。構文エラーを修正して、もう一度お試しください。"
+    },
+    "response": {
+      "tabTriggerResponse": "レスポンス",
+      "tabTriggerCodeSnippet": "コードスニペット",
+      "status": "ステータス",
+      "size": "サイズ",
+      "time": "時間",
+      "requestFailedTitle": "リクエストに失敗しました",
+      "userNotAuthenticated": "ユーザーが認証されていません"
+    }
+  },
+  "history": {
+    "emptyMessage": "RESTクライアントをまだ試していないようです, {username}さん",
+    "emptyLink": "ここで最初のリクエストを作成してください",
+    "requestSize": "リクエストサイズ",
+    "title": "あなたの最新の履歴はここです、{username}さん"
+  },
+  "error": { "unknownError": "不明なエラー" }
+}

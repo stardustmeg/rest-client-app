@@ -1,0 +1,81 @@
+import { MIME_TYPE } from '../constants';
+import type { RestFormData } from '../domains/rest-client/components/RestForm';
+import { getUniqueRequestHeaders, methodHasBody, normalizeError } from '../lib/utils';
+import type { ProxyResponse } from './types';
+
+export async function proxySendRequest({
+  method,
+  endpoint,
+  headers,
+  body,
+}: RestFormData): Promise<ProxyResponse> {
+  const requestStart = Date.now();
+
+  const requestSize = calculateRequestSize({
+    headers,
+    body,
+  });
+
+  try {
+    const uniqueHeaders = getUniqueRequestHeaders(headers);
+
+    const response = await fetch(endpoint, {
+      method,
+      body: methodHasBody(method) ? body.value : undefined,
+      headers: uniqueHeaders,
+    });
+
+    const arrayBuffer = await response.clone().arrayBuffer();
+
+    const contentType = response.headers.get('content-type');
+    const responseBodyValue = contentType?.includes(MIME_TYPE.JSON)
+      ? await response.json()
+      : await response.text();
+
+    return {
+      requestMethod: method,
+      endpoint,
+      requestHeaders: headers,
+      requestTimestamp: requestStart,
+      requestDuration: Date.now() - requestStart,
+      responseStatusCode: response.status,
+      requestSize,
+      responseSize: arrayBuffer.byteLength,
+      responseBody: { type: body.type, value: responseBodyValue },
+      errorDetails: response.ok ? null : response.statusText,
+    };
+  } catch (error) {
+    return {
+      requestMethod: method,
+      endpoint,
+      requestHeaders: headers,
+      requestTimestamp: requestStart,
+      requestDuration: Date.now() - requestStart,
+      responseStatusCode: 0,
+      requestSize,
+      responseSize: 0,
+      responseBody: { type: body.type },
+      errorDetails: normalizeError(error).message,
+    };
+  }
+}
+
+export function calculateRequestSize({
+  headers,
+  body,
+}: Pick<RestFormData, 'headers' | 'body'>): number {
+  const textEncoder = new TextEncoder();
+
+  let size = 0;
+
+  for (const { key, value } of headers) {
+    const header = `${key}: ${value}\r\n`;
+    size += textEncoder.encode(header).byteLength;
+  }
+
+  if (body.value) {
+    size += textEncoder.encode(body.value).byteLength;
+  }
+
+  return size;
+}

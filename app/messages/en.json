@@ -1,0 +1,149 @@
+{
+  "main": {
+    "hello": "Hello"
+  },
+  "global-not-found": {
+    "title": "Page not found",
+    "link": "Home",
+    "description": "We're sorry, the page you requested could not be found. It may have been moved or deleted."
+  },
+  "form": {
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "submit": "Submit",
+    "signInTitle": "Sign In Form",
+    "signUpTitle": "Sign Up Form",
+    "noAccount": "Don't have an account?",
+    "signUpHere": "Sign up here"
+  },
+  "error-boundary-fallback": {
+    "title": "Ooops!",
+    "message": "Something went wrong!",
+    "button-reset": "Reset"
+  },
+  "validation": {
+    "usernameRequired": "Username cannot be empty",
+    "usernameLetterRequired": "Username must contain at least one letter",
+    "emailRequired": "Email cannot be empty",
+    "emailNoWhitespace": "Email must not contain any whitespace",
+    "emailMustContainAt": "Email must contain an '@' symbol",
+    "emailMustContainDomain": "Email must contain a domain name (e.g., example.com)",
+    "passwordMinLength": "Password must be at least 8 characters long",
+    "passwordMaxLength": "Password must be no more than 20 characters",
+    "passwordSpecialCharRequired": "Password must contain at least one special character (e.g., !@#$%^&?*)",
+    "passwordUppercaseRequired": "Password must contain at least one uppercase letter",
+    "passwordLowercaseRequired": "Password must contain at least one lowercase letter",
+    "passwordDigitRequired": "Password must contain at least one digit (0-9)",
+    "passwordNoWhitespace": "Password must not contain any whitespace characters",
+    "confirmPasswordRequired": "Please confirm your password",
+    "passwordsDontMatch": "Passwords don't match",
+    "variableNameRequired": "Name is required",
+    "variableValueRequired": "Value is required",
+    "variableUniqueNameRequired": "Variable name must be unique"
+  },
+  "notifications": {
+    "signInSuccess": "Welcome back! You have successfully signed in to your account",
+    "signUpSuccess": "Welcome aboard! Your account has been successfully created",
+    "authError": "Authentication failed! Please check your credentials and try again",
+    "networkError": "Connection error! Please check your internet connection and try again",
+    "serverError": "Server error! Something went wrong on our side. Please try again later",
+    "signOutSuccess": "Signed out successfully"
+  },
+  "navigation": {
+    "main": "Main",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "restClient": "REST Client",
+    "historyAndAnalytics": "History and Analytics",
+    "variables": "Variables",
+    "notFound": "404",
+    "signOut": "Sign Out"
+  },
+  "main-page": {
+    "title": "Welcome to REST Client!",
+    "authenticatedTitle": "Welcome back, {username}! 👋",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "features": {
+      "api": {
+        "title": "Test APIs",
+        "description": "Send requests and view responses in a clean interface."
+      },
+      "history": {
+        "title": "Save History",
+        "description": "Keep track of your API calls for future reference."
+      },
+      "organize": {
+        "title": "Organize",
+        "description": "Group your requests into projects and collections."
+      }
+    },
+    "developers": {
+      "stardustmeg": {
+        "author": "stardustmeg",
+        "role": "Team Lead, Developer",
+        "description": "Hi! I'm Meg. Frontend is my hobby turned obsession. I enjoy code reviews, suffer through bugs — it’s the best experience."
+      },
+      "ripetchor": {
+        "author": "ripetchor",
+        "role": "Developer",
+        "description": "Hi! I identify myself as Borodinsky bread. Currently learning web development, focusing on HTML, CSS, JS, and TS."
+      },
+      "zagorky": {
+        "author": "zagorky",
+        "role": "Developer",
+        "description": "Hi, I'm the dev who ships code then immediately hates it. It works... but what if I rewrite it just one more time?"
+      }
+    },
+    "course": {
+      "description": "This project was developed as part of the React course",
+      "school": "Rolling Scopes School"
+    }
+  },
+  "variables": {
+    "title": "Variables",
+    "name": "Name",
+    "value": "Value",
+    "addVariable": "Add Variable",
+    "noVariables": "No variables yet",
+    "sensitiveData": "Use variables to reuse values and protect sensitive data ",
+    "undefinedVariable": "Variable {var} is not defined"
+  },
+  "restClient": {
+    "form": {
+      "inputPlaceholderEndpoint": "Endpoint",
+      "buttonSend": "Send",
+      "tabTriggerHeaders": "Headers",
+      "tabTriggerBody": "Body",
+      "inputPlaceholderHeaderKey": "Key",
+      "inputPlaceholderHeaderValue": "Value",
+      "buttonAddHeader": "Add Header",
+      "tabTriggerJson": "JSON",
+      "tabTriggerText": "Text",
+      "tabBodyTitleJson": "JSON Content",
+      "tabBodyTitleText": "Text Content",
+      "buttonFormat": "Format",
+      "formatFailed": "Could not format JSON. Please fix syntax errors and try again."
+    },
+    "response": {
+      "tabTriggerResponse": "Response",
+      "tabTriggerCodeSnippet": "Code Snippet",
+      "status": "Status",
+      "size": "Size",
+      "time": "Time",
+      "requestFailedTitle": "Request failed",
+      "userNotAuthenticated": "User not authenticated"
+    }
+  },
+  "history": {
+    "emptyMessage": "Looks like you haven't tried our REST Client yet, {username}",
+    "emptyLink": "Make your first request here",
+    "requestSize": "Request Size",
+    "title": "Your freshest history is here, {username}"
+  },
+  "error": {
+    "unknownError": "Unknown error"
+  }
+}
